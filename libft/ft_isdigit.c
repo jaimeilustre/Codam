@@ -6,9 +6,11 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:16 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/09 13:34:01 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:06:41 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 int	ft_isdigit(int c)
 {

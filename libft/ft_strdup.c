@@ -6,11 +6,11 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:22:11 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/10 11:34:38 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:07:43 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
 char	*ft_strdup(const char *s)
 {

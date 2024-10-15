@@ -6,16 +6,18 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:33 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/08 10:09:52 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:08:00 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int ft_strlen(char *str)
+#include "libft.h"
+
+size_t ft_strlen(const char *s)
 {
-    int len;
+    size_t len;
 
     len = 0;
-    while(str[len])
+    while(s[len])
         len++;
     return (len);
 }

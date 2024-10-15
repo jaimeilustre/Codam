@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:53:14 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/09 16:25:43 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/15 16:07:03 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#include "libft.h"
 
-int	memcmp(const void *s1, const void *s2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t	i;
 	char	*cs1;
