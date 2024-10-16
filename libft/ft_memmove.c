@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:24 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 07:30:07 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/16 14:15:47 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	char	*cdest;
 	char	*csrc;
 	char	*temp;
-	
+
 	if (dest == src || n == 0)
 		return (dest);
 	temp = (char *)malloc(n);

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 12:57:17 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:08:21 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:11:08 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,21 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	size_t	i;
-	size_t	j;
-	char	*dest;
-	
-	dest = (char *)malloc(sizeof(*s) * (len + 1));
-	if (dest == NULL)
+	char	*substr;
+	size_t	s_len;
+	size_t	substr_len;
+
+	if (!s)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (i >= start && j < len)
-		{
-			dest[j] = s[i];
-			j++; 			
-		}
-		i++;
-	}
-	dest[j] = '\0';
-	return (dest);
+	s_len = ft_strlen(s);
+	if (start >= s_len)
+		return (ft_strdup(""));
+	substr_len = s_len - start;
+	if (substr_len > len)
+		substr_len = len;
+	substr = (char *)malloc(sizeof(*s) * (substr_len + 1));
+	if (!substr)
+		return (NULL);
+	ft_strlcpy(substr, s + start, substr_len + 1);
+	return (substr);
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	*str = "Hello, world!";
-
-// 	printf("%s\n", ft_substr(str, 5, 13));
-// 	return (0);
-// }

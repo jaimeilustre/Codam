@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:21 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 07:19:21 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/16 14:52:55 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	char	*csrc;
 	char	*cdest;
 
-	if (!dest || !src)
-		return (NULL);
+	if (n == 0 || dest == src)
+		return (dest);
 	csrc = (char *)src;
 	cdest = (char *)dest;
 	i = 0;

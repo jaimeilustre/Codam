@@ -6,11 +6,12 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:22:25 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:06:48 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 15:04:10 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <stdio.h>
 
 static size_t	count_digits(int nb)
 {
@@ -27,6 +28,15 @@ static size_t	count_digits(int nb)
 	return (len);
 }
 
+static void	fill_string(char *str, unsigned int nb, int len)
+{
+	while (nb != 0)
+	{
+		str[len--] = '0' + (nb % 10);
+		nb = nb / 10;
+	}
+}
+
 char	*ft_itoa(int n)
 {
 	int				len;
@@ -39,21 +49,19 @@ char	*ft_itoa(int n)
 		return (NULL);
 	str[len--] = '\0';
 	if (n == 0)
-	{
 		str[0] = '0';
-		return (str);
-	}
-	else if (n < 0)
-	{
-		nb = -n;
-		str[0] = '-';
-	}
+	else if (n == INT_MIN)
+		ft_strlcpy(str, "-2147483648", len + 2);
 	else
-		nb = n;
-	while (nb != 0)
 	{
-		str[len--] = '0' + (nb % 10);
-		nb = nb / 10;
+		if (n < 0)
+		{
+			nb = -n;
+			str[0] = '-';
+		}
+		else
+			nb = n;
+		fill_string(str, nb, len);
 	}
 	return (str);
 }

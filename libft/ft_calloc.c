@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 11:22:17 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:06:18 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 09:35:01 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,11 @@
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	char	*ptr;
-	size_t	i;
+	void	*ptr;
 
 	ptr = malloc(nmemb * size);
 	if (ptr == NULL)
 		return (NULL);
-	i = 0;
-	while (i < (nmemb * size))
-	{
-		ptr[i] = 0;
-		i++;
-	}
+	ft_memset(ptr, 0, nmemb * size);
 	return (ptr);
 }

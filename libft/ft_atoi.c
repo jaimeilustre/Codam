@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:52:59 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:06:04 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 09:29:40 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	sign;
-	int	nb;
+	int		i;
+	int		sign;
+	long	nb;
 
 	nb = 0;
 	sign = 1;
@@ -26,23 +26,20 @@ int	ft_atoi(const char *nptr)
 	if (nptr[i] == '+' || nptr[i] == '-')
 	{
 		if (nptr[i] == '-')
-			sign *= -1;
+			sign = -1;
 		i++;
 	}
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
+		if (nb > (LONG_MAX - (nptr[i] - '0')) / 10)
+		{
+			if (sign == 1)
+				return (INT_MAX);
+			else
+				return (INT_MIN);
+		}
 		nb = nb * 10 + (nptr[i] - '0');
 		i++;
 	}
-	return (nb * sign);
+	return ((int)(nb * sign));
 }
-
-// #include <stdio.h>
-
-// int	main(void)
-// {
-// 	char	*test = " -4208";
-
-// 	printf("%d\n", ft_atoi(test));
-// 	return (0);
-// }

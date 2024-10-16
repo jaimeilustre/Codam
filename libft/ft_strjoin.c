@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 10:53:44 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:07:50 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 10:23:34 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	*dest;
 
-	dest = (char *)malloc(sizeof(*s1) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (dest == NULL)
+	if (!s1 || !s2)
+		return (NULL);
+	dest = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!dest)
 		return (NULL);
 	i = 0;
-	j = 0;
 	while (s1[i])
 	{
-		dest[j] = s1[i];
+		dest[i] = s1[i];
 		i++;
-		j++;
 	}
-	while (s2[i])
+	j = 0;
+	while (s2[j])
 	{
-		dest[j] = s2[i];
-		i++;
+		dest[i + j] = s2[j];
 		j++;
 	}
-	dest[j] = '\0';
+	dest[i + j] = '\0';
 	return (dest);
 }

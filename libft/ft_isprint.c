@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:18 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 07:12:23 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/16 13:56:15 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,5 @@
 
 int	ft_isprint(int c)
 {
-	if (c > 0 || c > 255)
-		return (0);
 	return (c >= 32 && c <= 126);
 }

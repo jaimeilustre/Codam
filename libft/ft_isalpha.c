@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:10 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 07:07:58 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/16 13:56:03 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,5 @@
 
 int	ft_isalpha(int c)
 {
-	if (c > 0 || c > 255)
-		return (0);
 	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
