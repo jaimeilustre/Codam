@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:53:44 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:09:26 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 07:39:44 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_toupper(int c)
 {
-	if (c >= 97 && c <= 122)
-		c -= 32;
+	if (c >= 'a' && c <= 'z')
+		c -= 'a' - 'A';
 	return (c);
 }

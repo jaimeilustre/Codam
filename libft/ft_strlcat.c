@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 14:48:00 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/15 16:07:53 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/16 07:38:01 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,22 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	unsigned int	dest_len;
-	unsigned int	src_len;
-	unsigned int	total_len;
-	unsigned int	i;
+	size_t	dst_len;
+	size_t	src_len;
+	size_t	i;
 
-	dest_len = 0;
-	src_len = 0;
-	total_len = 0;
+	dst_len = ft_strlen(dst);
+	src_len = ft_strlen(src);
+	if (size == 0 || dst_len >= size)
+		return (dst_len + src_len);
 	i = 0;
-	while (dst[dest_len] && dest_len < size)
-		dest_len++;
-	while (src[src_len])
-		src_len++;
-	total_len = dest_len + src_len;
-	if (size == 0 || dest_len >= size)
-		return (total_len);
-	while (src[i] && (dest_len + i) < (size - 1))
+	while (src[i] && (dst_len + i) < (size - 1))
 	{
-		dst[dest_len + i] = src[i];
+		dst[dst_len + i] = src[i];
 		i++;
 	}
-	dst[dest_len + i] = '\0';
-	return (total_len);
+	dst[dst_len + i] = '\0';
+	return (dst_len + src_len);
 }
 
 // #include <stdio.h>
