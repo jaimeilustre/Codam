@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 11:30:53 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 21:16:56 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/17 16:26:28 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static size_t	count_words(const char *str, char sep)
 {
 	size_t	count;
 	int		in_word;
-	
+
 	count = 0;
 	in_word = 0;
 	while (*str)
@@ -50,7 +50,7 @@ static char	*allocate_word(const char *start, const char *end)
 	return (word);
 }
 
-static void	split_words(const char *str, char sep, char **result)
+static int	split_words(const char *str, char sep, char **result)
 {
 	size_t		i;
 	const char	*word_start;
@@ -70,44 +70,27 @@ static void	split_words(const char *str, char sep, char **result)
 			{
 				while (i > 0)
 					free(result[--i]);
-				free(result);
-				return ;
+				return (free(result), -1);
 			}
 			i++;
 		}
 	}
 	result[i] = NULL;
+	return (0);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	char	**result;
 	size_t	words;
-	
+
 	if (!s)
 		return (NULL);
 	words = count_words(s, c);
 	result = (char **)malloc(sizeof(char *) * (words + 1));
 	if (!result)
 		return (NULL);
-	split_words(s, c, result);
+	if (split_words(s, c, result) == -1)
+		return (NULL);
 	return (result);
 }
-
-// #include <stdio.h>
-
-// int main(void)
-// {
-//     char **result = ft_split("Hello world, this is a test.", ' ');
-
-//     if (result)
-//     {
-//         for (int i = 0; result[i] != NULL; i++)
-//         {
-//             printf("Word %d: %s\n", i + 1, result[i]);
-//             free(result[i]);
-//         }
-//         free(result);
-//     }
-//     return 0;
-// }

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 09:11:01 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 09:46:35 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:12:43 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (fd < 0)
-		return ;
 	if (n == -2147483648)
 	{
 		ft_putchar_fd('-', fd);

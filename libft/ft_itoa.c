@@ -6,12 +6,11 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/15 09:22:25 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/16 15:04:10 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/17 08:43:57 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 static size_t	count_digits(int nb)
 {
