@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 09:58:30 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/22 11:22:46 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/25 09:45:53 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 int	print_str(char *str)
 {
 	if (!str)
-		return (-1);
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
 	ft_putstr_fd(str, 1);
 	return (ft_strlen(str));
 }

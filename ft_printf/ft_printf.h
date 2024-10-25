@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 09:50:33 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/24 11:02:05 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:41:25 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FT_PRINTF_H
 
 # include <stdarg.h>
+# include <stdint.h>
 # include "libft/libft.h"
 
 int	print_char(int c);

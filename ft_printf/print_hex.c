@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 11:42:49 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/23 15:51:09 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/25 12:08:25 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 static char	*allocate_str(unsigned int nb, int *strlen)
 {
 	int				count;
-	unsigned int	temp;
 	char			*str;
 
 	count = 0;
-	temp = nb;
-	while (temp != 0)
+	while (nb != 0)
 	{
-		temp = temp / 16;
+		nb = nb / 16;
 		count++;
 	}
 	str = calloc(count + 1, sizeof(char));
