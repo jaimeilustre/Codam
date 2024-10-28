@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:36:12 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 07:24:19 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/28 10:20:39 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void 	print_number(unsigned int nb)
+static void	print_number(unsigned int nb)
 {
 	if (nb >= 10)
 		print_number(nb / 10);
@@ -21,8 +21,8 @@ static void 	print_number(unsigned int nb)
 
 static int	nb_len(unsigned int nb)
 {
-	int				len;
-	
+	int	len;
+
 	len = 0;
 	while (nb != 0)
 	{
@@ -32,10 +32,10 @@ static int	nb_len(unsigned int nb)
 	return (len);
 }
 
-int	print_unsigned_nb(unsigned int nb)
+int	print_unsigned(unsigned int nb)
 {
 	int	len;
-	
+
 	if (nb == 0)
 	{
 		ft_putchar_fd('0', 1);

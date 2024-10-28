@@ -6,14 +6,32 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 10:26:17 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/23 09:48:24 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:42:28 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_int(int n)
+static int	nb_len(int nb)
 {
-	ft_putnbr_fd(n, 1);
-	return (1);
+	int				len;
+
+	len = 0;
+	if (nb <= 0)
+		len++;
+	while (nb != 0)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}
+
+int	print_int(int nb)
+{
+	int	len;
+
+	len = nb_len(nb);
+	ft_putnbr_fd(nb, 1);
+	return (len);
 }

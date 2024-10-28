@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:57:18 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/25 15:37:15 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:20:07 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	convert_ptr(uintptr_t nb)
 {
 	if (nb >= 16)
 	{
-		convert_ptr(nb /16);
+		convert_ptr(nb / 16);
 		convert_ptr(nb % 16);
 	}
 	else
@@ -38,13 +38,13 @@ static void	convert_ptr(uintptr_t nb)
 			ft_putchar_fd((nb + '0'), 1);
 		else
 			ft_putchar_fd((nb - 10 + 'a'), 1);
-	}	
+	}
 }
 
-int	print_hex_ptr(uintptr_t ptr)
+int	print_ptr(uintptr_t ptr)
 {
 	int	hex_ptr_len;
-	
+
 	if (!ptr)
 	{
 		ft_putstr_fd("(nil)", 1);
