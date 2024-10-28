@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 09:19:23 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 15:57:56 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 16:13:12 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,22 +47,13 @@ int	ft_printf(const char *str, ...)
 	va_start(args, str);
 	while (str[i])
 	{
-		if (str[i] == '%')
+		if (str[i] == '%' && str[i + 1])
 		{
-			if (str[i + 1] == '%')
-			{
-				len += print_char('%');
-				i += 2;
-				continue;
-			}
-			else if (str[i + 1])
-			{	
-				len += check_specifier(args, str[i + 1]);
-				i += 2;
-				continue;
-			}
+			len += check_specifier(args, str[i + 1]);
+			i++;
 		}
-		len += print_char(str[i]);
+		else
+			len += print_char(str[i]);
 		i++;
 	}
 	va_end(args);
