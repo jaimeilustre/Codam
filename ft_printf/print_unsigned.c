@@ -3,40 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:36:12 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/25 09:39:31 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 07:24:19 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	print_unsigned_nb(unsigned int nb);
-
 static void 	print_number(unsigned int nb)
 {
 	if (nb >= 10)
-		print_unsigned_nb(nb / 10);
-	else if (nb < 10)
-	{
-		ft_putchar_fd(nb + '0', 1);
-		return ;
-	}
+		print_number(nb / 10);
 	ft_putchar_fd((nb % 10) + '0', 1);
 }
 
-int	print_unsigned_nb(unsigned int nb)
+static int	nb_len(unsigned int nb)
 {
-	unsigned int	len;
-
-	print_number(nb);
-	len = 1;
-	while (nb > 9)
+	int				len;
+	
+	len = 0;
+	while (nb != 0)
 	{
 		nb = nb / 10;
 		len++;
 	}
+	return (len);
+}
+
+int	print_unsigned_nb(unsigned int nb)
+{
+	int	len;
+	
+	if (nb == 0)
+	{
+		ft_putchar_fd('0', 1);
+		return (1);
+	}
+	print_number(nb);
+	len = nb_len(nb);
 	return (len);
 }
 
