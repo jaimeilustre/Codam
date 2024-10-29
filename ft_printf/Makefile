@@ -16,11 +16,11 @@ NAME			= libftprintf.a
 LIBFT_DIR		= ./libft
 LIBFT_LIB		= $(LIBFT_DIR)/libft.a
 
-all:			$(NAME)
+all:	$(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_LIB)
-	@cp $(LIBFT_LIB) $(NAME)
-	@ar rcs $(NAME) $(OBJS)
+	cp $(LIBFT_LIB) $(NAME)
+	ar rcs $(NAME) $(OBJS)
 
 $(LIBFT_LIB):
 	$(MAKE) -C $(LIBFT_DIR)

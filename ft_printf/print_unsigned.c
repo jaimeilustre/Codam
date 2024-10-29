@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 11:36:12 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 20:25:32 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/29 08:59:12 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	print_number(unsigned int nb)
 		print_number(nb / 10);
 	ft_putchar_fd((nb % 10) + '0', 1);
 }
+
 static int	nb_len(unsigned int nb)
 {
 	int	len;
