@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 09:19:23 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 16:13:12 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 21:20:39 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int	ft_printf(const char *str, ...)
 
 	i = 0;
 	len = 0;
+	if (!str)
+		return (-1);
 	va_start(args, str);
 	while (str[i])
 	{
@@ -59,3 +61,62 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (len);
 }
+
+// #include "ft_printf.h"
+// #include <stdio.h>
+
+// int main()
+// {
+//     int len_ft, len_std;
+
+//     // Testing %c (character)
+//     char c = 'A';
+//     len_ft = ft_printf("%c\n", c);
+//     len_std = printf("%c\n", c);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %s (string)
+//     char *str = "Hello, World!";
+//     len_ft = ft_printf("Custom: %s\n", str);
+//     len_std = printf("Original: %s\n", str);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %p (pointer)
+//     void *ptr = (void *)str;
+//     len_ft = ft_printf("Custom: %p\n", ptr);
+//     len_std = printf("Original: %p\n", ptr);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %d and %i (integer)
+//     int num = 1234;
+//     len_ft = ft_printf("Custom: %d\n", num);
+//     len_std = printf("Original: %d\n", num);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     len_ft = ft_printf("Custom: %i\n", num);
+//     len_std = printf("Original: %i\n", num);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %u (unsigned integer)
+//     unsigned int unum = 123456789;
+//     len_ft = ft_printf("Custom: %u\n", unum);
+//     len_std = printf("Original: %u\n", unum);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %x (hexadecimal, lowercase)
+//     len_ft = ft_printf("Custom: %x\n", unum);
+//     len_std = printf("Original: %x\n", unum);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %X (hexadecimal, uppercase)
+//     len_ft = ft_printf("Custom: %X\n", unum);
+//     len_std = printf("Original: %X\n", unum);
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     // Testing %% (percent sign)
+//     len_ft = ft_printf("Custom: %%\n");
+//     len_std = printf("Original: %%\n");
+//     printf("Custom len: %d | Original len: %d\n\n", len_ft, len_std);
+
+//     return 0;
+// }

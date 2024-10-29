@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_hex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 11:42:49 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 10:19:40 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 20:13:31 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	hex_len(unsigned int nb)
 	int				len;
 
 	len = 0;
+	if (nb == 0)
+		return (1);
 	while (nb != 0)
 	{
 		nb = nb / 16;
@@ -59,22 +61,3 @@ int	print_hex(unsigned int nb, int uppercase)
 	convert_hex(nb, uppercase);
 	return (hex_nb_len);
 }
-// #include <stdio.h>
-
-// int main() {
-//     unsigned int test_num1 = 42; 
-//     unsigned int test_num2 = 0;
-
-//     printf("Hexadecimal representation:\n");
-//     printf("Decimal: %u -> Hex: ", test_num1);
-// 	// 'A' for lowercase
-//     print_hex(test_num1, 1); 
-//     printf("\n");
-
-//     printf("Decimal: %u -> Hex: ", test_num2);
-// 	// 'a' for lowercase
-//     print_hex(test_num2, 0);
-//     printf("\n");
-
-//     return (0);
-// }

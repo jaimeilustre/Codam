@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_ptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 10:57:18 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 10:20:07 by jilustre         ###   ########.fr       */
+/*   Updated: 2024/10/28 19:57:38 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,3 @@ int	print_ptr(uintptr_t ptr)
 	convert_ptr(ptr);
 	return (2 + hex_ptr_len);
 }
-
-// int	main(void)
-// {
-// 	int	test;
-// 	int	*ptr = NULL;
-
-// 	print_hex_ptr((uintptr_t)ptr);
-// 	return (0);
-// }
