@@ -16,24 +16,23 @@ NAME			= libftprintf.a
 LIBFT_DIR		= ./libft
 LIBFT_LIB		= $(LIBFT_DIR)/libft.a
 
-all:			$(LIBFT_LIB) $(NAME)
+all:			$(NAME)
 
-$(NAME): $(OBJS)
-	@make -C $(LIBFT_DIR)
+$(NAME): $(OBJS) $(LIBFT_LIB)
 	@cp $(LIBFT_LIB) $(NAME)
 	@ar rcs $(NAME) $(OBJS)
 
 $(LIBFT_LIB):
-				$(MAKE) -C $(LIBFT_DIR)
+	$(MAKE) -C $(LIBFT_DIR)
 
 clean:
-				$(RM) $(OBJS)
-				$(MAKE) clean -C $(LIBFT_DIR)
+	$(RM) $(OBJS)
+	$(MAKE) clean -C $(LIBFT_DIR)
 
-fclean:			clean
-				$(RM) $(NAME)
-				$(MAKE) fclean -C $(LIBFT_DIR)
+fclean:	clean
+	$(RM) $(NAME)
+	$(MAKE) fclean -C $(LIBFT_DIR)
 
-re:				fclean all
+re:	fclean all
 
-.PHONY:			all clean fclean re
+.PHONY:	all clean fclean re
