@@ -1,28 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   print_int.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/21 09:50:33 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/29 11:14:43 by jilustre         ###   ########.fr       */
+/*   Created: 2024/10/22 10:26:17 by jilustre          #+#    #+#             */
+/*   Updated: 2024/10/29 11:09:56 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
-# define FT_PRINTF_H
+#include "ft_printf.h"
 
-# include <stdarg.h>
-# include <stdint.h>
-# include "libft/libft.h"
+static int	nb_len(int nb)
+{
+	int				len;
 
-int	ft_print_char(int c);
-int	ft_print_str(char *str);
-int	ft_print_int(int nb);
-int	ft_print_hex(unsigned int nb, int uppercase);
-int	ft_print_ptr(uintptr_t ptr);
-int	ft_print_unsigned(unsigned int nb);
-int	ft_printf(const char *str, ...);
+	len = 0;
+	if (nb <= 0)
+		len++;
+	while (nb != 0)
+	{
+		nb = nb / 10;
+		len++;
+	}
+	return (len);
+}
 
-#endif
+int	ft_print_int(int nb)
+{
+	int	len;
+
+	len = nb_len(nb);
+	ft_putnbr_fd(nb, 1);
+	return (len);
+}

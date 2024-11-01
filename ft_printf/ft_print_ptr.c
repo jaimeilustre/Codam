@@ -1,47 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_unsigned.c                                   :+:      :+:    :+:   */
+/*   print_ptr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/24 11:36:12 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/29 08:59:12 by jilustre         ###   ########.fr       */
+/*   Created: 2024/10/24 10:57:18 by jilustre          #+#    #+#             */
+/*   Updated: 2024/10/29 11:10:09 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static void	print_number(unsigned int nb)
-{
-	if (nb >= 10)
-		print_number(nb / 10);
-	ft_putchar_fd((nb % 10) + '0', 1);
-}
-
-static int	nb_len(unsigned int nb)
+static int	ptr_len(uintptr_t nb)
 {
 	int	len;
 
 	len = 0;
 	while (nb != 0)
 	{
-		nb = nb / 10;
+		nb = nb / 16;
 		len++;
 	}
 	return (len);
 }
 
-int	print_unsigned(unsigned int nb)
+static void	convert_ptr(uintptr_t nb)
 {
-	int	len;
-
-	if (nb == 0)
+	if (nb >= 16)
 	{
-		ft_putchar_fd('0', 1);
-		return (1);
+		convert_ptr(nb / 16);
+		convert_ptr(nb % 16);
 	}
-	print_number(nb);
-	len = nb_len(nb);
-	return (len);
+	else
+	{
+		if (nb < 10)
+			ft_putchar_fd((nb + '0'), 1);
+		else
+			ft_putchar_fd((nb - 10 + 'a'), 1);
+	}
+}
+
+int	ft_print_ptr(uintptr_t ptr)
+{
+	int	hex_ptr_len;
+
+	if (!ptr)
+	{
+		ft_putstr_fd("(nil)", 1);
+		return (5);
+	}
+	ft_putstr_fd("0x", 1);
+	hex_ptr_len = ptr_len(ptr);
+	convert_ptr(ptr);
+	return (2 + hex_ptr_len);
 }

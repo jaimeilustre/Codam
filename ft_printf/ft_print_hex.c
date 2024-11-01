@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_hex.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 11:42:49 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 20:13:31 by jaimeilustr      ###   ########.fr       */
+/*   Updated: 2024/10/29 11:09:37 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	convert_hex(unsigned int nb, int uppercase)
 	}
 }
 
-int	print_hex(unsigned int nb, int uppercase)
+int	ft_print_hex(unsigned int nb, int uppercase)
 {
 	int	hex_nb_len;
 

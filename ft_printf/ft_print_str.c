@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_int.c                                        :+:      :+:    :+:   */
+/*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 10:26:17 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/28 20:25:27 by jaimeilustr      ###   ########.fr       */
+/*   Created: 2024/10/22 09:58:30 by jilustre          #+#    #+#             */
+/*   Updated: 2024/10/29 11:10:24 by jilustre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	nb_len(int nb)
+int	ft_print_str(char *str)
 {
-	int				len;
-
-	len = 0;
-	if (nb <= 0)
-		len++;
-	while (nb != 0)
+	if (!str)
 	{
-		nb = nb / 10;
-		len++;
+		ft_putstr_fd("(null)", 1);
+		return (6);
 	}
-	return (len);
-}
-
-int	print_int(int nb)
-{
-	int	len;
-
-	len = nb_len(nb);
-	ft_putnbr_fd(nb, 1);
-	return (len);
+	ft_putstr_fd(str, 1);
+	return (ft_strlen(str));
 }
