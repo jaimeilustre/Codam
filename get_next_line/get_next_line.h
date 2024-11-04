@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   get_next_line.h                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: jilustre <jilustre@student.42.fr>            +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2024/10/31 11:31:32 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/01 14:08:01 by jilustre      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/31 11:31:32 by jilustre          #+#    #+#             */
+/*   Updated: 2024/11/04 07:27:55 by jaimeilustr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 # define BUFFER_SIZE 42
 #endif
 
-#include <stdlib.h>
+# include <stdlib.h>
+# include <unistd.h>
 
 size_t	ft_strlen(const char *s);
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
+char	*ft_strdup(const char *s);
+char	*update_leftover(char *str);
 char	*get_next_line(int fd);
 
 #endif
