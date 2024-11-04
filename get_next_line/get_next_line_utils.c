@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 11:31:56 by jilustre          #+#    #+#             */
-/*   Updated: 2024/11/04 07:28:55 by jaimeilustr      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line_utils.c                              :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/31 11:31:56 by jilustre      #+#    #+#                 */
+/*   Updated: 2024/11/04 13:38:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t ft_strlen(const char *s)
+size_t	ft_strlen(const char *s)
 {
-	size_t len;
-	
+	size_t	len;
+
 	len = 0;
 	while (s[len])
 		len++;
@@ -34,7 +34,10 @@ char	*ft_strjoin(char *s1, char const *s2)
 		s1 = ft_strdup("");
 	dest = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!dest)
+	{
+		free(s1);
 		return (NULL);
+	}
 	i = 0;
 	while (s1[i])
 	{
@@ -49,7 +52,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 	}
 	dest[i + j] = '\0';
 	free(s1);
-	return (dest);	
+	return (dest);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
@@ -63,7 +66,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-		return (NULL);
+		return (ft_strdup(""));
 	substr_len = s_len - start;
 	if (substr_len > len)
 		substr_len = len;
@@ -71,7 +74,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!substr)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < substr_len && (start + i) < s_len)
 	{
 		substr[i] = s[start + i];
 		i++;
@@ -83,7 +86,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 char	*ft_strchr(const char *s, int c)
 {
 	int	i;
-	
+
 	i = 0;
 	while (s[i])
 	{
@@ -102,6 +105,8 @@ char	*ft_strdup(const char *s)
 	char		*dest;
 	size_t		i;
 
+	if (!s)
+		return (NULL);
 	s_size = ft_strlen(s);
 	dest = (char *)malloc(sizeof(char) * (s_size + 1));
 	if (!dest)

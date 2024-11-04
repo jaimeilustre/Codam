@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jaimeilustre <jaimeilustre@student.42.f    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/31 11:31:32 by jilustre          #+#    #+#             */
-/*   Updated: 2024/11/04 07:27:55 by jaimeilustr      ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_next_line.h                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/31 11:31:32 by jilustre      #+#    #+#                 */
+/*   Updated: 2024/11/04 09:32:14 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-#ifndef	BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
