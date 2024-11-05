@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/31 11:31:32 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/04 09:32:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/11/05 09:54:55 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*ft_strjoin(char *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
-char	*update_leftover(char *str);
 char	*get_next_line(int fd);
 
 #endif

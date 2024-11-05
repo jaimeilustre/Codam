@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/31 11:31:56 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/04 13:38:00 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/11/05 13:19:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,7 @@ char	*ft_strjoin(char *s1, char const *s2)
 		s1 = ft_strdup("");
 	dest = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!dest)
-	{
-		free(s1);
-		return (NULL);
-	}
+		return (free(s1), NULL);
 	i = 0;
 	while (s1[i])
 	{
