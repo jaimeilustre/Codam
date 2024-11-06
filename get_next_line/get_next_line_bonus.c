@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line.c                                    :+:    :+:            */
+/*   get_next_line_bonus.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/11/06 09:25:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/06 10:34:17 by jilustre      ########   odam.nl         */
+/*   Created: 2024/11/06 09:02:44 by jilustre      #+#    #+#                 */
+/*   Updated: 2024/11/06 09:12:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*read_fd(int fd, char *leftover)
 {
@@ -76,27 +76,27 @@ static char	*update_leftover(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*leftover;
+	static char	*leftover[1024];
 	char		*full_line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= 1024 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!leftover)
-		leftover = ft_strdup("");
-	leftover = read_fd(fd, leftover);
-	if (!leftover || !*leftover)
+	if (!leftover[fd])
+		leftover[fd] = ft_strdup("");
+	leftover[fd] = read_fd(fd, leftover[fd]);
+	if (!leftover[fd] || !*leftover[fd])
 	{
-		free(leftover);
-		leftover = NULL;
+		free(leftover[fd]);
+		leftover[fd] = NULL;
 		return (NULL);
 	}
-	full_line = get_line(leftover);
+	full_line = get_line(leftover[fd]);
 	if (!full_line)
 	{
-		free(leftover);
-		leftover = NULL;
+		free(leftover[fd]);
+		leftover[fd] = NULL;
 		return (NULL);
 	}
-	leftover = update_leftover(leftover);
+	leftover[fd] = update_leftover(leftover[fd]);
 	return (full_line);
 }
