@@ -41,13 +41,11 @@ int main(int argc, char **argv)
 {
 	int	i = 0;
 	int	j = 0;
-	char *s1;
-	char *s2;
+	char *s1 = argv[1];
+	char *s2 = argv[2];
 	
 	if (argc == 3)
 	{
-		s1 = argv[1];
-		s2 = argv[2];
 		while (s1[i])
 		{
 			if (!in_str(s1, s1[i], i))

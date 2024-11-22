@@ -18,7 +18,7 @@ char *ft_strdup(char *src)
 	int	i = 0;
 	char *dest;
 	
-	while (src[len++])
+	while (src[len])
 		len++;
 	dest = malloc(len + 1);
 	if (!dest)
