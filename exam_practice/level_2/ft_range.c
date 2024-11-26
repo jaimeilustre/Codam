@@ -24,20 +24,19 @@
 int	*ft_range(int start, int end)
 {
 	int size = (end >= start) ? (end - start + 1) : (start - end + 1);
-	int	*tab = (int *)malloc(sizeof(*tab) * size);
+	int	*tab = (int *)malloc(sizeof(int) * size);
+	int	step = (end >= start) ? 1 : -1;
 	int	i = 0;
+
 	if (!tab)
 		return (NULL);
-	if (end >= start)
+	while (i < size)
 	{
-		while (start <= end)
-			tab[i++] = start++;
+		tab[i] = start;
+		start += step;
+		i++;
 	}
-	else
-	{
-		while (start >= end)
-			tab[i++] = start--;
-	}
+
 	return (tab);
 }
 

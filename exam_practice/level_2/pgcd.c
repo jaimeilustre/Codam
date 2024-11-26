@@ -27,25 +27,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void pgcd(int a, int b)
+int pgcd(int a, int b)
 {
-	int n = a;
-
-	while (n > 0)
+	while (b != 0)
 	{
-		if (a % n == 0 && b % n == 0)
-		{
-			printf("%d", n);
-			return ;
-		}
-		n--;
+		int temp = b;
+		b = a % b;
+		a = temp;
 	}
+	return (a);
 }
 
 int main(int argc, char **argv)
 {
+	int a = atoi(argv[1]);
+	int b = atoi(argv[2]);
+
 	if (argc == 3)
-		pgcd(atoi(argv[1]), atoi(argv[2]));
+	{
+		if (a > 0 && b > 0)
+			printf("%d\n", pgcd(a, b));
+	}
 	printf("\n");
 	return (0);
 }
