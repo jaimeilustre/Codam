@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:24:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/02 12:18:46 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/03 15:30:32 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include "pipex.h"
 
-void handle_error(const char *msg)
+void	handle_error(const char *msg)
 {
 	char	*error_message;
 
@@ -38,7 +38,7 @@ int	open_input_file(char *filename)
 	if (fd == -1)
 	{
 		handle_error("Error opening input file");
-		exit(1);
+		return (-1);
 	}
 	return (fd);
 }
@@ -52,19 +52,25 @@ int	open_output_file(char *filename)
 	if (fd == -1)
 	{
 		handle_error("Error opening output file");
-		exit(1);
+		return (-1);
 	}
 	return (fd);
 }
 
 char	*get_command_path(char *cmd, char **envp)
 {
-	char		*path_env;
-	char		**paths;
-	char		*full_path;
-	struct stat	buffer;
-	int			i;
+	char	**paths;
+	char	*path_env;
+	char	*full_path;
+	size_t	full_path_size;
+	int		i;
 
+	if (ft_strchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
 	path_env = NULL;
 	i = 0;
 	while (envp[i])
@@ -84,21 +90,32 @@ char	*get_command_path(char *cmd, char **envp)
 	i = 0;
 	while (paths[i])
 	{
-		full_path = malloc(strlen(paths[i]) + strlen(cmd) + 2);
+		full_path_size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
+		full_path = malloc(full_path_size);
 		if (!full_path)
 		{
+			while (paths[i])
+				free(paths[i++]);
 			free(paths);
 			return (NULL);
 		}
-		sprintf(full_path, "%s/%s", paths[i], cmd);
-		if (stat(full_path, &buffer) == 0)
+		ft_strlcpy(full_path, paths[i], full_path_size);
+		ft_strlcat(full_path, "/", full_path_size);
+		ft_strlcat(full_path, cmd, full_path_size);
+		if (access(full_path, X_OK) == 0)
 		{
+			i = 0;
+			while (paths[i])
+				free(paths[i++]);
 			free(paths);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
+	i = 0;
+	while (paths[i])
+		free(paths[i++]);
 	free(paths);
 	return (NULL);
 }
@@ -156,7 +173,8 @@ void	first_child(int input_fd, int pipe_fd[], char *cmd, char **envp)
 
 void	second_child(int output_fd, int pipe_fd[], char *cmd, char **envp)
 {
-	if (dup2(pipe_fd[0], STDIN_FILENO) < 0 || dup2(output_fd, STDOUT_FILENO) < 0)
+	if (dup2(pipe_fd[0], STDIN_FILENO) < 0
+		|| dup2(output_fd, STDOUT_FILENO) < 0)
 	{
 		handle_error("Error with dup2 in second child");
 		exit(1);
@@ -202,10 +220,10 @@ void	pipex(char **argv, char **envp)
 	close(output_fd);
 	waitpid(pid1, &status1, 0);
 	waitpid(pid2, &status2, 0);
-	if (WIFEXITED(status2)) 
-        exit(WEXITSTATUS(status2));
-    else if (WIFSIGNALED(status2))
-        exit(128 + WTERMSIG(status2));
+	if (WIFEXITED(status2))
+		exit(WEXITSTATUS(status2));
+	else if (WIFSIGNALED(status2))
+		exit(128 + WTERMSIG(status2));
 	else
 		exit(1);
 }
