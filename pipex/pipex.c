@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   pipex.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
+/*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:24:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/03 15:30:32 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/04 11:15:24 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,31 +93,32 @@ char	*get_command_path(char *cmd, char **envp)
 		full_path_size = ft_strlen(paths[i]) + ft_strlen(cmd) + 2;
 		full_path = malloc(full_path_size);
 		if (!full_path)
-		{
-			while (paths[i])
-				free(paths[i++]);
-			free(paths);
-			return (NULL);
-		}
+			break ;
 		ft_strlcpy(full_path, paths[i], full_path_size);
 		ft_strlcat(full_path, "/", full_path_size);
 		ft_strlcat(full_path, cmd, full_path_size);
 		if (access(full_path, X_OK) == 0)
 		{
-			i = 0;
-			while (paths[i])
-				free(paths[i++]);
-			free(paths);
+			free_array(paths);
 			return (full_path);
 		}
 		free(full_path);
 		i++;
 	}
-	i = 0;
-	while (paths[i])
-		free(paths[i++]);
-	free(paths);
+	free_array(paths);
 	return (NULL);
+}
+
+void	free_array(char **arr)
+{
+	int	i;
+
+	if (!arr)
+		return;
+	i = 0;
+	while (arr[i])
+		free(arr[i++]);
+	free(arr);
 }
 
 void	execute_command(char *cmd, char **envp)
@@ -130,22 +131,23 @@ void	execute_command(char *cmd, char **envp)
 	if (!args || !args[0])
 	{
 		handle_error("Error splitting command or empty command");
+		free_array(args);
 		exit(1);
 	}
 	if (!cmd_path)
 	{
 		fprintf(stderr, "Command not found: %s\n", args[0]);
-		free(args);
+		free_array(args);
 		exit(127);
 	}
 	if (execve(cmd_path, args, envp) < 0)
 	{
 		handle_error("Error executing command");
-		free(args);
+		free_array(args);
 		free(cmd_path);
 		exit(1);
 	}
-	free(args);
+	free_array(args);
 	free(cmd_path);
 }
 
@@ -197,6 +199,12 @@ void	pipex(char **argv, char **envp)
 
 	input_fd = open_input_file(argv[1]);
 	output_fd = open_output_file(argv[4]);
+	if (output_fd == -1)
+	{
+		if (input_fd != 1)
+			close(input_fd);
+		exit(1);
+	}
 	create_pipe(pipe_fd);
 	pid1 = fork();
 	if (pid1 < 0)
@@ -206,6 +214,8 @@ void	pipex(char **argv, char **envp)
 	}
 	else if (pid1 == 0)
 		first_child(input_fd, pipe_fd, argv[2], envp);
+	if (input_fd != 1)
+			close(input_fd);
 	pid2 = fork();
 	if (pid2 < 0)
 	{
@@ -216,7 +226,7 @@ void	pipex(char **argv, char **envp)
 		second_child(output_fd, pipe_fd, argv[3], envp);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	close(input_fd);
+	
 	close(output_fd);
 	waitpid(pid1, &status1, 0);
 	waitpid(pid2, &status2, 0);
@@ -224,8 +234,7 @@ void	pipex(char **argv, char **envp)
 		exit(WEXITSTATUS(status2));
 	else if (WIFSIGNALED(status2))
 		exit(128 + WTERMSIG(status2));
-	else
-		exit(1);
+	exit(1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -238,3 +247,4 @@ int	main(int argc, char **argv, char **envp)
 	fprintf(stderr, "Invalid number of arguments: %s\n", argv[0]);
 	return (1);
 }
+

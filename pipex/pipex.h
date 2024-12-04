@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   pipex.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
+/*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:23:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/29 11:10:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/04 11:16:17 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft/libft.h"
 
+void	free_array(char **arr);
+void	handle_error(const char *msg);
 int		open_input_file(char *filename);
 int		open_output_file(char *filename);
 char	*get_command_path(char *cmd, char **envp);
