@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:24:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/04 11:15:24 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/04 12:05:55 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 #include <unistd.h>
 #include "pipex.h"
 
-void	handle_error(const char *msg)
+void	handle_error(const char *cmd, const char *msg)
 {
 	char	*error_message;
 
 	error_message = strerror(errno);
+	write(STDERR_FILENO, "pipex: ", 7);
+	write(STDERR_FILENO, cmd, ft_strlen(cmd));
+	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, msg, ft_strlen(msg));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, error_message, ft_strlen(error_message));
@@ -37,7 +40,7 @@ int	open_input_file(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		handle_error("Error opening input file");
+		handle_error(filename, "Error opening input file");
 		return (-1);
 	}
 	return (fd);
@@ -51,7 +54,7 @@ int	open_output_file(char *filename)
 			| S_IWUSR | S_IRGRP | S_IROTH);
 	if (fd == -1)
 	{
-		handle_error("Error opening output file");
+		handle_error(filename, "Error opening output file");
 		return (-1);
 	}
 	return (fd);
@@ -130,19 +133,19 @@ void	execute_command(char *cmd, char **envp)
 	cmd_path = get_command_path(args[0], envp);
 	if (!args || !args[0])
 	{
-		handle_error("Error splitting command or empty command");
+		handle_error(cmd, "Error splitting command or empty command");
 		free_array(args);
 		exit(1);
 	}
 	if (!cmd_path)
 	{
-		fprintf(stderr, "Command not found: %s\n", args[0]);
+		handle_error(cmd, "Command not found");
 		free_array(args);
 		exit(127);
 	}
 	if (execve(cmd_path, args, envp) < 0)
 	{
-		handle_error("Error executing command");
+		handle_error(cmd, "Error executing command");
 		free_array(args);
 		free(cmd_path);
 		exit(1);
@@ -155,7 +158,7 @@ void	create_pipe(int pipe_fd[])
 {
 	if (pipe(pipe_fd) < 0)
 	{
-		handle_error("Error creating pipe");
+		handle_error("pipe", "Error creating pipe");
 		exit(1);
 	}
 }
@@ -164,7 +167,7 @@ void	first_child(int input_fd, int pipe_fd[], char *cmd, char **envp)
 {
 	if (dup2(input_fd, STDIN_FILENO) < 0 || dup2(pipe_fd[1], STDOUT_FILENO) < 0)
 	{
-		handle_error("Error with dup2 in first child");
+		handle_error("dup2", "Error with dup2 in first child");
 		exit(1);
 	}
 	close(pipe_fd[0]);
@@ -178,7 +181,7 @@ void	second_child(int output_fd, int pipe_fd[], char *cmd, char **envp)
 	if (dup2(pipe_fd[0], STDIN_FILENO) < 0
 		|| dup2(output_fd, STDOUT_FILENO) < 0)
 	{
-		handle_error("Error with dup2 in second child");
+		handle_error("dup2", "Error with dup2 in second child");
 		exit(1);
 	}
 	close(pipe_fd[0]);
@@ -209,7 +212,7 @@ void	pipex(char **argv, char **envp)
 	pid1 = fork();
 	if (pid1 < 0)
 	{
-		handle_error("Error with fork for first child");
+		handle_error("fork", "Error with fork for first child");
 		exit(1);
 	}
 	else if (pid1 == 0)
@@ -219,7 +222,7 @@ void	pipex(char **argv, char **envp)
 	pid2 = fork();
 	if (pid2 < 0)
 	{
-		handle_error("Error with fork for second child");
+		handle_error("fork", "Error with fork for second child");
 		exit(1);
 	}
 	else if (pid2 == 0)
@@ -239,12 +242,12 @@ void	pipex(char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	if (argc == 5)
+	if (argc != 5)
 	{
-		pipex(argv, envp);
+		handle_error(argv[0], "Invalid number of arguments");
 		return (1);
 	}
-	fprintf(stderr, "Invalid number of arguments: %s\n", argv[0]);
-	return (1);
+	pipex(argv, envp);
+	return (0);
 }
 
