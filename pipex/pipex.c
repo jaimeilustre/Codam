@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:24:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/04 12:05:55 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/05 15:27:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_error(const char *cmd, const char *msg)
 	char	*error_message;
 
 	error_message = strerror(errno);
-	write(STDERR_FILENO, "pipex: ", 7);
+	write(STDERR_FILENO, "bash: ", 7);
 	write(STDERR_FILENO, cmd, ft_strlen(cmd));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, msg, ft_strlen(msg));
@@ -117,7 +117,7 @@ void	free_array(char **arr)
 	int	i;
 
 	if (!arr)
-		return;
+		return ;
 	i = 0;
 	while (arr[i])
 		free(arr[i++]);
@@ -197,8 +197,7 @@ void	pipex(char **argv, char **envp)
 	int		pipe_fd[2];
 	pid_t	pid1;
 	pid_t	pid2;
-	int		status1;
-	int		status2;
+	int		status;
 
 	input_fd = open_input_file(argv[1]);
 	output_fd = open_output_file(argv[4]);
@@ -218,7 +217,7 @@ void	pipex(char **argv, char **envp)
 	else if (pid1 == 0)
 		first_child(input_fd, pipe_fd, argv[2], envp);
 	if (input_fd != 1)
-			close(input_fd);
+		close(input_fd);
 	pid2 = fork();
 	if (pid2 < 0)
 	{
@@ -229,14 +228,13 @@ void	pipex(char **argv, char **envp)
 		second_child(output_fd, pipe_fd, argv[3], envp);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	
 	close(output_fd);
-	waitpid(pid1, &status1, 0);
-	waitpid(pid2, &status2, 0);
-	if (WIFEXITED(status2))
-		exit(WEXITSTATUS(status2));
-	else if (WIFSIGNALED(status2))
-		exit(128 + WTERMSIG(status2));
+	waitpid(pid1, &status, 0);
+	waitpid(pid2, &status, 0);
+	if (WIFEXITED(status))
+		exit(WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		exit(128 + WTERMSIG(status));
 	exit(1);
 }
 
@@ -250,4 +248,3 @@ int	main(int argc, char **argv, char **envp)
 	pipex(argv, envp);
 	return (0);
 }
-
