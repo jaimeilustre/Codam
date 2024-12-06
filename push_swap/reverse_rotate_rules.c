@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 16:25:43 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/20 16:45:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/06 17:01:22 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	rra(t_list **a)
 		second_last->next = NULL;
 		last->next = *a;
 		*a = last;
+		write(1, "rra\n", 4);
 	}	
 }
 
@@ -49,6 +50,7 @@ void	rrb(t_list **b)
 		second_last->next = NULL;
 		last->next = *b;
 		*b = last;
+		write(1, "rrb\n", 4);
 	}
 }
 
@@ -56,32 +58,5 @@ void	rrr(t_list **a, t_list **b)
 {
 	rra(a);
 	rrb(b);
+	write(1, "rrr\n", 3);
 }
-
-// int main(void)
-// {
-//     t_list *a = ft_lstnew(1);
-//     a->next = ft_lstnew(2);
-//     a->next->next = ft_lstnew(3);
-
-// 	t_list *b = ft_lstnew(4);
-//     b->next = ft_lstnew(5);
-//     b->next->next = ft_lstnew(6);
-
-// 	printf("Original stacks:\n");
-// 	print_list(a);
-// 	print_list(b);
-
-// 	printf("\nTesting ra:\n");
-// 	rra(&a);
-// 	print_list(a);
-	
-// 	printf("\nTesting rb:\n");
-// 	rrb(&b);
-// 	print_list(b);
-	
-// 	free_list(a);
-// 	free_list(b);
-	
-// 	return (0);	
-// }

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 10:27:28 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/20 12:25:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/06 17:01:43 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	sa(t_list **a)
 		first->next = second->next;
 		second->next = first;
 		*a = second;
+		write(1, "sa\n", 3);
 	}
 }
 
@@ -39,6 +40,7 @@ void	sb(t_list **b)
 		first->next = second->next;
 		second->next = first;
 		*b = second;
+		write(1, "sb\n", 3);
 	}
 }
 
@@ -46,19 +48,5 @@ void	ss(t_list **a, t_list **b)
 {
 	sa(a);
 	sb(b);
+	write(1, "ss\n", 3);
 }
-
-// int main(void)
-// {
-//     t_list *stack = ft_lstnew(1);
-//     stack->next = ft_lstnew(2);
-//     stack->next->next = ft_lstnew(3);
-
-// 	printf("Original stack:\n");
-// 	print_list(stack);
-// 	sa(&stack);
-// 	printf("Modified stack:\n");
-// 	print_list(stack);
-// 	free_list(stack);
-// 	return (0);	
-// }

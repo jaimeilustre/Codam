@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 14:29:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/20 16:45:03 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/06 17:01:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	ra(t_list **a)
 		*a = (*a)->next;
 		temp->next = NULL;
 		ft_lstadd_back(a, temp);
+		write(1, "ra\n", 3);
 	}
 }
 
@@ -35,6 +36,7 @@ void	rb(t_list **b)
 		*b = (*b)->next;
 		temp->next = NULL;
 		ft_lstadd_back(b, temp);
+		write(1, "rb\n", 3);
 	}
 }
 
@@ -42,32 +44,5 @@ void	rr(t_list **a, t_list **b)
 {
 	ra(a);
 	rb(b);
+	write(1, "rr\n", 3);
 }
-
-// int main(void)
-// {
-//     t_list *a = ft_lstnew(1);
-//     a->next = ft_lstnew(2);
-//     a->next->next = ft_lstnew(3);
-
-// 	t_list *b = ft_lstnew(4);
-//     b->next = ft_lstnew(5);
-//     b->next->next = ft_lstnew(6);
-
-// 	printf("Original stacks:\n");
-// 	print_list(a);
-// 	print_list(b);
-
-// 	printf("\nTesting ra:\n");
-// 	ra(&a);
-// 	print_list(a);
-	
-// 	printf("\nTesting rb:\n");
-// 	rb(&b);
-// 	print_list(b);
-	
-// 	free_list(a);
-// 	free_list(b);
-	
-// 	return (0);	
-// }

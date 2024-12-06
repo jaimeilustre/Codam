@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 12:13:18 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/11/20 14:21:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/06 17:01:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	pa(t_list **a, t_list **b)
 		temp = *b;
 		*b = (*b)->next;
 		ft_lstadd_front(a, temp);
+		write(1, "pa\n", 3);
 	}
 }
 
@@ -28,40 +29,11 @@ void	pb(t_list **a, t_list **b)
 {
 	t_list	*temp;
 	
-	if (*b)
+	if (*a)
 	{
 		temp = *a;
 		*a = (*a)->next;
 		ft_lstadd_front(b, temp);
+		write(1, "pb\n", 3);
 	}
 }
-
-// int main(void)
-// {
-//     t_list *a = ft_lstnew(1);
-//     a->next = ft_lstnew(2);
-//     a->next->next = ft_lstnew(3);
-
-// 	t_list *b = ft_lstnew(4);
-//     b->next = ft_lstnew(5);
-//     b->next->next = ft_lstnew(6);
-
-// 	printf("Original stacks:\n");
-// 	print_list(a);
-// 	print_list(b);
-
-// 	printf("\nTesting pa:\n");
-// 	pa(&a, &b);
-// 	print_list(a);
-// 	print_list(b);
-	
-// 	printf("\nTesting pb:\n");
-// 	pb(&a, &b);
-// 	print_list(a);
-// 	print_list(b);
-	
-// 	free_list(a);
-// 	free_list(b);
-	
-// 	return (0);	
-// }
