@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/08 13:56:12 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/08 14:44:41 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,25 +92,64 @@ void	exit_error(t_list **a, t_list **b, int *chunks)
 	exit(EXIT_FAILURE);	
 }
 
+void free_split(char **split_array)
+{
+    int i;
+
+    if (split_array)
+    {
+        i = 0;
+        while (split_array[i])  // Loop through the array of strings
+        {
+            free(split_array[i]);  // Free each string
+            i++;
+        }
+        free(split_array);  // Finally, free the array itself
+    }
+}
+
 t_list	*parse_arguments(int argc, char **argv)
 {
 	t_list	*stack;
 	t_list	*new_node;
 	int		i;
 	int		nb;
+	char	**split_array;
 	
 	stack = NULL;
 	i = 1;
-	while (i < argc)
+
+	if (argc == 2)
 	{
-		if (!check_valid_int(argv[i]))
+		split_array = ft_split(argv[1], ' ');
+		if (!split_array)
 			exit_error(&stack, NULL, NULL);
-		nb = ft_atoi(argv[i]);
-		new_node = ft_lstnew(nb);
-		if (!new_node)
-			exit_error(&stack, NULL, NULL);
-		ft_lstadd_back(&stack, new_node);
-		i++;
+		while (split_array[i - 1])
+		{
+			if (!check_valid_int(split_array[i - 1]))
+				exit_error(&stack, NULL, NULL);
+			nb = ft_atoi(split_array[i - 1]);
+			new_node = ft_lstnew(nb);
+			if (!new_node)
+				exit_error(&stack, NULL, NULL);
+			ft_lstadd_back(&stack, new_node);
+			i++;
+		}
+		free_split(split_array);
+	}
+	else
+	{
+		while (i < argc)
+		{
+			if (!check_valid_int(argv[i]))
+				exit_error(&stack, NULL, NULL);
+			nb = ft_atoi(argv[i]);
+			new_node = ft_lstnew(nb);
+			if (!new_node)
+				exit_error(&stack, NULL, NULL);
+			ft_lstadd_back(&stack, new_node);
+			i++;
+		}
 	}
 	if (check_duplicate_int(stack))
 		exit_error(&stack, NULL, NULL);
@@ -284,8 +323,6 @@ int main(int argc, char **argv)
 	t_list	*a;
 	t_list	*b;
 	
-	for (int i = 1; i < argc; i++)
-        printf("Argument %d: %s\n", i, argv[i]);
 	if (argc < 2)
 		return (0);
 	a = parse_arguments(argc, argv);

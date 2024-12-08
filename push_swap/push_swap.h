@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/08 11:56:03 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/08 14:38:00 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	rrr(t_list **a, t_list **b);
 
 int		check_valid_int(const char *str);
 int		check_duplicate_int(t_list *stack);
+void	free_split(char **split_array);
 t_list	*parse_arguments(int argc, char **argv);
 int		find_min(t_list *stack);
 int		find_max(t_list *stack);
