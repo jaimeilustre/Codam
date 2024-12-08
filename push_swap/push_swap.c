@@ -6,21 +6,23 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/06 16:27:03 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/08 13:56:12 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-// Argument validation
 
 int	check_valid_int(const char *str)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && str[i] == ' ')
+	while (str[i] == ' ')
 		i++;
+	if (str[i] == '-')
+		i++;
+	if (str[i] == '\0')
+		return (0);
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
@@ -50,44 +52,6 @@ int	check_duplicate_int(t_list *stack)
 	return (0);
 }
 
-// Argument parsing
-
-t_list	*parse_arguments(int argc, char **argv)
-{
-	t_list	*stack;
-	t_list	*new_node;
-	int		i;
-	int		nb;
-
-	stack = NULL;
-	i = 1;
-	while (i < argc)
-	{
-		if (!check_valid_int(argv[i]))
-		{
-			write(2, "Error\n", 6);
-			exit(EXIT_FAILURE);
-		}
-		nb = ft_atoi(argv[i]);
-		new_node = ft_lstnew(nb);
-		if (!new_node)
-		{
-			write(2, "Error\n", 6);
-			exit(EXIT_FAILURE);
-		}
-		ft_lstadd_back(&stack, new_node);
-		i++;
-	}
-	if (check_duplicate_int(stack))
-	{
-		write(2, "Error\n", 6);
-		exit(EXIT_FAILURE);
-	}
-	return (stack);
-}
-
-// Chunk-based sorting algorithm
-
 int	find_min(t_list *stack)
 {
 	int	min;
@@ -116,60 +80,145 @@ int	find_max(t_list *stack)
 	return (max);
 }
 
-int	find_rotation(t_list *stack, int target)
+void	exit_error(t_list **a, t_list **b, int *chunks)
+{
+	if (a && *a)
+		ft_lstclear(a);
+	if (b && *b)
+		ft_lstclear(b);
+	if (chunks)
+		free(chunks);
+	write(2, "Error\n", 6);
+	exit(EXIT_FAILURE);	
+}
+
+t_list	*parse_arguments(int argc, char **argv)
+{
+	t_list	*stack;
+	t_list	*new_node;
+	int		i;
+	int		nb;
+	
+	stack = NULL;
+	i = 1;
+	while (i < argc)
+	{
+		if (!check_valid_int(argv[i]))
+			exit_error(&stack, NULL, NULL);
+		nb = ft_atoi(argv[i]);
+		new_node = ft_lstnew(nb);
+		if (!new_node)
+			exit_error(&stack, NULL, NULL);
+		ft_lstadd_back(&stack, new_node);
+		i++;
+	}
+	if (check_duplicate_int(stack))
+		exit_error(&stack, NULL, NULL);
+	return (stack);
+}
+
+void	create_chunks(int total_elements, int **chunks, int *chunk_count)
+{
+	int	chunk_size;
+	int	i;
+
+	if (total_elements < 100)
+		chunk_size = 5;
+	else
+		chunk_size = total_elements / 10;
+	*chunks = malloc(sizeof(int) * ((total_elements / chunk_size) + 1));
+	if (!*chunks)
+		exit_error(NULL, NULL, NULL);
+	i = 0;
+	while (i <= total_elements / chunk_size)
+	{
+		(*chunks)[i] = i * chunk_size;
+		i++;
+	}
+	*chunk_count = i;
+}
+
+int	calculator_rotation_cost(t_list *stack, int target)
 {
 	int		forward_steps;
 	int		reverse_steps;
+	int		total_size;
 	t_list	*current;
-
+	
 	forward_steps = 0;
-	reverse_steps = 0;
 	current = stack;
 	while (current && current->content != target)
 	{
 		forward_steps++;
 		current = current->next;
 	}
-	current = stack;
-	while (current)
-	{
-		reverse_steps++;
-		current = current->next;
-	}
-	reverse_steps -= forward_steps;
+	total_size = ft_lstsize(stack);
+	reverse_steps = total_size - forward_steps;
 	if (forward_steps <= reverse_steps)
 		return (forward_steps);
 	else
 		return (-reverse_steps);
 }
 
+void	push_min_cost_element(t_list **a, t_list **b, int chunk_min, int chunk_max)
+{
+	t_list	*current;
+	int		min_cost;
+	int		best_target;
+	int		cost;
+
+	current = *a;
+	min_cost = INT_MAX;
+	best_target = 0;
+	while (current)
+	{
+		if (current->content >= chunk_min && current->content <= chunk_max)
+		{
+			cost = calculator_rotation_cost(*a, current->content);
+			if (abs(cost) < abs(min_cost))
+			{
+				min_cost = cost;
+				best_target = current->content;
+			}	
+		}
+		current = current->next;
+	}
+	while ((*a)->content != best_target)
+	{
+		if (min_cost > 0)
+			ra(a);
+		else
+			rra(a);
+	}
+	pb(a, b);
+}
+
 void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max)
 {
 	t_list	*current;
 	int		has_target;
-
+	
 	while (*a)
 	{
-		has_target = 0;
 		current = *a;
+		has_target = 0;
 		while (current)
 		{
 			if (current->content >= chunk_min && current->content <= chunk_max)
 			{
 				has_target = 1;
-				break;
+				break ;
 			}
 			current = current->next;
 		}
 		if (!has_target)
 			break ;
-		
-		if ((*a)->content >= chunk_min && (*a)->content <= chunk_max)
-			pb(a, b);
-		else
-			ra(a);
+		push_min_cost_element(a, b, chunk_min, chunk_max);
+		if (*b && (*b)->next && (*b)->content < (*b)->next->content)
+			sb(b);
 	}
 }
+
 void	sort_b_to_a(t_list **a, t_list **b)
 {
 	int	max;
@@ -178,15 +227,12 @@ void	sort_b_to_a(t_list **a, t_list **b)
 	while (*b)
 	{
 		max = find_max(*b);
-		rotation = find_rotation(*b, max);
-		if (rotation > 0)
+		rotation = calculator_rotation_cost(*b, max);
+		while ((*b)->content != max)
 		{
-			while (rotation--)
+			if (rotation > 0)
 				rb(b);
-		}
-		else
-		{
-			while(rotation++)
+			else
 				rrb(b);
 		}
 		pa(a, b);
@@ -195,26 +241,42 @@ void	sort_b_to_a(t_list **a, t_list **b)
 
 void	push_swap(t_list **a, t_list **b, int total_elements)
 {
-	int	chunk_size;
-	int	current_min;
-	int	current_max;
-	int	chunk_max;
+	int	*chunks;
+	int	chunk_count;
+	int	i;
 	
-	if (total_elements < 10)
-		chunk_size = 1;
-	else
-		chunk_size = total_elements / 10;
-	current_min = find_min(*a);
-	current_max = find_max(*a);
-	while (current_min <= current_max)
+	chunks = NULL;
+	create_chunks(total_elements, &chunks, &chunk_count);
+	i = 0;
+	while (i < chunk_count)
 	{
-		chunk_max = current_min + chunk_size - 1;
-		push_to_b(a, b, current_min, chunk_max);
-		current_min = chunk_max + 1;
-		if (!(*a))
-			break ;
+		push_to_b(a, b, chunks[i], (i == chunk_count - 1) ? INT_MAX : chunks[i + 1] - 1);
+		i++;
 	}
 	sort_b_to_a(a, b);
+	free(chunks);
+}
+
+void	sort_small_stack(t_list **a)
+{
+	if (ft_lstsize(*a) == 2)
+    {
+        if ((*a)->content > (*a)->next->content)
+            sa(a); // Swap if out of order
+    }
+    else if (ft_lstsize(*a) == 3)
+    {
+        int first = (*a)->content;
+        int second = (*a)->next->content;
+        int third = (*a)->next->next->content;
+
+        if (first > second && first > third)
+            ra(a); // Rotate if the first element is the largest
+        else if ((*a)->content > (*a)->next->content)
+            sa(a); // Swap the top two elements if out of order
+        else if ((*a)->next->content > (*a)->next->next->content)
+            rra(a); // Reverse rotate to position the smallest element last
+    }
 }
 
 int main(int argc, char **argv)
@@ -222,12 +284,17 @@ int main(int argc, char **argv)
 	t_list	*a;
 	t_list	*b;
 	
-	a = NULL;
-	b = NULL;
+	for (int i = 1; i < argc; i++)
+        printf("Argument %d: %s\n", i, argv[i]);
 	if (argc < 2)
 		return (0);
 	a = parse_arguments(argc, argv);
-	push_swap(&a, &b, argc - 1);
+	b = NULL;
+	
+	if (ft_lstsize(a) <= 3)
+		sort_small_stack(&a);
+	else
+		push_swap(&a, &b, ft_lstsize(a));
 	ft_lstclear(&a);
 	ft_lstclear(&b);
 	return (0);
