@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/08 14:38:00 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/08 15:35:54 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,11 @@ int		find_max(t_list *stack);
 
 void	create_chunks(int total_elements, int **chunks, int *chunk_count);
 int		calculator_rotation_cost(t_list *stack, int target);
-// int		find_rotation(t_list *stack, int target);
 void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max);
 void	sort_b_to_a(t_list **a, t_list **b);
-void	push_min_cost_element(t_list **a, t_list **b, int chunk_min, int chunk_max);
+void	push_min_cost_element(t_list **a, t_list **b);
 void	push_swap(t_list **a, t_list **b, int total_elements);
-void	sort_small_stack(t_list **a);
+void	sort_small_stack(t_list **a, t_list **b);
 int		main(int argc, char **argv);
 
 #endif
