@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/08 15:35:54 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/09 16:31:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <limits.h>
+# include <math.h>
 # include "libft/libft.h"
 
 typedef struct s_list
@@ -51,6 +52,7 @@ void	free_split(char **split_array);
 t_list	*parse_arguments(int argc, char **argv);
 int		find_min(t_list *stack);
 int		find_max(t_list *stack);
+void	exit_error(t_list **a, t_list **b, int *chunks);
 
 void	create_chunks(int total_elements, int **chunks, int *chunk_count);
 int		calculator_rotation_cost(t_list *stack, int target);

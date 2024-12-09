@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 11:00:40 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/08 12:39:55 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/09 07:49:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,31 +68,4 @@ void	ft_lstclear(t_list **lst)
 		*lst = temp;
     }
 }
-
-int	ft_lstsize(t_list *lst)
-{
-	int	count;
-
-	count = 0;
-	while (lst)
-	{
-		count++;
-		lst = lst->next;
-	}
-	return (count);
-}
-
-int	is_sorted(t_list *stack)
-{
-	if (!stack)
-		return (1);
-	while (stack->next)
-	{
-		if (stack->content > stack->next->content)
-			return (0);
-		stack = stack->next;
-	}
-	return (1);
-}
-
 
