@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:46:28 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/09 08:57:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/10 15:32:14 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ t_list	*parse_arguments(int argc, char **argv)
 	t_list	*stack;
 	t_list	*new_node;
 	int		i;
+	long	nb_long;
 	int		nb;
 	char	**split_array;
 	
@@ -88,9 +89,10 @@ t_list	*parse_arguments(int argc, char **argv)
 		{
 			if (!check_valid_int(split_array[i - 1]))
 				exit_error(&stack, NULL, NULL);
-			nb = ft_atoi(split_array[i - 1]);
-			if (nb == INT_MAX || nb == INT_MIN)
+			nb_long = ft_atoi(split_array[i - 1]);
+			if (nb_long > INT_MAX || nb_long < INT_MIN)
 				exit_error(&stack, NULL, NULL);
+			nb = (int)nb_long;
 			new_node = ft_lstnew(nb);
 			if (!new_node)
 				exit_error(&stack, NULL, NULL);
@@ -105,9 +107,10 @@ t_list	*parse_arguments(int argc, char **argv)
 		{
 			if (!check_valid_int(argv[i]))
 				exit_error(&stack, NULL, NULL);
-			nb = ft_atoi(argv[i]);
-			if (nb == INT_MAX || nb == INT_MIN)
+			nb_long = ft_atoi(argv[i]);
+			if (nb_long > INT_MAX || nb_long < INT_MIN)
 				exit_error(&stack, NULL, NULL);
+			nb = (int)nb_long;
 			new_node = ft_lstnew(nb);
 			if (!new_node)
 				exit_error(&stack, NULL, NULL);

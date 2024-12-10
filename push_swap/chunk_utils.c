@@ -6,60 +6,90 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/09 16:32:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/10 10:50:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	create_chunks(int total_elements, int **chunks, int *chunk_count)
+void rotate_to_top(t_list **a, int index)
 {
-	int	chunk_size;
-	int	i;
+    int size = ft_lstsize(*a);
 
-	if (total_elements < 100)
-		chunk_size = 5;
-	else
-		chunk_size = total_elements / 20;
-	*chunks = malloc(sizeof(int) * ((total_elements / chunk_size) + 1));
-	if (!*chunks)
-		exit_error(NULL, NULL, NULL);
-	i = 0;
-	while (i <= total_elements / chunk_size)
-	{
-		(*chunks)[i] = i * chunk_size;
-		i++;
-	}
-	*chunk_count = i;
-	
-	// int base_chunk_size = total_elements / 20;
-    // int extra_chunks = total_elements % 20;
-    // int i = 0;
+    if (index <= size / 2)
+    {
+        while (index--)
+            ra(a);
+    }
+    else
+    {
+        index = size - index;
+        while (index--)
+            rra(a);
+    }
+}
 
-	// if (total_elements <= 20) {
-    //     base_chunk_size = 1;
-    //     *chunks = malloc(sizeof(int) * total_elements);
-    //     if (!*chunks)
-    //         exit_error(NULL, NULL, NULL);
-    //     for (i = 0; i < total_elements; i++)
-    //         (*chunks)[i] = i + 1;
-    //     *chunk_count = total_elements;
-    //     return;
-    // }
+int has_target_in_chunk(t_list *a, int chunk_min, int chunk_max)
+{
+    while (a)
+    {
+        if (a->content >= chunk_min && a->content <= chunk_max)
+            return (1);
+        a = a->next;
+    }
+    return (0);
+}
 
-    // *chunks = malloc(sizeof(int) * (20 + (extra_chunks > 0 ? 1 : 0)));
-    // if (!*chunks)
-    //     exit_error(NULL, NULL, NULL);
+int find_closest(t_list *a, int chunk_min, int chunk_max)
+{
+    int index = 0;
+    int closest_index = -1;
+    int smallest_distance = INT_MAX;
+    int size = ft_lstsize(a);
+    t_list *current = a;
 
-    // while (i < 20) 
-	// {
-    //     (*chunks)[i] = base_chunk_size * (i + 1);
-    //     i++;
-    // }
+    while (current)
+    {
+        if (current->content >= chunk_min && current->content <= chunk_max)
+        {
+            int distance = index < (size - index) ? index : (size - index);
+            if (distance < smallest_distance)
+            {
+                smallest_distance = distance;
+                closest_index = index;
+            }
+        }
+        current = current->next;
+        index++;
+    }
+    return (closest_index);
+}
 
-    // if (extra_chunks > 0)
-    //     (*chunks)[i++] = total_elements;  // Add final chunk boundary for remaining elements.
-    // *chunk_count = i;
+
+void create_chunks(t_list **a, t_list **b, int total_elements, int **chunks, int *chunk_count)
+{
+    int chunk_size = total_elements / 10;
+    int current_min;
+    int current_max;
+    int i = 0;
+
+    *chunks = malloc(sizeof(int) * (10 + 1));
+    if (!*chunks)
+        exit_error(NULL, NULL, NULL);
+
+    while (*a)
+    {
+        current_min = find_min(*a);
+        current_max = current_min + chunk_size;
+        (*chunks)[i++] = current_max;
+        while (has_target_in_chunk(*a, current_min, current_max))
+        {
+            rotate_to_top(a, find_closest(*a, current_min, current_max));
+            pb(a, b);
+        }
+    }
+    (*chunks)[i] = INT_MAX;
+    *chunk_count = i;
 }
 
 void	push_min_cost_element(t_list **a, t_list **b)
@@ -87,8 +117,6 @@ void	push_min_cost_element(t_list **a, t_list **b)
 	}
 	while ((*a)->content != best_target)
 	{
-		// cost_a = calculator_rotation_cost(*a, current->content);
-		// cost_b = calculator_rotation_cost(*b, current->content);
 		if (cost_a > 0 && cost_b > 0)
     		rr(a, b);
         else if (cost_a < 0 && cost_b < 0)
