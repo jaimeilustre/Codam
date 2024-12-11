@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/10 15:04:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/11 15:13:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,46 +32,58 @@ void push_swap(t_list **a, t_list **b, int total_elements)
     free(chunks);
 }
 
-
-void	sort_small_stack(t_list **a, t_list **b)
+int find_index(t_list *a, int value)
 {
-	int min;
-	int	size;
-	
-	size = ft_lstsize(*a);
-	if (size == 2)
-	{
-		if ((*a)->content > (*a)->next->content)
-			sa(a);
-		return ;
-	}
-	else if (size == 3)
-	{
-		min = find_min(*a);
-    	while (ft_lstsize(*a) > 3)
-    	{
-        	if ((*a)->content == min)
-        	{
-            	pb(a, b);
-            	min = find_min(*a);
-        	}
-        	else
-            	ra(a);
-    	}
-    	if ((*a)->content > (*a)->next->content && (*a)->content > (*a)->next->next->content)
-        	ra(a);
-    	if ((*a)->content > (*a)->next->content)
-        	sa(a);
-    	if ((*a)->next->content > (*a)->next->next->content)
-    	{
-        	rra(a);
-        	if ((*a)->content > (*a)->next->content)
-            	sa(a);
-    	}	
-	}
-    while (*b)
-        pa(a, b);
+    int index = 0;
 
+    while (a)
+    {
+        if (a->content == value)
+            return index;
+        a = a->next;
+        index++;
+    }
+    return -1;
+}
+
+void sort_small_stack(t_list **a, t_list **b)
+{
+    int size = ft_lstsize(*a);
+
+    if (size == 2)
+    {
+        if ((*a)->content > (*a)->next->content)
+            sa(a);
+        return;
+    }
+    else if (size == 3)
+    {
+        while (!is_sorted(*a))
+        {
+            if ((*a)->content > (*a)->next->content)
+                sa(a);
+            if (!is_sorted(*a))
+                rra(a);
+        }
+        return;
+    }
+    else if (size == 4 || size == 5)
+    {
+        while (ft_lstsize(*a) > 3)
+        {
+            int min = find_min(*a);
+            if (find_index(*a, min) <= ft_lstsize(*a) / 2)
+                while ((*a)->content != min)
+                    ra(a);
+            else
+                while ((*a)->content != min)
+                    rra(a);
+            pb(a, b);
+        }
+        sort_small_stack(a, NULL);
+        while (*b)
+            pa(a, b);
+	}
 }
 
 int	is_sorted(t_list *a)
@@ -101,7 +113,7 @@ int main(int argc, char **argv)
 		ft_lstclear(&a);
 		return (0);
 	}
-	if (ft_lstsize(a) <= 3)
+	if (ft_lstsize(a) <= 5)
 		sort_small_stack(&a, &b);
 	else
 		push_swap(&a, &b, ft_lstsize(a));

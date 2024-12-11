@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/10 10:50:37 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/11 12:32:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int find_closest(t_list *a, int chunk_min, int chunk_max)
     }
     return (closest_index);
 }
-
 
 void create_chunks(t_list **a, t_list **b, int total_elements, int **chunks, int *chunk_count)
 {
