@@ -6,120 +6,72 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:46:28 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/10 15:32:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/12 13:42:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	check_valid_int(const char *str)
+void	parse_arguments_to_int(char *arg, t_list **stack)
+{
+	long	nb_long;
+	int		nb;
+	t_list	*new_node;
+
+	if (!check_valid_int(arg))
+		exit_error(stack, NULL, NULL);
+	nb_long = ft_atoi(arg);
+	if (nb_long > INT_MAX || nb_long < INT_MIN)
+		exit_error(stack, NULL, NULL);
+	nb = (int)nb_long;
+	new_node = ft_lstnew(nb);
+	if (!new_node)
+		exit_error(stack, NULL, NULL);
+	ft_lstadd_back(stack, new_node);
+}
+
+void	split_and_parse(char *arg, t_list **stack)
+{
+	char	**split_array;
+	int		i;
+
+	split_array = ft_split(arg, ' ');
+	if (!split_array || !split_array[0])
+	{
+		free_split(split_array);
+		exit_error(stack, NULL, NULL);
+	}
+	i = 0;
+	while (split_array[i])
+	{
+		parse_arguments_to_int(split_array[i], stack);
+		i++;
+	}
+	free_split(split_array);
+}
+
+void	parse_individual_args(int argc, char **argv, t_list **stack)
 {
 	int	i;
 
-	i = 0;
-	while (str[i] == ' ')
-		i++;
-	if (str[i] == '-')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	while (str[i])
+	i = 1;
+	while (i < argc)
 	{
-		if (!ft_isdigit(str[i]))
-			return (0);
+		parse_arguments_to_int(argv[i], stack);
 		i++;
 	}
-	return (1);
-}
-
-int	check_duplicate_int(t_list *stack)
-{
-	t_list	*outer;
-	t_list	*inner;
-
-	outer = stack;
-	while (outer)
-	{
-		inner = outer->next;
-		while (inner)
-		{
-			if (outer->content == inner->content)
-				return (1);
-			inner = inner->next;
-		}
-		outer = outer->next;
-	}
-	return (0);
-}
-
-void free_split(char **split_array)
-{
-    int i;
-
-    if (split_array)
-    {
-        i = 0;
-        while (split_array[i])
-		{
-            free(split_array[i]);
-            i++;
-        }
-        free(split_array);
-    }
 }
 
 t_list	*parse_arguments(int argc, char **argv)
 {
 	t_list	*stack;
-	t_list	*new_node;
-	int		i;
-	long	nb_long;
-	int		nb;
-	char	**split_array;
-	
+
 	stack = NULL;
-	i = 1;
-	
 	if (argc == 2)
-	{
-		split_array = ft_split(argv[1], ' ');
-		if (!split_array || !split_array[0])
-			exit_error(&stack, NULL, NULL);
-		while (split_array[i - 1])
-		{
-			if (!check_valid_int(split_array[i - 1]))
-				exit_error(&stack, NULL, NULL);
-			nb_long = ft_atoi(split_array[i - 1]);
-			if (nb_long > INT_MAX || nb_long < INT_MIN)
-				exit_error(&stack, NULL, NULL);
-			nb = (int)nb_long;
-			new_node = ft_lstnew(nb);
-			if (!new_node)
-				exit_error(&stack, NULL, NULL);
-			ft_lstadd_back(&stack, new_node);
-			i++;
-		}
-		free_split(split_array);
-	}
+		split_and_parse(argv[1], &stack);
 	else
-	{
-		while (i < argc)
-		{
-			if (!check_valid_int(argv[i]))
-				exit_error(&stack, NULL, NULL);
-			nb_long = ft_atoi(argv[i]);
-			if (nb_long > INT_MAX || nb_long < INT_MIN)
-				exit_error(&stack, NULL, NULL);
-			nb = (int)nb_long;
-			new_node = ft_lstnew(nb);
-			if (!new_node)
-				exit_error(&stack, NULL, NULL);
-			ft_lstadd_back(&stack, new_node);
-			i++;
-		}
-	}
+		parse_individual_args(argc, argv, &stack);
 	if (check_duplicate_int(stack))
 		exit_error(&stack, NULL, NULL);
 	return (stack);
 }
-

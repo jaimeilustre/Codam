@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 10:27:28 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/06 17:01:43 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/12 09:04:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	sa(t_list **a)
 {
 	t_list	*first;
 	t_list	*second;
-	
+
 	if (a && *a && (*a)->next)
 	{
 		first = *a;
@@ -32,7 +32,7 @@ void	sb(t_list **b)
 {
 	t_list	*first;
 	t_list	*second;
-	
+
 	if (b && *b && (*b)->next)
 	{
 		first = *b;

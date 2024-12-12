@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 16:25:43 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/06 17:01:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/12 09:04:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	rra(t_list **a)
 {
 	t_list	*second_last;
 	t_list	*last;
-	
+
 	if (a && *a && (*a)->next)
 	{
 		second_last = NULL;
@@ -30,14 +30,14 @@ void	rra(t_list **a)
 		last->next = *a;
 		*a = last;
 		write(1, "rra\n", 4);
-	}	
+	}
 }
 
 void	rrb(t_list **b)
 {
 	t_list	*second_last;
 	t_list	*last;
-	
+
 	if (b && *b && (*b)->next)
 	{
 		second_last = NULL;

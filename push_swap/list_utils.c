@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 11:00:40 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/09 07:49:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/12 09:06:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_list	*ft_lstlast(t_list *lst)
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
 	t_list	*last;
-	
+
 	last = NULL;
 	if (!lst || !new)
 		return ;
@@ -59,13 +59,12 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 void	ft_lstclear(t_list **lst)
 {
-    t_list	*temp;
+	t_list	*temp;
 
-    while (*lst)
+	while (*lst)
 	{
 		temp = (*lst)->next;
 		free(*lst);
 		*lst = temp;
-    }
+	}
 }
-

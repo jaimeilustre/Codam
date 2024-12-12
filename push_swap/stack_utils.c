@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:49:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/10 14:12:42 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/12 09:02:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_lstsize(t_list *lst)
 int	find_min(t_list *stack)
 {
 	int	min;
-	
+
 	if (!stack)
 		return (INT_MAX);
 	min = INT_MAX;
@@ -61,7 +61,7 @@ int	calculator_rotation_cost(t_list *stack, int target)
 	int		reverse_steps;
 	int		total_size;
 	t_list	*current;
-	
+
 	forward_steps = 0;
 	current = stack;
 	while (current && current->content != target)

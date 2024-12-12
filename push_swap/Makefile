@@ -11,7 +11,10 @@ SRCS			=	push_swap.c \
 					chunk_utils.c \
 					error_handling.c \
 					input_validation.c \
+					input_validation_utils.c \
 					stack_utils.c \
+					extra_utils.c \
+					small_stacks.c \
 					
 OBJS			= $(SRCS:.c=.o)
 
