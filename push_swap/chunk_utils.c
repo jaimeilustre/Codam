@@ -6,102 +6,81 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 16:33:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/13 10:57:47 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rotate_to_top(t_list **a, int index)
+void	calc_chunks(t_chunk_data *data, int **sorted_values, int *chunk_size)
 {
-	int	size;
-
-	size = ft_lstsize(*a);
-	if (index <= size / 2)
-	{
-		while (index--)
-			ra(a);
-	}
+	*sorted_values = stack_to_sorted_array(*(data->a), data->total_elements);
+	if (data->total_elements > 100)
+		*chunk_size = data->total_elements / 20;
 	else
+		*chunk_size = data->total_elements / 5;
+}
+
+void	allocate_chunks(t_chunk_data *data, int *sorted_values, int chunk_size)
+{
+	int	i;
+	int	k;
+	int	current_chunk_end;
+
+	*(data->chunks) = malloc(sizeof(int)
+			* (data->total_elements / chunk_size + 2));
+	if (!*(data->chunks))
 	{
-		index = size - index;
-		while (index--)
-			rra(a);
+		free(sorted_values);
+		exit_error(NULL, NULL, NULL);
 	}
-}
-
-int	has_target_in_chunk(t_list *a, int chunk_min, int chunk_max)
-{
-	while (a)
+	k = 0;
+	i = 0;
+	while (i < data->total_elements)
 	{
-		if (a->content >= chunk_min && a->content <= chunk_max)
-			return (1);
-		a = a->next;
+		if (i + chunk_size < data->total_elements)
+			current_chunk_end = i + chunk_size;
+		else
+			current_chunk_end = data->total_elements;
+		(*data->chunks)[k++] = sorted_values[current_chunk_end - 1];
+		i += chunk_size;
 	}
-	return (0);
+	(*data->chunks)[k] = INT_MAX;
+	*(data->chunk_count) = k;
 }
 
-int	calculate_distance(int index, int size)
+void	process_chunks(t_chunk_data *data)
 {
-	if (index < size - index)
-		return (index);
-	else
-		return (size - index);
-}
+	int	j;
+	int	lower_bound;
+	int	upper_bound;
 
-int	find_closest(t_list *a, int chunk_min, int chunk_max)
-{
-	int		index;
-	int		closest_index;
-	int		smallest_distance;
-	int		distance;
-	t_list	*current;
-
-	index = 0;
-	closest_index = -1;
-	smallest_distance = INT_MAX;
-	current = a;
-	while (current)
+	j = 0;
+	while (j < *(data->chunk_count))
 	{
-		if (current->content >= chunk_min && current->content <= chunk_max)
+		if (j == 0)
+			lower_bound = INT_MIN;
+		else
+			lower_bound = (*data->chunks)[j - 1] + 1;
+		upper_bound = (*data->chunks)[j];
+		while (has_target_in_chunk(*(data->a), lower_bound, upper_bound))
 		{
-			distance = calculate_distance(index, ft_lstsize(a));
-			if (distance < smallest_distance)
-			{
-				smallest_distance = distance;
-				closest_index = index;
-			}
+			rotate_to_top(data->a, find_closest(*(data->a),
+					lower_bound, upper_bound));
+			pb(data->a, data->b);
 		}
-		current = current->next;
-		index++;
+		j++;
 	}
-	return (closest_index);
 }
 
 void	create_chunks(t_chunk_data *data)
 {
+	int	*sorted_values;
 	int	chunk_size;
-	int	current_min;
-	int	current_max;
-	int	i;
 
-	chunk_size = data->total_elements / 10;
-	i = 0;
-	*(data->chunks) = malloc(sizeof(int) * (10 + 1));
-	if (!*(data->chunks))
-		exit_error(NULL, NULL, NULL);
-	while (*(data->a))
-	{
-		current_min = find_min(*(data->a));
-		current_max = current_min + chunk_size;
-		(*data->chunks)[i++] = current_max;
-		while (has_target_in_chunk(*(data->a), current_min, current_max))
-		{
-			rotate_to_top(data->a, find_closest(*(data->a),
-					current_min, current_max));
-			pb(data->a, data->b);
-		}
-	}
-	(*data->chunks)[i] = INT_MAX;
-	*(data->chunk_count) = i;
+	calc_chunks(data, &sorted_values, &chunk_size);
+	allocate_chunks(data, sorted_values, chunk_size);
+	*(data->chunk_count) = (data->total_elements / chunk_size + 2);
+	process_chunks(data);
+	free(sorted_values);
 }

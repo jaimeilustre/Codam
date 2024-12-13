@@ -6,15 +6,17 @@ SRCS			=	push_swap.c \
 					push_rules.c \
 					reverse_rotate_rules.c \
 					rotate_rules.c \
-					list_utils.c \
+					list_operations.c \
 					swap_rules.c \
 					chunk_utils.c \
 					error_handling.c \
 					input_validation.c \
 					input_validation_utils.c \
 					stack_utils.c \
-					extra_utils.c \
+					greedy_utils.c \
 					small_stacks.c \
+					quick_sort.c \
+					sorting_utils.c \
 					
 OBJS			= $(SRCS:.c=.o)
 
