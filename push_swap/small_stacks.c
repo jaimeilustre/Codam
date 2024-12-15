@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 12:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 14:03:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/15 17:06:16 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	find_index(t_list *a, int value)
 {
 	int	index;
 
+	index = 0;
 	while (a)
 	{
-		index = 0;
 		if (a->content == value)
 			return (index);
 		a = a->next;
