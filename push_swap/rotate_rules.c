@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 14:29:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/06 17:01:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:27:49 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	ra(t_list **a)
+void	ra(t_list **a, int output_flag)
 {
 	t_list	*temp;
 
@@ -22,11 +22,12 @@ void	ra(t_list **a)
 		*a = (*a)->next;
 		temp->next = NULL;
 		ft_lstadd_back(a, temp);
-		write(1, "ra\n", 3);
+		if (output_flag == 1)
+			write(STDOUT_FILENO, "ra\n", 3);
 	}
 }
 
-void	rb(t_list **b)
+void	rb(t_list **b, int output_flag)
 {
 	t_list	*temp;
 
@@ -36,13 +37,15 @@ void	rb(t_list **b)
 		*b = (*b)->next;
 		temp->next = NULL;
 		ft_lstadd_back(b, temp);
-		write(1, "rb\n", 3);
+		if (output_flag == 1)
+			write(STDOUT_FILENO, "rb\n", 3);
 	}
 }
 
-void	rr(t_list **a, t_list **b)
+void	rr(t_list **a, t_list **b, int output_flag)
 {
-	ra(a);
-	rb(b);
-	write(1, "rr\n", 3);
+	ra(a, 0);
+	rb(b, 0);
+	if (output_flag == 1)
+		write(STDOUT_FILENO, "rr\n", 3);
 }

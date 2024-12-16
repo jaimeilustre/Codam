@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:49:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 09:02:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 15:28:30 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,15 @@ int	calculator_rotation_cost(t_list *stack, int target)
 		return (forward_steps);
 	else
 		return (-reverse_steps);
+}
+
+int	is_sorted(t_list *a)
+{
+	while (a && a->next)
+	{
+		if (a->content > a->next->content)
+			return (0);
+		a = a->next;
+	}
+	return (1);
 }

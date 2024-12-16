@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 16:25:43 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 09:04:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:27:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	rra(t_list **a)
+void	rra(t_list **a, int output_flag)
 {
 	t_list	*second_last;
 	t_list	*last;
@@ -29,11 +29,12 @@ void	rra(t_list **a)
 		second_last->next = NULL;
 		last->next = *a;
 		*a = last;
-		write(1, "rra\n", 4);
+		if (output_flag == 1)
+			write(STDOUT_FILENO, "rra\n", 4);
 	}
 }
 
-void	rrb(t_list **b)
+void	rrb(t_list **b, int output_flag)
 {
 	t_list	*second_last;
 	t_list	*last;
@@ -50,13 +51,15 @@ void	rrb(t_list **b)
 		second_last->next = NULL;
 		last->next = *b;
 		*b = last;
-		write(1, "rrb\n", 4);
+		if (output_flag == 1)
+			write(STDOUT_FILENO, "rrb\n", 4);
 	}
 }
 
-void	rrr(t_list **a, t_list **b)
+void	rrr(t_list **a, t_list **b, int output_flag)
 {
-	rra(a);
-	rrb(b);
-	write(1, "rrr\n", 3);
+	rra(a, 0);
+	rrb(b, 0);
+	if (output_flag == 1)
+		write(STDOUT_FILENO, "rrr\n", 3);
 }

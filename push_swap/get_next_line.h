@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   error_handling.c                                   :+:    :+:            */
+/*   get_next_line.h                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/12/09 07:54:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 14:55:44 by jilustre      ########   odam.nl         */
+/*   Created: 2024/11/06 09:25:19 by jilustre      #+#    #+#                 */
+/*   Updated: 2024/12/16 15:45:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-void	exit_error(t_list **a, t_list **b, int *chunks)
-{
-	if (a && *a)
-		ft_lstclear(a);
-	if (b && *b)
-		ft_lstclear(b);
-	if (chunks)
-		free(chunks);
-	write(STDERR_FILENO, "Error\n", 6);
-	exit(EXIT_FAILURE);
-}
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
+
+# include <stdlib.h>
+# include <unistd.h>
+# include "libft/libft.h"
+
+char	*get_next_line(int fd);
+
+#endif

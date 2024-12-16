@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sorting_utils.c                                    :+:    :+:            */
+/*   chunk_operations.c                                 :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/13 10:57:04 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/13 10:58:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:15:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	rotate_to_top(t_list **a, int index)
 	if (index <= size / 2)
 	{
 		while (index--)
-			ra(a);
+			ra(a, 1);
 	}
 	else
 	{
 		index = size - index;
 		while (index--)
-			rra(a);
+			rra(a, 1);
 	}
 }
 

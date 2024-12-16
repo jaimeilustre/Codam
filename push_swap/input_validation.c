@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:46:28 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 13:42:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 07:38:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,23 @@ void	split_and_parse(char *arg, t_list **stack)
 	free_split(split_array);
 }
 
-void	parse_individual_args(int argc, char **argv, t_list **stack)
-{
-	int	i;
-
-	i = 1;
-	while (i < argc)
-	{
-		parse_arguments_to_int(argv[i], stack);
-		i++;
-	}
-}
-
 t_list	*parse_arguments(int argc, char **argv)
 {
 	t_list	*stack;
+	int		i;
 
 	stack = NULL;
 	if (argc == 2)
 		split_and_parse(argv[1], &stack);
 	else
-		parse_individual_args(argc, argv, &stack);
+	{
+		i = 1;
+		while (i < argc)
+		{
+			parse_arguments_to_int(argv[i], &stack);
+			i++;
+		}
+	}
 	if (check_duplicate_int(stack))
 		exit_error(&stack, NULL, NULL);
 	return (stack);

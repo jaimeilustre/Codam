@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   chunk_utils.c                                      :+:    :+:            */
+/*   chunk_creation.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/13 10:57:47 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:16:16 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	process_chunks(t_chunk_data *data)
 		{
 			rotate_to_top(data->a, find_closest(*(data->a),
 					lower_bound, upper_bound));
-			pb(data->a, data->b);
+			pb(data->a, data->b, 1);
 		}
 		j++;
 	}

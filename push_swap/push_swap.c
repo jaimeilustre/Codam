@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 14:23:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 15:28:19 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,6 @@ void	push_swap(t_list **a, t_list **b, int total_elements)
 	}
 	sort_b_to_a(a, b);
 	free(chunks);
-}
-
-int	is_sorted(t_list *a)
-{
-	while (a && a->next)
-	{
-		if (a->content > a->next->content)
-			return (0);
-		a = a->next;
-	}
-	return (1);
 }
 
 int	main(int argc, char **argv)

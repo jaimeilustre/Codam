@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 12:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/15 17:06:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2024/12/16 16:08:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ void	sort_two_or_three(t_list **a)
 	if (size == 2)
 	{
 		if ((*a)->content > (*a)->next->content)
-			sa(a);
+			sa(a, 1);
 	}
 	else if (size == 3)
 	{
 		while (!is_sorted(*a))
 		{
 			if ((*a)->content > (*a)->next->content)
-				sa(a);
+				sa(a, 1);
 			if (!is_sorted(*a))
-				rra(a);
+				rra(a, 1);
 		}
 	}
 }
@@ -59,18 +59,18 @@ void	sort_four_or_five(t_list **a, t_list **b)
 		if (find_index(*a, min) <= ft_lstsize(*a) / 2)
 		{
 			while ((*a)->content != min)
-				ra(a);
+				ra(a, 1);
 		}
 		else
 		{
 			while ((*a)->content != min)
-				rra(a);
+				rra(a, 1);
 		}
-		pb(a, b);
+		pb(a, b, 1);
 	}
 	sort_two_or_three(a);
 	while (*b)
-		pa(a, b);
+		pa(a, b, 1);
 }
 
 void	sort_small_stack(t_list **a, t_list **b)

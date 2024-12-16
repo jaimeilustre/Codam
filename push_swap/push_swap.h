@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/13 14:38:10 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:06:18 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,23 @@ t_list	*ft_lstlast(t_list *lst);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 void	ft_lstclear(t_list **lst);
 
-void	sa(t_list **a);
-void	sb(t_list **b);
-void	ss(t_list **a, t_list **b);
-void	pa(t_list **a, t_list **b);
-void	pb(t_list **a, t_list **b);
-void	ra(t_list **a);
-void	rb(t_list **b);
-void	rr(t_list **a, t_list **b);
-void	rra(t_list **a);
-void	rrb(t_list **b);
-void	rrr(t_list **a, t_list **b);
+void	sa(t_list **a, int output_flag);
+void	sb(t_list **b, int output_flag);
+void	ss(t_list **a, t_list **b, int output_flag);
+void	pa(t_list **a, t_list **b, int output_flag);
+void	pb(t_list **a, t_list **b, int output_flag);
+void	ra(t_list **a, int output_flag);
+void	rb(t_list **b, int output_flag);
+void	rr(t_list **a, t_list **b, int output_flag);
+void	rra(t_list **a, int output_flag);
+void	rrb(t_list **b, int output_flag);
+void	rrr(t_list **a, t_list **b, int output_flag);
 
 int		check_valid_int(const char *str);
 int		check_duplicate_int(t_list *stack);
 void	free_split(char **split_array);
 void	parse_arguments_to_int(char *arg, t_list **stack);
 void	split_and_parse(char *arg, t_list **stack);
-void	parse_individual_args(int argc, char **argv, t_list **stack);
 t_list	*parse_arguments(int argc, char **argv);
 
 void	exit_error(t_list **a, t_list **b, int *chunks);
@@ -80,7 +79,6 @@ void	quick_sort(int *array, int left, int right);
 int		partition(int *array, int left, int right);
 int		*stack_to_sorted_array(t_list *a, int size);
 
-int		my_abs(int value);
 void	rotate_to_best_target(t_list **a, t_list **b, int best_target);
 void	push_min_cost_element(t_list **a, t_list **b);
 void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max);

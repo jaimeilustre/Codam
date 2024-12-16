@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   extra_utils.c                                      :+:    :+:            */
+/*   greedy_calculation.c                               :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 11:39:30 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/12 12:01:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/16 16:15:30 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-
-int	my_abs(int value)
-{
-	if (value < 0)
-		return (-value);
-	return (value);
-}
 
 void	rotate_to_best_target(t_list **a, t_list **b, int best_target)
 {
@@ -29,13 +22,13 @@ void	rotate_to_best_target(t_list **a, t_list **b, int best_target)
 	while ((*a)->content != best_target)
 	{
 		if (cost_a > 0 && cost_b > 0)
-			rr(a, b);
+			rr(a, b, 1);
 		else if (cost_a < 0 && cost_b < 0)
-			rrr(a, b);
+			rrr(a, b, 1);
 		else if (cost_a > 0)
-			ra(a);
+			ra(a, 1);
 		else
-			rra(a);
+			rra(a, 1);
 	}
 }
 
@@ -53,15 +46,15 @@ void	push_min_cost_element(t_list **a, t_list **b)
 	{
 		cost_a = calculator_rotation_cost(*a, current->content);
 		cost_b = calculator_rotation_cost(*b, current->content);
-		if ((my_abs(cost_a) + my_abs(cost_b)) < min_cost)
+		if ((cost_a + cost_b) < min_cost)
 		{
-			min_cost = my_abs(cost_a) + my_abs(cost_b);
+			min_cost = cost_a + cost_b;
 			best_target = current->content;
 		}
 		current = current->next;
 	}
 	rotate_to_best_target(a, b, best_target);
-	pb(a, b);
+	pb(a, b, 1);
 }
 
 void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max)
@@ -86,7 +79,7 @@ void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max)
 			break ;
 		push_min_cost_element(a, b);
 		if (*b && (*b)->next && (*b)->content < (*b)->next->content)
-			sb(b);
+			sb(b, 1);
 	}
 }
 
@@ -102,10 +95,10 @@ void	sort_b_to_a(t_list **a, t_list **b)
 		while ((*b)->content != max)
 		{
 			if (rotation > 0)
-				rb(b);
+				rb(b, 1);
 			else
-				rrb(b);
+				rrb(b, 1);
 		}
-		pa(a, b);
+		pa(a, b, 1);
 	}
 }
