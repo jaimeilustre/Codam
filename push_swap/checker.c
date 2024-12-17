@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/16 12:00:05 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:24:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2024/12/17 08:15:21 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void	read_instructions(t_list **a, t_list **b, char *instruction)
 {
-	if (ft_strncmp(instruction, "sa", 2) == 0)
+	if (ft_strncmp(instruction, "sa", 2) == 0 && instruction[2] == '\n')
 		sa(a, 0);
 	else if (ft_strncmp(instruction, "sb", 2) == 0 && instruction[2] == '\n')
 		sb(b, 0);
@@ -43,15 +43,15 @@ void	read_instructions(t_list **a, t_list **b, char *instruction)
 
 void	checker(t_list **a, t_list **b)
 {
-	char	*line;
+	char	*instruction;
 
 	while (1)
 	{
-		line = get_next_line(STDIN_FILENO);
-		if (!line)
+		instruction = get_next_line(STDIN_FILENO);
+		if (!instruction)
 			break ;
-		read_instructions(a, b, line);
-		free(line);
+		read_instructions(a, b, instruction);
+		free(instruction);
 	}
 }
 
