@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:49:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 15:28:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:39:16 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	find_max(t_list *stack)
 	return (max);
 }
 
-int	calculator_rotation_cost(t_list *stack, int target)
+int	calculate_rotation_cost(t_list *stack, int target)
 {
 	int		forward_steps;
 	int		reverse_steps;

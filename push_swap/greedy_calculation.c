@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 11:39:30 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:15:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:40:35 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	rotate_to_best_target(t_list **a, t_list **b, int best_target)
 	int	cost_a;
 	int	cost_b;
 
-	cost_a = calculator_rotation_cost(*a, best_target);
-	cost_b = calculator_rotation_cost(*b, best_target);
+	cost_a = calculate_rotation_cost(*a, best_target);
+	cost_b = calculate_rotation_cost(*b, best_target);
 	while ((*a)->content != best_target)
 	{
 		if (cost_a > 0 && cost_b > 0)
@@ -44,8 +44,8 @@ void	push_min_cost_element(t_list **a, t_list **b)
 	min_cost = INT_MAX;
 	while (current)
 	{
-		cost_a = calculator_rotation_cost(*a, current->content);
-		cost_b = calculator_rotation_cost(*b, current->content);
+		cost_a = calculate_rotation_cost(*a, current->content);
+		cost_b = calculate_rotation_cost(*b, current->content);
 		if ((cost_a + cost_b) < min_cost)
 		{
 			min_cost = cost_a + cost_b;
@@ -91,7 +91,7 @@ void	sort_b_to_a(t_list **a, t_list **b)
 	while (*b)
 	{
 		max = find_max(*b);
-		rotation = calculator_rotation_cost(*b, max);
+		rotation = calculate_rotation_cost(*b, max);
 		while ((*b)->content != max)
 		{
 			if (rotation > 0)

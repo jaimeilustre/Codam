@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:06:18 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/16 16:39:39 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	create_chunks(t_chunk_data *data);
 int		ft_lstsize(t_list *lst);
 int		find_min(t_list *stack);
 int		find_max(t_list *stack);
-int		calculator_rotation_cost(t_list *stack, int target);
+int		calculate_rotation_cost(t_list *stack, int target);
 
 void	quick_sort(int *array, int left, int right);
 int		partition(int *array, int left, int right);
