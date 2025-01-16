@@ -2,7 +2,13 @@ CC				= cc
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	pipex.c
+SRCS			=	pipex.c \
+					command_execution.c \
+					command_parsing.c \
+					error_handling.c \
+					file_handling.c \
+					free_memory.c \
+					process_management.c \
 					
 OBJS			= $(SRCS:.c=.o)
 
