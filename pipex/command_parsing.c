@@ -6,12 +6,11 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/16 15:16:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/16 15:17:17 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/17 03:50:59 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
 
 char	*get_command_path(char *cmd, char **envp)
 {
