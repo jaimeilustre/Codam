@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:31:20 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 11:15:01 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 13:49:15 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_game
 	int			position_y;
 	int			position_x;
 	int			move_counter;
+	int			collectibles;
 }				t_game;
 
 // Map parsing

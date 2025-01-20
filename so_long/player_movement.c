@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 11:29:18 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 15:00:36 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,31 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 	new_y = game->position_y + dy;
 	if (allowed_movements(map, new_x, new_y, game->map_width, game->map_height))
 	{
-		map[game->position_y][game->position_x] = '0';
-		map[new_y][new_x] = 'P';
+		// if (game->map[game->position_y][game->position_x] != 'E')
+		// 	game->map[game->position_y][game->position_x] = '0';
+		// // else
+		game->map[game->position_y][game->position_x] = '0';
+		// game->position_x = new_x;
+		// game->position_y = new_y;
+		if (game->map[new_y][new_x] == 'C')
+		{
+			game->collectibles--;
+			printf("Collectible collected! Remaining: %d\n", game->collectibles);
+		}
+		if (game->map[new_y][new_x] == 'E')
+		{
+			if (game->collectibles == 0)
+			{
+				printf("You win! Total moves: %d\n", game->move_counter);
+				mlx_close_window(game->mlx);
+				return ;
+			}
+			else
+				printf("Collect all items before exiting\n");
+		}
 		game->position_x = new_x;
 		game->position_y = new_y;
+		game->map[new_y][new_x] = 'P';
 		game->move_counter++;
 		printf("Move count: %d\n", game->move_counter);
 		render_map(game, map);
@@ -119,7 +140,6 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	printf("Map is valid! Collectibles: %d, Exits: %d, Players: %d\n", collectibles, exits, players);
-
 	t_game	game;
 	game.mlx = mlx_init(680, 480, "so_long", true);
 	if (!game.mlx)
@@ -129,12 +149,14 @@ int	main(int argc, char **argv)
 	}
 	game.map = map;
 	
+	game.collectibles = collectibles;
 	game.map_width = ft_strlen(game.map[0]);
 	game.map_height = 0;
 	while (game.map[game.map_height])
 		game.map_height++;
 	
 	starting_position(&game);
+	game.move_counter = 0;
 	load_images(&game);
 	render_map(&game, game.map);
 	mlx_key_hook(game.mlx, event_handler, &game);
