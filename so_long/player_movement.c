@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 15:00:36 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 17:19:47 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,8 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 	new_y = game->position_y + dy;
 	if (allowed_movements(map, new_x, new_y, game->map_width, game->map_height))
 	{
-		// if (game->map[game->position_y][game->position_x] != 'E')
-		// 	game->map[game->position_y][game->position_x] = '0';
-		// // else
-		game->map[game->position_y][game->position_x] = '0';
-		// game->position_x = new_x;
-		// game->position_y = new_y;
+		if (game->map[game->position_y][game->position_x] != 'E')
+			game->map[game->position_y][game->position_x] = '0';
 		if (game->map[new_y][new_x] == 'C')
 		{
 			game->collectibles--;
@@ -74,7 +70,10 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 				return ;
 			}
 			else
+			{
 				printf("Collect all items before exiting\n");
+				return ;
+			}
 		}
 		game->position_x = new_x;
 		game->position_y = new_y;
@@ -85,7 +84,7 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 	}
 }
 
-void		event_handler(mlx_key_data_t keydata, void *param)
+void	event_handler(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
 	
@@ -105,64 +104,4 @@ void		event_handler(mlx_key_data_t keydata, void *param)
 		move_player(game, 0, 1, game->map);
 	else if(keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
 		move_player(game, 1, 0, game->map);
-}
-
-int	main(int argc, char **argv)
-{
-	if (argc != 2)
-	{
-		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
-		return (1);
-	}
-	char **map = read_map_into_array(argv[1]);
-	if (!map)
-	{
-		fprintf(stderr, "Error: Failed to read map.\n");
-		return (1);
-	}
-	int	collectibles, exits, players;
-	if (!check_walls(map) || !check_elements(map, &collectibles, &exits, &players))
-	{
-		fprintf(stderr, "Error: Invalid map.\n");
-		for (int i = 0; map[i]; i++)
-			free(map[i]);
-		free(map);
-		return (1);
-	}
-	int	player_x, player_y;
-	player_position(map, &player_x, &player_y);
-	if (!is_path_valid(map, player_x, player_y))
-	{
-		fprintf(stderr, "Error: no valid path exists");
-		for (int i = 0; map[i]; i++)
-			free(map[i]);
-		free(map);
-		return (1);
-	}
-	printf("Map is valid! Collectibles: %d, Exits: %d, Players: %d\n", collectibles, exits, players);
-	t_game	game;
-	game.mlx = mlx_init(680, 480, "so_long", true);
-	if (!game.mlx)
-	{
-		fprintf(stderr, "Error: failed to initialize MiniLibx.\n");
-		return (1);
-	}
-	game.map = map;
-	
-	game.collectibles = collectibles;
-	game.map_width = ft_strlen(game.map[0]);
-	game.map_height = 0;
-	while (game.map[game.map_height])
-		game.map_height++;
-	
-	starting_position(&game);
-	game.move_counter = 0;
-	load_images(&game);
-	render_map(&game, game.map);
-	mlx_key_hook(game.mlx, event_handler, &game);
-	mlx_loop(game.mlx);
-	for (int i = 0; game.map[i]; i++)
-		free(game.map[i]);
-	free(game.map);
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:31:20 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 13:49:15 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 17:12:29 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,14 @@ void	player_position(char **map, int *player_x, int *player_y);
 // Graphics rendering
 void	load_images(t_game *game);
 void	render_map(t_game *game, char **map);
+
+// Player movement
+void	starting_position(t_game *game);
+bool	allowed_movements(char **map, int x, int y, int map_width, int map_height);
+void	move_player(t_game *game, int dx, int dy, char **map);
+void	event_handler(mlx_key_data_t keydata, void *param);
+
+// Main game
+int		main(int argc, char **argv);
 
 #endif
