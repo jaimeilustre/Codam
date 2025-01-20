@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 08:51:29 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 11:29:18 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ void	starting_position(t_game *game)
 	}
 }
 
-bool	allowed_movements(char **map, int x, int y)
+bool	allowed_movements(char **map, int x, int y, int map_width, int map_height)
 {
-	if (y < 0 || !map[y] || x < 0 || !map[y][x])
+	if (y < 0 || y >= map_height || x < 0 || x >= map_width)
 		return (false);
 	return (map[y][x] == '0' || map[y][x] == 'C' || map[y][x] == 'E');
 }
@@ -52,12 +52,14 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 
 	new_x = game->position_x + dx;
 	new_y = game->position_y + dy;
-	if (allowed_movements(map, new_x, new_y))
+	if (allowed_movements(map, new_x, new_y, game->map_width, game->map_height))
 	{
 		map[game->position_y][game->position_x] = '0';
 		map[new_y][new_x] = 'P';
 		game->position_x = new_x;
 		game->position_y = new_y;
+		game->move_counter++;
+		printf("Move count: %d\n", game->move_counter);
 		render_map(game, map);
 	}
 }
@@ -67,6 +69,8 @@ void		event_handler(mlx_key_data_t keydata, void *param)
 	t_game	*game;
 	
 	game = (t_game *)param;
+	if (keydata.action != MLX_PRESS)
+		return ;
 	if (keydata.key == MLX_KEY_ESCAPE)
 	{
 		mlx_close_window(game->mlx);
@@ -123,13 +127,20 @@ int	main(int argc, char **argv)
 		fprintf(stderr, "Error: failed to initialize MiniLibx.\n");
 		return (1);
 	}
+	game.map = map;
+	
+	game.map_width = ft_strlen(game.map[0]);
+	game.map_height = 0;
+	while (game.map[game.map_height])
+		game.map_height++;
+	
 	starting_position(&game);
 	load_images(&game);
-	render_map(&game, map);
+	render_map(&game, game.map);
 	mlx_key_hook(game.mlx, event_handler, &game);
 	mlx_loop(game.mlx);
-	for (int i = 0; map[i]; i++)
-		free(map[i]);
+	for (int i = 0; game.map[i]; i++)
+		free(game.map[i]);
 	free(game.map);
 	return (0);
 }

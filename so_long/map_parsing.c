@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/19 07:24:17 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 11:32:33 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**read_map_into_array(const char *file)
 	{
 		perror("Error opening file");
 		return (NULL);
-	}
+	}	
 	lines = count_lines(file);
 	if (lines <= 0)
 	{
@@ -83,50 +83,3 @@ char	**read_map_into_array(const char *file)
 	close (fd);
 	return (map);
 }
-
-// void	print_map(char **map)
-// {
-// 	int	i;
-
-// 	if (!map)
-// 	{
-// 		printf("Map is NULL\n");
-// 		return ;
-// 	}
-// 	i = 0;
-// 	while (map[i])
-// 	{
-// 		printf("Line %d: %s", i, map[i]);
-// 		i++;
-// 	}
-// }
-
-// int	main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
-// 		return (1);
-// 	}
-// 	int	lines = count_lines(argv[1]);
-// 	if (lines < 0)
-// 	{
-// 		fprintf(stderr, "failed to count lines in %s\n", argv[1]);
-// 		return (1);
-// 	}
-// 	printf("the file %s has %d lines.\n", argv[1], lines);
-// 	char **map = read_map_into_array(argv[1]);
-// 	if (!map)
-// 	{
-// 		fprintf(stderr, "failed to read map from %s\n", argv[1]);
-// 		return (1);
-// 	}
-// 	printf("Map contents:\n");
-// 	print_map(map);
-// 	for (int i = 0; map[i]; i++)
-// 	{
-// 		free(map[i]);
-// 	}
-// 	free(map);
-// 	return (0);
-// }

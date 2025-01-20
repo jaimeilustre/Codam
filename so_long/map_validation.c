@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 19:25:50 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/19 06:07:36 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 11:32:41 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,3 @@ bool	check_elements(char **map, int *collectibles, int *exits, int *players)
 	}
 	return (*collectibles > 0 && *exits > 0 && *players == 1);
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
-// 		return (1);
-// 	}
-// 	char **map = read_map_into_array(argv[1]);
-// 	if (!map)
-// 	{
-// 		fprintf(stderr, "Error: Failed to read map.\n");
-// 		return (1);
-// 	}
-// 	int	collectibles, exits, players;
-// 	if (!validate_walls(map) || !validate_map_elements(map, &collectibles, &exits, &players))
-// 	{
-// 		fprintf(stderr, "Error: Invalid map.\n");
-// 		return (1);
-// 	}
-// 	printf("Map is valid! Collectibles: %d, Exits: %d, Players: %d\n", collectibles, exits, players);
-// 	for (int i = 0; map[i]; i++)
-// 		free(map[i]);
-// 	free(map);
-// 	return (0);
-// }

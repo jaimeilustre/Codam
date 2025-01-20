@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 06:10:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 08:32:27 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 11:32:53 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,42 +161,3 @@ void	player_position(char **map, int *player_x, int *player_y)
 		y++;
 	}
 }
-
-// int	main(int argc, char **argv)
-// {
-// 	if (argc != 2)
-// 	{
-// 		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
-// 		return (1);
-// 	}
-// 	char **map = read_map_into_array(argv[1]);
-// 	if (!map)
-// 	{
-// 		fprintf(stderr, "Error: Failed to read map.\n");
-// 		return (1);
-// 	}
-// 	int	collectibles, exits, players;
-// 	if (!check_walls(map) || !check_elements(map, &collectibles, &exits, &players))
-// 	{
-// 		fprintf(stderr, "Error: Invalid map.\n");
-// 		for (int i = 0; map[i]; i++)
-// 			free(map[i]);
-// 		free(map);
-// 		return (1);
-// 	}
-// 	int	player_x, player_y;
-// 	find_player(map, &player_x, &player_y);
-// 	if (!is_path_valid(map, player_x, player_y))
-// 	{
-// 		fprintf(stderr, "Error: no valid path exists");
-// 		for (int i = 0; map[i]; i++)
-// 			free(map[i]);
-// 		free(map);
-// 		return (1);
-// 	}
-// 	printf("Map is valid! Collectibles: %d, Exits: %d, Players: %d\n", collectibles, exits, players);
-// 	for (int i = 0; map[i]; i++)
-// 		free(map[i]);
-// 	free(map);
-// 	return (0);
-// }
