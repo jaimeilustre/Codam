@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 19:25:50 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 11:32:41 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 17:29:25 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,5 @@ bool	check_elements(char **map, int *collectibles, int *exits, int *players)
 		}
 		i++;
 	}
-	return (*collectibles > 0 && *exits > 0 && *players == 1);
+	return (*collectibles > 0 && *exits == 1 && *players == 1);
 }
