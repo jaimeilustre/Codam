@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 17:11:09 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 17:21:55 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 17:59:48 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	main(int argc, char **argv)
 {
 	if (argc != 2)
 	{
-		fprintf(stderr, "Usage: %s <map.ber>\n", argv[0]);
+		printf("Error\n");
 		return (1);
 	}
 	char **map = read_map_into_array(argv[1]);
 	if (!map)
 	{
-		fprintf(stderr, "Error: Failed to read map.\n");
+		printf("Error\n");
 		return (1);
 	}
 	int	collectibles, exits, players;

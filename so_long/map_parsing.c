@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 11:32:33 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/20 17:56:53 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	count_lines(const char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Error opening file");
+		perror("Error\n");
 		return (-1);
 	}
 	lines = 0;
@@ -53,7 +53,7 @@ char	**read_map_into_array(const char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("Error opening file");
+		perror("Error\n");
 		return (NULL);
 	}	
 	lines = count_lines(file);
@@ -65,7 +65,7 @@ char	**read_map_into_array(const char *file)
 	map = malloc(sizeof(char *) * (lines + 1));
 	if (!map)
 	{
-		perror("Error allocating memory");
+		perror("Error\n");
 		close (fd);
 		return (NULL);
 	}
