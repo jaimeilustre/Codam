@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 06:10:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 11:32:53 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/21 09:53:41 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,6 @@
 #include <string.h>
 #include <stdbool.h>
 #include "so_long.h"
-
-char	**copy_map(char **map)
-{
-	int		rows;
-	char	**map_copy;
-	int		i;
-
-	rows = 0;
-	while (map[rows])
-		rows++;
-	map_copy = malloc((rows + 1) * sizeof(char *));
-	if (!map_copy)
-		return (NULL);
-	i = 0;
-	while (i < rows)
-	{
-		map_copy[i] = ft_strdup(map[i]);
-		if (!map_copy[i])
-		{
-			while (--i >= 0)
-				free(map_copy[i]);
-			free(map_copy);
-			return (NULL);
-		}
-		i++;
-	}
-	map_copy[rows] = NULL;
-	return (map_copy);
-}
 
 void	flood_fill(char **map, int x, int y)
 {
@@ -58,18 +29,11 @@ void	flood_fill(char **map, int x, int y)
 	flood_fill(map, x, y - 1);
 }
 
-bool	is_path_valid(char **map, int player_x, int player_y)
+bool	check_collectibles(char **map, char **map_copy)
 {
-	char	**map_copy;
-	int		y;
-	int		x;
-	int		i;
+	int	y;
+	int	x;
 
-	map_copy = copy_map(map);
-	if (!map_copy)
-		return (false);
-	// Flood-fill to check if all collectibles are reachable
-	flood_fill(map_copy, player_x, player_y);
 	y = 0;
 	while (map[y])
 	{
@@ -77,22 +41,39 @@ bool	is_path_valid(char **map, int player_x, int player_y)
 		while (map[y][x])
 		{
 			if (map[y][x] == 'C' && map_copy[y][x] != 'X')
-			{
-				// Collectible is unreachable
-				i = 0;
-				while (map_copy[i])
-				{
-					free(map_copy[i]);
-					i++;
-				}
-				free(map_copy);
 				return (false);
-			}
 			x++;
 		}
 		y++;
 	}
-	// Replace all collectibles with walkable tiles
+	return (true);
+}
+
+bool	check_exit(char **map, char **map_copy)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (map[y])
+	{
+		x = 0;
+		while (map[y][x])
+		{
+			if (map[y][x] == 'E' && map_copy[y][x] != 'X')
+				return (false);
+			x++;
+		}
+		y++;
+	}
+	return (true);
+}
+
+void	modify_collectibles(char **map, char **map_copy)
+{
+	int	y;
+	int	x;
+
 	y = 0;
 	while (map[y])
 	{
@@ -105,59 +86,28 @@ bool	is_path_valid(char **map, int player_x, int player_y)
 		}
 		y++;
 	}
-	// Flood-fill to check if the exit is reachable
-	flood_fill(map_copy, player_x, player_y);
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == 'E' && map_copy[y][x] != 'X')
-			{
-				// Exit is unreachable
-				i = 0;
-				while (map_copy[i])
-				{
-					free(map_copy[i]);
-					i++;
-				}
-				free(map_copy);
-				return (false);
-			}
-			x++;
-		}
-		y++;
-	}
-	i = 0;
-	while (map_copy[i])
-	{
-		free(map_copy[i]);
-		i++;
-	}
-	free(map_copy);
-	return (true);
 }
 
-void	player_position(char **map, int *player_x, int *player_y)
+bool	is_path_valid(char **map, int player_x, int player_y)
 {
-	int	y;
-	int	x;
-	
-	y = 0;
-	while (map[y])
+	char	**map_copy;
+
+	map_copy = copy_map(map);
+	if (!map_copy)
+		return (false);
+	flood_fill(map_copy, player_x, player_y);
+	if (!check_collectibles(map, map_copy))
 	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] == 'P')
-			{
-				*player_x = x;
-				*player_y = y;
-				return ;
-			}
-			x++;
-		}
-		y++;
+		free_map(map_copy);
+		return (false);
 	}
+	modify_collectibles(map, map_copy);
+	flood_fill(map_copy, player_x, player_y);
+	if (!check_exit(map, map_copy))
+	{
+		free_map(map_copy);
+		return (false);
+	}
+	free_map(map_copy);
+	return (true);
 }

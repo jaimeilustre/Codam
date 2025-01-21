@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 17:56:53 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/21 12:08:53 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	count_lines(const char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("Error\n");
 		return (-1);
-	}
 	lines = 0;
 	line = get_next_line(fd);
 	while (line)
@@ -41,31 +38,16 @@ int	count_lines(const char *file)
 	return (lines);
 }
 
-char	**read_map_into_array(const char *file)
+char	**read_lines_from_file(int fd, int lines)
 {
-	int		fd;
-	int		lines;
+	char	**map;
 	char	*line;
 	int		i;
-	char	**map;
 	size_t	len;
 
-	fd = open(file, O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error\n");
-		return (NULL);
-	}	
-	lines = count_lines(file);
-	if (lines <= 0)
-	{
-		close(fd);
-		return (NULL);
-	}
 	map = malloc(sizeof(char *) * (lines + 1));
 	if (!map)
 	{
-		perror("Error\n");
 		close (fd);
 		return (NULL);
 	}
@@ -74,12 +56,31 @@ char	**read_map_into_array(const char *file)
 	while (line)
 	{
 		len = ft_strlen(line);
-        if (len > 0 && line[len - 1] == '\n')
+		if (len > 0 && line[len - 1] == '\n')
 			line[len - 1] = '\0';
 		map[i++] = line;
 		line = get_next_line(fd);
 	}
 	map[i] = NULL;
+	return (map);
+}
+
+char	**read_map_into_array(const char *file)
+{
+	int		fd;
+	int		lines;
+	char	**map;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+		return (NULL);
+	lines = count_lines(file);
+	if (lines <= 0)
+	{
+		close(fd);
+		return (NULL);
+	}
+	map = read_lines_from_file(fd, lines);
 	close (fd);
 	return (map);
 }

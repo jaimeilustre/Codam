@@ -6,74 +6,62 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/20 17:19:47 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/21 15:54:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <MLX42/MLX42.h>
 #include "so_long.h"
 
-void	starting_position(t_game *game)
+bool	allowed_movements(t_map_info *map_info, int x, int y)
 {
-	int	y;
-	int	x;
-	
-	y = 0;
-	while (game->map[y])
+	if (y < 0 || y >= map_info->height || x < 0 || x >= map_info->width)
+		return (false);
+	return (map_info->map[y][x] == '0' || map_info->map[y][x] == 'C'
+		|| map_info->map[y][x] == 'E');
+}
+
+void	handle_collectible(t_game *game, int new_x, int new_y)
+{
+	if (game->map[new_y][new_x] == 'C')
 	{
-		x = 0;
-		while (game->map[y][x])
-		{
-			if (game->map[y][x] == 'P')
-			{
-				game->position_x = x;
-				game->position_y = y;
-				return ;
-			}
-			x++;
-		}
-		y++;
+		game->collectibles--;
+		printf("Collectible collected! Remaining: %d\n", game->collectibles);
 	}
 }
 
-bool	allowed_movements(char **map, int x, int y, int map_width, int map_height)
+void	handle_exit(t_game *game)
 {
-	if (y < 0 || y >= map_height || x < 0 || x >= map_width)
-		return (false);
-	return (map[y][x] == '0' || map[y][x] == 'C' || map[y][x] == 'E');
+	if (game->collectibles == 0)
+	{
+		printf("You win! Total moves: %d\n", game->move_counter);
+		mlx_close_window(game->mlx);
+	}
+	else
+		printf("Collect all items before exiting!\n");
 }
 
 void	move_player(t_game *game, int dx, int dy, char **map)
 {
-	int	new_x;
-	int	new_y;
+	int			new_x;
+	int			new_y;
+	t_map_info	map_info;
 
+	map_info.map = map;
+	map_info.width = game->map_width;
+	map_info.height = game->map_height;
 	new_x = game->position_x + dx;
 	new_y = game->position_y + dy;
-	if (allowed_movements(map, new_x, new_y, game->map_width, game->map_height))
+	if (allowed_movements(&map_info, new_x, new_y))
 	{
 		if (game->map[game->position_y][game->position_x] != 'E')
 			game->map[game->position_y][game->position_x] = '0';
-		if (game->map[new_y][new_x] == 'C')
-		{
-			game->collectibles--;
-			printf("Collectible collected! Remaining: %d\n", game->collectibles);
-		}
+		handle_collectible(game, new_x, new_y);
 		if (game->map[new_y][new_x] == 'E')
 		{
-			if (game->collectibles == 0)
-			{
-				printf("You win! Total moves: %d\n", game->move_counter);
-				mlx_close_window(game->mlx);
-				return ;
-			}
-			else
-			{
-				printf("Collect all items before exiting\n");
-				return ;
-			}
+			handle_exit(game);
+			return ;
 		}
 		game->position_x = new_x;
 		game->position_y = new_y;
@@ -87,7 +75,7 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 void	event_handler(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
-	
+
 	game = (t_game *)param;
 	if (keydata.action != MLX_PRESS)
 		return ;
@@ -102,6 +90,6 @@ void	event_handler(mlx_key_data_t keydata, void *param)
 		move_player(game, -1, 0, game->map);
 	else if (keydata.key == MLX_KEY_S || keydata.key == MLX_KEY_DOWN)
 		move_player(game, 0, 1, game->map);
-	else if(keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
+	else if (keydata.key == MLX_KEY_D || keydata.key == MLX_KEY_RIGHT)
 		move_player(game, 1, 0, game->map);
 }
