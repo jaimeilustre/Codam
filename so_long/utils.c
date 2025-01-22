@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/21 09:32:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/21 16:18:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/22 14:21:44 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,6 @@ char	**copy_map(char **map)
 	}
 	map_copy[rows] = NULL;
 	return (map_copy);
-}
-
-void	free_map(char **map)
-{
-	int	i;
-
-	i = 0;
-	while (map[i])
-	{
-		free(map[i]);
-		i++;
-	}
-	free(map);
 }
 
 void	player_position(char **map, int *player_x, int *player_y)
@@ -101,7 +88,7 @@ void	starting_position(t_game *game)
 	}
 }
 
-int	validate_file_extension(const char *filename)
+int	file_extension(const char *filename)
 {
 	const char	*extension;
 

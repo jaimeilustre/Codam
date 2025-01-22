@@ -1,6 +1,6 @@
 CC				= cc
 RM				= rm -f
-CFLAGS			= -I ~/MLX42/include -Wall -Wextra -Werror
+CFLAGS			= -I ~/MLX42/include -Wall -Wextra -Werror 
 
 SRCS			=	map_parsing.c \
 					map_rendering.c \

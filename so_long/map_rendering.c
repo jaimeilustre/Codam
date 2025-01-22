@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 11:03:04 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/21 09:26:02 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/22 17:14:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@ void	load_image(t_game *game, const char *path, mlx_image_t **img)
 
 	texture = mlx_load_png(path);
 	if (!texture)
-		exit(1);
+		exit(EXIT_FAILURE);
 	*img = mlx_texture_to_image(game->mlx, texture);
+	if (!*img)
+	{
+		mlx_delete_texture(texture);
+		exit(EXIT_FAILURE);
+	}
 	mlx_resize_image(*img, 64, 64);
 	mlx_delete_texture(texture);
 }
@@ -33,6 +38,21 @@ void	load_images(t_game *game)
 	load_image(game, "textures/floor.png", &game->floor_img);
 	load_image(game, "textures/collectible.png", &game->collectible_img);
 	load_image(game, "textures/exit.png", &game->exit_img);
+}
+
+void	free_images(t_game *game)
+{
+	if (game->wall_img)
+		mlx_delete_image(game->mlx, game->wall_img);
+	if (game->player_img)
+		mlx_delete_image(game->mlx, game->player_img);
+	if (game->floor_img)
+		mlx_delete_image(game->mlx, game->floor_img);
+	if (game->collectible_img)
+		mlx_delete_image(game->mlx, game->collectible_img);
+	if (game->exit_img)
+		mlx_delete_image(game->mlx, game->exit_img);
+	
 }
 
 void	render_map(t_game *game, char **map)

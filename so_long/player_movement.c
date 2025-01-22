@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/21 15:54:11 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/22 15:16:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	handle_collectible(t_game *game, int new_x, int new_y)
 	if (game->map[new_y][new_x] == 'C')
 	{
 		game->collectibles--;
-		printf("Collectible collected! Remaining: %d\n", game->collectibles);
+		ft_putstr_fd("Collectible collected! Remaining: ", STDOUT_FILENO);
+		ft_putnbr_fd(game->collectibles, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 }
 
@@ -35,11 +37,13 @@ void	handle_exit(t_game *game)
 {
 	if (game->collectibles == 0)
 	{
-		printf("You win! Total moves: %d\n", game->move_counter);
+		ft_putstr_fd("You win! Total moves: ", STDOUT_FILENO);
+		ft_putnbr_fd(game->move_counter, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		mlx_close_window(game->mlx);
 	}
 	else
-		printf("Collect all items before exiting!\n");
+		ft_putendl_fd("Collect all items before exiting!", STDOUT_FILENO);
 }
 
 void	move_player(t_game *game, int dx, int dy, char **map)
@@ -67,7 +71,9 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 		game->position_y = new_y;
 		game->map[new_y][new_x] = 'P';
 		game->move_counter++;
-		printf("Move count: %d\n", game->move_counter);
+		ft_putstr_fd("Move count: ", STDOUT_FILENO);
+		ft_putnbr_fd(game->move_counter, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		render_map(game, map);
 	}
 }

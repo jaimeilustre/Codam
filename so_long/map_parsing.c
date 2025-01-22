@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/21 12:08:53 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/22 10:58:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,3 +84,17 @@ char	**read_map_into_array(const char *file)
 	close (fd);
 	return (map);
 }
+
+void	free_map(char **map)
+{
+	int	i;
+
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+}
+
