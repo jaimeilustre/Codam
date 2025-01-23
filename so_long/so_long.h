@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:31:20 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/22 11:26:16 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 15:59:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_game
 	int			position_x;
 	int			move_counter;
 	int			collectibles;
+	int			exits;
+	int			players;
 }				t_game;
 
 // Map parsing
@@ -46,6 +48,7 @@ int		count_lines(const char *file);
 char	**read_lines_from_file(int fd, int lines);
 char	**read_map_into_array(const char *file);
 void	free_map(char **map);
+char	**copy_map(char **map);
 
 // Map validation
 bool	check_walls(char **map);
@@ -73,14 +76,14 @@ void	event_handler(mlx_key_data_t keydata, void *param);
 
 // Main game
 int		map_allocation(char **map);
-int		map_elements(char **map, int *collectibles, int *exits, int *players);
-int		valid_path(char **map, int *player_x, int *player_y);
+int		map_elements(char **map, t_game *game);
+int		valid_path(char **map, t_game *game);
 int		so_long(t_game *game, char **map, int collectibles);
 void	window_size(char **map, int *window_width, int *window_height);
 int		main(int argc, char **argv);
 
 // Utils
-char	**copy_map(char **map);
+
 void	player_position(char **map, int *player_x, int *player_y);
 void	starting_position(t_game *game);
 int		file_extension(const char *filename);

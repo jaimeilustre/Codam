@@ -6,41 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/21 09:32:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/22 14:21:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 08:15:49 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "so_long.h"
-
-char	**copy_map(char **map)
-{
-	int		rows;
-	char	**map_copy;
-	int		i;
-
-	rows = 0;
-	while (map[rows])
-		rows++;
-	map_copy = malloc((rows + 1) * sizeof(char *));
-	if (!map_copy)
-		return (NULL);
-	i = 0;
-	while (i < rows)
-	{
-		map_copy[i] = ft_strdup(map[i]);
-		if (!map_copy[i])
-		{
-			while (--i >= 0)
-				free(map_copy[i]);
-			free(map_copy);
-			return (NULL);
-		}
-		i++;
-	}
-	map_copy[rows] = NULL;
-	return (map_copy);
-}
 
 void	player_position(char **map, int *player_x, int *player_y)
 {

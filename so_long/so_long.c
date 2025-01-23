@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 17:11:09 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/22 11:54:38 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 16:09:32 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ int	map_allocation(char **map)
 	return (0);
 }
 
-int	map_elements(char **map, int *collectibles, int *exits, int *players)
+int	map_elements(char **map, t_game *game)
 {
-	if (!check_walls(map) || !check_elements(map, collectibles, exits, players))
+	if (!check_walls(map) || !check_elements(map, &game->collectibles,
+			&game->exits, &game->players))
 	{
 		ft_putendl_fd("Error\nInvalid map!", STDERR_FILENO);
 		return (1);
@@ -35,10 +36,10 @@ int	map_elements(char **map, int *collectibles, int *exits, int *players)
 	return (0);
 }
 
-int	valid_path(char **map, int *player_x, int *player_y)
+int	valid_path(char **map, t_game *game)
 {
-	player_position(map, player_x, player_y);
-	if (!is_path_valid(map, *player_x, *player_y))
+	player_position(map, &game->position_x, &game->position_y);
+	if (!is_path_valid(map, game->position_x, game->position_y))
 	{
 		ft_putendl_fd("Error\nNo valid path!", STDERR_FILENO);
 		return (1);
@@ -85,13 +86,8 @@ int	so_long(t_game *game, char **map, int collectibles)
 
 int	main(int argc, char **argv)
 {
-	int		collectibles;
-	int		exits;
-	int		players;
-	char	**map;
-	int		player_x;
-	int		player_y;
 	t_game	game;
+	char	**map;
 
 	if (argc != 2)
 	{
@@ -106,17 +102,17 @@ int	main(int argc, char **argv)
 		free_map(map);
 		exit(EXIT_FAILURE);
 	}
-	if (map_elements(map, &collectibles, &exits, &players))
+	if (map_elements(map, &game))
 	{
 		free_map(map);
 		exit(EXIT_FAILURE);
 	}
-	if (valid_path(map, &player_x, &player_y))
+	if (valid_path(map, &game))
 	{
 		free_map(map);
 		exit(EXIT_FAILURE);
 	}
-	if (so_long(&game, map, collectibles))
+	if (so_long(&game, map, game.collectibles))
 	{
 		free_map(game.map);
 		exit(EXIT_FAILURE);
