@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/23 09:52:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/24 08:00:05 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include <stdlib.h>
 #include "so_long.h"
 
-bool	allowed_movements(t_map_info *map_info, int x, int y)
+bool	allowed_movements(t_game *game, int x, int y)
 {
-	if (y < 0 || y >= map_info->height || x < 0 || x >= map_info->width)
+	if (y < 0 || y >= game->map_height || x < 0 || x >= game->map_width)
 		return (false);
-	return (map_info->map[y][x] == '0' || map_info->map[y][x] == 'C'
-		|| map_info->map[y][x] == 'E');
+	return (game->map[y][x] == '0' || game->map[y][x] == 'C'
+		|| game->map[y][x] == 'E');
 }
 
 void	handle_collectible(t_game *game, int new_x, int new_y)
@@ -47,14 +47,10 @@ void	move_player(t_game *game, int dx, int dy, char **map)
 {
 	int			new_x;
 	int			new_y;
-	t_map_info	map_info;
 
-	map_info.map = map;
-	map_info.width = game->map_width;
-	map_info.height = game->map_height;
 	new_x = game->position_x + dx;
 	new_y = game->position_y + dy;
-	if (allowed_movements(&map_info, new_x, new_y))
+	if (allowed_movements(game, new_x, new_y))
 	{
 		if (game->map[game->position_y][game->position_x] == 'E')
 			game->map[game->position_y][game->position_x] = 'E';

@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 06:10:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/21 09:53:41 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/24 08:48:43 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,21 +88,21 @@ void	modify_collectibles(char **map, char **map_copy)
 	}
 }
 
-bool	is_path_valid(char **map, int player_x, int player_y)
+bool	valid_path(char **map, int position_x, int position_y)
 {
 	char	**map_copy;
 
 	map_copy = copy_map(map);
 	if (!map_copy)
 		return (false);
-	flood_fill(map_copy, player_x, player_y);
+	flood_fill(map_copy, position_x, position_y);
 	if (!check_collectibles(map, map_copy))
 	{
 		free_map(map_copy);
 		return (false);
 	}
 	modify_collectibles(map, map_copy);
-	flood_fill(map_copy, player_x, player_y);
+	flood_fill(map_copy, position_x, position_y);
 	if (!check_exit(map, map_copy))
 	{
 		free_map(map_copy);
