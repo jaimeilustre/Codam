@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.42.fr>            +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/10/14 09:07:07 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/21 08:15:04 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 09:39:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <limits.h>
 # include <unistd.h>
 # include "get_next_line.h"
+# include "ft_printf.h"
 
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);

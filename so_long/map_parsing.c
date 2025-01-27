@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/22 10:58:00 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 16:08:38 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ void	free_map(char **map)
 {
 	int	i;
 
+	if (!map)
+		return ;
 	i = 0;
 	while (map[i])
 	{
@@ -98,3 +100,31 @@ void	free_map(char **map)
 	free(map);
 }
 
+char	**copy_map(char **map)
+{
+	int		rows;
+	char	**map_copy;
+	int		i;
+
+	rows = 0;
+	while (map[rows])
+		rows++;
+	map_copy = malloc((rows + 1) * sizeof(char *));
+	if (!map_copy)
+		return (NULL);
+	i = 0;
+	while (i < rows)
+	{
+		map_copy[i] = ft_strdup(map[i]);
+		if (!map_copy[i])
+		{
+			while (--i >= 0)
+				free(map_copy[i]);
+			free(map_copy);
+			return (NULL);
+		}
+		i++;
+	}
+	map_copy[rows] = NULL;
+	return (map_copy);
+}

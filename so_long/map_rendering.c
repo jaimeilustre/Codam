@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 11:03:04 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/22 17:14:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/23 09:28:58 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	free_images(t_game *game)
 		mlx_delete_image(game->mlx, game->collectible_img);
 	if (game->exit_img)
 		mlx_delete_image(game->mlx, game->exit_img);
-	
 }
 
 void	render_map(t_game *game, char **map)
@@ -74,9 +73,9 @@ void	render_map(t_game *game, char **map)
 					game->collectible_img, x * 64, y * 64);
 			else if (map[y][x] == 'E')
 				mlx_image_to_window(game->mlx, game->exit_img, x * 64, y * 64);
-			else if (map[y][x] == 'P')
-				mlx_image_to_window(game->mlx,
-					game->player_img, x * 64, y * 64);
+			if (game->position_x == x && game->position_y == y)
+				mlx_image_to_window(game->mlx, game->player_img,
+					x * 64, y * 64);
 			x++;
 		}
 		y++;
