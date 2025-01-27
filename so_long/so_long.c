@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 17:11:09 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/27 17:25:51 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/27 21:13:27 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	map_allocation(char **map)
 {
 	if (!map)
 	{
-		ft_putendl_fd("Error\nNo/empty file!", STDERR_FILENO);
+		ft_putendl_fd("Error\nEmpty file!", STDERR_FILENO);
 		free_map(map);
 		exit(EXIT_FAILURE);
 	}
@@ -40,7 +40,7 @@ void	validate_map(t_game *game, char **map)
 	if (!check_walls(map) || !check_elements(map, &game->collectibles,
 			&game->exits, &game->players))
 	{
-		ft_putendl_fd("Error\nInvalid map!", STDERR_FILENO);
+		ft_putendl_fd("Error\nInvalid map elements!", STDERR_FILENO);
 		free_map(map);
 		exit(EXIT_FAILURE);
 	}
