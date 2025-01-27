@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 11:03:04 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/23 09:28:58 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:15:48 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	load_image(t_game *game, const char *path, mlx_image_t **img)
 		mlx_delete_texture(texture);
 		exit(EXIT_FAILURE);
 	}
-	mlx_resize_image(*img, 64, 64);
 	mlx_delete_texture(texture);
 }
 
