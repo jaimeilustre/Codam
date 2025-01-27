@@ -6,15 +6,11 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:28:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/23 16:08:38 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:29:20 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
 #include "so_long.h"
 
 int	count_lines(const char *file)

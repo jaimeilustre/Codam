@@ -6,12 +6,10 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 11:03:04 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/27 17:15:48 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/27 17:24:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "so_long.h"
 
 void	load_image(t_game *game, const char *path, mlx_image_t **img)

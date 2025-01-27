@@ -6,11 +6,10 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/21 09:32:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/24 08:49:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:25:42 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "so_long.h"
 
 void	player_position(t_game *game)

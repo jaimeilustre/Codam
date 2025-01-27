@@ -6,13 +6,14 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 16:31:20 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/24 08:49:15 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:32:21 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include <stdlib.h>
 # include <stdbool.h>
 # include <MLX42/MLX42.h>
 # include "libft/libft.h"

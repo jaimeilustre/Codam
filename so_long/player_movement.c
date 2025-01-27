@@ -6,12 +6,10 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 07:31:39 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/24 08:00:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:23:25 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "so_long.h"
 
 bool	allowed_movements(t_game *game, int x, int y)

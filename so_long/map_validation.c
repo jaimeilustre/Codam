@@ -6,16 +6,10 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/18 19:25:50 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/21 15:31:50 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:30:30 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdbool.h>
 #include "so_long.h"
 
 bool	check_walls(char **map)

@@ -6,13 +6,10 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/20 17:11:09 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/24 11:10:51 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:25:51 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <MLX42/MLX42.h>
 #include "so_long.h"
 
 void	file_extension(const char *filename)

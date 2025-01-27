@@ -6,16 +6,10 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/19 06:10:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/24 08:48:43 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/27 17:31:22 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdbool.h>
 #include "so_long.h"
 
 void	flood_fill(char **map, int x, int y)
