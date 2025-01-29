@@ -6,11 +6,33 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 11:39:30 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:40:35 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/29 15:15:53 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	calculate_rotation_cost(t_list *stack, int target)
+{
+	int		forward_steps;
+	int		reverse_steps;
+	int		total_size;
+	t_list	*current;
+
+	forward_steps = 0;
+	current = stack;
+	while (current && current->content != target)
+	{
+		forward_steps++;
+		current = current->next;
+	}
+	total_size = ft_lstsize(stack);
+	reverse_steps = total_size - forward_steps;
+	if (forward_steps <= reverse_steps)
+		return (forward_steps);
+	else
+		return (-reverse_steps);
+}
 
 void	rotate_to_best_target(t_list **a, t_list **b, int best_target)
 {

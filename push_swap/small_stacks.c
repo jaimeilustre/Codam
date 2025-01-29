@@ -6,11 +6,27 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/12 12:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:08:48 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/29 14:48:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+int	find_min(t_list *stack)
+{
+	int	min;
+
+	if (!stack)
+		return (INT_MAX);
+	min = INT_MAX;
+	while (stack)
+	{
+		if (stack->content < min)
+			min = stack->content;
+		stack = stack->next;
+	}
+	return (min);
+}
 
 int	find_index(t_list *a, int value)
 {
@@ -39,13 +55,12 @@ void	sort_two_or_three(t_list **a)
 	}
 	else if (size == 3)
 	{
-		while (!is_sorted(*a))
-		{
-			if ((*a)->content > (*a)->next->content)
-				sa(a, 1);
-			if (!is_sorted(*a))
-				rra(a, 1);
-		}
+		if ((*a)->content > (*a)->next->content)
+			sa(a, 1);
+		if ((*a)->next->content > (*a)->next->next->content)
+			rra(a, 1);
+		if ((*a)->content > (*a)->next->content)
+			sa(a, 1);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:49:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/16 16:39:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/29 15:28:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,6 @@ int	ft_lstsize(t_list *lst)
 	return (count);
 }
 
-int	find_min(t_list *stack)
-{
-	int	min;
-
-	if (!stack)
-		return (INT_MAX);
-	min = INT_MAX;
-	while (stack)
-	{
-		if (stack->content < min)
-			min = stack->content;
-		stack = stack->next;
-	}
-	return (min);
-}
-
 int	find_max(t_list *stack)
 {
 	int	max;
@@ -53,37 +37,4 @@ int	find_max(t_list *stack)
 		stack = stack->next;
 	}
 	return (max);
-}
-
-int	calculate_rotation_cost(t_list *stack, int target)
-{
-	int		forward_steps;
-	int		reverse_steps;
-	int		total_size;
-	t_list	*current;
-
-	forward_steps = 0;
-	current = stack;
-	while (current && current->content != target)
-	{
-		forward_steps++;
-		current = current->next;
-	}
-	total_size = ft_lstsize(stack);
-	reverse_steps = total_size - forward_steps;
-	if (forward_steps <= reverse_steps)
-		return (forward_steps);
-	else
-		return (-reverse_steps);
-}
-
-int	is_sorted(t_list *a)
-{
-	while (a && a->next)
-	{
-		if (a->content > a->next->content)
-			return (0);
-		a = a->next;
-	}
-	return (1);
 }
