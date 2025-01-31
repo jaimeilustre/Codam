@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/29 15:17:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/31 20:26:03 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	sort_two_or_three(t_list **a);
 void	sort_four_or_five(t_list **a, t_list **b);
 void	sort_small_stack(t_list **a, t_list **b);
 
-int		is_sorted(t_list *a);
+int		is_sorted(t_list *stack);
 void	push_swap(t_list **a, t_list **b, int total_elements);
 int		main(int argc, char **argv);
 

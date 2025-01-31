@@ -6,19 +6,19 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/29 14:49:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/01/31 20:26:44 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sorted(t_list *a)
+int	is_sorted(t_list *stack)
 {
-	while (a && a->next)
+	while (stack && stack->next)
 	{
-		if (a->content > a->next->content)
+		if (stack->content > stack->next->content)
 			return (0);
-		a = a->next;
+		stack = stack->next;
 	}
 	return (1);
 }
