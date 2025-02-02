@@ -6,22 +6,22 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/16 17:27:51 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/02 18:01:30 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	calc_chunks(t_chunk_data *data, int **sorted_values, int *chunk_size)
+void	calc_chunks(t_chunk_data *data, int **sorted_arr, int *chunk_size)
 {
-	*sorted_values = stack_to_sorted_array(*(data->a), data->total_elements);
+	*sorted_arr = stack_to_sorted_array(*(data->a), data->total_elements);
 	if (data->total_elements > 100)
 		*chunk_size = data->total_elements / 20;
 	else
 		*chunk_size = data->total_elements / 5;
 }
 
-void	allocate_chunks(t_chunk_data *data, int *sorted_values, int chunk_size)
+void	allocate_chunks(t_chunk_data *data, int *sorted_arr, int chunk_size)
 {
 	int	i;
 	int	k;
@@ -31,7 +31,7 @@ void	allocate_chunks(t_chunk_data *data, int *sorted_values, int chunk_size)
 			* (data->total_elements / chunk_size + 2));
 	if (!*(data->chunks))
 	{
-		free(sorted_values);
+		free(sorted_arr);
 		exit_error(NULL, NULL, NULL);
 	}
 	k = 0;
@@ -42,7 +42,7 @@ void	allocate_chunks(t_chunk_data *data, int *sorted_values, int chunk_size)
 			current_chunk_end = i + chunk_size;
 		else
 			current_chunk_end = data->total_elements;
-		(*data->chunks)[k++] = sorted_values[current_chunk_end - 1];
+		(*data->chunks)[k++] = sorted_arr[current_chunk_end - 1];
 		i += chunk_size;
 	}
 	(*data->chunks)[k] = INT_MAX;
@@ -75,12 +75,12 @@ void	process_chunks(t_chunk_data *data)
 
 void	create_chunks(t_chunk_data *data)
 {
-	int	*sorted_values;
+	int	*sorted_arr;
 	int	chunk_size;
 
-	calc_chunks(data, &sorted_values, &chunk_size);
-	allocate_chunks(data, sorted_values, chunk_size);
+	calc_chunks(data, &sorted_arr, &chunk_size);
+	allocate_chunks(data, sorted_arr, chunk_size);
 	*(data->chunk_count) = (data->total_elements / chunk_size + 2);
 	process_chunks(data);
-	free(sorted_values);
+	free(sorted_arr);
 }

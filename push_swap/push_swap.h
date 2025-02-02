@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/31 20:26:03 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/02 18:01:40 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,17 @@ int		has_target_in_chunk(t_list *a, int chunk_min, int chunk_max);
 int		calculate_distance(int index, int size);
 int		find_closest(t_list *a, int chunk_min, int chunk_max);
 
-void	calc_chunks(t_chunk_data *data, int **sorted_values, int *chunk_size);
-void	allocate_chunks(t_chunk_data *data, int *sorted_values, int chunk_size);
+void	calc_chunks(t_chunk_data *data, int **sorted_arr, int *chunk_size);
+void	allocate_chunks(t_chunk_data *data, int *sorted_arr, int chunk_size);
 void	process_chunks(t_chunk_data *data);
 void	create_chunks(t_chunk_data *data);
 
 int		ft_lstsize(t_list *lst);
 int		find_max(t_list *stack);
 
-void	quick_sort(int *array, int left, int right);
-int		partition(int *array, int left, int right);
-int		*stack_to_sorted_array(t_list *a, int size);
+int		partition_array(int *arr, int left, int right);
+void	quicksort(int *arr, int left, int right);
+int		*stack_to_sorted_array(t_list *a, int stack_size);
 
 int		calculate_rotation_cost(t_list *stack, int target);
 void	rotate_to_best_target(t_list **a, t_list **b, int best_target);

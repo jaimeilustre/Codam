@@ -15,8 +15,8 @@ SRCS			=	push_swap.c \
 					stack_utils.c \
 					greedy_calculation.c \
 					small_stacks.c \
-					chunk_creation_utils.c \
-					chunk_operations.c \
+					quicksort.c \
+					chunk_utils.c \
 					
 OBJS			= $(SRCS:.c=.o)
 NAME			= push_swap
