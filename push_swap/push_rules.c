@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/20 12:13:18 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:26:38 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/03 21:21:32 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	pa(t_list **a, t_list **b, int output_flag)
 		*b = (*b)->next;
 		ft_lstadd_front(a, temp);
 		if (output_flag == 1)
-			write(STDOUT_FILENO, "pa\n", 3);
+			ft_putendl_fd("pa", STDOUT_FILENO);
 	}
 }
 
@@ -36,6 +36,6 @@ void	pb(t_list **a, t_list **b, int output_flag)
 		*a = (*a)->next;
 		ft_lstadd_front(b, temp);
 		if (output_flag == 1)
-			write(STDOUT_FILENO, "pb\n", 3);
+			ft_putendl_fd("pb", STDOUT_FILENO);
 	}
 }
