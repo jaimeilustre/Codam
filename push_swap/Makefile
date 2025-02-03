@@ -12,8 +12,7 @@ SRCS			=	push_swap.c \
 					error_handling.c \
 					input_validation.c \
 					input_validation_utils.c \
-					stack_utils.c \
-					greedy_calculation.c \
+					push_to_b.c \
 					small_stacks.c \
 					quicksort.c \
 					chunk_utils.c \

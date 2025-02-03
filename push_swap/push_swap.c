@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/31 20:26:44 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/03 21:07:14 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	push_swap(t_list **a, t_list **b, int total_elements)
 {
 	int				*chunks;
 	int				chunk_count;
-	int				i;
 	t_chunk_data	data;
 
 	data.a = a;
@@ -36,15 +35,6 @@ void	push_swap(t_list **a, t_list **b, int total_elements)
 	data.chunk_count = &chunk_count;
 	data.total_elements = total_elements;
 	create_chunks(&data);
-	i = 0;
-	while (i < chunk_count)
-	{
-		if (i == 0)
-			push_to_b(a, b, INT_MIN, chunks[i]);
-		else
-			push_to_b(a, b, chunks[i - 1] + 1, chunks[i]);
-		i++;
-	}
 	sort_b_to_a(a, b);
 	free(chunks);
 }

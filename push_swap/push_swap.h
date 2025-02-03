@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/19 11:22:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/03 15:36:33 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/03 21:12:25 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ t_list	*parse_arguments(int argc, char **argv);
 
 void	exit_error(t_list **a, t_list **b, int *chunks);
 
+int		partition_array(int *arr, int left, int right);
+void	quicksort(int *arr, int left, int right);
+int		*stack_to_sorted_array(t_list *a, int stack_size);
+
 void	rotate_to_top(t_list **a, int index);
 int		has_target_in_chunk(t_list *a, int chunk_min, int chunk_max);
 int		calculate_distance(int index, int size);
@@ -76,15 +80,7 @@ void	create_chunks(t_chunk_data *data);
 
 int		ft_lstsize(t_list *lst);
 int		find_max(t_list *stack);
-
-int		partition_array(int *arr, int left, int right);
-void	quicksort(int *arr, int left, int right);
-int		*stack_to_sorted_array(t_list *a, int stack_size);
-
 int		calculate_rotation_cost(t_list *stack, int target);
-void	rotate_to_best_target(t_list **a, t_list **b, int best_target);
-void	push_min_cost_element(t_list **a, t_list **b);
-void	push_to_b(t_list **a, t_list **b, int chunk_min, int chunk_max);
 void	sort_b_to_a(t_list **a, t_list **b);
 
 int		find_min(t_list *stack);

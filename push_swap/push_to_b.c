@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   stack_utils.c                                      :+:    :+:            */
+/*   push_to_b.c                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/12/09 07:49:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/29 15:28:34 by jilustre      ########   odam.nl         */
+/*   Created: 2024/12/12 11:39:30 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/02/03 21:10:57 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,46 @@ int	find_max(t_list *stack)
 		stack = stack->next;
 	}
 	return (max);
+}
+
+int	calculate_rotation_cost(t_list *stack, int target)
+{
+	int		forward_steps;
+	int		reverse_steps;
+	int		total_size;
+	t_list	*current;
+
+	forward_steps = 0;
+	current = stack;
+	while (current && current->content != target)
+	{
+		forward_steps++;
+		current = current->next;
+	}
+	total_size = ft_lstsize(stack);
+	reverse_steps = total_size - forward_steps;
+	if (forward_steps <= reverse_steps)
+		return (forward_steps);
+	else
+		return (-reverse_steps);
+}
+
+void	sort_b_to_a(t_list **a, t_list **b)
+{
+	int	max;
+	int	rotation;
+
+	while (*b)
+	{
+		max = find_max(*b);
+		rotation = calculate_rotation_cost(*b, max);
+		while ((*b)->content != max)
+		{
+			if (rotation > 0)
+				rb(b, 1);
+			else
+				rrb(b, 1);
+		}
+		pa(a, b, 1);
+	}
 }
