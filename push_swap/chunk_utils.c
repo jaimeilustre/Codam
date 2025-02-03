@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   chunk_operations.c                                 :+:    :+:            */
+/*   chunk_utils.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/13 10:57:04 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 16:15:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/03 15:39:26 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,24 @@ int	find_closest(t_list *a, int chunk_min, int chunk_max)
 	int		closest_index;
 	int		smallest_distance;
 	int		distance;
-	t_list	*current;
+	int		size;
 
 	index = 0;
 	closest_index = -1;
 	smallest_distance = INT_MAX;
-	current = a;
-	while (current)
+	size = ft_lstsize(a);
+	while (a)
 	{
-		if (current->content >= chunk_min && current->content <= chunk_max)
+		if (a->content >= chunk_min && a->content <= chunk_max)
 		{
-			distance = calculate_distance(index, ft_lstsize(a));
+			distance = calculate_distance(index, size);
 			if (distance < smallest_distance)
 			{
 				smallest_distance = distance;
 				closest_index = index;
 			}
 		}
-		current = current->next;
+		a = a->next;
 		index++;
 	}
 	return (closest_index);

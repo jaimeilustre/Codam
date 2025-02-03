@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:51:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/02 18:01:30 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/03 15:36:26 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	calc_chunks(t_chunk_data *data, int **sorted_arr, int *chunk_size)
 void	allocate_chunks(t_chunk_data *data, int *sorted_arr, int chunk_size)
 {
 	int	i;
-	int	k;
+	int	j;
 	int	current_chunk_end;
 
 	*(data->chunks) = malloc(sizeof(int)
@@ -34,7 +34,7 @@ void	allocate_chunks(t_chunk_data *data, int *sorted_arr, int chunk_size)
 		free(sorted_arr);
 		exit_error(NULL, NULL, NULL);
 	}
-	k = 0;
+	j = 0;
 	i = 0;
 	while (i < data->total_elements)
 	{
@@ -42,34 +42,34 @@ void	allocate_chunks(t_chunk_data *data, int *sorted_arr, int chunk_size)
 			current_chunk_end = i + chunk_size;
 		else
 			current_chunk_end = data->total_elements;
-		(*data->chunks)[k++] = sorted_arr[current_chunk_end - 1];
+		(*data->chunks)[j++] = sorted_arr[current_chunk_end - 1];
 		i += chunk_size;
 	}
-	(*data->chunks)[k] = INT_MAX;
-	*(data->chunk_count) = k;
+	(*data->chunks)[j] = INT_MAX;
+	*(data->chunk_count) = j;
 }
 
 void	process_chunks(t_chunk_data *data)
 {
-	int	j;
+	int	i;
 	int	lower_bound;
 	int	upper_bound;
 
-	j = 0;
-	while (j < *(data->chunk_count))
+	i = 0;
+	while (i < *(data->chunk_count))
 	{
-		if (j == 0)
+		if (i == 0)
 			lower_bound = INT_MIN;
 		else
-			lower_bound = (*data->chunks)[j - 1] + 1;
-		upper_bound = (*data->chunks)[j];
+			lower_bound = (*data->chunks)[i - 1] + 1;
+		upper_bound = (*data->chunks)[i];
 		while (has_target_in_chunk(*(data->a), lower_bound, upper_bound))
 		{
 			rotate_to_top(data->a, find_closest(*(data->a),
 					lower_bound, upper_bound));
 			pb(data->a, data->b, 1);
 		}
-		j++;
+		i++;
 	}
 }
 
@@ -80,7 +80,6 @@ void	create_chunks(t_chunk_data *data)
 
 	calc_chunks(data, &sorted_arr, &chunk_size);
 	allocate_chunks(data, sorted_arr, chunk_size);
-	*(data->chunk_count) = (data->total_elements / chunk_size + 2);
 	process_chunks(data);
 	free(sorted_arr);
 }
