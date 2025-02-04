@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/06 08:44:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/03 21:07:14 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/04 05:35:20 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,15 @@ int	main(int argc, char **argv)
 	t_list	*b;
 
 	if (argc < 2)
-		return (0);
+		exit(EXIT_FAILURE);
 	a = parse_arguments(argc, argv);
 	if (!a)
-		return (0);
+		exit(EXIT_FAILURE);
 	b = NULL;
 	if (is_sorted(a))
 	{
 		ft_lstclear(&a);
-		return (0);
+		exit(EXIT_SUCCESS);
 	}
 	if (ft_lstsize(a) <= 5)
 		sort_small_stack(&a, &b);
@@ -61,5 +61,5 @@ int	main(int argc, char **argv)
 		push_swap(&a, &b, ft_lstsize(a));
 	ft_lstclear(&a);
 	ft_lstclear(&b);
-	return (0);
+	exit(EXIT_SUCCESS);
 }
