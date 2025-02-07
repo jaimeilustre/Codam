@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/12/09 07:54:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2024/12/16 14:55:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/04 05:45:31 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ void	exit_error(t_list **a, t_list **b, int *chunks)
 		ft_lstclear(b);
 	if (chunks)
 		free(chunks);
-	write(STDERR_FILENO, "Error\n", 6);
+	ft_putendl_fd("Error", STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
