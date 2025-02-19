@@ -6,13 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/14 16:38:58 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/18 15:00:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include "parser.h"
+
+/*Tokenization*/
 
 /*Retrives the next character from the input*/
 char next_char(t_source *src)
@@ -25,7 +27,7 @@ char next_char(t_source *src)
 /*Checks if the input contains an operator*/
 bool is_operator(char c)
 {
-	return (c == '|' || c == '>' || c == '<' || c == '>>' || c == '<<');
+	return (c == '|' || c == '>' || c == '<' );
 }
 
 /*Checks if the input contains any whitespaces*/
@@ -53,8 +55,101 @@ t_token	*create_token(t_token_type type, char *value)
 	return (token);
 }
 
-t_token *input_to_token(t_source *src)
+/*Scans and returns a word token*/
+t_token *scan_word_token(t_source *src)
 {
-	
+    long	start;
+	long	length;
+	char	*word;
+	long	i;
+
+	start = src->curpos - 1;
+    while (src->curpos < src->bufsize &&
+           !is_space(src->buffer[src->curpos]) &&
+           !is_operator(src->buffer[src->curpos])) {
+        src->curpos++;
+    }
+    length = src->curpos - start;
+    word = malloc(length + 1);
+    if (!word)
+		return NULL;
+	i = 0;
+    while (i < length)
+	{
+        word[i] = src->buffer[start + i];
+		i++;
+	}
+    word[length] = '\0';
+    return create_token(TOKEN_WORD, word);
 }
+
+/*Returns the next token from the input, including operators and EOF*/
+t_token *get_next_token(t_source *src)
+{
+	char	c;
+	char	*op;
+	char	next;
+    
+    while ((c = next_char(src)) && is_space(c))
+        ;
+    if (c == '\0')
+        return create_token(TOKEN_EOF, NULL);
+    if (is_operator(c)) 
+	{
+        op = malloc(3);
+        if (!op)
+            return NULL;
+        op[0] = c;
+        op[1] = '\0';
+        op[2] = '\0';
+        if ((c == '>' || c == '<'))
+		{
+            next = next_char(src);
+            if (next == c) {
+                op[1] = next;
+                if (c == '>')
+                    return create_token(TOKEN_APPEND, op);
+                else
+                    return create_token(TOKEN_HEREDOC, op);
+            }
+            src->curpos--;
+        }
+        if (c == '>')
+            return create_token(TOKEN_REDIRECT_OUT, op);
+        if (c == '<')
+            return create_token(TOKEN_REDIRECT_IN, op);
+        return create_token(TOKEN_PIPE, op);
+    }
+    return scan_word_token(src);
+}
+
+#include <stdio.h>
+#include <string.h>
+#include "libft.h"
+
+int main(void)
+{
+    char input[] = "ls -la | grep txt > out.txt";
+    
+    t_source src;
+	t_token *token;
+	
+    src.buffer = input;
+    src.bufsize = ft_strlen(input);
+    src.curpos = 0;
+    while ((token = get_next_token(&src)) != NULL) {
+        if (token->type == TOKEN_EOF) {
+            free(token);
+            break;
+        }
+        printf("Token type: %d, value: \"%s\"\n", token->type, token->value);
+        free(token->value);
+        free(token);
+    }
+    return (0);
+}
+
+/*Creating the Abstract Syntax Tree*/
+
+
 

@@ -6,17 +6,12 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/14 13:20:09 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/18 14:56:21 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
 # define PARSER_H
-
-// typedef struct s_action
-// {
-// 	/* data */
-// } t_action;
 
 typedef enum e_token_type
 {
@@ -39,7 +34,16 @@ typedef struct s_source
 typedef struct s_token
 {
 	t_token_type	type;
+	int				size;
 	char			*value;
 }	t_token;
+
+typedef struct s_ast
+{
+	int				type;
+	char			*value;
+	struct s_ast	*left;
+	struct s_ast	*right;
+}	t_ast;
 
 #endif
