@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/18 15:00:15 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/21 08:22:36 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char next_char(t_source *src)
 /*Checks if the input contains an operator*/
 bool is_operator(char c)
 {
-	return (c == '|' || c == '>' || c == '<' );
+	return (c == '|' || c == '>' || c == '<' || c == '&');
 }
 
 /*Checks if the input contains any whitespaces*/
@@ -87,7 +87,7 @@ t_token *scan_word_token(t_source *src)
 t_token *get_next_token(t_source *src)
 {
 	char	c;
-	char	*op;
+	char	*operator;
 	char	next;
     
     while ((c = next_char(src)) && is_space(c))
@@ -96,29 +96,39 @@ t_token *get_next_token(t_source *src)
         return create_token(TOKEN_EOF, NULL);
     if (is_operator(c)) 
 	{
-        op = malloc(3);
-        if (!op)
-            return NULL;
-        op[0] = c;
-        op[1] = '\0';
-        op[2] = '\0';
-        if ((c == '>' || c == '<'))
+        operator = malloc(3);
+        if (!operator)
+            return (free(operator), NULL);
+        operator[0] = c;
+        operator[1] = '\0';
+        operator[2] = '\0';
+		next = next_char(src);
+		if ((c == '&' && next == '<') || (c == '|' && next == '|'))
 		{
-            next = next_char(src);
-            if (next == c) {
-                op[1] = next;
-                if (c == '>')
-                    return create_token(TOKEN_APPEND, op);
-                else
-                    return create_token(TOKEN_HEREDOC, op);
-            }
-            src->curpos--;
+            operator[1] = next;
+            if (c == '&')
+            	return create_token(TOKEN_AND, operator);
+            else
+                return create_token(TOKEN_OR, operator);   
         }
+        if ((c == '>' || c == '<') && next == c)
+		{
+            operator[1] = next;
+            if (c == '>')
+                return create_token(TOKEN_APPEND, operator);
+            else
+                return create_token(TOKEN_HEREDOC, operator);
+        }
+		src->curpos--;
         if (c == '>')
-            return create_token(TOKEN_REDIRECT_OUT, op);
+            return create_token(TOKEN_REDIRECT_OUT, operator);
         if (c == '<')
-            return create_token(TOKEN_REDIRECT_IN, op);
-        return create_token(TOKEN_PIPE, op);
+            return create_token(TOKEN_REDIRECT_IN, operator);
+		if (c == '|')
+			return create_token(TOKEN_PIPE, operator);
+		if (c == '&')
+			return create_token(TOKEN_AMPERSAND, operator);
+        // return create_token(TOKEN_PIPE, operator);
     }
     return scan_word_token(src);
 }

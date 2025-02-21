@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/18 14:56:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/21 08:28:53 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
+	TOKEN_AND,
+	TOKEN_OR,
+	TOKEN_AMPERSAND,
 	TOKEN_EOF
 }	t_token_type;
 
@@ -38,12 +41,23 @@ typedef struct s_token
 	char			*value;
 }	t_token;
 
+
+typedef enum e_node_type
+{
+	NODE_COMMAND, // A simple command
+	NODE_PIPE,	// A pipeline
+	NODE_REDIRECT, // Redirection
+	NODE_AND, // Logical &&
+	NODE_OR, // Logical ||
+}	t_node_type;
+
 typedef struct s_ast
 {
-	int				type;
-	char			*value;
+	t_node_type		type;
+	char			**args;
 	struct s_ast	*left;
 	struct s_ast	*right;
+	char			*file;
 }	t_ast;
 
 #endif
