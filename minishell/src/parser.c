@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/21 08:22:36 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/02/21 16:26:22 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_token *scan_word_token(t_source *src)
     length = src->curpos - start;
     word = malloc(length + 1);
     if (!word)
-		return NULL;
+		return (free(word), NULL);
 	i = 0;
     while (i < length)
 	{
@@ -80,7 +80,7 @@ t_token *scan_word_token(t_source *src)
 		i++;
 	}
     word[length] = '\0';
-    return create_token(TOKEN_WORD, word);
+    return (create_token(TOKEN_WORD, word));
 }
 
 /*Returns the next token from the input, including operators and EOF*/
@@ -93,7 +93,7 @@ t_token *get_next_token(t_source *src)
     while ((c = next_char(src)) && is_space(c))
         ;
     if (c == '\0')
-        return create_token(TOKEN_EOF, NULL);
+        return (create_token(TOKEN_EOF, NULL));
     if (is_operator(c)) 
 	{
         operator = malloc(3);
@@ -103,34 +103,33 @@ t_token *get_next_token(t_source *src)
         operator[1] = '\0';
         operator[2] = '\0';
 		next = next_char(src);
-		if ((c == '&' && next == '<') || (c == '|' && next == '|'))
+		if ((c == '&' && next == '&') || (c == '|' && next == '|'))
 		{
             operator[1] = next;
             if (c == '&')
-            	return create_token(TOKEN_AND, operator);
+            	return (create_token(TOKEN_AND, operator));
             else
-                return create_token(TOKEN_OR, operator);   
+                return (create_token(TOKEN_OR, operator));   
         }
         if ((c == '>' || c == '<') && next == c)
 		{
             operator[1] = next;
             if (c == '>')
-                return create_token(TOKEN_APPEND, operator);
+                return (create_token(TOKEN_APPEND, operator));
             else
-                return create_token(TOKEN_HEREDOC, operator);
+                return (create_token(TOKEN_HEREDOC, operator));
         }
 		src->curpos--;
         if (c == '>')
-            return create_token(TOKEN_REDIRECT_OUT, operator);
+            return (create_token(TOKEN_REDIRECT_OUT, operator));
         if (c == '<')
-            return create_token(TOKEN_REDIRECT_IN, operator);
+            return (create_token(TOKEN_REDIRECT_IN, operator));
 		if (c == '|')
-			return create_token(TOKEN_PIPE, operator);
+			return (create_token(TOKEN_PIPE, operator));
 		if (c == '&')
-			return create_token(TOKEN_AMPERSAND, operator);
-        // return create_token(TOKEN_PIPE, operator);
+			return (create_token(TOKEN_AMPERSAND, operator));
     }
-    return scan_word_token(src);
+    return (scan_word_token(src));
 }
 
 #include <stdio.h>
@@ -139,7 +138,7 @@ t_token *get_next_token(t_source *src)
 
 int main(void)
 {
-    char input[] = "ls -la | grep txt > out.txt";
+    char input[] = "ls -la &&  wc -l || grep txt > out.txt | wc -l";
     
     t_source src;
 	t_token *token;
@@ -159,7 +158,42 @@ int main(void)
     return (0);
 }
 
-/*Creating the Abstract Syntax Tree*/
+/*Creating the Abstract Syntax Tree (Parser)*/
+
+t_ast *create_ast_node(t_ast node_data)
+{
+	t_ast *node;
+
+	node = malloc(sizeof(t_ast));
+	if (!node)
+		return (free(node), NULL);
+	*node = node_data;
+	return (node);
+}
+
+t_ast *parse_simple_command(t_token **tokens)
+{
+	t_ast	*node;
+	char	**args;
+	int		i;
+	t_token	*temp;
+
+	/*Count how many arguments*/
+	temp = *tokens;
+	while (temp && temp->type == TOKEN_WORD)
+	{
+		i++;
+		temp = temp->next;
+	}
+	if (i == 0)
+		return (NULL);
+	args = malloc(sizeof(char *) * (i + 1));
+	if (!args)
+		return (free(args), NULL);
+	
+				
+}
+
 
 
 
