@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/21 16:26:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/24 15:24:45 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_token *scan_word_token(t_source *src)
     length = src->curpos - start;
     word = malloc(length + 1);
     if (!word)
-		return (free(word), NULL);
+		return (NULL);
 	i = 0;
     while (i < length)
 	{
@@ -126,8 +126,6 @@ t_token *get_next_token(t_source *src)
             return (create_token(TOKEN_REDIRECT_IN, operator));
 		if (c == '|')
 			return (create_token(TOKEN_PIPE, operator));
-		if (c == '&')
-			return (create_token(TOKEN_AMPERSAND, operator));
     }
     return (scan_word_token(src));
 }
@@ -136,38 +134,19 @@ t_token *get_next_token(t_source *src)
 #include <string.h>
 #include "libft.h"
 
-int main(void)
-{
-    char input[] = "ls -la &&  wc -l || grep txt > out.txt | wc -l";
-    
-    t_source src;
-	t_token *token;
-	
-    src.buffer = input;
-    src.bufsize = ft_strlen(input);
-    src.curpos = 0;
-    while ((token = get_next_token(&src)) != NULL) {
-        if (token->type == TOKEN_EOF) {
-            free(token);
-            break;
-        }
-        printf("Token type: %d, value: \"%s\"\n", token->type, token->value);
-        free(token->value);
-        free(token);
-    }
-    return (0);
-}
-
 /*Creating the Abstract Syntax Tree (Parser)*/
 
-t_ast *create_ast_node(t_ast node_data)
+t_ast *create_ast_node(t_node_type type)
 {
 	t_ast *node;
 
 	node = malloc(sizeof(t_ast));
 	if (!node)
-		return (free(node), NULL);
-	*node = node_data;
+		return (NULL);
+	node->type = type;
+	node->args = NULL;
+	node->left = NULL;
+	node->right = NULL;
 	return (node);
 }
 
@@ -179,6 +158,7 @@ t_ast *parse_simple_command(t_token **tokens)
 	t_token	*temp;
 
 	/*Count how many arguments*/
+	i = 0;
 	temp = *tokens;
 	while (temp && temp->type == TOKEN_WORD)
 	{
@@ -187,13 +167,147 @@ t_ast *parse_simple_command(t_token **tokens)
 	}
 	if (i == 0)
 		return (NULL);
+	/*Allocate memory for an argumets array*/
 	args = malloc(sizeof(char *) * (i + 1));
 	if (!args)
-		return (free(args), NULL);
-	
-				
+		return (NULL);
+	/*Store commands and arguments*/
+	i = 0;
+	while (*tokens && (*tokens)->type == TOKEN_WORD)
+	{
+		args[i] = ft_strdup((*tokens)->value);
+		if (!args[i])
+		{
+			while (--i >= 0)
+				free(args[i]);
+			free(args);
+			return (NULL);
+		}
+		i++;
+		*tokens = (*tokens)->next;
+	}
+	args[i] = NULL;
+	/*Create AST node for the command*/
+	node = create_ast_node(NODE_COMMAND);
+	if (!node)
+	{
+		while (--i >= 0)
+			free(args[i]);
+		free(args);
+		return (NULL);
+	}
+	node->args = args;
+	return (node);			
 }
 
+t_ast	*parse_tokens(t_token **tokens)
+{
+	t_ast	*left;
+	t_ast	*node;
 
+	if (!tokens || !*tokens)
+		return (NULL);
+	left = parse_simple_command(tokens);
+	if (!left)
+		return (NULL);
+	while (*tokens)
+	{
+		if ((*tokens)->type == TOKEN_PIPE)
+		{
+			node = create_ast_node(NODE_PIPE);
+			node->left = left;
+			*tokens = (*tokens)->next;
+			node->right = parse_tokens(tokens);
+			return (node);
+		}
+		// else if ((*tokens)->type == TOKEN_REDIRECT_IN || (*tokens)->type == TOKEN_REDIRECT_OUT)
+		else
+			break ;
+	}
+	return (left);
+}
 
+void	print_ast(t_ast *node, int indent)
+{
+	int	i;
+	
+	if (!node)
+		return ;
+	i = 0;	
+	while (i < indent)
+	{
+		printf(" ");
+		i++;
+	}
+	if (node->type == NODE_COMMAND)
+	{
+		printf("COMMAND: ");
+		if (node->args)
+		{
+			i = 0;
+			while (node->args[i] != NULL)
+			{
+				printf("%s ", node->args[i]);
+				i++;
+			}
+		}
+		printf("\n");
+	}
+	else if (node->type == NODE_PIPE)
+		printf("PIPE\n");
+	else
+		printf("UNKNOWN\n");
+	print_ast(node->left, indent + 1);
+	print_ast(node->right, indent + 1);
+}
 
+void free_ast(t_ast *node)
+{
+    int i;
+
+    if (!node)
+        return ;
+    if (node->args)
+    {
+        i = 0;
+        while (node->args[i])
+            free(node->args[i++]);
+        free(node->args);
+    }
+    free_ast(node->left);
+    free_ast(node->right);
+    free(node);
+}
+
+int main(void)
+{
+    char input[] = "ls -l | grep txt | wc -l";
+    
+    t_source src;
+	t_token *token;
+	t_token *token_list = NULL;
+	t_token *last = NULL;
+	t_ast	*ast;
+	
+    src.buffer = input;
+    src.bufsize = ft_strlen(input);
+    src.curpos = 0;
+    while ((token = get_next_token(&src)) != NULL)
+	{
+        if (token->type == TOKEN_EOF)
+		{
+            free(token);
+            break;
+        }
+		if (!token_list)
+			token_list = token;
+		else
+			last->next = token;
+		last = token;
+    }
+	ast = parse_tokens(&token_list);
+	print_ast(ast, 0);
+	// free_token(token_list);
+	free_ast(ast);
+    return (0);
+}
