@@ -6,13 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/24 15:24:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/02/25 17:58:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
 #include "parser.h"
+#include <stdio.h>
+#include <string.h>
+#include "libft.h"
 
 /*Tokenization*/
 
@@ -37,38 +40,44 @@ bool is_space(char c)
 }
 
 /*Free the memory used by the token struct*/
-void free_token(t_token *tok)
+void free_token(t_token *token)
 {
-	if (tok->value)
-		free(tok->value);
-	free(tok);
+	if (!token)
+		return ;
+	free(token->value);
+	free(token);
 }
 
 /*Allocate memory for a new token*/
-t_token	*create_token(t_token_type type, char *value)
+t_token	*allocate_token(t_token_type type, char *value)
 {
-	t_token *token = malloc(sizeof(t_token));
+	t_token	*token;
+	
+	token = malloc(sizeof(t_token));
 	if (!token)
+	{
+		// free(value);
 		return (NULL);
+	}
+	ft_memset(token, 0, sizeof(t_token));
 	token->type = type;
 	token->value = value;
 	return (token);
 }
 
 /*Scans and returns a word token*/
-t_token *scan_word_token(t_source *src)
+t_token *create_word_token(t_source *src)
 {
     long	start;
 	long	length;
 	char	*word;
 	long	i;
+	t_token	*word_token;
 
 	start = src->curpos - 1;
-    while (src->curpos < src->bufsize &&
-           !is_space(src->buffer[src->curpos]) &&
-           !is_operator(src->buffer[src->curpos])) {
-        src->curpos++;
-    }
+	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+		&& !is_operator(src->buffer[src->curpos]))
+		src->curpos++;
     length = src->curpos - start;
     word = malloc(length + 1);
     if (!word)
@@ -80,59 +89,83 @@ t_token *scan_word_token(t_source *src)
 		i++;
 	}
     word[length] = '\0';
-    return (create_token(TOKEN_WORD, word));
+	word_token = allocate_token(TOKEN_WORD, word);
+	if (!word_token)
+		return (free(word), NULL);
+    return (word_token);
 }
 
 /*Returns the next token from the input, including operators and EOF*/
-t_token *get_next_token(t_source *src)
+t_token *create_operator_token(t_source *src)
 {
 	char	c;
 	char	*operator;
 	char	next;
+	t_token	*token;
     
     while ((c = next_char(src)) && is_space(c))
         ;
     if (c == '\0')
-        return (create_token(TOKEN_EOF, NULL));
+	{
+		token = allocate_token(TOKEN_EOF, NULL);
+        return (token);
+	}
     if (is_operator(c)) 
 	{
-        operator = malloc(3);
-        if (!operator)
-            return (free(operator), NULL);
-        operator[0] = c;
-        operator[1] = '\0';
-        operator[2] = '\0';
 		next = next_char(src);
+		if ((c == '>' || c == '<') && next == c)
+		{
+			operator = ft_strdup((char[]){c, next, '\0'});
+        	if (!operator)
+            	return (NULL);
+            if (c == '>')
+			{
+				token = allocate_token(TOKEN_APPEND, operator);
+				if (!token)
+					free(operator);
+       			return (token);
+			}
+            else
+			{
+				token = allocate_token(TOKEN_HEREDOC, operator);
+				if (!token)
+					free(operator);
+       			return (token);
+			}
+        }
 		if ((c == '&' && next == '&') || (c == '|' && next == '|'))
 		{
-            operator[1] = next;
+			operator = ft_strdup((char[]){c, next, '\0'});
+        	if (!operator)
+            	return (NULL);
             if (c == '&')
-            	return (create_token(TOKEN_AND, operator));
+			{
+				token = allocate_token(TOKEN_AND, operator);
+				if (!token)
+					free(operator);
+            	return (token);
+			}
             else
-                return (create_token(TOKEN_OR, operator));   
-        }
-        if ((c == '>' || c == '<') && next == c)
-		{
-            operator[1] = next;
-            if (c == '>')
-                return (create_token(TOKEN_APPEND, operator));
-            else
-                return (create_token(TOKEN_HEREDOC, operator));
+			{
+				token = allocate_token(TOKEN_OR, operator);
+				if (!token)
+					free(operator);
+       			return (token);
+			}
         }
 		src->curpos--;
+		operator = ft_strdup((char[]){c, '\0'});
+        if (!operator)
+        	return (NULL);
         if (c == '>')
-            return (create_token(TOKEN_REDIRECT_OUT, operator));
+            return (allocate_token(TOKEN_REDIRECT_OUT, operator));
         if (c == '<')
-            return (create_token(TOKEN_REDIRECT_IN, operator));
+            return (allocate_token(TOKEN_REDIRECT_IN, operator));
 		if (c == '|')
-			return (create_token(TOKEN_PIPE, operator));
+			return (allocate_token(TOKEN_PIPE, operator));
     }
-    return (scan_word_token(src));
+    return (create_word_token(src));
 }
-
-#include <stdio.h>
-#include <string.h>
-#include "libft.h"
 
 /*Creating the Abstract Syntax Tree (Parser)*/
 
@@ -143,14 +176,34 @@ t_ast *create_ast_node(t_node_type type)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
+	ft_memset(node, 0, sizeof(t_ast));
 	node->type = type;
 	node->args = NULL;
 	node->left = NULL;
 	node->right = NULL;
+	node->file = NULL;
 	return (node);
 }
 
-t_ast *parse_simple_command(t_token **tokens)
+void free_ast(t_ast *node)
+{
+    int i;
+
+    if (!node)
+        return ;
+    if (node->args)
+    {
+        i = 0;
+        while (node->args[i])
+            free(node->args[i++]);
+        free(node->args);
+    }
+    free_ast(node->left);
+    free_ast(node->right);
+    free(node);
+}
+
+t_ast *parse_simple_command(t_token *tokens)
 {
 	t_ast	*node;
 	char	**args;
@@ -159,7 +212,7 @@ t_ast *parse_simple_command(t_token **tokens)
 
 	/*Count how many arguments*/
 	i = 0;
-	temp = *tokens;
+	temp = tokens;
 	while (temp && temp->type == TOKEN_WORD)
 	{
 		i++;
@@ -167,15 +220,17 @@ t_ast *parse_simple_command(t_token **tokens)
 	}
 	if (i == 0)
 		return (NULL);
+		
 	/*Allocate memory for an argumets array*/
 	args = malloc(sizeof(char *) * (i + 1));
 	if (!args)
 		return (NULL);
+		
 	/*Store commands and arguments*/
 	i = 0;
-	while (*tokens && (*tokens)->type == TOKEN_WORD)
+	while (tokens && (tokens)->type == TOKEN_WORD)
 	{
-		args[i] = ft_strdup((*tokens)->value);
+		args[i] = ft_strdup((tokens)->value);
 		if (!args[i])
 		{
 			while (--i >= 0)
@@ -184,9 +239,10 @@ t_ast *parse_simple_command(t_token **tokens)
 			return (NULL);
 		}
 		i++;
-		*tokens = (*tokens)->next;
+		tokens = (tokens)->next;
 	}
 	args[i] = NULL;
+	
 	/*Create AST node for the command*/
 	node = create_ast_node(NODE_COMMAND);
 	if (!node)
@@ -197,30 +253,52 @@ t_ast *parse_simple_command(t_token **tokens)
 		return (NULL);
 	}
 	node->args = args;
-	return (node);			
+	return (node);
+
+	// t_ast	*node;
+	// t_token	*temp;
+		
+	// if (!tokens || !*tokens)
+    //     return (NULL);
+    // printf("Parsing simple command: tokens at %p\n", *tokens);
+    // node = create_ast_node(NODE_COMMAND);
+    // if (!node)
+    //     return NULL;
+    // node->args = malloc(sizeof(char *) * 2);
+    // if (!node->args)
+    // {
+    //     free(node);
+    //     return NULL;
+    // }
+    // node->args[0] = ft_strdup((*tokens)->value);
+    // node->args[1] = NULL;
+    // printf("Simple command: %s\n", node->args[0]);
+	// temp = *tokens;
+    // *tokens = (*tokens)->next;
+    // free_token(temp);
+    // return (node);		
 }
 
-t_ast	*parse_tokens(t_token **tokens)
+t_ast	*create_ast_tree(t_token *tokens)
 {
 	t_ast	*left;
 	t_ast	*node;
 
-	if (!tokens || !*tokens)
+	if (!tokens)
 		return (NULL);
 	left = parse_simple_command(tokens);
 	if (!left)
 		return (NULL);
-	while (*tokens)
+	while (tokens)
 	{
-		if ((*tokens)->type == TOKEN_PIPE)
+		if (tokens->type == TOKEN_PIPE)
 		{
 			node = create_ast_node(NODE_PIPE);
 			node->left = left;
-			*tokens = (*tokens)->next;
-			node->right = parse_tokens(tokens);
+			tokens = tokens->next;
+			node->right = create_ast_tree(tokens);
 			return (node);
 		}
-		// else if ((*tokens)->type == TOKEN_REDIRECT_IN || (*tokens)->type == TOKEN_REDIRECT_OUT)
 		else
 			break ;
 	}
@@ -261,22 +339,16 @@ void	print_ast(t_ast *node, int indent)
 	print_ast(node->right, indent + 1);
 }
 
-void free_ast(t_ast *node)
+void free_token_list(t_token *head)
 {
-    int i;
-
-    if (!node)
-        return ;
-    if (node->args)
+    t_token *tmp;
+    
+    while (head)
     {
-        i = 0;
-        while (node->args[i])
-            free(node->args[i++]);
-        free(node->args);
+        tmp = head;
+		head = head->next;
+		free_token(tmp);
     }
-    free_ast(node->left);
-    free_ast(node->right);
-    free(node);
 }
 
 int main(void)
@@ -285,29 +357,42 @@ int main(void)
     
     t_source src;
 	t_token *token;
-	t_token *token_list = NULL;
-	t_token *last = NULL;
+	t_token *token_list;
 	t_ast	*ast;
+	t_token *last;
 	
     src.buffer = input;
     src.bufsize = ft_strlen(input);
     src.curpos = 0;
-    while ((token = get_next_token(&src)) != NULL)
+    while ((token = create_operator_token(&src)) != NULL)
 	{
         if (token->type == TOKEN_EOF)
 		{
-            free(token);
-            break;
-        }
+			free_token(token);
+            break ;
+		}
+		printf("New token created: %s (Type: %d)\n", token->value, token->type);
 		if (!token_list)
+		{
 			token_list = token;
+			printf("token_list initialized with first token: %s\n", token->value);
+		}
 		else
+		{
 			last->next = token;
+			 printf("Added token to list: %s\n", token->value);
+		}
 		last = token;
     }
-	ast = parse_tokens(&token_list);
+	printf("Before AST creation: token_list at %p\n", token_list);
+	ast = create_ast_tree(token_list);
+	printf("After AST creation: token_list at %p\n", token_list);
 	print_ast(ast, 0);
-	// free_token(token_list);
 	free_ast(ast);
+	if (!token_list)
+    	printf("Warning: token_list is NULL before calling free_token_list()\n");
+	else
+    	printf("Freeing token list...\n");
+	free_token_list(token_list);
     return (0);
 }
