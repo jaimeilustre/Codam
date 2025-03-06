@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/27 12:04:53 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/03 10:44:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,12 @@
 #include "libft.h"
 #include "parser.h"
 
-t_token	*create_token(t_token_type type, char *value)
-{
-	t_token	*token;
-
-	token = allocate_token(type, value);
-	if (!token)
-		return (free(value), NULL);
-	return (token);
-}
-
 /*Scans and returns a word token*/
 t_token	*return_word_token(t_source *src)
 {
 	long	start;
 	long	length;
 	char	*word;
-	long	i;
 	t_token	*word_token;
 
 	start = src->curpos - 1;
@@ -38,16 +27,9 @@ t_token	*return_word_token(t_source *src)
 		&& !is_operator(src->buffer[src->curpos]))
 		src->curpos++;
 	length = src->curpos - start;
-	word = malloc(length + 1);
+	word = ft_substr(src->buffer, start, length);
 	if (!word)
 		return (NULL);
-	i = 0;
-	while (i < length)
-	{
-		word[i] = src->buffer[start + i];
-		i++;
-	}
-	word[length] = '\0';
 	word_token = create_token(TOKEN_WORD, word);
 	return (word_token);
 }
@@ -66,6 +48,7 @@ t_token	*return_single_operator_token(char c)
 		return (create_token(TOKEN_REDIRECT_IN, operator));
 	if (c == '|')
 		return (create_token(TOKEN_PIPE, operator));
+	free(operator);
 	return (NULL);
 }
 
@@ -103,7 +86,6 @@ t_token	*return_double_operator_token(t_source *src, char c)
 t_token	*return_next_token(t_source *src)
 {
 	char	c;
-	char	next;
 	t_token	*token;
 
 	c = next_char(src);
@@ -113,8 +95,9 @@ t_token	*return_next_token(t_source *src)
 		return (allocate_token(TOKEN_EOF, NULL));
 	if (is_operator(c))
 	{
-		next = next_char(src);
 		token = return_double_operator_token(src, c);
+		if (token != NULL)
+			return (token);
 		src->curpos--;
 		return (return_single_operator_token(c));
 	}
