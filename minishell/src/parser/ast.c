@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:46:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/06 09:42:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/14 16:21:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,21 @@ t_ast	*create_command_node(char **args)
 /*Free Abstract Syntax Tree*/
 void	free_ast(t_ast *node)
 {
+	t_redirect	*redir;
+	t_redirect	*temp;
+	
 	if (!node)
 		return ;
 	if (node->args)
 		free_args(node->args);
+	redir = node->redirect;
+	while (redir)
+	{
+		temp = redir;
+		redir = redir->next;
+		free(temp->file);
+		free(temp);
+	}
 	free_ast(node->left);
 	free_ast(node->right);
 	free(node);

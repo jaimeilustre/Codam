@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/06 17:06:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/14 14:09:51 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,10 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
 /*Building the redirection in AST*/
 t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 {
-	t_redirect	*redir = NULL;
+	t_redirect	*redir;
+	t_redirect	*temp;
 
+	redir = NULL;
 	if ((*tokens)->type == TOKEN_REDIRECT_IN)
 		redir = allocate_ast_redir(NODE_REDIRECT_IN);
 	else if ((*tokens)->type == TOKEN_REDIRECT_OUT)
@@ -84,7 +86,31 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 		free_ast(left);
 		return (NULL);
 	}
-	
+	*tokens = (*tokens)->next;
+	if (!tokens || (*tokens)->type != TOKEN_WORD)
+	{
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
+	redir->file = ft_strdup((*tokens)->value);
+	if (!redir->file)
+	{
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
+	*tokens = (*tokens)->next;
+	if (!left->redirect)
+		left->redirect = redir;
+	else
+	{
+		temp = left->redirect;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = redir;
+	}
+	return (left);
 }
 
 /*Building the Abstract Syntax tree*/
@@ -101,9 +127,9 @@ t_ast	*build_ast_tree(t_token **tokens)
 	{
 		if ((*tokens)->type == TOKEN_PIPE)
 			left = create_ast_pipe(left, tokens);
-		// else if ((*tokens)->type == TOKEN_REDIRECT_IN
-		// 	|| (*tokens)->type == TOKEN_REDIRECT_OUT)
-			
+		else if ((*tokens)->type == TOKEN_REDIRECT_IN
+			|| (*tokens)->type == TOKEN_REDIRECT_OUT)
+			left = create_ast_redir(left, tokens);
 		else
 			break ;
 	}
