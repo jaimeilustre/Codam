@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_string.h                                        :+:    :+:            */
+/*   env.c                                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 12:37:13 by jilustre      ########   odam.nl         */
+/*   Created: 2025/02/14 16:22:28 by jboon         #+#    #+#                 */
+/*   Updated: 2025/02/14 17:54:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_STRING_H
-# define MS_STRING_H
+#include "libft.h"
+#include "minishell.h"
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <limits.h>
+int	env(int argc, t_str *argv, t_alist *env_lst)
+{
+	t_str	*items;
 
-typedef char*		t_str;
-typedef const char*	t_cstr;
-typedef char		t_path;
-
-void	free_args(t_str *words);
-bool	is_empty_cmd(t_cstr str);
-void	append_to_path(t_str full_path, t_cstr path, t_cstr cmd);
-size_t	count_args(t_str *words);
-int		ft_strcmp(t_cstr s1, t_cstr s2);
-
-#endif
+	(void)argc;
+	(void)argv;
+	items = env_lst->items;
+	while (*items)
+	{
+		ft_putendl_fd(*items, STDOUT);
+		++items;
+	}
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/05 16:26:13 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/20 16:41:51 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,38 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 			}
 		}
 		printf("\n");
+		t_redirect *redir = node->redirect;
+		while (redir != NULL)
+		{
+			if (redir->type == NODE_REDIRECT_IN)
+				printf("%s    ├── REDIR_IN: %s\n", prefix, redir->file);
+			else if (redir->type == NODE_REDIRECT_OUT)
+				printf("%s    ├── REDIR_OUT: %s\n", prefix, redir->file);
+			else if (redir->type == NODE_APPEND)
+				printf("%s    ├── APPEND: %s\n", prefix, redir->file);
+			redir = redir->next;
+		}
 	}
 	else if (node->type == NODE_PIPE)
 		printf("PIPE\n");
+	else if (node->type == NODE_AND)
+		printf("AND\n");
+	else if (node->type == NODE_OR)
+		printf("OR\n");
 	else
 		printf("UNKNOWN\n");
-
 	char left_prefix[256], right_prefix[256];
-	snprintf(left_prefix, sizeof(left_prefix), "%s├── L: ", prefix);
-	snprintf(right_prefix, sizeof(right_prefix), "%s└── R: ", prefix);
+	snprintf(left_prefix, sizeof(left_prefix), "%s├── ", prefix);
+	snprintf(right_prefix, sizeof(right_prefix), "%s└── ", prefix);
 	print_ast(node->left, indent + 1, left_prefix);
 	print_ast(node->right, indent + 1, right_prefix);
 }
 
 int	main(void)
 {
-	char		*input = "ls -l | grep txt | wc -l";
+	// char		*input_pipes = "ls -l | grep txt | wc -l";
+	// char		*input_redir = "cat < input.txt< input.txt<input.txt| sort > output.txt";
+	char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
 	t_token		*token;
 	t_token		*token_list = NULL;
@@ -56,8 +72,8 @@ int	main(void)
 	t_token		*last;
 	t_token		*backup;
 
-	src.buffer = input;
-	src.bufsize = ft_strlen(input);
+	src.buffer = input_logical;
+	src.bufsize = ft_strlen(input_logical);
 	src.curpos = 0;
 	while ((token = return_next_token(&src)) != NULL)
 	{

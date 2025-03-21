@@ -1,30 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_string.h                                        :+:    :+:            */
+/*   redirect_utils.c                                   :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 12:37:13 by jilustre      ########   odam.nl         */
+/*   Created: 2025/03/10 14:04:17 by jboon         #+#    #+#                 */
+/*   Updated: 2025/03/18 13:47:44 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_STRING_H
-# define MS_STRING_H
+#include "minishell.h"
+#include "exec.h"
+#include <stdbool.h>
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <limits.h>
+bool	store_std_fd(int new_fd[RE_MAX_FD])
+{
+	static const int	std[RE_MAX_FD] = {STDIN, STDOUT};
+	int					i;
+	int					fd;
 
-typedef char*		t_str;
-typedef const char*	t_cstr;
-typedef char		t_path;
-
-void	free_args(t_str *words);
-bool	is_empty_cmd(t_cstr str);
-void	append_to_path(t_str full_path, t_cstr path, t_cstr cmd);
-size_t	count_args(t_str *words);
-int		ft_strcmp(t_cstr s1, t_cstr s2);
-
-#endif
+	i = 0;
+	while (i < RE_MAX_FD)
+	{
+		fd = dup(std[i]);
+		if (fd == -1)
+			return (false);
+		new_fd[i] = fd;
+		++i;
+	}
+	return (true);
+}

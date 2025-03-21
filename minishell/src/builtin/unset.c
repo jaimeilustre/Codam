@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_string.h                                        :+:    :+:            */
+/*   unset.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 12:37:13 by jilustre      ########   odam.nl         */
+/*   Created: 2025/02/17 17:18:34 by jboon         #+#    #+#                 */
+/*   Updated: 2025/02/17 17:59:48 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_STRING_H
-# define MS_STRING_H
+#include "libft.h"
+#include "minishell.h"
+#include "ms_error.h"
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <limits.h>
-
-typedef char*		t_str;
-typedef const char*	t_cstr;
-typedef char		t_path;
-
-void	free_args(t_str *words);
-bool	is_empty_cmd(t_cstr str);
-void	append_to_path(t_str full_path, t_cstr path, t_cstr cmd);
-size_t	count_args(t_str *words);
-int		ft_strcmp(t_cstr s1, t_cstr s2);
-
-#endif
+int	unset(int argc, t_str *argv, t_alist *env_lst)
+{
+	if (argc < 2)
+		return (ms_error(NO_ARGS, "unset", NULL), EXIT_FAILURE);
+	++argv;
+	while (*argv)
+	{
+		if (validate_name(*argv, ft_strlen(*argv)))
+			ms_unset_env(env_lst, *argv);
+		else
+			ms_error(INVALID_ID, "unset", *argv);
+		++argv;
+	}
+	return (EXIT_SUCCESS);
+}

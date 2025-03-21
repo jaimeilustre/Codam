@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_string.h                                        :+:    :+:            */
+/*   utils.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 12:37:13 by jilustre      ########   odam.nl         */
+/*   Created: 2025/02/17 12:02:09 by jboon         #+#    #+#                 */
+/*   Updated: 2025/03/13 15:38:52 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_STRING_H
-# define MS_STRING_H
+#ifndef UTILS_H
+# define UTILS_H
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <limits.h>
+# include "ms_string.h"
 
-typedef char*		t_str;
-typedef const char*	t_cstr;
-typedef char		t_path;
-
-void	free_args(t_str *words);
-bool	is_empty_cmd(t_cstr str);
-void	append_to_path(t_str full_path, t_cstr path, t_cstr cmd);
-size_t	count_args(t_str *words);
-int		ft_strcmp(t_cstr s1, t_cstr s2);
+void	swap_ptr(void **a, void **b);
+void	swapi(int *a, int *b);
+t_cstr	join_pair(t_cstr left, t_cstr right, char *sep);
 
 #endif

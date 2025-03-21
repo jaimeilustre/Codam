@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:50:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/13 11:14:35 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/02 09:24:59 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,31 @@ static t_cstr	g_errors[] = {
 	"Permission denied",
 	"Command not found",
 	"No file or directory called",
-	"Malloc fail"
+	"Failed to allocated memory",
+	"Not a valid identifier",
+	"Not enough arguments",
+	"not set",
+	"Too many arguments"
 };
 
-void	ms_error(int ms_errno, t_str str)
+void	ms_error(int ms_errno, t_str str, t_str arg)
 {
 	if (ms_errno < 0 || ms_errno > MS_ERROR_MAX)
 		ms_errno = UNKNOWN;
 	ft_putstr_fd(MINISHELL ": ", STDERR);
-	if (ms_errno == PERROR)
-		ft_putstr_fd(strerror(errno), STDERR);
-	else
-		ft_putstr_fd((t_str)g_errors[ms_errno], STDERR);
 	if (str != NULL)
 	{
+		ft_putstr_fd(str, STDERR);
+		if (arg != NULL)
+		{
+			ft_putstr_fd(" \'", STDERR);
+			ft_putstr_fd(arg, STDERR);
+			ft_putchar_fd('\'', STDERR);
+		}
 		ft_putstr_fd(": ", STDERR);
-		ft_putendl_fd(str, STDERR);
 	}
+	if (ms_errno == PERROR)
+		ft_putendl_fd(strerror(errno), STDERR);
+	else
+		ft_putendl_fd((t_str)g_errors[ms_errno], STDERR);
 }

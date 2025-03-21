@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/03 11:02:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/20 12:42:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,20 @@ void	free_token_list(t_token **head)
 		free_token(temp);
 	}
 	*head = NULL;
+}
+
+/*Appending redirection to ast*/
+void	append_redir(t_ast *left, t_redirect *redir)
+{
+	t_redirect	*temp;
+
+	if (!left->redirect)
+		left->redirect = redir;
+	else
+	{
+		temp = left->redirect;
+		while (temp->next)
+			temp = temp->next;
+		temp->next = redir;
+	}
 }

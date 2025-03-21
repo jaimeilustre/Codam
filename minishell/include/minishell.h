@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:47:45 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/13 11:14:54 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/14 16:46:51 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,30 @@
 # define MINISHELL_H
 
 # include <unistd.h>
+# include "builtin.h"
+# include "list.h"
 # include "ms_string.h"
 
 # define STDIN	STDIN_FILENO
 # define STDOUT	STDOUT_FILENO
 # define STDERR	STDERR_FILENO
 
-# define MINISHELL "minishell"
+# define MINISHELL	"minishell"
+
+# define V_PWD		"PWD"
+# define V_OLDPWD	"OLDPWD"
+# define V_HOME		"HOME"
 
 void	interative_mode(int signo);
 t_str	cmd_prompt(t_cstr prompt);
-t_str	find_cmd(t_str cmd);
-void	exe_cmd(t_str cmd, t_str *env);
+
+// Enviroment
+bool	init_env(t_alist *env_lst, t_str *env);
+bool	ms_setenv(t_alist *env_lst, t_cstr env_var, t_cstr value);
+t_cstr	ms_getenv(t_alist *env_lst, t_cstr env_var);
+bool	ms_unset_env(t_alist *env_lst, t_cstr env_var);
+
+// Validate
+bool	validate_name(t_str key, size_t len);
 
 #endif

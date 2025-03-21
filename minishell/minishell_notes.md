@@ -90,7 +90,7 @@ Stage two:
 1. Extending the Lexical (handle pipes)
 
 
-The biggest and most time consuming will be the Lexical Analysis, Tokenizer, and parser. 
+The biggest and most time consuming will be the Lexical Analysis, Tokenizer, and parser.
 Second biggest will be implementing the different features like the |, || , and &&.
 
 
@@ -130,13 +130,13 @@ argv is the same as the main argv (by convention the argv[0] should be the filen
 data, uninitialized data (bss), and stack of the calling process
 are overwritten according to the contents of the newly loaded
 program. [link](https://man7.org/linux/man-pages/man2/execve.2.html)
-for the path to the command we will need to check if it starts with ./ (current dir) or without. 
+for the path to the command we will need to check if it starts with ./ (current dir) or without.
 If without find command in the PATH variable.
 
 > *pathname* must be either a binary executable, or a script starting
-> 
+>
 >	with a line of the form:
-> ``` sh 
+> ``` sh
 > #!interpreter [optional-arg]
 > ```
 
@@ -157,17 +157,17 @@ A shell script without a shebang will default to an interpreter (bash?).
 [shebang](https://medium.com/@jcroyoaun/a-deeper-view-into-the-shebang-for-linux-scripting-4a26395df49d)
 
 > “The shebang line tells the operating system which interpreter to use to parse the remainder of a file or a script”
-> 
+>
 > — Random quote found on Google
 
 > Some typical shebang lines:
-> 
+>
 > #!/bin/sh – Execute the file using the Bourne shell, or a compatible shell, assumed to be in the /bin directory
 > #!/bin/bash – Execute the file using the Bash shell
 > #!/usr/bin/pwsh – Execute the file using PowerShell
 > #!/usr/bin/env python3 – Execute with a Python interpreter, using the env program search path to find it
 > #!/bin/false – Do nothing, but return a non-zero exit status, indicating failure. > Used to prevent stand-alone execution of a script file intended for execution in a specific context, such as by the . command from sh/bash, source from csh/tcsh, or as a .profile, .cshrc, or .login file.
-> 
+>
 > [wiki](https://en.wikipedia.org/wiki/Shebang_(Unix))
 
 An interactive shell means that you can type in commands and get output back from those commands opposed to using the shell to run a script. Interactive shells also read in files like `.bashrc` and `.profile` during initialization, while a non-interative shell does not.
@@ -227,3 +227,133 @@ cd -
 # same as above
 cd "$OLDPWD" && pwd
 ```
+
+exit codes:
+- https://www.agileconnection.com/article/overview-linux-exit-codes
+- https://www.cyberciti.biz/faq/linux-bash-exit-status-set-exit-statusin-bash/
+
+0 on success, 1 for General Error and 2 for Misuse of shell built-ins.
+command not found should be 127
+command found but not executable should be 126
+
+## enviroment
+
+`export "<name>=<value>"` and `declare -x "<name>=<value>"` both edit an existing enviroment variable or, if name doesn't not exist yet, add it to the enviroment list.
+
+> When Bash invokes an external command, the variable ‘$_’ is set to the full pathname of the command and passed to that command in its environment.
+
+Unset all env variables: `unset $(env | cut -d= -f1)`.
+
+Variables can be marked for export, using declare -x NAME. Variables are stored into a list where each variable is marked with an attribute. -x attribute means it will be part of the enviroment list that is passed into commands.
+
+Unset - unset values and attributes of variables and functions (doesn't actually remove the variable)
+
+### Variable list
+
+Stores different types of variables marked with an attribute flag.
+
+variables are stored as "\<KEY\>=\<VALUE\>" strings.
+
+Attributes (flags):
+* -- => minishell (PS0 - prompt, PS2, HEREDOC) | No attributes assigned
+* -x => enviroments
+
+Unset:	Clears value and attribute flag of variable (any variable) (No options)
+Export:	Set/Add enviroment variables and marks them with the -x attribute or mark existing variables with -x. (No options)
+Env:	list all the (local to the shell) env variables that have a value (KEY=*). (No options and arguments)
+
+This will temporarly create an env variable that will be passed onto command:
+
+```sh
+env key=value [command]
+# Add an env variable for the command (won't persist outside the scope of the program)
+env key=value ./minishell
+# Start with an empty env
+env -i ./minishell
+```
+
+When executing a command a temporarily env variable (_=</path/command>) will be created and added to the env that is passed to the command.
+
+With export you can mark variables/parameters to be sent as env variables to programs.
+
+An empty env always has OLDPWD, PWD, SHLVL (increments by one).
+
+Error printing:
+
+Use ft_printf (unless PERROR, or ALLOC fail).
+Set up patterns.
+
+%s: %s: %s not set (minishell, command, args, error)
+
+## Test
+
+Test cases:
+
+Add directory with all perms removed and add it to the PATH variable (maybe have a script inside it).
+```sh
+export PATH=$PATH:forbidden_bin
+some_cmd_that_doesnt_exist some_args
+```
+
+```sh
+cat < src/builtin/echo.c | (echo hi && grep echo && echo bye) | sort
+
+# bye
+# /*   echo.c                                             :+:    :+:            */
+# hi
+# int     echo(int argc, t_str *argv, t_alist *env_lst)
+```
+
+```sh
+echo hello && (tty)
+# hello
+# /dev/pts/1
+
+echo hello | (tty) # with or without parentheses
+# not a tty
+
+tty | cat -e
+# /dev/pts/1
+```
+
+```sh
+cat -e src/main.c | grep -nope int | grep void
+
+# grep: invalid option -- 'p'
+# Usage: grep [OPTION]... PATTERNS [FILE]...
+# Try 'grep --help' for more information
+# $
+```
+
+```sh
+export ECHO="echo hello"
+$ECHO
+
+# hello
+```
+
+```sh
+echo hello | ec world | echo goodbye
+# bash: ec: command not found
+# goodbye
+```
+
+CMD execution:
+fork -> expansion -> redirection + needed expansion -> find built/execve -> exec
+
+Node Execution rules:
+1. IF builtin single cmd THEN no fork, run builtin and return
+2. IF external single cmd THEN fork, run cmd and waitpid
+3. IF pipe THEN fork both commands, run each instance and waitpid
+4. IF OR/AND (no pipe) THEN fork cmd, no fork for builtin, execve, waitpid or return?
+
+
+BUG:
+cd minus is not having the same result compare with below.
+
+```sh
+cd -
+cd "$OLDPWD" && pwd
+```
+
+// TODO: interative shell, whose input and error output are both connected to terminals (isatty)

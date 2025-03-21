@@ -1,8 +1,9 @@
-vpath %.c src/
-.PHONY: all bonus clean fclean re debug
+vpath %.c src/:src/builtin/:src/list/:src/env/:src/parser:src/exec
+.PHONY: all bonus clean fclean re debug valgrind
 
 # LIBFT
 LIBFT		:= libft/libft.a
+DB_LIBFT	:= libft/db_libft.a
 LIBFT_DIR 	:= libft/
 
 # COMPILE
@@ -10,14 +11,19 @@ CC			:= cc
 C_FLAGS 	:= -Wall -Wextra -Werror
 BIN 		:= bin/
 DB_DIR 		:= debug/
-C_DEBUG 	:= -fsanitize=address -g
+C_DEBUG 	:= -fsanitize=address,undefined -g3 -fno-omit-frame-pointer -fsanitize=leak
 C_INC		:= -I ./include -I ./$(LIBFT_DIR)include
 C_LIB		:= -lreadline
 
 # BINARIES
 NAME		:= minishell
 DB_NAME		:= db_minishell
-SRCS 		:= main.c prompt.c command.c signal_utils.c ms_string.c ms_error.c
+SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c enviroment.c exec_cmd.c \
+				exec_init.c exec_pipe.c exec_utils.c expand_variable.c export.c \
+				find_cmd.c list.c list_operations.c main.c ms_error.c ms_string.c \
+				parser.c parser_utils.c prompt.c pwd.c redirect.c redirect_utils.c \
+				signal_utils.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
+				validate.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 
@@ -38,11 +44,17 @@ $(LIBFT):
 
 debug: $(DB_NAME)
 
-$(DB_NAME): $(DB_DIR) $(LIBFT) $(DB_OBJS)
-	$(CC) $(C_DEBUG) $(DB_OBJS) $(LIBFT) $(C_LIB) -o $(DB_NAME)
+$(DB_NAME): $(DB_DIR) $(DB_LIBFT) $(DB_OBJS)
+	$(CC) $(C_DEBUG) $(DB_OBJS) $(DB_LIBFT) $(C_LIB) -o $(DB_NAME)
 
 $(DB_DIR)%.o: %.c
 	$(CC) $(C_FLAGS) $(C_DEBUG) -o $@ -c $< $(C_INC)
+
+$(DB_LIBFT):
+	make -C $(LIBFT_DIR) debug
+
+valgrind: all
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=minishell.supp ./$(NAME)
 
 # DIRECTORY RULES
 
@@ -65,4 +77,4 @@ fclean:
 	$(RM) $(NAME)
 	$(RM) $(DB_NAME)
 
-re: fclean all
+re: fclean all debug

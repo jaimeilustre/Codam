@@ -1,29 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   command.c                                          :+:    :+:            */
+/*   find_cmd.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:19:15 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/13 11:18:38 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/20 14:07:18 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/wait.h>
 
 #include "libft.h"
 #include "minishell.h"
 #include "ms_error.h"
-
-static void	clear(t_str cmd, t_str *paths)
-{
-	free(cmd);
-	free_split(paths);
-}
 
 static bool	try_rel_abs_path(t_str cmd, t_str *out_path)
 {
@@ -33,61 +24,41 @@ static bool	try_rel_abs_path(t_str cmd, t_str *out_path)
 	{
 		if (access(cmd, X_OK) == 0)
 			return (*out_path = ft_strdup(cmd), true);
-		return (ms_error(PERROR, cmd), true);
+		return (ms_error(PERROR, cmd, NULL), true);
 	}
 	return (false);
 }
 
-t_str	find_cmd(t_str cmd)
+static void	clean_up(t_str path, t_str *paths)
+{
+	free(path);
+	free_args(paths);
+}
+
+t_str	find_cmd(t_str cmd, t_alist *env_lst)
 {
 	t_str	cmd_path;
-	t_str	env_path;
+	t_cstr	env_path;
 	t_str	*paths;
 	t_str	*tmp;
 
 	if (try_rel_abs_path(cmd, &cmd_path))
 		return (cmd_path);
-	env_path = getenv("PATH");
+	env_path = ms_getenv(env_lst, "PATH");
 	if (env_path == NULL)
 		return (NULL);
 	cmd_path = ft_calloc(PATH_MAX, sizeof(char));
 	paths = ft_split(env_path, ':');
 	if (paths == NULL || cmd_path == NULL)
-		return (ms_error(NO_ALLOC, NULL), clear(cmd_path, paths), NULL);
+		return (ms_error(PERROR, NULL, NULL), clean_up(cmd_path, paths), NULL);
 	tmp = paths;
 	while (*tmp)
 	{
 		append_to_path(cmd_path, *tmp, cmd);
 		if (access(cmd_path, X_OK) == 0)
-			return (free_split(paths), cmd_path);
+			return (free_args(paths), cmd_path);
 		++tmp;
 		*cmd_path = '\0';
 	}
-	return (ms_error(NO_FILE_DIR, cmd), clear(cmd_path, paths), NULL);
-}
-
-void	exe_cmd(t_str cmd, t_str *env)
-{
-	pid_t	pid;
-	t_str	*argv;
-	t_str	path_to_cmd;
-
-	argv = ft_split(cmd, ' ');
-	if (argv == NULL)
-		return ;
-	pid = -1;
-	path_to_cmd = find_cmd(*argv);
-	if (path_to_cmd != NULL)
-	{
-		pid = fork();
-		if (pid == 0 && execve(path_to_cmd, argv, env) == -1)
-			ms_error(PERROR, cmd);
-		else if (pid == -1)
-			ms_error(PERROR, NULL);
-		else
-			waitpid(pid, NULL, 0);
-	}
-	clear(path_to_cmd, argv);
-	if (pid == 0)
-		exit(EXIT_FAILURE);
+	return (ms_error(NO_FILE_DIR, cmd, NULL), clean_up(cmd_path, paths), NULL);
 }

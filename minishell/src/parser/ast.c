@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:46:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/14 16:21:02 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/20 12:42:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	free_ast(t_ast *node)
 {
 	t_redirect	*redir;
 	t_redirect	*temp;
-	
+
 	if (!node)
 		return ;
 	if (node->args)

@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_string.h                                        :+:    :+:            */
+/*   validate.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 12:37:13 by jilustre      ########   odam.nl         */
+/*   Created: 2025/02/17 17:33:33 by jboon         #+#    #+#                 */
+/*   Updated: 2025/02/17 17:34:17 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_STRING_H
-# define MS_STRING_H
+#include "libft.h"
+#include "ms_string.h"
 
-# include <stdbool.h>
-# include <stddef.h>
-# include <limits.h>
+bool	validate_name(t_str key, size_t len)
+{
+	size_t	i;
 
-typedef char*		t_str;
-typedef const char*	t_cstr;
-typedef char		t_path;
-
-void	free_args(t_str *words);
-bool	is_empty_cmd(t_cstr str);
-void	append_to_path(t_str full_path, t_cstr path, t_cstr cmd);
-size_t	count_args(t_str *words);
-int		ft_strcmp(t_cstr s1, t_cstr s2);
-
-#endif
+	if (len == 0 || !(ft_isalpha(*key) || *key == '_'))
+		return (false);
+	i = 0;
+	while (i < len && (ft_isalnum(key[i]) || key[i] == '_'))
+		++i;
+	return (i == len);
+}

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:43:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/03 10:42:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/20 12:43:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,25 @@ t_token	*create_token(t_token_type type, char *value)
 	if (!token)
 		return (free(value), NULL);
 	return (token);
+}
+
+t_token	*create_tokens(t_str cmd)
+{
+	t_source	src;
+	t_token		*first_token;
+	t_token		*last_token;
+
+	src = (t_source){cmd, ft_strlen(cmd), 0};
+	first_token = return_next_token(&src);
+	last_token = first_token;
+	while (last_token != NULL)
+	{
+		if (last_token->type == TOKEN_EOF)
+			break ;
+		last_token->next = return_next_token(&src);
+		last_token = last_token->next;
+	}
+	return (first_token);
 }
 
 /*Allocate memory for a new token*/

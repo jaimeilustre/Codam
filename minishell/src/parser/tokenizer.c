@@ -6,13 +6,29 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/03 10:44:29 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/20 12:36:38 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "parser.h"
+
+/*Reading single or double quotes*/
+void	read_quoted_input(t_source *src, long start)
+{
+	char	quote_type;
+
+	if (src->buffer[start] == '\'' || src->buffer[start] == '\"')
+	{
+		quote_type = src->buffer[start];
+		start++;
+		while (src->curpos < src->bufsize
+			&& src->buffer[src->curpos] != quote_type)
+			src->curpos++;
+		src->curpos++;
+	}
+}
 
 /*Scans and returns a word token*/
 t_token	*return_word_token(t_source *src)
@@ -23,9 +39,14 @@ t_token	*return_word_token(t_source *src)
 	t_token	*word_token;
 
 	start = src->curpos - 1;
-	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
-		&& !is_operator(src->buffer[src->curpos]))
-		src->curpos++;
+	if (src->buffer[start] == '\'' || src->buffer[start] == '\"')
+		read_quoted_input(src, start);
+	else
+	{
+		while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+			&& !is_operator(src->buffer[src->curpos]))
+			src->curpos++;
+	}
 	length = src->curpos - start;
 	word = ft_substr(src->buffer, start, length);
 	if (!word)
