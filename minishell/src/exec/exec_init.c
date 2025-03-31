@@ -6,10 +6,11 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:27:18 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 13:53:11 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/25 15:30:59 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include "minishell.h"
 #include "exec.h"
 #include "ms_error.h"
@@ -23,6 +24,7 @@ t_exec	*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst)
 	exec = malloc(sizeof(t_exec));
 	if (exec == NULL)
 		return (ms_error(PERROR, NULL, NULL), NULL);
+	ft_memcpy(exec->dup_std_fd, (int [2]){-1, -1}, 2 * sizeof(int));
 	if (!store_std_fd(exec->dup_std_fd))
 	{
 		ms_error(PERROR, NULL, NULL);
@@ -42,7 +44,9 @@ t_exec	*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst)
 
 void	free_exec(t_exec **exec)
 {
-	apply_std_redirection((*exec)->dup_std_fd);
+	// apply_std_redirection((*exec)->dup_std_fd);
+	if ((*exec)->is_child || !apply_std_redirection((*exec)->dup_std_fd))
+		close_redir((*exec)->dup_std_fd);
 	close_redir((*exec)->redir_fd);
 	free(*exec);
 	*exec = NULL;

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 11:08:34 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 11:12:17 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/21 15:07:08 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ void	exit_process(t_exec *exec)
 	free(exec->cmd);
 	free_ast(exec->head);
 	free_token_list(&exec->tokens);
-	free_args(exec->env_lst->items);
+	free_list(exec->env_lst);
 	free_exec(&exec);
 	rl_clear_history();
 	exit(exit_code);
 }
 
+// TODO: Have parent or child stop listing to signals after fork?
 bool	start_fork(pid_t *cpid, t_exec *exec)
 {
 	*cpid = fork();

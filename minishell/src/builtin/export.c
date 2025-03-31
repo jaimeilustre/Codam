@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 17:01:23 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/17 17:40:25 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,25 @@
 #include "ms_error.h"
 #include "utils.h"
 
-static void	print_env(t_alist *env_lst)
+static void	print_exp_var(t_cstr item, t_env_fl flag)
 {
 	static t_cstr	prepend = "declare -x ";
-	int				i;
-	t_alist			tmp_list;
 
-	i = 0;
-	init_list(&tmp_list, env_lst->size);
-	while (i < env_lst->size)
-	{
-		add_to_list(&tmp_list, env_lst->items[i]);
-		++i;
-	}
-	i = 0;
-	sort_list(&tmp_list, ft_strcmp);
-	while (i < tmp_list.size)
-	{
-		ft_putstr_fd((char *)prepend, STDOUT);
-		ft_putendl_fd(tmp_list.items[i], STDOUT);
-		++i;
-	}
-	free(tmp_list.items);
+	(void)flag;
+	ft_putstr_fd((t_str)prepend, STDOUT);
+	ft_putendl_fd((t_str)item, STDOUT);
+}
+
+static void	print_env(t_alist *env_lst)
+{
+	t_alist			sorted_list;
+
+	if (!duplicate_list(&sorted_list, env_lst, ENV_EXPORT, ENV_HIDDEN))
+		return (ms_error(PERROR, NULL, NULL));
+	sort_list(&sorted_list, ft_strcmp);
+	iter_list(&sorted_list, print_exp_var);
+	free(sorted_list.items);
+	free(sorted_list.flags);
 }
 
 static void	update_env(t_str *argv, t_alist *env_lst)
@@ -52,7 +49,7 @@ static void	update_env(t_str *argv, t_alist *env_lst)
 			key = ft_substr(*argv, 0, ch - *argv);
 			if (key != NULL)
 			{
-				ms_setenv(env_lst, key, *argv);
+				ms_setenv(env_lst, key, *argv, ENV_EXPORT);
 				free(key);
 			}
 			else

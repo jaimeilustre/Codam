@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:52:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 11:03:59 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/21 12:56:44 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static int	change_directory(t_cstr path, t_alist *env_lst)
 	env_pwd = join_pair(V_PWD, path, "=");
 	env_oldpwd = join_pair(V_OLDPWD, prev_cwd, "=");
 	if (env_pwd != NULL)
-		ms_setenv(env_lst, V_PWD, env_pwd);
+		ms_setenv(env_lst, V_PWD, env_pwd, ENV_NONE);
 	if (env_oldpwd != NULL)
-		ms_setenv(env_lst, V_OLDPWD, env_oldpwd);
+		ms_setenv(env_lst, V_OLDPWD, env_oldpwd, ENV_NONE);
 	free((void *)env_pwd);
 	free((void *)env_oldpwd);
 	return (CD_SUCCESS);

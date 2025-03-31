@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 13:50:49 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/25 15:03:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ void	close_redir(int fd[2]);
 void	safe_close_fd(int *fd);
 bool	redirect_fd(int *fd, int dupfd);
 bool	apply_std_redirection(int pipe_fd[2]);
-bool	apply_redirection(t_ast *node, t_exec *exec);
+// bool	apply_redirection(t_ast *node, t_exec *exec);
+bool	apply_redirection(t_redirect *redir, int redir_fd[2]);
 bool	store_std_fd(int new_fd[RE_MAX_FD]);
 
 /* Variable Expansion */

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 15:24:42 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/14 15:25:34 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,43 @@
 
 static bool	expand_list(t_alist *list);
 
-static bool	insert_items_into_list(t_alist *list, t_str *items)
+static void	add_items_to_list(t_alist *list, t_str *items, t_env_fl *flags)
 {
 	while (*items && list->size < list->capacity)
 	{
 		list->items[list->size] = *items;
+		list->flags[list->size] = *flags;
 		++list->size;
+		++flags;
 		++items;
 	}
-	return (true);
 }
 
 static bool	expand_list(t_alist *list)
 {
-	t_str	*old;
+	t_str		*items;
+	t_env_fl	*flags;
 
-	old = list->items;
+	items = list->items;
+	flags = list->flags;
 	if (init_list(list, list->capacity * 2) == false)
 	{
-		list->items = old;
+		list->items = items;
+		list->flags = flags;
 		return (false);
 	}
-	insert_items_into_list(list, old);
-	free (old);
+	add_items_to_list(list, items, flags);
+	free (items);
+	free (flags);
 	return (true);
 }
 
-bool	add_to_list(t_alist *list, t_str item)
+bool	add_to_list(t_alist *list, t_str item, t_env_fl flag)
 {
 	if (list->size == list->capacity && expand_list(list) == false)
 		return (false);
 	list->items[list->size] = item;
+	list->flags[list->size] = flag;
 	++list->size;
 	return (true);
 }
@@ -56,7 +62,8 @@ bool	remove_index_from_list(t_alist *list, int i)
 		return (false);
 	free(list->items[i]);
 	list->size = i;
-	insert_items_into_list(list, (list->items + i + 1));
+	add_items_to_list(list, (list->items + i + 1), (list->flags + i + 1));
 	list->items[list->size] = NULL;
+	list->flags[list->size] = 0;
 	return (true);
 }

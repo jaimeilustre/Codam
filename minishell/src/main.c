@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:34:06 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 11:02:49 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/20 17:00:10 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,6 @@ int	main(int argc, t_str argv[], t_str *env)
 		run_interactive_mode(&env_lst);
 	}
 	rl_clear_history();
-	free_args(env_lst.items);
+	free_list(&env_lst);
 	return (EXIT_SUCCESS);
 }

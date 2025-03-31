@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:04:17 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 13:47:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/25 15:32:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,55 @@
 #include "exec.h"
 #include <stdbool.h>
 
+static bool	is_std(int fd)
+{
+	return (fd == STDIN || fd == STDOUT || fd == STDERR);
+}
+
+void	safe_close_fd(int *fd)
+{
+	if (*fd == -1 || (isatty(*fd) && is_std(*fd)))
+		return ;
+	close (*fd);
+	*fd = -1;
+}
+
+bool	redirect_fd(int *fd, int dupfd)
+{
+	if (*fd == -1 || dupfd == -1 || (!is_std(*fd) && dup2(*fd, dupfd) == -1))
+	{
+		safe_close_fd(fd);
+		return (false);
+	}
+	safe_close_fd(fd);
+	*fd = dupfd;
+	return (true);
+}
+
+void	close_redir(int fd[2])
+{
+	safe_close_fd(&fd[0]);
+	safe_close_fd(&fd[1]);
+}
+
 bool	store_std_fd(int new_fd[RE_MAX_FD])
 {
-	static const int	std[RE_MAX_FD] = {STDIN, STDOUT};
-	int					i;
-	int					fd;
+	// static const int	std[RE_MAX_FD] = {STDIN, STDOUT};
+	// int					i;
+	// int					fd;
+	const int	std[RE_MAX_FD] = {STDIN, STDOUT};
+	int			i;
+	int			fd;
 
 	i = 0;
 	while (i < RE_MAX_FD)
 	{
 		fd = dup(std[i]);
 		if (fd == -1)
+		{
+			close_redir(new_fd);
 			return (false);
+		}
 		new_fd[i] = fd;
 		++i;
 	}

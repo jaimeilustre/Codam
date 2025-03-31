@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/20 16:41:51 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/31 12:42:44 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,19 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 				printf("%s    ├── REDIR_OUT: %s\n", prefix, redir->file);
 			else if (redir->type == NODE_APPEND)
 				printf("%s    ├── APPEND: %s\n", prefix, redir->file);
+			else if (redir->type == NODE_HEREDOC)
+				printf("%s    ├── HEREDOC: %s\n", prefix, redir->file);
 			redir = redir->next;
 		}
+		// if (node->args)
+		// {
+		// 	int i = 1;
+		// 	while (node->args[i])
+		// 	{
+		// 		printf("%s    ├── ARG: %s\n", prefix, node->args[i]);
+		// 		i++;
+		// 	}
+		// }
 	}
 	else if (node->type == NODE_PIPE)
 		printf("PIPE\n");
@@ -63,8 +74,8 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 int	main(void)
 {
 	// char		*input_pipes = "ls -l | grep txt | wc -l";
-	// char		*input_redir = "cat < input.txt< input.txt<input.txt| sort > output.txt";
-	char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
+	char		*input_redir = "echo 'hello'\"world\"";
+	// char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
 	t_token		*token;
 	t_token		*token_list = NULL;
@@ -72,8 +83,8 @@ int	main(void)
 	t_token		*last;
 	t_token		*backup;
 
-	src.buffer = input_logical;
-	src.bufsize = ft_strlen(input_logical);
+	src.buffer = input_redir;
+	src.bufsize = ft_strlen(input_redir);
 	src.curpos = 0;
 	while ((token = return_next_token(&src)) != NULL)
 	{
@@ -104,3 +115,10 @@ int	main(void)
 	free_ast(ast);
 	return (0);
 }
+
+// i = 0;
+// 	while (args[i])
+// 	{
+// 		printf("%s\n", args[i]);
+// 		i++;
+// 	}

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/20 12:42:23 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/31 12:33:40 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,15 @@
 /*Count args for args array*/
 int	arg_count(t_token *tokens)
 {
-	int		i;
+	int		count;
 
-	i = 0;
+	count = 0;
 	while (tokens && tokens->type == TOKEN_WORD)
 	{
-		i++;
+		count++;
 		tokens = tokens->next;
 	}
-	if (i == 0)
-		return (0);
-	return (i);
+	return (count);
 }
 
 /*Free tokens after use*/

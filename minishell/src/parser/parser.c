@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/21 13:28:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/31 12:37:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,14 @@ t_ast	*parse_simple_command(t_token **tokens)
 	char	**args;
 	int		i;
 
-	args = malloc ((arg_count(*tokens) + 1) * sizeof(char *));
+	printf("Arg count: %d\n", arg_count(*tokens));
+	args = malloc((arg_count(*tokens) + 1) * sizeof(char *));
 	if (args == NULL)
 		return (NULL);
 	i = 0;
-	while (*tokens && (*tokens)->type == TOKEN_WORD)
+	while (*tokens && ((*tokens)->type == TOKEN_WORD))
 	{
+		printf("Adding argument: %s\n", (*tokens)->value);
 		args[i] = ft_strdup((*tokens)->value);
 		if (!args[i])
 		{
@@ -70,24 +72,20 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
 	return (node);
 }
 
-/*Building the redirection in AST*/
+/*Building the redirections in AST*/
 t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 {
 	t_redirect	*redir;
 
-	redir = NULL;
-	if ((*tokens)->type == TOKEN_REDIRECT_IN)
-		redir = allocate_ast_redir(NODE_REDIRECT_IN);
-	else if ((*tokens)->type == TOKEN_REDIRECT_OUT)
-		redir = allocate_ast_redir(NODE_REDIRECT_OUT);
-	else if ((*tokens)->type == TOKEN_APPEND)
-		redir = allocate_ast_redir(NODE_APPEND);
+	// printf("DEBUG: Processing redirection: %s\n", (*tokens)->value);
+	redir = allocate_ast_redir(*tokens);
 	if (!redir)
 	{
 		free_ast(left);
 		return (NULL);
 	}
 	*tokens = (*tokens)->next;
+	// printf("DEBUG: Redirection target file: %s\n", (*tokens)->value);
 	redir->file = ft_strdup((*tokens)->value);
 	if (!redir->file)
 	{
@@ -130,6 +128,7 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens)
 t_ast	*build_ast_tree(t_token **tokens)
 {
 	t_ast	*left;
+	int		i;
 
 	if (!tokens || !*tokens)
 		return (NULL);
@@ -138,16 +137,30 @@ t_ast	*build_ast_tree(t_token **tokens)
 		return (NULL);
 	while (*tokens)
 	{
+		// printf("DEBUG: Current token in AST: %s\n", (*tokens)->value);
 		if ((*tokens)->type == TOKEN_PIPE)
 			left = create_ast_pipe(left, tokens);
 		else if ((*tokens)->type == TOKEN_REDIRECT_IN
 			|| (*tokens)->type == TOKEN_REDIRECT_OUT
-			|| (*tokens)->type == TOKEN_APPEND)
+			|| (*tokens)->type == TOKEN_APPEND
+			|| (*tokens)->type == TOKEN_HEREDOC)
 			left = create_ast_redir(left, tokens);
+		else if ((*tokens)->type == TOKEN_WORD)
+		{
+			i = 0;
+			while (left->args[i] != NULL)
+				i++;
+			left->args[i] = ft_strdup((*tokens)->value);
+			// printf("DEBUG: Adding 2nd argument: %s\n", left->args[i]);
+			left->args[i + 1] = NULL;
+			*tokens = (*tokens)->next;
+		}
 		else if ((*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR)
 			left = create_ast_logical(left, tokens);
 		else
 			break ;
+		if (!left)
+			return (NULL);
 	}
 	return (left);
 }

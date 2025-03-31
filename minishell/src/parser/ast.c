@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:46:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/20 12:42:04 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/27 14:55:10 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,43 @@ t_ast	*create_command_node(char **args)
 void	free_ast(t_ast *node)
 {
 	t_redirect	*redir;
-	t_redirect	*temp;
 
 	if (!node)
 		return ;
 	if (node->args)
 		free_args(node->args);
-	redir = node->redirect;
-	while (redir)
+	while (node->redirect)
 	{
-		temp = redir;
-		redir = redir->next;
-		free(temp->file);
-		free(temp);
+		redir = node->redirect;
+		node->redirect = redir->next;
+		free(redir->file);
+		free(redir);
 	}
 	free_ast(node->left);
 	free_ast(node->right);
 	free(node);
 }
 
-/*Allocate for redirection in AST*/
-t_redirect	*allocate_ast_redir(t_node_type type)
+/*Allocate for redirections in AST*/
+t_redirect	*allocate_ast_redir(t_token *token)
 {
 	t_redirect	*redir;
 
 	redir = ft_calloc(1, sizeof(t_redirect));
 	if (!redir)
 		return (NULL);
-	redir->type = type;
+	if (token->type == TOKEN_REDIRECT_IN)
+		redir->type = NODE_REDIRECT_IN;
+	else if (token->type == TOKEN_REDIRECT_OUT)
+		redir->type = NODE_REDIRECT_OUT;
+	else if (token->type == TOKEN_APPEND)
+		redir->type = NODE_APPEND;
+	else if (token->type == TOKEN_HEREDOC)
+		redir->type = NODE_HEREDOC;
+	else
+	{
+		free(redir);
+		return (NULL);
+	}
 	return (redir);
 }

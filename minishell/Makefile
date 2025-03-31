@@ -18,12 +18,12 @@ C_LIB		:= -lreadline
 # BINARIES
 NAME		:= minishell
 DB_NAME		:= db_minishell
-SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c enviroment.c exec_cmd.c \
+SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c environment.c exec_cmd.c \
 				exec_init.c exec_pipe.c exec_utils.c expand_variable.c export.c \
 				find_cmd.c list.c list_operations.c main.c ms_error.c ms_string.c \
 				parser.c parser_utils.c prompt.c pwd.c redirect.c redirect_utils.c \
 				signal_utils.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
-				validate.c
+				validate.c env_init.c list_init.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 
