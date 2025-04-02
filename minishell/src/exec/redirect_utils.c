@@ -6,13 +6,13 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:04:17 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/25 15:32:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/24 18:06:23 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include "minishell.h"
 #include "exec.h"
-#include <stdbool.h>
 
 static bool	is_std(int fd)
 {
@@ -47,9 +47,6 @@ void	close_redir(int fd[2])
 
 bool	store_std_fd(int new_fd[RE_MAX_FD])
 {
-	// static const int	std[RE_MAX_FD] = {STDIN, STDOUT};
-	// int					i;
-	// int					fd;
 	const int	std[RE_MAX_FD] = {STDIN, STDOUT};
 	int			i;
 	int			fd;

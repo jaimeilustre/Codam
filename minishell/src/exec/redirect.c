@@ -6,26 +6,17 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:46:10 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/25 15:38:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/24 18:21:16 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdbool.h>
 #include <unistd.h>
-#include "libft.h" // TODO DELETE?
-#include "minishell.h"
 
+#include "minishell.h"
 #include "exec.h"
 #include "ms_error.h"
-
-// void	safe_close_fd(int *fd)
-// {
-// 	if (*fd == -1 || *fd == STDIN || *fd == STDOUT || *fd == STDERR)
-// 		return ;
-// 	close (*fd);
-// 	*fd = -1;
-// }
 
 static bool	redir_in(t_cstr file, int std_fd)
 {
@@ -34,14 +25,6 @@ static bool	redir_in(t_cstr file, int std_fd)
 	fd = open(file, O_RDONLY);
 	return (fd != -1 && redirect_fd(&fd, std_fd));
 }
-
-// bool	redirect_fd(int *fd, int dupfd)
-// {
-// 	if (*fd == -1 || dupfd == -1 || dup2(*fd, dupfd) == -1)
-// 		return (safe_close_fd(fd), false);
-// 	safe_close_fd(fd);
-// 	return (true);
-// }
 
 static bool	redir_out(t_cstr file, int std_fd)
 {
@@ -52,12 +35,6 @@ static bool	redir_out(t_cstr file, int std_fd)
 	return (fd != 1 && redirect_fd(&fd, std_fd));
 }
 
-// void	close_redir(int fd[2])
-// {
-// 	safe_close_fd(&fd[0]);
-// 	safe_close_fd(&fd[1]);
-// }
-
 static bool	redir_append(t_cstr file, int std_fd)
 {
 	const int	perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
@@ -67,11 +44,8 @@ static bool	redir_append(t_cstr file, int std_fd)
 	return (fd != 1 && redirect_fd(&fd, std_fd));
 }
 
-// TODO: If it fails will we have open fd issues?
 bool	apply_std_redirection(int pipe_fd[2])
 {
-	// static const int	std[2] = {STDIN, STDOUT};
-	// int					i;
 	const int	std[2] = {STDIN, STDOUT};
 	int			i;
 
@@ -85,14 +59,8 @@ bool	apply_std_redirection(int pipe_fd[2])
 	return (true);
 }
 
-// TODO: file redirection needed
-// bool	apply_redirection(t_ast *node, t_exec *exec)
 bool	apply_redirection(t_redirect *redir, int redir_fd[2])
 {
-	// (void)node;
-	// if (!apply_std_redirection(exec->redir_fd))
-	// 	return (exec->wstatus = 1, false);
-	// return (true);
 	bool	success;
 	t_str	file;
 

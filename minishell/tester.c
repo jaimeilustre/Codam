@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/31 12:42:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/02 17:31:10 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,9 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 
 int	main(void)
 {
-	// char		*input_pipes = "ls -l | grep txt | wc -l";
-	char		*input_redir = "echo 'hello'\"world\"";
+	// char		*input_pipes = "ls -l |grep txt | wc -l";
+	char		*input_quotes = "echo hello'&&''world'";
+	// char		*input_redir = "<src/main.c > app cat -e";
 	// char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
 	t_token		*token;
@@ -83,8 +84,8 @@ int	main(void)
 	t_token		*last;
 	t_token		*backup;
 
-	src.buffer = input_redir;
-	src.bufsize = ft_strlen(input_redir);
+	src.buffer = input_quotes;
+	src.bufsize = ft_strlen(input_quotes);
 	src.curpos = 0;
 	while ((token = return_next_token(&src)) != NULL)
 	{

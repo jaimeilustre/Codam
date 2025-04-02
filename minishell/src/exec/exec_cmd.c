@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/25 15:04:03 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/24 15:25:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ static bool	exec_program(t_ast *node, t_exec *exec)
 	return (false);
 }
 
-// TODO: If redirection fails continue but set exit code to 1
 bool	exec_cmd(t_ast *node, t_exec *exec)
 {
 	expand_variables(node, exec);
-	// if (!apply_redirection(node, exec))
 	if (!apply_redirection(node->redirect, exec->redir_fd))
 	{
 		exec->wstatus = 1;

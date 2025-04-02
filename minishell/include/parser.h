@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/24 10:52:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/01 15:36:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ t_token		*create_tokens(t_str cmd);
 t_token		*allocate_token(t_token_type type, char *value);
 void		free_token(t_token *token);
 
+int			read_quotes(t_source *src, long start);
 t_token		*return_word_token(t_source *src);
 t_token		*return_single_operator_token(char c);
 t_token		*return_double_operator_token(t_source *src, char c);
@@ -94,6 +95,7 @@ t_ast		*allocate_ast_node(t_node_type type);
 t_ast		*create_command_node(char **args);
 void		free_ast(t_ast *node);
 t_redirect	*allocate_ast_redir(t_token *token);
+void		add_argument_to_ast(t_ast *left, t_token **tokens);
 
 t_ast		*parse_simple_command(t_token **tokens);
 t_ast		*create_ast_pipe(t_ast *left, t_token **tokens);

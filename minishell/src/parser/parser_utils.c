@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/31 12:33:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/01 15:38:05 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,15 @@ int	arg_count(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens && tokens->type == TOKEN_WORD)
+	while (tokens)
 	{
-		count++;
+		if (tokens->type == TOKEN_WORD)
+			count++;
+		else if (tokens->type == TOKEN_REDIRECT_IN
+			|| tokens->type == TOKEN_REDIRECT_OUT
+			|| tokens->type == TOKEN_APPEND
+			|| tokens->type == TOKEN_HEREDOC)
+			tokens = tokens->next;
 		tokens = tokens->next;
 	}
 	return (count);

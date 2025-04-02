@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:27:18 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/25 15:30:59 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/03/24 18:22:37 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_exec	*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst)
 
 void	free_exec(t_exec **exec)
 {
-	// apply_std_redirection((*exec)->dup_std_fd);
 	if ((*exec)->is_child || !apply_std_redirection((*exec)->dup_std_fd))
 		close_redir((*exec)->dup_std_fd);
 	close_redir((*exec)->redir_fd);

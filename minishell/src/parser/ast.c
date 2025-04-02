@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:46:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/03/27 14:55:10 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/02 16:40:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,22 @@ t_redirect	*allocate_ast_redir(t_token *token)
 		return (NULL);
 	}
 	return (redir);
+}
+
+/*Adding later arguments to AST*/
+void	add_argument_to_ast(t_ast *left, t_token **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (left->args[i] != NULL)
+		i++;
+	left->args[i] = ft_strdup((*tokens)->value);
+	if (!left->args[i])
+	{
+		free_args(left->args);
+		return ;
+	}
+	left->args[i + 1] = NULL;
+	*tokens = (*tokens)->next;
 }
