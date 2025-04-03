@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/03 11:43:54 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/04/03 14:40:53 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,20 @@ int	read_quotes(t_source *src, long start)
 	char	quote_type;
 
 	quote_type = src->buffer[start];
-	start++;
-	while (src->curpos < src->bufsize
-		&& src->buffer[src->curpos] != quote_type)
-		src->curpos++;
-	if (src->curpos >= src->bufsize)
-	{
-		ft_putendl_fd("Syntax error: unclosed quote", 2);
-		return (-1);
-	}
-	src->curpos++;
-	return (0);
+ 	start++;
+ 	while (src->curpos < src->bufsize
+ 		&& src->buffer[src->curpos] != quote_type)
+ 		src->curpos++;
+ 	if (src->curpos >= src->bufsize)
+ 	{
+ 		ft_putendl_fd("Syntax error: unclosed quote", 2);
+ 		return (-1);
+ 	}
+ 	src->curpos++;
+ 	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+ 		&& !is_operator(src->buffer[src->curpos]))
+ 		src->curpos++;
+ 	return (0);
 }
 
 /*Scans and returns a word token*/
@@ -41,30 +44,20 @@ t_token	*return_word_token(t_source *src)
 	long	length;
 	char	*word;
 	t_token	*word_token;
-	int		in_quotes;
 
 	start = src->curpos - 1;
-	in_quotes = 0;
 	if (src->buffer[start] == '\'' || src->buffer[start] == '"')
-	{
-		in_quotes = 1;
-		if (read_quotes(src, start) == -1)
-			return (NULL);
-	}
-	while (src->curpos < src->bufsize)
-	{
-		if (!in_quotes && is_space(src->buffer[src->curpos]))
-			break ;
-		else if (src->buffer[src->curpos] == '\''
-			|| src->buffer[src->curpos] == '"')
-		{
-			in_quotes = !in_quotes;
-			if (read_quotes(src, src->curpos) == -1)
-				return (NULL);
-		}
-		else
-			src->curpos++;
-	}
+ 	{
+ 		if (read_quotes(src, start) == -1)
+ 			return (NULL);
+ 	}
+ 	else
+ 	{
+ 		while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+ 			&& !is_operator(src->buffer[src->curpos]))
+ 			src->curpos++;
+ 		src->curpos++;
+ 	}
 	length = src->curpos - start;
 	word = ft_substr(src->buffer, start, length);
 	if (!word)

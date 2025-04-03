@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/03 11:46:56 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/04/03 14:41:42 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 int	main(void)
 {
 	// char		*input_pipes = "ls -l |grep txt | wc -l";
-	char		*input_quotes = "echo 'hello''&&''bye'";
+	char		*input_quotes = "echo 'hello' '&&' 'bye'";
 	// char		*input_redir = "cat < hi < helo dafs > bye";
 	// char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
