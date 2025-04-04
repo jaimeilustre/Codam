@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/01 15:38:23 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/04 09:59:35 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_ast	*parse_simple_command(t_token **tokens)
 	char	**args;
 	int		i;
 
+	printf("Arg count: %d\n", arg_count(*tokens));
 	args = malloc((arg_count(*tokens) + 1) * sizeof(char *));
 	if (args == NULL)
 		return (NULL);

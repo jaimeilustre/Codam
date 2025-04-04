@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:46:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/02 16:40:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/01 15:37:53 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,6 @@ void	add_argument_to_ast(t_ast *left, t_token **tokens)
 	while (left->args[i] != NULL)
 		i++;
 	left->args[i] = ft_strdup((*tokens)->value);
-	if (!left->args[i])
-	{
-		free_args(left->args);
-		return ;
-	}
 	left->args[i + 1] = NULL;
 	*tokens = (*tokens)->next;
 }
