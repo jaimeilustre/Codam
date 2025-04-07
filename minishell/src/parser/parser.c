@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/04 09:59:35 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 15:03:16 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "libft.h"
 #include "parser.h"
 #include "ms_string.h"
-#include <stdio.h>
 
 /*Parse simple command and return node command*/
 t_ast	*parse_simple_command(t_token **tokens)
@@ -23,7 +22,6 @@ t_ast	*parse_simple_command(t_token **tokens)
 	char	**args;
 	int		i;
 
-	printf("Arg count: %d\n", arg_count(*tokens));
 	args = malloc((arg_count(*tokens) + 1) * sizeof(char *));
 	if (args == NULL)
 		return (NULL);
@@ -56,6 +54,13 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
 	}
 	node->left = left;
 	*tokens = (*tokens)->next;
+	if (!(*tokens))
+	{
+		ft_putendl_fd("Pipe must be followed by an operator or command", 2);
+		free(node);
+		free_ast(left);
+		return (NULL);
+	}
 	node->right = build_ast_tree(tokens);
 	if (!node->right)
 	{
@@ -77,6 +82,13 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 		return (NULL);
 	}
 	*tokens = (*tokens)->next;
+	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
+	{
+		ft_putendl_fd("Redirection must be followed by a file", 2);
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
 	redir->file = ft_strdup((*tokens)->value);
 	if (!redir->file)
 	{

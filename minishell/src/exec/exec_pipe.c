@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:43:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/25 12:24:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/04 16:11:55 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ bool	exec_pipe(t_ast *node, t_exec *exec)
 		return (safe_close_fd(&pipe_fd[0]), false);
 	swapi(pipe_fd, (pipe_fd + 1));
 	cpid[1] = exec_child(node->right, exec, pipe_fd, &exec->redir_fd[0]);
-	if (cpid[1] == -1)
-		return (safe_close_fd(&pipe_fd[1]), false);
-	wait_or_kill_child(cpid[0], exec);
 	safe_close_fd(&pipe_fd[1]);
+	if (cpid[1] == -1)
+		return (false);
+	wait_or_kill_child(cpid[0], exec);
 	wait_or_kill_child(cpid[1], exec);
 	if (exec->is_child)
 		exit_process(exec);

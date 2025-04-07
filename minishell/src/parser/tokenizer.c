@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 15:13:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 12:39:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,76 +15,6 @@
 #include "parser.h"
 #include "stdio.h"
 
-/*Checking for unclosed quotes before tokenization*/
-int	check_quotes(const char *input)
-{
-	int		i;
-	char	quote_type;
-	
-	i = 0;
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			quote_type = input[i];
-			i++;
-			while (input[i] && input[i] != quote_type)
-				i++;
-			if (!input[i])
-			{
-				ft_putendl_fd("Unclosed quote", 2);
-				return (-1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
-/*Reading single or double quotes*/
-// int	read_quotes(t_source *src, long start)
-// {
-// 	char	quote_type;
-
-// 	quote_type = src->buffer[start];
-// 	start++;
-// 	while (src->curpos < src->bufsize
-// 		&& src->buffer[src->curpos] != quote_type)
-// 		src->curpos++;
-// 	if (src->curpos >= src->bufsize)
-// 	{
-// 		ft_putendl_fd("Syntax error: unclosed quote", 2);
-// 		return (-1);
-// 	}
-// 	src->curpos++;
-// 	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
-// 		&& !is_operator(src->buffer[src->curpos]))
-// 		src->curpos++;
-// 	return (0);
-// }
-
-int	read_quotes(t_source *src, long start)
-{
-	char	quote_type;
-
-	printf("Read quotes called\n");
-	quote_type = src->buffer[start];
-	start++;
-	while (src->curpos < src->bufsize
-		&& src->buffer[src->curpos] != quote_type)
-		src->curpos++;
-	if (src->curpos >= src->bufsize)
-	{
-		ft_putendl_fd("Syntax error: unclosed quote", 2);
-		return (-1);
-	}
-	src->curpos++;
-	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
-		&& !is_operator(src->buffer[src->curpos]))
-		src->curpos++;
-	return (0);
-}
-
 /*Scans and returns a word token*/
 t_token	*return_word_token(t_source *src)
 {
@@ -92,18 +22,18 @@ t_token	*return_word_token(t_source *src)
 	long	length;
 	char	*word;
 	t_token	*word_token;
-	// char	quote_type;
 
 	start = src->curpos - 1;
-	if (src->buffer[start] == '\'' || src->buffer[start] == '"')
+	src->curpos = start;
+	while (src->curpos < src->bufsize)
 	{
-		if (read_quotes(src, start) == -1)
-			return (NULL);
-	}
-	else
-	{
-		while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
-			&& !is_operator(src->buffer[src->curpos]))
+		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
+			read_quotes(src, src->curpos);
+		else if (is_space(src->buffer[src->curpos]))
+			break ;
+		else if (is_operator(src->buffer[src->curpos]))
+			break ;
+		else
 			src->curpos++;
 	}
 	length = src->curpos - start;
@@ -180,32 +110,9 @@ t_token	*return_next_token(t_source *src)
 		token = return_double_operator_token(src, c);
 		if (token != NULL)
 			return (token);
-		src->curpos--;
+		if (src->curpos < src->bufsize)
+			src->curpos--;
 		return (return_single_operator_token(c));
 	}
 	return (return_word_token(src));
 }
-
-// #include <stdio.h>
-
-// int main(void)
-// {
-//     char input[] = "echo 'hello' bye";
-//     t_source src;
-// 	t_token *token;
-//     src.buffer = input;
-//     src.bufsize = ft_strlen(input);
-//     src.curpos = 0;
-//     while ((token = return_next_token(&src)) != NULL)
-// 	{
-//         if (token->type == TOKEN_EOF)
-// 		{
-//             free(token);
-//             break;
-//         }
-//         printf("Token type: %d, value: \"%s\"\n", token->type, token->value);
-//         free(token->value);
-//         free(token);
-//     }
-//     return (0);
-// }

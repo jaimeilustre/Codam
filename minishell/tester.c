@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/03 14:41:42 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/04/07 15:03:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,6 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 				printf("%s    ├── HEREDOC: %s\n", prefix, redir->file);
 			redir = redir->next;
 		}
-		// if (node->args)
-		// {
-		// 	int i = 1;
-		// 	while (node->args[i])
-		// 	{
-		// 		printf("%s    ├── ARG: %s\n", prefix, node->args[i]);
-		// 		i++;
-		// 	}
-		// }
 	}
 	else if (node->type == NODE_PIPE)
 		printf("PIPE\n");
@@ -71,11 +62,12 @@ void	print_ast(t_ast *node, int indent, char *prefix)
 	print_ast(node->right, indent + 1, right_prefix);
 }
 
+/* ADD CHECK FOR VALID FILE AFTER REDIRECTION AND EXCLUDE OPERATORS AS FILES*/
 int	main(void)
 {
-	// char		*input_pipes = "ls -l |grep txt | wc -l";
-	char		*input_quotes = "echo 'hello' '&&' 'bye'";
-	// char		*input_redir = "cat < hi < helo dafs > bye";
+	// char		*input_pipes = "ls -l | grep txt |  wc -l";
+	// char		*input_quotes = "echo 'hello'bye";
+	char		*input_redir = "cat |";
 	// char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
 	t_token		*token;
@@ -84,8 +76,8 @@ int	main(void)
 	t_token		*last;
 	t_token		*backup;
 
-	src.buffer = input_quotes;
-	src.bufsize = ft_strlen(input_quotes);
+	src.buffer = input_redir;
+	src.bufsize = ft_strlen(input_redir);
 	src.curpos = 0;
 	while ((token = return_next_token(&src)) != NULL)
 	{
@@ -123,3 +115,34 @@ int	main(void)
 // 		printf("%s\n", args[i]);
 // 		i++;
 // 	}
+
+// if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
+// {
+// 	free(node);
+// 	free_ast(left);
+// 	return (NULL);
+// }
+
+// #include <stdio.h>
+
+// int main(void)
+// {
+//     char input[] = "cat < hi < helo dafs > bye";
+//     t_source src;
+// 	t_token *token;
+//     src.buffer = input;
+//     src.bufsize = ft_strlen(input);
+//     src.curpos = 0;
+//     while ((token = return_next_token(&src)) != NULL)
+// 	{
+//         if (token->type == TOKEN_EOF)
+// 		{
+//             free(token);
+//             break;
+//         }
+//         printf("Token type: %d, value: \"%s\"\n", token->type, token->value);
+//         free(token->value);
+//         free(token);
+//     }
+//     return (0);
+// }

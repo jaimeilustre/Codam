@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/04 10:13:53 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 12:40:17 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "parser.h"
 #include "ms_string.h"
+
+#include <stdio.h>
 
 /*Count args for args array*/
 int	arg_count(t_token *tokens)
@@ -30,7 +32,8 @@ int	arg_count(t_token *tokens)
 			|| tokens->type == TOKEN_APPEND
 			|| tokens->type == TOKEN_HEREDOC)
 			tokens = tokens->next;
-		tokens = tokens->next;
+		if (tokens != NULL)
+			tokens = tokens->next;
 	}
 	return (count);
 }
