@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/04 18:04:31 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 15:13:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,16 +69,19 @@ int	read_quotes(t_source *src, long start)
 
 	printf("Read quotes called\n");
 	quote_type = src->buffer[start];
-	src->curpos++;
-	while (src->curpos < src->bufsize)
+	start++;
+	while (src->curpos < src->bufsize
+		&& src->buffer[src->curpos] != quote_type)
+		src->curpos++;
+	if (src->curpos >= src->bufsize)
 	{
-		if (src->buffer[src->curpos] == quote_type)
-		{
-			src->curpos++; // Move past closing quote
-			break ;
-		}
-		src->curpos++; // Move forward normally
+		ft_putendl_fd("Syntax error: unclosed quote", 2);
+		return (-1);
 	}
+	src->curpos++;
+	while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+		&& !is_operator(src->buffer[src->curpos]))
+		src->curpos++;
 	return (0);
 }
 
@@ -91,31 +94,16 @@ t_token	*return_word_token(t_source *src)
 	t_token	*word_token;
 	// char	quote_type;
 
-	// quote_type = 0;
-	start = src->curpos - 1;	
-	src->curpos = start;	
-	while (src->curpos < src->bufsize)
+	start = src->curpos - 1;
+	if (src->buffer[start] == '\'' || src->buffer[start] == '"')
 	{
-		printf("Current character: %c\n", src->buffer[src->curpos]);
-		// Handle quotes properly
-		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
-		{
-			// if (quote_type == 0)
-			// 	quote_type = src->buffer[src->curpos];
-			// else if (quote_type == src->buffer[src->curpos])
-			// 	quote_type = 0;
-			read_quotes(src, src->curpos);
-		}
-		else if (is_space(src->buffer[src->curpos]))
-		{
-			printf("Space found: %c\n", src->buffer[src->curpos - 1]);
-			break ;
-		}
-		// Stop if we hit an operator OUTSIDE of quotes
-		else if (is_operator(src->buffer[src->curpos]))
-			break ;
-		
-		else
+		if (read_quotes(src, start) == -1)
+			return (NULL);
+	}
+	else
+	{
+		while (src->curpos < src->bufsize && !is_space(src->buffer[src->curpos])
+			&& !is_operator(src->buffer[src->curpos]))
 			src->curpos++;
 	}
 	length = src->curpos - start;
