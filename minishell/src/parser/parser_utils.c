@@ -6,16 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 12:40:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 17:51:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include "libft.h"
 #include "parser.h"
 #include "ms_string.h"
-
-#include <stdio.h>
 
 /*Count args for args array*/
 int	arg_count(t_token *tokens)
@@ -23,17 +22,11 @@ int	arg_count(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (tokens)
+	while (is_valid_next_token(tokens))
 	{
 		if (tokens->type == TOKEN_WORD)
-			count++;
-		else if (tokens->type == TOKEN_REDIRECT_IN
-			|| tokens->type == TOKEN_REDIRECT_OUT
-			|| tokens->type == TOKEN_APPEND
-			|| tokens->type == TOKEN_HEREDOC)
-			tokens = tokens->next;
-		if (tokens != NULL)
-			tokens = tokens->next;
+			++count;
+		tokens = tokens->next;
 	}
 	return (count);
 }
@@ -66,4 +59,18 @@ void	append_redir(t_ast *left, t_redirect *redir)
 			temp = temp->next;
 		temp->next = redir;
 	}
+}
+
+/*Checks if after operator a valid token is present*/
+bool	is_valid_next_token(t_token *token)
+{
+	if (!token)
+		return (false);
+	if (token->type == TOKEN_WORD
+		|| token->type == TOKEN_REDIRECT_IN
+		|| token->type == TOKEN_REDIRECT_OUT
+		|| token->type == TOKEN_APPEND
+		|| token->type == TOKEN_HEREDOC)
+		return (true);
+	return (false);
 }

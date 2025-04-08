@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 15:03:16 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 17:50:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
 	}
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!(*tokens))
+	if (!is_valid_next_token(*tokens))
 	{
 		ft_putendl_fd("Pipe must be followed by an operator or command", 2);
 		free(node);

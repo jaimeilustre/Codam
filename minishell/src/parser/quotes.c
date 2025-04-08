@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/07 07:42:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 09:25:53 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 16:14:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,18 @@
 /*Checking for unclosed quotes before tokenization*/
 int	check_quotes(const char *input)
 {
-	int		i;
-	char	quote_type;
-
-	i = 0;
-	while (input[i])
+	while (*input)
 	{
-		if (input[i] == '\'' || input[i] == '"')
+		if (*input == '\'' || *input == '"')
 		{
-			quote_type = input[i];
-			i++;
-			while (input[i] && input[i] != quote_type)
-				i++;
-			if (!input[i])
+			input = ft_strchrnul(input + 1, *input);
+			if (*input == '\0')
 			{
 				ft_putendl_fd("Unclosed quote", 2);
 				return (-1);
 			}
 		}
-		i++;
+		++input;
 	}
 	return (0);
 }

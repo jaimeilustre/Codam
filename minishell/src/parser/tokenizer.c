@@ -6,14 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 12:39:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 16:39:14 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "libft.h"
 #include "parser.h"
-#include "stdio.h"
 
 /*Scans and returns a word token*/
 t_token	*return_word_token(t_source *src)
@@ -98,8 +97,6 @@ t_token	*return_next_token(t_source *src)
 	char	c;
 	t_token	*token;
 
-	if (check_quotes(src->buffer) == -1)
-		return (NULL);
 	c = next_char(src);
 	while (c && is_space(c))
 		c = next_char(src);

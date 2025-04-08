@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:43:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/01 15:38:31 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/07 16:36:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ t_token	*create_tokens(t_str cmd)
 	t_token		*first_token;
 	t_token		*last_token;
 
+	if (check_quotes(cmd) == -1)
+		return (NULL);
 	src = (t_source){cmd, ft_strlen(cmd), 0};
 	first_token = return_next_token(&src);
 	last_token = first_token;
