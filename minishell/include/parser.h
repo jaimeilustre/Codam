@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/07 07:36:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/09 17:25:47 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_redirect
 {
 	t_node_type			type;
 	char				*file;
+	char				*heredoc;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -92,6 +93,7 @@ t_token		*return_next_token(t_source *src);
 int			arg_count(t_token *tokens);
 void		free_token_list(t_token **head);
 void		append_redir(t_ast *left, t_redirect *redir);
+bool		is_valid_next_token(t_token *token);
 
 t_ast		*allocate_ast_node(t_node_type type);
 t_ast		*create_command_node(char **args);

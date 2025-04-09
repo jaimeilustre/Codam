@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/24 15:25:42 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/28 12:24:00 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,28 +28,31 @@ static bool	exec_builtin(t_ast *node, t_exec *exec)
 	return (true);
 }
 
-static t_str	get_cmd_path(t_str cmd, t_exec *exec)
+static t_str	set_cmd_path(t_str *cmd, t_exec *exec)
 {
-	t_str	path_to_cmd;
+	t_str	new_path;
 
-	path_to_cmd = find_cmd(cmd, exec->env_lst);
-	if (path_to_cmd == NULL && exec->is_child)
+	if (is_rel_abs_path(*cmd))
+		return (*cmd);
+	new_path = find_cmd(*cmd, exec->env_lst);
+	if (new_path == NULL && exec->is_child)
 		exit_process(exec);
-	return (path_to_cmd);
+	free(*cmd);
+	*cmd = new_path;
+	return (*cmd);
 }
 
 // TODO: Parent stop listing to signals and let external program deal with it?
+// TODO: Handle empty/Non existing variables that are used as cmd (top arg)
 static bool	exec_program(t_ast *node, t_exec *exec)
 {
 	t_str	path_to_cmd;
 	pid_t	cpid;
 	t_alist	env;
 
-	path_to_cmd = get_cmd_path(*(node->args), exec);
+	path_to_cmd = set_cmd_path(node->args, exec);
 	if (path_to_cmd == NULL)
 		return (true);
-	free(*(node->args));
-	*(node->args) = path_to_cmd;
 	if (!exec->is_child)
 	{
 		if (!start_fork(&cpid, exec))
@@ -60,15 +63,15 @@ static bool	exec_program(t_ast *node, t_exec *exec)
 	if (duplicate_list(&env, exec->env_lst, ENV_EXPORT, ENV_UNLIST))
 		execve(path_to_cmd, node->args, env.items);
 	ms_error(PERROR, path_to_cmd, NULL);
-	free_list(&env);
+	shallow_free_list(&env);
 	exit_process(exec);
 	return (false);
 }
 
 bool	exec_cmd(t_ast *node, t_exec *exec)
 {
-	expand_variables(node, exec);
-	if (!apply_redirection(node->redirect, exec->redir_fd))
+	if (!expand_arguments(node->args, exec->env_lst)
+		|| !apply_redirection(node->redirect, exec->redir_fd))
 	{
 		exec->wstatus = 1;
 		if (exec->is_child)

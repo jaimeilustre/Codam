@@ -11,7 +11,7 @@ CC			:= cc
 C_FLAGS 	:= -Wall -Wextra -Werror
 BIN 		:= bin/
 DB_DIR 		:= debug/
-C_DEBUG 	:= -fsanitize=address,undefined -g3 -fno-omit-frame-pointer -fsanitize=leak
+C_DEBUG 	:= -fsanitize=address,undefined,leak -g3 -fno-omit-frame-pointer
 C_INC		:= -I ./include -I ./$(LIBFT_DIR)include
 C_LIB		:= -lreadline
 
@@ -19,9 +19,9 @@ C_LIB		:= -lreadline
 NAME		:= minishell
 DB_NAME		:= db_minishell
 SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c environment.c exec_cmd.c \
-				exec_init.c exec_pipe.c exec_utils.c expand_variable.c export.c \
-				find_cmd.c list.c list_operations.c main.c ms_error.c ms_string.c \
-				parser.c parser_utils.c prompt.c pwd.c redirect.c redirect_utils.c \
+				exec_init.c exec_pipe.c exec_utils.c export.c find_cmd.c list.c \
+				list_operations.c main.c ms_error.c ms_string.c parser.c \
+				parser_utils.c prompt.c pwd.c redirect.c redirect_utils.c \
 				signal_utils.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
 				validate.c env_init.c list_init.c quotes.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
@@ -45,6 +45,7 @@ $(LIBFT):
 debug: $(DB_NAME)
 
 $(DB_NAME): $(DB_DIR) $(DB_LIBFT) $(DB_OBJS)
+	export LSAN_OPTIONS=suppressions=asan_minishell.supp
 	$(CC) $(C_DEBUG) $(DB_OBJS) $(DB_LIBFT) $(C_LIB) -o $(DB_NAME)
 
 $(DB_DIR)%.o: %.c

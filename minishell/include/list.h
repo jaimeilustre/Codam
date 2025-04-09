@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 16:17:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/28 10:26:22 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef int	(*t_compare)(t_cstr, t_cstr);
 
 bool	init_list(t_alist *list, int capacity);
 void	free_list(t_alist *list);
+void	shallow_free_list(t_alist *list);
 bool	add_to_list(t_alist *list, t_str item, t_env_fl flag);
 int		find_item_in_list(t_alist *list, t_cstr item, t_compare comp);
 bool	remove_index_from_list(t_alist *list, int i);

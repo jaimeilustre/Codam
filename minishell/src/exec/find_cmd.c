@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 17:19:15 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/20 14:07:18 by jilustre      ########   odam.nl         */
+/*   Created: 2025/03/04 12:21:47 by jboon         #+#    #+#                 */
+/*   Updated: 2025/03/28 11:46:33 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,21 @@
 #include "minishell.h"
 #include "ms_error.h"
 
-static bool	try_rel_abs_path(t_str cmd, t_str *out_path)
-{
-	*out_path = NULL;
-	if (*cmd == '/'
-		|| ft_strncmp(cmd, "./", 2) == 0 || ft_strncmp(cmd, "../", 3) == 0)
-	{
-		if (access(cmd, X_OK) == 0)
-			return (*out_path = ft_strdup(cmd), true);
-		return (ms_error(PERROR, cmd, NULL), true);
-	}
-	return (false);
-}
-
 static void	clean_up(t_str path, t_str *paths)
 {
 	free(path);
 	free_args(paths);
 }
 
+bool	is_rel_abs_path(t_cstr path)
+{
+	return (*path == '/'
+		|| (ft_strncmp(path, "./", 2) == 0)
+		|| (ft_strncmp(path, "../", 3) == 0)
+	);
+}
+
+// TODO: append_to_path does not tell if the path was fully appended.
 t_str	find_cmd(t_str cmd, t_alist *env_lst)
 {
 	t_str	cmd_path;
@@ -42,8 +38,6 @@ t_str	find_cmd(t_str cmd, t_alist *env_lst)
 	t_str	*paths;
 	t_str	*tmp;
 
-	if (try_rel_abs_path(cmd, &cmd_path))
-		return (cmd_path);
 	env_path = ms_getenv(env_lst, "PATH");
 	if (env_path == NULL)
 		return (NULL);

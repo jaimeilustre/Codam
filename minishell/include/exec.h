@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 18:00:22 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/28 12:36:20 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int		get_exit_code(int wstatus);
 void	wait_or_kill_child(pid_t cpid, t_exec *exec);
 void	exit_process(t_exec *exec);
 bool	start_fork(pid_t *cpid, t_exec *exec);
+
+bool	is_rel_abs_path(t_cstr path);
 t_str	find_cmd(t_str cmd, t_alist *env_lst);
 
 bool	exec_node(t_ast *node, t_exec *exec);
@@ -57,8 +59,9 @@ bool	apply_std_redirection(int pipe_fd[2]);
 bool	apply_redirection(t_redirect *redir, int redir_fd[2]);
 bool	store_std_fd(int new_fd[RE_MAX_FD]);
 
-/* Variable Expansion */
+/* Expansion */
 
-bool	expand_variables(t_ast *node, t_exec *exec);
+bool	expand_variable(t_strb *sb, t_cstr *var, t_alist *env_lst);
+bool	expand_arguments(t_str *args, t_alist *env_lst);
 
 #endif
