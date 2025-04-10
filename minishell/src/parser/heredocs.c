@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/10 08:02:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/04/10 08:07:35 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens)
 		return (NULL);
 	}
 	*tokens = (*tokens)->next;
+	if (!init_strb(&sb, 512))
+	{
+		free(redir->file);
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
 	while (1)
 	{
 		line = readline("> ");
@@ -68,4 +75,4 @@ t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens)
 	return (left);
 }
 
-cc -Wall -Wextra -Werror -lreadline -Iinclude -Ilibft/include src/parser/ast.c src/parser/parser_utils.c src/parser/parser.c src/parser/token.c src/parser/tokenizer_utils.c src/parser/tokenizer.c src/ms_string.c libft/src/ft_calloc.c libft/src/ft_putendl_fd.c libft/src/ft_strdup.c libft/src/ft_strlcat.c libft/src/ft_strlen.c libft/src/ft_substr.c libft/src/ft_bzero.c libft/src/ft_memcpy.c libft/src/ft_putchar_fd.c libft/src/ft_putstr_fd.c tester.c src/parser/quotes.c libft/src/ft_strchrnul.c
+
