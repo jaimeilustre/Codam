@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:55:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 15:03:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/10 07:57:14 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(void)
 {
 	// char		*input_pipes = "ls -l | grep txt |  wc -l";
 	// char		*input_quotes = "echo 'hello'bye";
-	char		*input_redir = "cat |";
+	char		*input_redir = "cat << EOF";
 	// char		*input_logical = "echo 'Hello World' | ls && ls || echo 'World'";
 	t_source	src;
 	t_token		*token;
