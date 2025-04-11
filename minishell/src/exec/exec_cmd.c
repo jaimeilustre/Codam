@@ -6,80 +6,116 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/28 12:24:00 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/11 10:27:36 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <errno.h>
+#include <sys/stat.h>
 
 #include "ms_error.h"
 #include "builtin.h"
 #include "parser.h"
 #include "exec.h"
+#include "signal_utils.h"
 
-static bool	exec_builtin(t_ast *node, t_exec *exec)
+static t_exit_code	set_cmd_path(t_str *cmd_path, t_str *cmd, t_exec *exec)
+{
+	struct stat	statbuf;
+
+	if (is_rel_abs_path(*cmd))
+	{
+		if (stat(*cmd, &statbuf) == 0)
+		{
+			if (S_ISDIR(statbuf.st_mode))
+				return (ms_error(IS_DIR, *cmd, NULL), E_CMD_NO_PERM);
+			*cmd_path = *cmd;
+			return (E_SUCCESS);
+		}
+		return (ms_error(PERROR, *cmd, NULL), E_CMD_NOT_FOUND);
+	}
+	*cmd_path = find_cmd(*cmd, exec->env_lst);
+	if (*cmd_path != NULL)
+	{
+		free(*cmd);
+		*cmd = *cmd_path;
+		return (E_SUCCESS);
+	}
+	return (E_CMD_NOT_FOUND);
+}
+
+static t_exit_code	exec_builtin(t_ast *node, t_exec *exec)
 {
 	t_blt_func	blt_func;
+	t_exit_code	exit_code;
 
 	blt_func = find_builtin(*(node->args));
 	if (blt_func == NULL)
-		return (false);
-	exec->wstatus = blt_func(count_args(node->args), node->args, exec->env_lst);
+		return (E_NO_BLTIN);
+	if (blt_func == ms_exit)
+		exit_code = blt_func(count_args(node->args), node->args, exec);
+	else
+		exit_code = blt_func(count_args(node->args), node->args, exec->env_lst);
 	if (exec->is_child)
-		exit_process(exec);
-	return (true);
+		exit_process(exec, exit_code);
+	return (exit_code);
 }
 
-static t_str	set_cmd_path(t_str *cmd, t_exec *exec)
+static t_exit_code	ms_execve(t_str cmd, t_str *argv, t_exec *exec)
 {
-	t_str	new_path;
+	t_alist		env;
+	t_exit_code	exit_code;
 
-	if (is_rel_abs_path(*cmd))
-		return (*cmd);
-	new_path = find_cmd(*cmd, exec->env_lst);
-	if (new_path == NULL && exec->is_child)
-		exit_process(exec);
-	free(*cmd);
-	*cmd = new_path;
-	return (*cmd);
+	errno = 0;
+	dfl_signal_handler();
+	if (duplicate_list(&env, exec->env_lst, ENV_EXPORT, ENV_UNLIST))
+		execve(cmd, argv, env.items);
+	ms_error(PERROR, cmd, NULL);
+	shallow_free_list(&env);
+	if (errno == EACCES)
+		exit_code = E_CMD_NO_PERM;
+	else if (errno == ENOENT)
+		exit_code = E_CMD_NOT_FOUND;
+	else
+		exit_code = E_GEN_ERR;
+	exit_process(exec, exit_code);
+	return (exit_code);
 }
 
-// TODO: Parent stop listing to signals and let external program deal with it?
-// TODO: Handle empty/Non existing variables that are used as cmd (top arg)
-static bool	exec_program(t_ast *node, t_exec *exec)
+static t_exit_code	exec_program(t_ast *node, t_exec *exec)
 {
-	t_str	path_to_cmd;
-	pid_t	cpid;
-	t_alist	env;
+	t_str		path_to_cmd;
+	pid_t		cpid;
+	t_exit_code	exit_code;
 
-	path_to_cmd = set_cmd_path(node->args, exec);
-	if (path_to_cmd == NULL)
-		return (true);
-	if (!exec->is_child)
+	path_to_cmd = NULL;
+	exit_code = set_cmd_path(&path_to_cmd, node->args, exec);
+	if (exit_code != E_SUCCESS)
+		return (exit_code);
+	else if (!exec->is_child)
 	{
 		if (!start_fork(&cpid, exec))
-			return (false);
+			return (E_GEN_ERR);
 		else if (cpid != 0)
-			return (wait_or_kill_child(cpid, exec), true);
+			return (wait_on_child(cpid));
 	}
-	if (duplicate_list(&env, exec->env_lst, ENV_EXPORT, ENV_UNLIST))
-		execve(path_to_cmd, node->args, env.items);
-	ms_error(PERROR, path_to_cmd, NULL);
-	shallow_free_list(&env);
-	exit_process(exec);
-	return (false);
+	return (ms_execve(path_to_cmd, node->args, exec));
 }
 
-bool	exec_cmd(t_ast *node, t_exec *exec)
+t_exit_code	exec_cmd(t_ast *node, t_exec *exec)
 {
+	t_exit_code	exit_code;
+
 	if (!expand_arguments(node->args, exec->env_lst)
 		|| !apply_redirection(node->redirect, exec->redir_fd))
 	{
-		exec->wstatus = 1;
 		if (exec->is_child)
-			exit_process(exec);
+			exit_process(exec, E_GEN_ERR);
 		else
-			return (false);
+			return (E_GEN_ERR);
 	}
-	if (exec_builtin(node, exec))
-		return (true);
+	exit_code = exec_builtin(node, exec);
+	if (exit_code != E_NO_BLTIN)
+		return (exit_code);
 	return (exec_program(node, exec));
 }

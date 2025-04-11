@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:55:25 by jboon         #+#    #+#                 */
-/*   Updated: 2025/02/14 17:41:53 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/09 01:14:40 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include <unistd.h>
 #include "libft.h"
 #include "builtin.h"
+#include "ms_error.h"
+#include "exec.h"
 
 static bool	parse_flag(t_str arg)
 {
@@ -57,12 +59,12 @@ static void	print_arguments(t_str *argv)
 		ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-int	echo(int argc, t_str *argv, t_alist *env_lst)
+int	echo(int argc, t_str *argv, void *env_lst)
 {
 	(void)env_lst;
 	if (argc > 1)
 		print_arguments(argv + 1);
 	else
 		ft_putstr_fd("\n", STDOUT_FILENO);
-	return (0);
+	return (E_SUCCESS);
 }

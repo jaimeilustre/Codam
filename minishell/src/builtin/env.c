@@ -6,12 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 16:22:28 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/09 01:15:17 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
+#include "ms_error.h"
+#include "exec.h"
 
 static void	print_env_var(t_cstr item, t_env_fl flag)
 {
@@ -20,10 +22,10 @@ static void	print_env_var(t_cstr item, t_env_fl flag)
 	ft_putendl_fd((t_str)item, STDOUT);
 }
 
-int	env(int argc, t_str *argv, t_alist *env_lst)
+int	env(int argc, t_str *argv, void *env_lst)
 {
 	(void)argc;
 	(void)argv;
 	iter_list(env_lst, print_env_var);
-	return (0);
+	return (E_SUCCESS);
 }

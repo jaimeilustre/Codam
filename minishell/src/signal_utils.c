@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:29:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 11:08:28 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/05 17:39:31 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,24 @@
 #include "signal_utils.h"
 #include "libft.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
-static void	catch_signals(int signo)
-{
-	g_signal = signo;
-}
-
-bool	exec_signal_handler(void)
+bool	dfl_signal_handler(void)
 {
 	t_sigaction	sa;
 
-	g_signal = 0;
-	return (init_sig(&sa, 0, catch_signals, NULL));
+	return (init_sig(&sa, 0, SIG_DFL, NULL));
+}
+
+bool	ign_signal_handler(void)
+{
+	t_sigaction	sa;
+
+	return (init_sig(&sa, 0, SIG_IGN, NULL));
 }
 
 bool	prompt_signal_handler(void)
 {
 	t_sigaction	sa;
 
-	g_signal = 0;
 	return (init_sig(&sa, 0, interative_mode, NULL));
 }
 

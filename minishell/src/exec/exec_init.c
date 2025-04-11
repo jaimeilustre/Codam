@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:27:18 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/24 18:22:37 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/09 09:39:10 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 #include "exec.h"
 #include "ms_error.h"
 
-// TODO: Set exit code on malloc fail
-// TODO: Change the builtin signature to use the s_exec instead?
 t_exec	*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst)
 {
 	t_exec	*exec;
@@ -33,7 +31,6 @@ t_exec	*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst)
 	}
 	exec->redir_fd[0] = STDIN;
 	exec->redir_fd[1] = STDOUT;
-	exec->wstatus = 0;
 	exec->is_child = false;
 	exec->cmd = cmd;
 	exec->head = head;

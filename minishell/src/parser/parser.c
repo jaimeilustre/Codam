@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 17:50:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/11 10:47:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "parser.h"
 #include "ms_string.h"
+#include "list.h"
 
 /*Parse simple command and return node command*/
 t_ast	*parse_simple_command(t_token **tokens)
@@ -42,7 +43,7 @@ t_ast	*parse_simple_command(t_token **tokens)
 }
 
 /*Building the pipe in AST*/
-t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
+t_ast	*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst)
 {
 	t_ast	*node;
 
@@ -61,7 +62,7 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens)
 		free_ast(left);
 		return (NULL);
 	}
-	node->right = build_ast_tree(tokens);
+	node->right = build_ast_tree(tokens, env_lst);
 	if (!node->right)
 	{
 		free_ast(node);
@@ -102,7 +103,7 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 }
 
 /*Building the logical operator in AST*/
-t_ast	*create_ast_logical(t_ast *left, t_token **tokens)
+t_ast	*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst)
 {
 	t_ast	*node;
 
@@ -118,7 +119,7 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens)
 	}
 	node->left = left;
 	*tokens = (*tokens)->next;
-	node->right = build_ast_tree(tokens);
+	node->right = build_ast_tree(tokens, env_lst);
 	if (!node->right)
 	{
 		free_ast(node);
@@ -128,7 +129,7 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens)
 }
 
 /*Building the Abstract Syntax tree*/
-t_ast	*build_ast_tree(t_token **tokens)
+t_ast	*build_ast_tree(t_token **tokens, t_alist *env_lst)
 {
 	t_ast	*left;
 
@@ -140,16 +141,17 @@ t_ast	*build_ast_tree(t_token **tokens)
 	while (*tokens)
 	{
 		if ((*tokens)->type == TOKEN_PIPE)
-			left = create_ast_pipe(left, tokens);
+			left = create_ast_pipe(left, tokens, env_lst);
 		else if ((*tokens)->type == TOKEN_REDIRECT_IN
 			|| (*tokens)->type == TOKEN_REDIRECT_OUT
-			|| (*tokens)->type == TOKEN_APPEND
-			|| (*tokens)->type == TOKEN_HEREDOC)
+			|| (*tokens)->type == TOKEN_APPEND)
 			left = create_ast_redir(left, tokens);
+		else if ((*tokens)->type == TOKEN_HEREDOC)
+			left = create_ast_heredoc(left, tokens, env_lst);
 		else if ((*tokens)->type == TOKEN_WORD)
 			add_argument_to_ast(left, tokens);
 		else if ((*tokens)->type == TOKEN_AND || (*tokens)->type == TOKEN_OR)
-			left = create_ast_logical(left, tokens);
+			left = create_ast_logical(left, tokens, env_lst);
 		else
 			break ;
 		if (!left)

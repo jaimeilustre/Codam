@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:52:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 12:56:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/09 01:13:22 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 #include "minishell.h"
 #include "ms_error.h"
 #include "utils.h"
-
-#define CD_SUCCESS	0
-#define CD_FAIL		1
+#include "exec.h"
 
 static int	change_directory(t_cstr path, t_alist *env_lst)
 {
@@ -33,7 +31,7 @@ static int	change_directory(t_cstr path, t_alist *env_lst)
 		*prev_cwd = '\0';
 	}
 	if (chdir(path) == -1)
-		return (ms_error(PERROR, CD_NAME, (t_str)path), CD_FAIL);
+		return (ms_error(PERROR, CD_NAME, (t_str)path), E_GEN_ERR);
 	env_pwd = join_pair(V_PWD, path, "=");
 	env_oldpwd = join_pair(V_OLDPWD, prev_cwd, "=");
 	if (env_pwd != NULL)
@@ -42,7 +40,7 @@ static int	change_directory(t_cstr path, t_alist *env_lst)
 		ms_setenv(env_lst, V_OLDPWD, env_oldpwd, ENV_NONE);
 	free((void *)env_pwd);
 	free((void *)env_oldpwd);
-	return (CD_SUCCESS);
+	return (E_GEN_ERR);
 }
 
 static int	cd_to_home(t_alist *env_lst)
@@ -53,7 +51,7 @@ static int	cd_to_home(t_alist *env_lst)
 	if (home_dir != NULL)
 		return (change_directory(home_dir, env_lst));
 	ms_error(NO_ENV_VAR, CD_NAME, V_HOME);
-	return (CD_FAIL);
+	return (E_GEN_ERR);
 }
 
 static int	cd_to_oldpwd(t_alist *env_lst)
@@ -65,24 +63,24 @@ static int	cd_to_oldpwd(t_alist *env_lst)
 	if (prev_dir == NULL)
 	{
 		ms_error(NO_ENV_VAR, CD_NAME, V_OLDPWD);
-		return (CD_FAIL);
+		return (E_GEN_ERR);
 	}
 	str_copy = ft_strdup(prev_dir);
-	if (change_directory(prev_dir, env_lst) == CD_SUCCESS)
+	if (change_directory(prev_dir, env_lst) == E_SUCCESS)
 	{
 		if (str_copy != NULL)
 			ft_putendl_fd(str_copy, STDOUT);
-		return (free(str_copy), CD_SUCCESS);
+		return (free(str_copy), E_SUCCESS);
 	}
-	return (free(str_copy), CD_FAIL);
+	return (free(str_copy), E_GEN_ERR);
 }
 
-int	cd(int argc, t_str *argv, t_alist *env_lst)
+int	cd(int argc, t_str *argv, void *env_lst)
 {
 	if (argc > 2)
 	{
 		ms_error(TOO_N_ARGS, CD_NAME, NULL);
-		return (1);
+		return (E_GEN_ERR);
 	}
 	if (argc < 2)
 		return (cd_to_home(env_lst));
@@ -90,5 +88,5 @@ int	cd(int argc, t_str *argv, t_alist *env_lst)
 		return (cd_to_oldpwd(env_lst));
 	else
 		return (change_directory(*(argv + 1), env_lst));
-	return (0);
+	return (E_SUCCESS);
 }

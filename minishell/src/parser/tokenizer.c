@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 16:39:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/11 11:39:22 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,18 @@ t_token	*return_word_token(t_source *src)
 	long	length;
 	char	*word;
 	t_token	*word_token;
-
+	int		quoted;
+	
+	quoted = 0;
 	start = src->curpos - 1;
 	src->curpos = start;
 	while (src->curpos < src->bufsize)
 	{
 		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
+		{
 			read_quotes(src, src->curpos);
+			quoted = 1;
+		}
 		else if (is_space(src->buffer[src->curpos]))
 			break ;
 		else if (is_operator(src->buffer[src->curpos]))
@@ -40,6 +45,7 @@ t_token	*return_word_token(t_source *src)
 	if (!word)
 		return (NULL);
 	word_token = create_token(TOKEN_WORD, word);
+	word_token->quoted = quoted;
 	return (word_token);
 }
 

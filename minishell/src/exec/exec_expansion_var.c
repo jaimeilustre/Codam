@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 13:13:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/08 11:08:35 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/11 10:52:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 #include "minishell.h"
 #include "exec.h"
 
-static t_cstr	get_end_of_name(t_cstr arg)
+/* Supports $? only, but could be extended for $$, $0, ect. */
+static bool	is_special_variable(const char c)
 {
-	t_cstr	end;
+	return (ft_strchr("?", c) != NULL);
+}
 
-	end = arg;
-	if (ft_isalpha(*end) || *end == '_')
+static t_cstr	get_end_of_name(t_cstr end)
+{
+	if (is_special_variable(*end))
+		return (end + 1);
+	else if (ft_isalpha(*end) || *end == '_')
 	{
 		++end;
 		while (ft_isalnum(*end) || *end == '_')

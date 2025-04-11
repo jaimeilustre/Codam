@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 17:25:47 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/11 16:31:28 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdbool.h>
 # include "ms_string.h"
+# include "list.h"
 
 typedef enum e_token_type
 {
@@ -41,6 +42,7 @@ typedef struct s_token
 	t_token_type	type;
 	int				size;
 	char			*value;
+	int				quoted;
 	struct s_token	*next;
 }	t_token;
 
@@ -60,7 +62,6 @@ typedef struct s_redirect
 {
 	t_node_type			type;
 	char				*file;
-	char				*heredoc;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -102,8 +103,9 @@ t_redirect	*allocate_ast_redir(t_token *token);
 void		add_argument_to_ast(t_ast *left, t_token **tokens);
 
 t_ast		*parse_simple_command(t_token **tokens);
-t_ast		*create_ast_pipe(t_ast *left, t_token **tokens);
+t_ast		*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*create_ast_redir(t_ast *left, t_token **tokens);
-t_ast		*build_ast_tree(t_token **tokens);
+t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
+t_ast		*build_ast_tree(t_token **tokens, t_alist *env_lst);
 
 #endif
