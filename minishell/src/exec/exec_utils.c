@@ -6,42 +6,53 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 11:08:34 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 15:07:08 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/11 10:22:44 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 #include <sys/wait.h>
-#include "exec.h"
+#include "libft.h"
+#include "minishell.h"
 #include "signal_utils.h"
 #include "ms_error.h"
-#include "libft.h"
+#include "exec.h"
 
-int	get_exit_code(int wstatus)
+t_exit_code	get_exit_code(int wstatus)
 {
 	if (WIFEXITED(wstatus))
 		return (WEXITSTATUS(wstatus));
 	else if (WIFSIGNALED(wstatus))
-		return (128 + WTERMSIG(wstatus));
-	return (0);
+		return (E_INV_ARG + WTERMSIG(wstatus));
+	return (E_SUCCESS);
 }
 
-void	wait_or_kill_child(pid_t cpid, t_exec *exec)
+void	store_exit_code(t_alist *env_lst, t_exit_code exit_code)
 {
-	if (g_signal == 0)
-		waitpid(cpid, &exec->wstatus, 0);
-	if (g_signal != 0)
-	{
-		kill(cpid, g_signal);
-		waitpid(cpid, &exec->wstatus, 0);
-	}
+	t_str	str_code;
+	t_str	entry;
+
+	str_code = ft_itoa(exit_code);
+	if (str_code == NULL)
+		return ;
+	entry = ft_strjoin(V_EXIT"=", str_code);
+	if (entry != NULL)
+		ms_decl_setenv(env_lst, V_EXIT, entry, ENV_HIDDEN);
+	free(entry);
+	free(str_code);
 }
 
-void	exit_process(t_exec *exec)
+t_exit_code	wait_on_child(pid_t cpid)
 {
-	int	exit_code;
+	int	wstatus;
 
-	exit_code = get_exit_code(exec->wstatus);
+	while (waitpid(cpid, &wstatus, 0) != cpid)
+		;
+	return (get_exit_code(wstatus));
+}
+
+void	exit_process(t_exec *exec, t_exit_code exit_code)
+{
 	free(exec->cmd);
 	free_ast(exec->head);
 	free_token_list(&exec->tokens);
@@ -51,7 +62,6 @@ void	exit_process(t_exec *exec)
 	exit(exit_code);
 }
 
-// TODO: Have parent or child stop listing to signals after fork?
 bool	start_fork(pid_t *cpid, t_exec *exec)
 {
 	*cpid = fork();

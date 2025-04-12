@@ -6,14 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 16:01:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/10 14:33:33 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/28 18:18:47 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "builtin.h"
 
-#define MAX_SIZE 6
+#define MAX_SIZE 7
 
 t_blt_func	find_builtin(t_str cmd)
 {
@@ -25,6 +25,7 @@ t_blt_func	find_builtin(t_str cmd)
 		(t_builtin){"unset", unset},
 		(t_builtin){"pwd", pwd},
 		(t_builtin){"cd", cd},
+		(t_builtin){"exit", ms_exit}
 	};
 
 	i = 0;

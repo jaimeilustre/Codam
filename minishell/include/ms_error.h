@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 18:02:48 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/02 09:25:49 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/10 11:06:53 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "ms_string.h"
 
-# define MS_ERROR_MAX 9
+# define MS_ERROR_MAX 11
 
 typedef enum e_ms_error_code
 {
@@ -28,7 +28,9 @@ typedef enum e_ms_error_code
 	NO_ARGS = 6,
 	NO_ENV_VAR = 7,
 	TOO_N_ARGS = 8,
-	PERROR = 9,
+	NUM_ARG_REQ = 9,
+	IS_DIR = 10,
+	PERROR = 11,
 }	t_ms_errno;
 
 void	ms_error(int ms_errno, t_str str, t_str arg);

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:47:45 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/03/31 12:48:28 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define V_OLDPWD	"OLDPWD"
 # define V_HOME		"HOME"
 # define V_SHLVL	"SHLVL"
+# define V_EXIT		"?"
 
 /* Prompt */
 
@@ -37,6 +38,7 @@ t_str	cmd_prompt(t_cstr prompt);
 /* Environment */
 
 bool	init_env(t_alist *env_lst, t_str *env);
+bool	ms_decl_setenv(t_alist *env_lst, t_cstr key, t_cstr value, t_env_fl fl);
 bool	ms_setenv(t_alist *env_lst, t_cstr key, t_cstr value, t_env_fl flag);
 t_cstr	ms_getenv(t_alist *env_lst, t_cstr env_var);
 bool	ms_unset_env(t_alist *env_lst, t_cstr env_var);

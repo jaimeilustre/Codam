@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:50:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/02 09:24:59 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/10 11:05:39 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 #include "ms_error.h"
 
 static t_cstr	g_errors[] = {
-	"Unknown error",
-	"Permission denied",
-	"Command not found",
-	"No file or directory called",
-	"Failed to allocated memory",
-	"Not a valid identifier",
-	"Not enough arguments",
+	"unknown error",
+	"permission denied",
+	"command not found",
+	"no file or directory called",
+	"failed to allocated memory",
+	"not a valid identifier",
+	"not enough arguments",
 	"not set",
-	"Too many arguments"
+	"too many arguments",
+	"numeric argument required",
+	"is a directory"
 };
 
 void	ms_error(int ms_errno, t_str str, t_str arg)

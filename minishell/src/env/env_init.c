@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/21 12:41:49 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 14:03:26 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/08 14:30:33 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "libft.h"
 #include "minishell.h"
 #include "utils.h"
+#include "exec.h"
 
 static void	update_shlvl(t_alist *env_lst)
 {
@@ -77,6 +78,7 @@ static void	set_base_variables(t_alist *env_lst)
 	update_oldpwd(env_lst);
 	update_pwd_to_cwd(env_lst);
 	update_shlvl(env_lst);
+	store_exit_code(env_lst, 0);
 }
 
 bool	init_env(t_alist *env_lst, t_str *env)

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:43:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/04 16:11:55 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/11 10:19:52 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static pid_t	exec_child(t_ast *node, t_exec *exec, int pipe_fd[2], int *rdir)
 {
-	pid_t	cpid;
+	pid_t		cpid;
 
 	start_fork(&cpid, exec);
 	if (cpid == 0)
@@ -24,31 +24,29 @@ static pid_t	exec_child(t_ast *node, t_exec *exec, int pipe_fd[2], int *rdir)
 		safe_close_fd(&pipe_fd[0]);
 		safe_close_fd(rdir);
 		*rdir = pipe_fd[1];
-		exec_node(node, exec);
-		exit_process(exec);
+		exit_process(exec, exec_node(node, exec));
 	}
 	return (cpid);
 }
 
-bool	exec_pipe(t_ast *node, t_exec *exec)
+t_exit_code	exec_pipe(t_ast *node, t_exec *exec)
 {
-	pid_t	cpid[2];
-	int		pipe_fd[2];
+	pid_t		cpid[2];
+	int			pipe_fd[2];
 
 	if (pipe(pipe_fd) == -1)
-		return (ms_error(PERROR, NULL, NULL), false);
+		return (ms_error(PERROR, NULL, NULL), E_GEN_ERR);
 	cpid[0] = exec_child(node->left, exec, pipe_fd, &exec->redir_fd[1]);
 	safe_close_fd(&pipe_fd[1]);
 	if (cpid[0] == -1)
-		return (safe_close_fd(&pipe_fd[0]), false);
+		return (safe_close_fd(&pipe_fd[0]), E_GEN_ERR);
 	swapi(pipe_fd, (pipe_fd + 1));
 	cpid[1] = exec_child(node->right, exec, pipe_fd, &exec->redir_fd[0]);
 	safe_close_fd(&pipe_fd[1]);
 	if (cpid[1] == -1)
-		return (false);
-	wait_or_kill_child(cpid[0], exec);
-	wait_or_kill_child(cpid[1], exec);
+		return (E_GEN_ERR);
+	wait_on_child(cpid[0]);
 	if (exec->is_child)
-		exit_process(exec);
-	return (true);
+		exit_process(exec, wait_on_child(cpid[1]));
+	return (wait_on_child(cpid[1]));
 }

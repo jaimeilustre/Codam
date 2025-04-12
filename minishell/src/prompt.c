@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 11:52:28 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/18 11:25:31 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/11 10:52:58 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+#include "libft.h"
 #include "minishell.h"
 #include "signal_utils.h"
 #include "parser.h"
@@ -51,7 +52,7 @@ void	interative_mode(int signo)
 
 t_str	cmd_prompt(t_cstr prompt)
 {
-	char	*cmd;
+	t_str	cmd;
 
 	cmd = readline(prompt);
 	if (cmd == NULL)
@@ -63,26 +64,26 @@ t_str	cmd_prompt(t_cstr prompt)
 	return (cmd);
 }
 
-int	exec_prompt(t_str cmd, t_alist *env_lst)
+t_exit_code	exec_prompt(t_str cmd, t_alist *env_lst)
 {
-	t_token	*tmp_tokens;
-	t_token	*tokens;
-	t_ast	*ast;
-	t_exec	*exec;
-	int		exit_code;
+	t_token		*tmp_tokens;
+	t_token		*tokens;
+	t_ast		*ast;
+	t_exec		*exec;
+	t_exit_code	exit_code;
 
-	exit_code = 1;
+	exit_code = E_GEN_ERR;
 	tokens = create_tokens(cmd);
 	if (tokens != NULL)
 	{
 		tmp_tokens = tokens;
-		ast = build_ast_tree(&tmp_tokens);
+		ast = build_ast_tree(&tmp_tokens, env_lst);
 		if (ast != NULL)
 		{
-			exec_signal_handler();
+			ign_signal_handler();
 			exec = init_exec(cmd, ast, tokens, env_lst);
-			if (exec != NULL && exec_node(ast, exec))
-				exit_code = get_exit_code(exec->wstatus);
+			if (exec != NULL)
+				exit_code = exec_node(ast, exec);
 			free_ast(ast);
 			free_exec(&exec);
 			prompt_signal_handler();
