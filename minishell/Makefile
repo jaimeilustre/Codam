@@ -1,4 +1,4 @@
-vpath %.c src/:src/builtin/:src/list/:src/env/:src/parser:src/exec
+vpath %.c src/:src/builtin/:src/list/:src/env/:src/parser:src/exec:src/exec/redir
 .PHONY: all bonus clean fclean re debug valgrind
 
 # LIBFT
@@ -21,10 +21,10 @@ DB_NAME		:= db_minishell
 SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c environment.c exec_cmd.c \
 				exec_init.c exec_pipe.c exec_utils.c export.c find_cmd.c list.c \
 				list_operations.c main.c ms_error.c ms_string.c parser.c \
-				parser_utils.c prompt.c pwd.c redirect.c redirect_utils.c \
+				parser_utils.c prompt.c pwd.c redir.c redir_utils.c \
 				signal_utils.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
 				validate.c env_init.c list_init.c exit.c stringbuilder.c exec_expansion.c \
-				exec_expansion_var.c quotes.c heredocs.c
+				exec_expansion_var.c quotes.c heredocs.c std_redir.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 

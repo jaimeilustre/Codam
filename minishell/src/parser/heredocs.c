@@ -6,59 +6,22 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/11 16:57:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/14 12:36:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 #include "ms_string.h"
-
 #include "exec.h"
 #include "list.h"
-
 #include <stdlib.h>
-#include <unistd.h>
 #include <readline/readline.h>
-#include <stdio.h>
 
-char	*remove_quotes(const char *str)
-{
-	const char	*src = str;
-	char		*result;
-	char		*dst;
-	char		quote = 0;
-
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	dst = result;
-	while (*src)
-	{
-		if (!quote && (*src == '\'' || *src == '"'))
-			quote = *src++;
-		else if (quote && *src == quote)
-		{
-			quote = 0;
-			src++;
-		}
-		else
-			*dst++ = *src++;
-	}
-	*dst = '\0';
-	return (result);
-}
-
-/*Building the heredoc in AST*/
-t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
+/*Initializes heredoc for AST*/
+t_redirect	*initialize_heredoc(t_ast *left, t_token **tokens)
 {
 	t_redirect	*redir;
-	t_strb		sb;
-	char		*line;
-	char		*delimiter;
-	t_cstr		ptr;
-	int			in_quotes;
-	char		*unquoted_delimiter;
 
 	redir = allocate_ast_redir(*tokens);
 	if (!redir)
@@ -74,71 +37,98 @@ t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
 		free_ast(left);
 		return (NULL);
 	}
-	delimiter = ((*tokens)->value);
-	if ((*tokens)->quoted)
+	return (redir);
+}
+
+/*Handles delimiter or quoted delimiter*/
+int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
+{
+	char	*unquoted_delimiter;
+
+	*in_quotes = tokens->quoted;
+	if (tokens->quoted)
 	{
-		unquoted_delimiter = remove_quotes(delimiter);
+		unquoted_delimiter = remove_quotes(tokens);
 		if (!unquoted_delimiter)
-			return (free(unquoted_delimiter), NULL);
-		free(delimiter);
-		delimiter = unquoted_delimiter;
-		// free(unquoted_delimiter);
+			return (0);
+		redir->file = ft_strdup(unquoted_delimiter);
+		free(unquoted_delimiter);
 	}
-	redir->file = ft_strdup(delimiter);
-	if (!redir->file)
+	else
+		redir->file = ft_strdup(tokens->value);
+	return (redir->file != NULL);
+}
+
+/*Handles variable expansion in heredoc input*/
+int	heredoc_exp(t_strb *sb, const char *line, int quoted, t_alist *env_lst)
+{
+	t_cstr	ptr;
+
+	ptr = line;
+	if (quoted)
+		return (append_strb(sb, line, ft_strlen(line))
+			&& append_strb(sb, "\n", 1));
+	while (*ptr)
 	{
-		free(redir);
-		free_ast(left);
-		return (NULL);
+		ptr = ft_strchrnul(ptr, '$');
+		if (!append_strb(sb, line, ptr - line)
+			|| (*ptr == '$' && !expand_variable(sb, &ptr, env_lst)))
+			return (0);
+		line = ptr + 1;
 	}
-	in_quotes = ((*tokens)->quoted);
-	*tokens = (*tokens)->next;
+	return (append_strb(sb, "\n", 1));
+}
+
+/*Handles regular line heredoc input*/
+int	heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst)
+{
+	t_strb	sb;
+	char	*line;
+
 	if (!init_strb(&sb, 512))
-	{
-		free(redir->file);
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
+		return (0);
 	while (1)
 	{
 		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{			
+		if (!line || ft_strcmp(line, redir->file) == 0)
+		{
 			free(line);
 			break ;
 		}
-		if (in_quotes)
-			append_strb(&sb, line, ft_strlen(line));
-		else
+		if (!heredoc_exp(&sb, line, quoted, env_lst))
 		{
-			ptr = line;
-			while (*ptr)
-			{
-				if (*ptr == '$')
-				{
-					if (!expand_variable(&sb, &ptr, env_lst))
-					{
-						free(line);
-						free(redir);
-						free_ast(left);
-						return (NULL);
-					}
-				}
-				else
-					append_strb(&sb, ptr, 1);
-				ptr++;
-			}
+			free(line);
+			return (0);
 		}
-		append_strb(&sb, "\n", 1);
 		free(line);
 	}
 	free(redir->file);
-	free(unquoted_delimiter);
 	redir->file = sb.str;
+	return (1);
+}
+
+/*Building the heredoc in AST*/
+t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
+{
+	t_redirect	*redir;
+	int			in_quotes;
+
+	redir = initialize_heredoc(left, tokens);
+	if (!redir)
+		return (NULL);
+	if (!check_delimiter(redir, *tokens, &in_quotes))
+	{
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
+	*tokens = (*tokens)->next;
+	if (!heredoc_input(redir, in_quotes, env_lst))
+	{
+		free(redir);
+		free_ast(left);
+		return (NULL);
+	}
 	append_redir(left, redir);
-	printf("String:\n%s", redir->file);
 	return (left);
 }
