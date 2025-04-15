@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:52:32 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/14 18:28:24 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,23 @@ typedef struct s_exec
 	t_token	*tokens;
 }	t_exec;
 
+typedef struct s_exp
+{
+	t_strb	sb;
+	int		sb_off;
+	t_alist	ls;
+	int		ls_off;
+}	t_exp;
+
+typedef enum e_needle
+{
+	N_START,
+	N_MID,
+	N_END,
+}	t_needle;
+
+typedef t_str	(*t_strstr)(t_cstr, t_cstr);
+
 /* Execution */
 
 t_exec		*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst);
@@ -65,12 +82,21 @@ void		close_redir(int fd[2]);
 void		safe_close_fd(int *fd);
 bool		redirect_fd(int *fd, int dupfd);
 bool		apply_std_redirection(int pipe_fd[2]);
-bool		apply_redirection(t_redirect *redir, int redir_fd[2]);
+bool		apply_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls);
 bool		store_std_fd(int new_fd[RE_MAX_FD]);
 
 /* Expansion */
 
+bool		any_file(t_cstr wildcard, t_cstr name);
+t_cstr		next_token(t_cstr arg, t_cstr tokens);
+t_cstr		consume_chars(t_cstr str, const char c);
+bool		has_strstr(t_cstr *str, t_cstr ptrn, t_strstr strstr, t_needle ndl);
+void		free_exp(t_exp *exp);
+void		filter_entries(t_cstr pattern, t_exp *exp, t_needle ndl);
+bool		expand_wildcard(t_cstr *ch, t_exp *exp);
+bool		expand_var_wildcards(int curr, t_exp *exp);
 bool		expand_variable(t_strb *sb, t_cstr *var, t_alist *env_lst);
-bool		expand_arguments(t_str *args, t_alist *env_lst);
+int			expand_arg(t_cstr arg, t_exp *exp, t_alist *env_lst);
+bool		expand_argv(t_str *argv, t_alist *env_lst, t_alist *ls);
 
 #endif

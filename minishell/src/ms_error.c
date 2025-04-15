@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:50:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/10 11:05:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/14 15:58:20 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ static t_cstr	g_errors[] = {
 	"not set",
 	"too many arguments",
 	"numeric argument required",
-	"is a directory"
+	"is a directory",
+	"ambiguous redirect"
 };
 
 void	ms_error(int ms_errno, t_str str, t_str arg)

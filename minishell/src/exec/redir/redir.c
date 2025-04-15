@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
+/*   redir.c                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:46:10 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 15:39:54 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 10:35:39 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,6 @@
 #include "exec.h"
 #include "ms_error.h"
 
-static bool	redir_in(t_cstr file, int std_fd)
-{
-	int	fd;
-
-	fd = open(file, O_RDONLY);
-	return (fd != -1 && redirect_fd(&fd, std_fd));
-}
-
-static bool	redir_out(t_cstr file, int std_fd)
-{
-	const int	perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	int			fd;
-
-	fd = open(file, O_CREAT | O_TRUNC | O_WRONLY, perms);
-	return (fd != 1 && redirect_fd(&fd, std_fd));
-}
-
-static bool	redir_append(t_cstr file, int std_fd)
-{
-	const int	perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
-	int			fd;
-
-	fd = open(file, O_CREAT | O_APPEND | O_WRONLY, perms);
-	return (fd != 1 && redirect_fd(&fd, std_fd));
-}
-
 static bool	redir_heredoc(t_str file, int std_fd)
 {
 	int	pipe_fd[2];
@@ -60,30 +34,75 @@ static bool	redir_heredoc(t_str file, int std_fd)
 	return (redirect_fd(&pipe_fd[0], std_fd));
 }
 
-bool	apply_redirection(t_redirect *redir, int redir_fd[2])
+static bool	redir(t_cstr file, int flags, int perms, int std_fd)
 {
-	bool	success;
+	int	fd;
+
+	fd = open(file, flags, perms);
+	return (fd != 1 && redirect_fd(&fd, std_fd));
+}
+
+static bool	handle_redir(t_cstr file, t_node_type type, int dir_fd[2])
+{
+	const int	perms = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
+	const int	wr_flags = O_CREAT | O_WRONLY;
+
+	if (type == NODE_REDIRECT_IN)
+		return (redir(file, O_RDONLY, perms, dir_fd[0]));
+	else if (type == NODE_REDIRECT_OUT)
+		return (redir(file, wr_flags | O_TRUNC, perms, dir_fd[1]));
+	else if (type == NODE_APPEND)
+		return (redir(file, wr_flags | O_APPEND, perms, dir_fd[1]));
+	return (false);
+}
+
+/* Expand file to its string literal and store it in outfile */
+static int	file_expansion(t_cstr file, t_alist *env_lst, t_str *outfile)
+{
+	t_exp	exp;
+
+	ft_bzero(&exp, sizeof(exp));
+	exp.sb_off = -1;
+	if (!init_list(&exp.ls, 10) || expand_arg(file, &exp, env_lst) == -1)
+		return (free_exp(&exp), -1);
+	if (exp.ls.size > 1 || (exp.ls.size == 0 && exp.sb.str == NULL))
+	{
+		free_exp(&exp);
+		*outfile = NULL;
+	}
+	else if (exp.ls.size == 1)
+	{
+		*outfile = exp.ls.items[0];
+		free_strb(&exp.sb);
+	}
+	else
+		*outfile = exp.sb.str;
+	shallow_free_list(&exp.ls);
+	return (*outfile != NULL);
+}
+
+bool	apply_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls)
+{
 	t_str	file;
 
-	file = NULL;
-	success = apply_std_redirection(redir_fd);
-	while (redir && success)
+	if (!apply_std_redirection(dir_fd))
+		return (ms_error(PERROR, NULL, NULL), false);
+	while (redir)
 	{
-		file = redir->file;
-		if (redir->type == NODE_REDIRECT_IN)
-			success = redir_in(file, redir_fd[0]);
-		else if (redir->type == NODE_REDIRECT_OUT)
-			success = redir_out(file, redir_fd[1]);
-		else if (redir->type == NODE_APPEND)
-			success = redir_append(file, redir_fd[1]);
-		else if (redir->type == NODE_HEREDOC)
-			success = redir_heredoc(file, redir_fd[0]);
-		if (success)
-			redir = redir->next;
+		if (redir->type != NODE_HEREDOC)
+		{
+			file = NULL;
+			if (file_expansion(redir->file, ev_ls, &file) == -1)
+				return (ms_error(PERROR, NULL, NULL), false);
+			else if (file == NULL)
+				return (ms_error(AMB_REDIR, redir->file, NULL), false);
+			if (!handle_redir(file, redir->type, dir_fd))
+				return (ms_error(PERROR, file, NULL), free(file), false);
+			free(file);
+		}
+		else if (!redir_heredoc(redir->file, dir_fd[0]))
+			return (ms_error(PERROR, "heredoc", "(max 65536 bytes)"), false);
+		redir = redir->next;
 	}
-	if (success == false && redir->type == NODE_HEREDOC)
-		ms_error(PERROR, "heredoc", "(max 65536 bytes)");
-	else if (success == false)
-		ms_error(PERROR, file, NULL);
-	return (success);
+	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/21 13:11:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/28 10:25:54 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 10:53:29 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ bool	init_list(t_alist *list, int capacity)
 
 void	free_list(t_alist *list)
 {
-	free_args(list->items);
+	if (list->items != NULL)
+		free_args(list->items);
 	free(list->flags);
 	ft_bzero(list, sizeof(t_alist));
 }
@@ -44,4 +45,20 @@ void	shallow_free_list(t_alist *list)
 	free(list->items);
 	free(list->flags);
 	ft_bzero(list, sizeof(t_alist));
+}
+
+/* Retain the capacity and mallocs but free each item and set to NULL */
+void	clear_list(t_alist *list)
+{
+	t_str	*args;
+
+	args = list->items;
+	while (*args)
+	{
+		free(*args);
+		*args = NULL;
+		++args;
+	}
+	ft_bzero(list->flags, list->size * sizeof(t_env_fl));
+	list->size = 0;
 }

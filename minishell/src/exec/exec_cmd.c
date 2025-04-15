@@ -6,17 +6,18 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:27:36 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 10:35:16 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include <sys/stat.h>
 
-#include "ms_error.h"
+#include "libft.h"
 #include "builtin.h"
-#include "parser.h"
 #include "exec.h"
+#include "parser.h"
+#include "ms_error.h"
 #include "signal_utils.h"
 
 static t_exit_code	set_cmd_path(t_str *cmd_path, t_str *cmd, t_exec *exec)
@@ -105,15 +106,23 @@ static t_exit_code	exec_program(t_ast *node, t_exec *exec)
 t_exit_code	exec_cmd(t_ast *node, t_exec *exec)
 {
 	t_exit_code	exit_code;
+	t_alist		ls;
 
-	if (!expand_arguments(node->args, exec->env_lst)
-		|| !apply_redirection(node->redirect, exec->redir_fd))
+	ft_bzero(&ls, sizeof(t_alist));
+	if (!expand_argv(node->args, exec->env_lst, &ls)
+		|| !apply_redirection(node->redirect, exec->redir_fd, exec->env_lst))
 	{
+		free_list(&ls);
 		if (exec->is_child)
 			exit_process(exec, E_GEN_ERR);
 		else
 			return (E_GEN_ERR);
 	}
+	free(ls.flags);
+	free_args(node->args);
+	node->args = ls.items;
+	if (*node->args == NULL)
+		return (E_SUCCESS);
 	exit_code = exec_builtin(node, exec);
 	if (exit_code != E_NO_BLTIN)
 		return (exit_code);

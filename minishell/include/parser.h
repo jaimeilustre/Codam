@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 12:17:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/15 14:08:51 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef enum e_token_type
 
 typedef struct s_source
 {
-	char	*buffer; /*Input text*/
-	long	bufsize; /*Size of the input text*/
-	long	curpos; /*Current position in the input text*/
+	char	*buffer;
+	long	bufsize;
+	long	curpos;
 }	t_source;
 
 typedef struct s_token
@@ -48,14 +48,14 @@ typedef struct s_token
 
 typedef enum e_node_type
 {
-	NODE_COMMAND, /*A simple command*/
-	NODE_PIPE,	/*A pipeline*/
-	NODE_REDIRECT_IN, /*Redirection in*/
-	NODE_REDIRECT_OUT, /*Redirection out*/
-	NODE_APPEND, /*Append*/
-	NODE_HEREDOC, /*Heredoc*/
-	NODE_AND, /*Logical &&*/
-	NODE_OR, /*Logical ||*/
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_REDIRECT_IN,
+	NODE_REDIRECT_OUT,
+	NODE_APPEND,
+	NODE_HEREDOC,
+	NODE_AND,
+	NODE_OR,
 }	t_node_type;
 
 typedef struct s_redirect
@@ -112,6 +112,11 @@ t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*parse_simple_command(t_token **tokens);
 t_ast		*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*create_ast_redir(t_ast *left, t_token **tokens);
+t_ast		*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst);
+
+t_ast		*parse_redirections(t_token **tokens, t_alist *env_lst);
+t_ast		*parse_pipes(t_token **tokens, t_alist *env_lst);
+t_ast		*parse_logical(t_token **tokens, t_alist *env_lst);
 t_ast		*build_ast_tree(t_token **tokens, t_alist *env_lst);
 
 #endif

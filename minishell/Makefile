@@ -1,4 +1,4 @@
-vpath %.c src/:src/builtin/:src/list/:src/env/:src/parser:src/exec:src/exec/redir
+vpath %.c src/:src/builtin/:src/list/:src/env/:src/parser:src/exec:src/exec/redir:src/exec/expand
 .PHONY: all bonus clean fclean re debug valgrind
 
 # LIBFT
@@ -23,8 +23,9 @@ SRCS		:= ast.c builtin.c cd.c command.c echo.c env.c environment.c exec_cmd.c \
 				list_operations.c main.c ms_error.c ms_string.c parser.c \
 				parser_utils.c prompt.c pwd.c redir.c redir_utils.c \
 				signal_utils.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
-				validate.c env_init.c list_init.c exit.c stringbuilder.c exec_expansion.c \
-				exec_expansion_var.c quotes.c heredocs.c std_redir.c
+				validate.c env_init.c list_init.c exit.c stringbuilder.c \
+				var_expansion.c quotes.c heredocs.c std_redir.c expansion.c wildcard.c \
+				expansion_utils.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 

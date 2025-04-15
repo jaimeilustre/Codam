@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/25 13:08:25 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/08 12:26:11 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/13 10:49:59 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,20 @@ void	free_strb(t_strb *sb)
 
 bool	append_strb(t_strb *sb, t_cstr src, size_t len)
 {
-	if (sb->capacity < (sb->size + len) && !expand_strb(sb, (sb->size + len)))
-		return (false);
-	ft_memcpy((sb->str + sb->size), src, len);
-	sb->size += len;
-	sb->str[sb->size] = '\0';
+	if (len > 0)
+	{
+		if (sb->str == NULL)
+		{
+			if (!init_strb(sb, len))
+				return (false);
+		}
+		else if (sb->capacity < (sb->size + len)
+			&& !expand_strb(sb, (sb->size + len)))
+			return (false);
+		ft_memcpy((sb->str + sb->size), src, len);
+		sb->size += len;
+		sb->str[sb->size] = '\0';
+	}
 	return (true);
 }
 

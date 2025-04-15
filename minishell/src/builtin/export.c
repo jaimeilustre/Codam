@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 17:01:23 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 17:39:14 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 11:33:52 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static t_exit_code	print_env(t_alist *env_lst)
 
 	if (!duplicate_list(&sorted_list, env_lst, ENV_EXPORT, ENV_HIDDEN))
 		return (ms_error(PERROR, NULL, NULL), E_GEN_ERR);
-	sort_list(&sorted_list, ft_strcmp);
+	sort_list(&sorted_list, 0, sorted_list.size - 1, ft_strcmp);
 	iter_list(&sorted_list, print_exp_var);
 	shallow_free_list(&sorted_list);
 	return (E_SUCCESS);
