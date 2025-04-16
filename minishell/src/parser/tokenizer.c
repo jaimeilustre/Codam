@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/15 14:16:51 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/16 15:12:44 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ t_token	*return_single_operator_token(char c)
 		return (create_token(TOKEN_REDIRECT_IN, operator));
 	if (c == '|')
 		return (create_token(TOKEN_PIPE, operator));
+	if (c == '(')
+		return (create_token(TOKEN_LEFTPAR, operator));
+	if (c == ')')
+		return (create_token(TOKEN_RIGHTPAR, operator));
 	free(operator);
 	return (NULL);
 }

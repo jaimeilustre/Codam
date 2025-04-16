@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 14:08:51 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/16 10:12:30 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_token_type
 	TOKEN_HEREDOC,
 	TOKEN_AND,
 	TOKEN_OR,
+	TOKEN_LEFTPAR,
+	TOKEN_RIGHTPAR,
 	TOKEN_EOF
 }	t_token_type;
 
