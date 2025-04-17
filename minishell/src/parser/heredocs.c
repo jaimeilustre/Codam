@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/14 12:36:00 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 16:50:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_redirect	*initialize_heredoc(t_ast *left, t_token **tokens)
 	*tokens = (*tokens)->next;
 	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
 	{
-		ft_putendl_fd("Heredoc must be followed by a delimiter", 2);
+		ft_putendl_fd("Syntax error: near unexpected token `newline'", 2);
 		free(redir);
 		free_ast(left);
 		return (NULL);

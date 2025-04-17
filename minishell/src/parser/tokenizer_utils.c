@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/16 10:23:46 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 09:10:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ char	next_char(t_source *src)
 /*Checks if the input contains an operator*/
 bool	is_operator(char c)
 {
-	return (c == '|' || c == '>' || c == '<' || c == '&' || c == '(' || c == ')');
+	return (c == '|' || c == '>' || c == '<'
+		|| c == '&' || c == '(' || c == ')');
 }
 
 /*Checks if the input contains any whitespaces*/

@@ -6,12 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/07 07:42:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/14 08:23:32 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 16:50:16 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+#include "exec.h"
+#include "ms_error.h"
 
 /*Checking for unclosed quotes before tokenization*/
 int	check_quotes(const char *input)
@@ -23,11 +25,40 @@ int	check_quotes(const char *input)
 			input = ft_strchrnul(input + 1, *input);
 			if (*input == '\0')
 			{
-				ft_putendl_fd("Unclosed quote", 2);
+				ft_putendl_fd("Syntax error: near unexpected token `quote'", 2);
 				return (-1);
 			}
 		}
 		++input;
+	}
+	return (0);
+}
+
+/*Checking for unclosed parenthesis before tokenization*/
+int	check_parenthesis(const char *input)
+{
+	int	depth;
+
+	depth = 0;
+	while (*input)
+	{
+		if (*input == '(')
+			depth++;
+		else if (*input == ')')
+		{
+			if (depth == 0)
+			{
+				ft_putendl_fd("Syntax error: near unexpected token `)'", 2);
+				return (-1);
+			}
+			depth--;
+		}
+		input++;
+	}
+	if (depth > 0)
+	{
+		ft_putendl_fd("Syntax error: near unexpected token `('", 2);
+		return (-1);
 	}
 	return (0);
 }

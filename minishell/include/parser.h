@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/16 10:12:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 14:58:45 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef enum e_node_type
 	NODE_HEREDOC,
 	NODE_AND,
 	NODE_OR,
+	NODE_SUBSHELL
 }	t_node_type;
 
 typedef struct s_redirect
@@ -86,6 +87,7 @@ t_token		*allocate_token(t_token_type type, char *value);
 void		free_token(t_token *token);
 
 int			check_quotes(const char *input);
+int			check_parenthesis(const char *input);
 int			read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
 
@@ -97,7 +99,7 @@ t_token		*return_next_token(t_source *src);
 int			arg_count(t_token *tokens);
 void		free_token_list(t_token **head);
 void		append_redir(t_ast *left, t_redirect *redir);
-bool		is_valid_next_token(t_token *token);
+bool		is_valid_token(t_token *token);
 
 t_ast		*allocate_ast_node(t_node_type type);
 t_ast		*create_command_node(char **args);
@@ -116,6 +118,7 @@ t_ast		*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*create_ast_redir(t_ast *left, t_token **tokens);
 t_ast		*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst);
 
+t_ast		*parse_subshell(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_redirections(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_pipes(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_logical(t_token **tokens, t_alist *env_lst);

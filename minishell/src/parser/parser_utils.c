@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/07 17:51:00 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 15:08:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	arg_count(t_token *tokens)
 	int		count;
 
 	count = 0;
-	while (is_valid_next_token(tokens))
+	while (is_valid_token(tokens))
 	{
 		if (tokens->type == TOKEN_WORD)
 			++count;
@@ -62,7 +62,7 @@ void	append_redir(t_ast *left, t_redirect *redir)
 }
 
 /*Checks if after operator a valid token is present*/
-bool	is_valid_next_token(t_token *token)
+bool	is_valid_token(t_token *token)
 {
 	if (!token)
 		return (false);
@@ -70,7 +70,8 @@ bool	is_valid_next_token(t_token *token)
 		|| token->type == TOKEN_REDIRECT_IN
 		|| token->type == TOKEN_REDIRECT_OUT
 		|| token->type == TOKEN_APPEND
-		|| token->type == TOKEN_HEREDOC)
+		|| token->type == TOKEN_HEREDOC
+		|| token->type == TOKEN_LEFTPAR)
 		return (true);
 	return (false);
 }

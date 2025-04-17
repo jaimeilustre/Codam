@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/15 14:22:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 15:28:14 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,21 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst)
 
 	node = allocate_ast_node(NODE_PIPE);
 	if (!node)
-	{
-		free_ast(left);
-		return (NULL);
-	}
+		return (free_ast(left), NULL);
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!is_valid_next_token(*tokens))
+	if (!is_valid_token(*tokens))
 	{
-		ft_putendl_fd("Pipe must be followed by an operator or command", 2);
+		ft_putstr_fd("Syntax error: near unexpected token `", 2);
+		ft_putstr_fd((*tokens)->value, 2);
+		ft_putendl_fd("'", 2);
 		free(node);
 		free_ast(left);
 		return (NULL);
 	}
 	node->right = parse_redirections(tokens, env_lst);
 	if (!node->right)
-	{
-		free_ast(node);
-		return (NULL);
-	}
+		return (free_ast(node), NULL);
 	return (node);
 }
 
@@ -78,25 +74,18 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 
 	redir = allocate_ast_redir(*tokens);
 	if (!redir)
-	{
-		free_ast(left);
-		return (NULL);
-	}
+		return (free_ast(left), NULL);
 	*tokens = (*tokens)->next;
 	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
 	{
-		ft_putendl_fd("Redirection must be followed by a file", 2);
+		ft_putendl_fd("Syntax error: unexpected end of file", 2);
 		free(redir);
 		free_ast(left);
 		return (NULL);
 	}
 	redir->file = ft_strdup((*tokens)->value);
 	if (!redir->file)
-	{
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
+		return (free(redir), free_ast(left), NULL);
 	*tokens = (*tokens)->next;
 	append_redir(left, redir);
 	return (left);
@@ -113,17 +102,18 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst)
 	else if ((*tokens)->type == TOKEN_OR)
 		node = allocate_ast_node(NODE_OR);
 	if (!node)
+		return (free_ast(left), NULL);
+	node->left = left;
+	*tokens = (*tokens)->next;
+	if (!is_valid_token(*tokens))
 	{
+		ft_putendl_fd("Syntax error: unexpected end of file", 2);
+		free(node);
 		free_ast(left);
 		return (NULL);
 	}
-	node->left = left;
-	*tokens = (*tokens)->next;
 	node->right = parse_pipes(tokens, env_lst);
 	if (!node->right)
-	{
-		free_ast(node);
-		return (NULL);
-	}
+		return (free_ast(node), NULL);
 	return (node);
 }
