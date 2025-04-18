@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 10:35:16 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/18 14:22:39 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "exec.h"
 #include "parser.h"
 #include "ms_error.h"
-#include "signal_utils.h"
+#include "ms_signals.h"
 
 static t_exit_code	set_cmd_path(t_str *cmd_path, t_str *cmd, t_exec *exec)
 {
@@ -57,8 +57,6 @@ static t_exit_code	exec_builtin(t_ast *node, t_exec *exec)
 		exit_code = blt_func(count_args(node->args), node->args, exec);
 	else
 		exit_code = blt_func(count_args(node->args), node->args, exec->env_lst);
-	if (exec->is_child)
-		exit_process(exec, exit_code);
 	return (exit_code);
 }
 
@@ -93,13 +91,10 @@ static t_exit_code	exec_program(t_ast *node, t_exec *exec)
 	exit_code = set_cmd_path(&path_to_cmd, node->args, exec);
 	if (exit_code != E_SUCCESS)
 		return (exit_code);
-	else if (!exec->is_child)
-	{
-		if (!start_fork(&cpid, exec))
-			return (E_GEN_ERR);
-		else if (cpid != 0)
-			return (wait_on_child(cpid));
-	}
+	if (!start_fork(&cpid, exec))
+		return (E_GEN_ERR);
+	else if (cpid != 0)
+		return (wait_on_child(cpid));
 	return (ms_execve(path_to_cmd, node->args, exec));
 }
 
@@ -113,10 +108,7 @@ t_exit_code	exec_cmd(t_ast *node, t_exec *exec)
 		|| !apply_redirection(node->redirect, exec->redir_fd, exec->env_lst))
 	{
 		free_list(&ls);
-		if (exec->is_child)
-			exit_process(exec, E_GEN_ERR);
-		else
-			return (E_GEN_ERR);
+		return (E_GEN_ERR);
 	}
 	free(ls.flags);
 	free_args(node->args);

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:43:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:19:52 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/18 00:28:47 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,5 @@ t_exit_code	exec_pipe(t_ast *node, t_exec *exec)
 	if (cpid[1] == -1)
 		return (E_GEN_ERR);
 	wait_on_child(cpid[0]);
-	if (exec->is_child)
-		exit_process(exec, wait_on_child(cpid[1]));
 	return (wait_on_child(cpid[1]));
 }

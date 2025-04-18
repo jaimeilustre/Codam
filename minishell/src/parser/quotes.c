@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/07 07:42:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/17 16:50:16 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 10:58:17 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,6 @@ int	check_quotes(const char *input)
 			}
 		}
 		++input;
-	}
-	return (0);
-}
-
-/*Checking for unclosed parenthesis before tokenization*/
-int	check_parenthesis(const char *input)
-{
-	int	depth;
-
-	depth = 0;
-	while (*input)
-	{
-		if (*input == '(')
-			depth++;
-		else if (*input == ')')
-		{
-			if (depth == 0)
-			{
-				ft_putendl_fd("Syntax error: near unexpected token `)'", 2);
-				return (-1);
-			}
-			depth--;
-		}
-		input++;
-	}
-	if (depth > 0)
-	{
-		ft_putendl_fd("Syntax error: near unexpected token `('", 2);
-		return (-1);
 	}
 	return (0);
 }

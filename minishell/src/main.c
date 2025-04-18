@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:34:06 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:52:48 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 17:52:48 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,9 @@
 #include "libft.h"
 #include "get_next_line.h"
 #include "minishell.h"
-#include "signal_utils.h"
+#include "ms_signals.h"
 #include "ms_error.h"
 #include "exec.h"
-
-static void	setup_signals(t_sigaction *sig)
-{
-	if (!init_sig(sig, 0, interative_mode, NULL))
-	{
-		ms_error(PERROR, NULL, NULL);
-		exit(E_GEN_ERR);
-	}
-}
 
 static void	set_nl_to_null(t_str line)
 {
@@ -78,6 +69,10 @@ static t_exit_code	run_interactive_mode(t_alist *env_lst)
 	exit_code = E_SUCCESS;
 	while (1)
 	{
+		g_signo = 0;
+		rl_event_hook = NULL;
+		if (!prompt_signal_handler())
+			return (ms_error(PERROR, NULL, NULL), E_GEN_ERR);
 		cmd = cmd_prompt("$");
 		if (cmd == NULL)
 			break ;
@@ -93,7 +88,6 @@ static t_exit_code	run_interactive_mode(t_alist *env_lst)
 
 int	main(int argc, t_str argv[], t_str *env)
 {
-	t_sigaction	sig;
 	t_alist		env_lst;
 	t_exit_code	exit_code;
 
@@ -102,10 +96,7 @@ int	main(int argc, t_str argv[], t_str *env)
 	if (argc > 1)
 		exit_code = run_non_interative_mode(argv[1], &env_lst);
 	else
-	{
-		setup_signals(&sig);
 		exit_code = run_interactive_mode(&env_lst);
-	}
 	rl_clear_history();
 	free_list(&env_lst);
 	ft_putendl_fd("exit", STDOUT);

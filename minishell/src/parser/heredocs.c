@@ -6,42 +6,23 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/17 16:50:23 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 11:32:21 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
-#include "ms_string.h"
-#include "exec.h"
-#include "list.h"
 #include <stdlib.h>
 #include <readline/readline.h>
 
-/*Initializes heredoc for AST*/
-t_redirect	*initialize_heredoc(t_ast *left, t_token **tokens)
-{
-	t_redirect	*redir;
-
-	redir = allocate_ast_redir(*tokens);
-	if (!redir)
-	{
-		free_ast(left);
-		return (NULL);
-	}
-	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
-	{
-		ft_putendl_fd("Syntax error: near unexpected token `newline'", 2);
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
-	return (redir);
-}
+#include "libft.h"
+#include "exec.h"
+#include "list.h"
+#include "parser.h"
+#include "ms_signals.h"
+#include "ms_string.h"
+#include "ms_error.h"
 
 /*Handles delimiter or quoted delimiter*/
-int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
+static int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 {
 	char	*unquoted_delimiter;
 
@@ -51,8 +32,7 @@ int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 		unquoted_delimiter = remove_quotes(tokens);
 		if (!unquoted_delimiter)
 			return (0);
-		redir->file = ft_strdup(unquoted_delimiter);
-		free(unquoted_delimiter);
+		redir->file = unquoted_delimiter;
 	}
 	else
 		redir->file = ft_strdup(tokens->value);
@@ -60,7 +40,7 @@ int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 }
 
 /*Handles variable expansion in heredoc input*/
-int	heredoc_exp(t_strb *sb, const char *line, int quoted, t_alist *env_lst)
+static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
 {
 	t_cstr	ptr;
 
@@ -79,30 +59,41 @@ int	heredoc_exp(t_strb *sb, const char *line, int quoted, t_alist *env_lst)
 	return (append_strb(sb, "\n", 1));
 }
 
+static int	end_of_heredoc(char *line, char *delim)
+{
+	if (line == NULL)
+	{
+		ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(delim, 2);
+		ft_putendl_fd("\')", 2);
+		return (1);
+	}
+	return (ft_strcmp(line, delim) == 0);
+}
+
 /*Handles regular line heredoc input*/
-int	heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst)
+static int	heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst)
 {
 	t_strb	sb;
 	char	*line;
 
-	if (!init_strb(&sb, 512))
-		return (0);
+	if (!trap_sigint_heredoc() || !init_strb(&sb, 512))
+		return (ms_error(PERROR, NULL, NULL), 0);
 	while (1)
 	{
+		g_signo = 0;
 		line = readline("> ");
-		if (!line || ft_strcmp(line, redir->file) == 0)
-		{
-			free(line);
+		if (g_signo == SIGINT)
+			return (free(line), free_strb(&sb), 0);
+		else if (end_of_heredoc(line, redir->file))
 			break ;
-		}
-		if (!heredoc_exp(&sb, line, quoted, env_lst))
-		{
-			free(line);
-			return (0);
-		}
+		else if (!heredoc_exp(&sb, line, quoted, env_lst))
+			return (free(line), free_strb(&sb), 0);
 		free(line);
 	}
+	free(line);
 	free(redir->file);
+	shrink_strb(&sb);
 	redir->file = sb.str;
 	return (1);
 }
@@ -113,22 +104,21 @@ t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
 	t_redirect	*redir;
 	int			in_quotes;
 
-	redir = initialize_heredoc(left, tokens);
+	redir = allocate_ast_redir(*tokens);
 	if (!redir)
-		return (NULL);
-	if (!check_delimiter(redir, *tokens, &in_quotes))
-	{
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
-	*tokens = (*tokens)->next;
-	if (!heredoc_input(redir, in_quotes, env_lst))
-	{
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
+		return (free_ast(left), NULL);
 	append_redir(left, redir);
-	return (left);
+	*tokens = (*tokens)->next;
+	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
+	{
+		ft_putendl_fd("Syntax error: near unexpected token `newline'", 2);
+		return (free_ast(left), NULL);
+	}
+	else if (check_delimiter(redir, *tokens, &in_quotes))
+	{
+		*tokens = (*tokens)->next;
+		if (heredoc_input(redir, in_quotes, env_lst))
+			return (left);
+	}
+	return (free_ast(left), NULL);
 }

@@ -6,9 +6,10 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/17 14:58:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 10:58:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PARSER_H
 # define PARSER_H
@@ -87,9 +88,10 @@ t_token		*allocate_token(t_token_type type, char *value);
 void		free_token(t_token *token);
 
 int			check_quotes(const char *input);
-int			check_parenthesis(const char *input);
 int			read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
+
+int			check_parenthesis(const char *input);
 
 t_token		*return_word_token(t_source *src);
 t_token		*return_single_operator_token(char c);
@@ -107,10 +109,6 @@ void		free_ast(t_ast *node);
 t_redirect	*allocate_ast_redir(t_token *token);
 void		add_argument_to_ast(t_ast *left, t_token **tokens);
 
-t_redirect	*initialize_heredoc(t_ast *left, t_token **tokens);
-int			check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes);
-int			heredoc_exp(t_strb *sb, const char *line, int quoted, t_alist *env_lst);
-int			heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst);
 t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
 
 t_ast		*parse_simple_command(t_token **tokens);

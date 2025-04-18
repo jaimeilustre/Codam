@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 11:52:28 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 10:09:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/17 17:55:35 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 #include "libft.h"
 #include "minishell.h"
-#include "signal_utils.h"
+#include "ms_signals.h"
 #include "parser.h"
 #include "exec.h"
 
@@ -27,9 +27,9 @@
  */
 static void	clear_prompt(void)
 {
-	write(STDIN, "\n", 1);
-	rl_on_new_line();
+	ft_putchar_fd('\n', STDOUT);
 	rl_replace_line("", 1);
+	rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -86,8 +86,11 @@ t_exit_code	exec_prompt(t_str cmd, t_alist *env_lst)
 				exit_code = exec_node(ast, exec);
 			free_ast(ast);
 			free_exec(&exec);
-			prompt_signal_handler();
 		}
+		else if (g_signo == SIGINT)
+			exit_code = E_TERM + SIGINT;
+		else
+			exit_code = E_MISS_BLTIN;
 		free_token_list(&tokens);
 	}
 	return (exit_code);

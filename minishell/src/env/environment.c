@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 11:59:32 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 17:24:58 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/18 10:58:17 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ bool	ms_setenv(t_alist *env_lst, t_cstr key, t_cstr value, t_env_fl flag)
 			return (free(env_val), true);
 		free(env_lst->items[i]);
 		env_lst->items[i] = env_val;
-		env_lst->flags[i] = env_lst->flags[i] | flag;
+		env_lst->flags[i] = (env_lst->flags[i] & ~ENV_UNSET) | flag;
 		return (true);
 	}
 	return (free(env_val), false);

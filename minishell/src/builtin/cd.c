@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:52:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 01:13:22 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 19:26:06 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	change_directory(t_cstr path, t_alist *env_lst)
 		ms_setenv(env_lst, V_OLDPWD, env_oldpwd, ENV_NONE);
 	free((void *)env_pwd);
 	free((void *)env_oldpwd);
-	return (E_GEN_ERR);
+	return (E_SUCCESS);
 }
 
 static int	cd_to_home(t_alist *env_lst)

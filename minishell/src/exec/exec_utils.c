@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 11:08:34 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:22:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/18 14:22:50 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include "libft.h"
 #include "minishell.h"
-#include "signal_utils.h"
+#include "ms_signals.h"
 #include "ms_error.h"
 #include "exec.h"
 
@@ -48,6 +48,7 @@ t_exit_code	wait_on_child(pid_t cpid)
 
 	while (waitpid(cpid, &wstatus, 0) != cpid)
 		;
+	//TODO: SIGINT and SIGQUIT should display newline
 	return (get_exit_code(wstatus));
 }
 

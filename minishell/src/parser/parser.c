@@ -6,13 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 14:06:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/17 15:50:44 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 10:54:40 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
 
+/*Parsing subshells (parenthesis)*/
 t_ast	*parse_subshell(t_token **tokens, t_alist *env_lst)
 {
 	t_ast	*subshell;
@@ -24,9 +25,9 @@ t_ast	*parse_subshell(t_token **tokens, t_alist *env_lst)
 		subshell = parse_logical(tokens, env_lst);
 		if (!subshell)
 			return (NULL);
-		*tokens = (*tokens)->next;
 		if (!*tokens || (*tokens)->type != TOKEN_RIGHTPAR)
 			return (free_ast(subshell), NULL);
+		*tokens = (*tokens)->next;
 		node = allocate_ast_node(NODE_SUBSHELL);
 		if (!node)
 			return (free_ast(subshell), NULL);

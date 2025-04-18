@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/17 15:28:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 10:54:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,9 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst)
 		return (free_ast(left), NULL);
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!is_valid_token(*tokens))
+	if (!(*tokens) || !is_valid_token(*tokens))
 	{
-		ft_putstr_fd("Syntax error: near unexpected token `", 2);
-		ft_putstr_fd((*tokens)->value, 2);
-		ft_putendl_fd("'", 2);
+		ft_putendl_fd("Syntax error: unexpected end of file", 2);
 		free(node);
 		free_ast(left);
 		return (NULL);
@@ -105,7 +103,7 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst)
 		return (free_ast(left), NULL);
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!is_valid_token(*tokens))
+	if (!(*tokens) || !is_valid_token(*tokens))
 	{
 		ft_putendl_fd("Syntax error: unexpected end of file", 2);
 		free(node);
