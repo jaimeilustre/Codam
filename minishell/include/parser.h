@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 10:58:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/22 15:56:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,10 @@ int			check_quotes(const char *input);
 int			read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
 
+int			valid_position(const char *input, const char *start, int operator);
+int			check_closing_parenthesis(char c, int *depth);
+int			check_subshell(const char *input, const char **next, int *valid);
+int			validate_subshell(const char *input, const char **next);
 int			check_parenthesis(const char *input);
 
 t_token		*return_word_token(t_source *src);
@@ -101,6 +105,7 @@ t_token		*return_next_token(t_source *src);
 int			arg_count(t_token *tokens);
 void		free_token_list(t_token **head);
 void		append_redir(t_ast *left, t_redirect *redir);
+t_ast		*choose_redir(t_ast *cmd, t_token **tokens, t_alist *env_lst);
 bool		is_valid_token(t_token *token);
 
 t_ast		*allocate_ast_node(t_node_type type);
@@ -120,6 +125,6 @@ t_ast		*parse_subshell(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_redirections(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_pipes(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_logical(t_token **tokens, t_alist *env_lst);
-t_ast		*build_ast_tree(t_token **tokens, t_alist *env_lst);
+t_ast		*build_ast_tree(t_token *tokens, t_alist *env_lst);
 
 #endif

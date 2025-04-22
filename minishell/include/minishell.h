@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:47:45 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/31 12:48:28 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/19 15:48:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 
 /* Prompt */
 
-void	interative_mode(int signo);
 t_str	cmd_prompt(t_cstr prompt);
 
 /* Environment */

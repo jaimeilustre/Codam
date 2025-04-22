@@ -6,12 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 14:06:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/18 10:54:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/22 15:09:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 #include "libft.h"
+#include "minishell.h"
 
 /*Parsing subshells (parenthesis)*/
 t_ast	*parse_subshell(t_token **tokens, t_alist *env_lst)
@@ -49,20 +50,14 @@ t_ast	*parse_redirections(t_token **tokens, t_alist *env_lst)
 	{
 		if ((*tokens)->type == TOKEN_REDIRECT_IN
 			|| (*tokens)->type == TOKEN_REDIRECT_OUT
-			|| (*tokens)->type == TOKEN_APPEND)
+			|| (*tokens)->type == TOKEN_APPEND
+			|| (*tokens)->type == TOKEN_HEREDOC
+			|| (*tokens)->type == TOKEN_WORD)
 		{
-			cmd = create_ast_redir(cmd, tokens);
+			cmd = choose_redir(cmd, tokens, env_lst);
 			if (!cmd)
 				return (NULL);
 		}
-		else if ((*tokens)->type == TOKEN_HEREDOC)
-		{
-			cmd = create_ast_heredoc(cmd, tokens, env_lst);
-			if (!cmd)
-				return (NULL);
-		}
-		else if ((*tokens)->type == TOKEN_WORD)
-			add_argument_to_ast(cmd, tokens);
 		else
 			break ;
 	}
@@ -105,14 +100,19 @@ t_ast	*parse_logical(t_token **tokens, t_alist *env_lst)
 }
 
 /*Building the Abstract Syntax tree*/
-t_ast	*build_ast_tree(t_token **tokens, t_alist *env_lst)
+t_ast	*build_ast_tree(t_token *tokens, t_alist *env_lst)
 {
-	if (*tokens && !is_valid_token(*tokens))
+	if (tokens == NULL)
 	{
-		ft_putstr_fd("Syntax error: near unexpected token `", 2);
-		ft_putstr_fd((*tokens)->value, 2);
-		ft_putendl_fd("'", 2);
+		ft_putendl_fd("Syntax error: NULL pointer as first token", STDERR);
 		return (NULL);
 	}
-	return (parse_logical(tokens, env_lst));
+	else if (!is_valid_token(tokens))
+	{
+		ft_putstr_fd("Syntax error: near unexpected token `", STDERR);
+		ft_putstr_fd(tokens->value, STDERR);
+		ft_putendl_fd("'", STDERR);
+		return (NULL);
+	}
+	return (parse_logical(&tokens, env_lst));
 }

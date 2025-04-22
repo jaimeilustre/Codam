@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 17:01:23 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 11:33:52 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/20 14:54:36 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,31 +37,50 @@ static t_exit_code	print_env(t_alist *env_lst)
 	return (E_SUCCESS);
 }
 
-static bool	add_to_env(t_cstr full_entry, t_cstr sep, t_alist *env_lst)
+static bool	add_to_env(t_cstr entry, t_cstr sep, t_alist *env_lst, bool append)
 {
 	t_str	key;
+	t_cstr	prev;
+	t_strb	sb;
 
-	key = ft_substr(full_entry, 0, sep - full_entry);
-	if (key == NULL || !ms_setenv(env_lst, key, full_entry, ENV_EXPORT))
-		return (free(key), false);
-	return (free(key), true);
+	key = ft_substr(entry, 0, (sep - entry));
+	if (key == NULL)
+		return (false);
+	prev = ms_getenv(env_lst, key);
+	if (!append || prev == NULL)
+	{
+		append = ms_setenv(env_lst, key, entry, ENV_EXPORT);
+		return (free(key), append);
+	}
+	append = (init_strb(&sb, 128)
+			&& append_strb(&sb, key, ft_strlen(key))
+			&& append_strb(&sb, "=", 1)
+			&& append_strb(&sb, prev, ft_strlen(prev))
+			&& append_strb(&sb, sep + 1, ft_strlen(sep + 1))
+			&& shrink_strb(&sb)
+			&& ms_setenv(env_lst, key, sb.str, ENV_EXPORT));
+	return (free(key), free_strb(&sb), append);
 }
 
 static t_exit_code	update_env(t_str *argv, t_alist *env_lst)
 {
 	t_str		ch;
 	t_exit_code	exit_code;
+	bool		append;
 
 	exit_code = E_SUCCESS;
 	while (*argv)
 	{
 		ch = ft_strchrnul(*argv, '=');
-		if (!validate_name(*argv, ch - *argv))
+		append = (ch != *argv) && (*(ch - 1) == '+');
+		if (append)
+			ft_strcpy(ch - 1, ch);
+		if (!validate_name(*argv, (ch - append - *argv)))
 		{
 			exit_code = E_GEN_ERR;
 			ms_error(INVALID_ID, EXP_NAME, *argv);
 		}
-		else if (!add_to_env(*argv, ch, env_lst))
+		else if (!add_to_env(*argv, ch - append, env_lst, append))
 		{
 			exit_code = E_GEN_ERR;
 			ms_error(PERROR, EXP_NAME, *argv);

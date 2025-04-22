@@ -5,39 +5,40 @@
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/18 08:27:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/18 09:11:04 by jilustre      ########   odam.nl         */
+/*   Created: 2025/04/22 15:51:35 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/04/22 16:54:41 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
 
-/*Checks for parenthesis position in input*/
-static int	valid_position(const char *input, const char *start, int operator)
+/*Checks for for valid subshell overall*/
+int	validate_subshell(const char *input, const char **next)
 {
-	if (!(operator || input == start))
+	int			valid_content;
+
+	valid_content = 0;
+	if (check_subshell(input, next, &valid_content) == -1)
+		return (-1);
+	if (!valid_content)
 	{
-		ft_putendl_fd("Syntax error: unexpected token `('", 2);
-		return (0);
+		ft_putendl_fd("Syntax error: empty or invalid subshell", 2);
+		return (-1);
 	}
-	return (1);
+	return (0);
 }
 
-/*Checks for closing parenthesis*/
-static int	check_closing_parenthesis(char c, int *depth)
+int	open_parenthesis(const char **input, const char *start, int *operator)
 {
-	if (c == '(')
-		(*depth)++;
-	else if (c == ')')
-	{
-		if (*depth == 0)
-		{
-			ft_putendl_fd("Syntax error: near unexpected token `)'", 2);
-			return (-1);
-		}
-		(*depth)--;
-	}
+	const char	*after_subshell;
+
+	if (!valid_position(*input, start, *operator))
+		return (-1);
+	if (validate_subshell(*input + 1, &after_subshell) == -1)
+		return (-1);
+	*input = after_subshell;
+	*operator = 0;
 	return (0);
 }
 
@@ -53,8 +54,12 @@ int	check_parenthesis(const char *input)
 	start = input;
 	while (*input)
 	{
-		if (*input == '(' && !valid_position(input, start, operator))
-			return (-1);
+		if (*input == '(')
+		{
+			if (open_parenthesis(&input, start, &operator) == -1)
+				return (-1);
+			continue ;
+		}
 		else if (check_closing_parenthesis(*input, &depth) == -1)
 			return (-1);
 		else if (is_operator(*input))
@@ -64,9 +69,6 @@ int	check_parenthesis(const char *input)
 		input++;
 	}
 	if (depth > 0)
-	{
-		ft_putendl_fd("Syntax error: near unexpected token `('", 2);
-		return (-1);
-	}
+		return (ft_putendl_fd("Syntax error: near unexpected token `('", 2), -1);
 	return (0);
 }

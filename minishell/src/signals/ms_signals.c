@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:29:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/16 22:13:05 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/19 20:54:58 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,16 @@
 
 volatile sig_atomic_t	g_signo = 0;
 
+static void	sig_ign(int signo)
+{
+	g_signo = signo;
+}
+
 bool	dfl_signal_handler(void)
 {
 	t_sigaction	sa;
 
+	g_signo = 0;
 	return (init_sig(&sa, 0, SIG_DFL, NULL));
 }
 
@@ -28,14 +34,8 @@ bool	ign_signal_handler(void)
 {
 	t_sigaction	sa;
 
-	return (init_sig(&sa, 0, SIG_IGN, NULL));
-}
-
-bool	prompt_signal_handler(void)
-{
-	t_sigaction	sa;
-
-	return (init_sig(&sa, 0, interative_mode, NULL));
+	g_signo = 0;
+	return (init_sig(&sa, 0, sig_ign, NULL));
 }
 
 bool	init_sig(t_sigaction *sa, int flag, t_handler handl, t_sigact sigact)

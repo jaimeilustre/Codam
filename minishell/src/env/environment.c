@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 11:59:32 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 10:58:17 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/20 14:11:44 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,16 @@ t_cstr	ms_getenv(t_alist *env_lst, t_cstr env_var)
 	if (i == -1)
 		return (NULL);
 	val = ft_strchr(env_lst->items[i], '=');
-	if (*val == '=')
-		return (val + 1);
-	return (val);
+	if (val == NULL)
+		return (val);
+	return (val + 1);
 }
 
 /// @brief Add or replace value (key=value) in the current
 /// @param env_lst The environment variables list
 /// @param key The key to look for.
 /// @param value The key value pair that will replace the previous occurence
-/// @param flag Type of environment variable
-///				or add as an new entry.
+/// @param flag Type of environment variable or add as an new entry.
 /// @return			Return true if successfully updated the env_lst.
 bool	ms_setenv(t_alist *env_lst, t_cstr key, t_cstr value, t_env_fl flag)
 {

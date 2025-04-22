@@ -1,34 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   sig_heredoc.c                                      :+:    :+:            */
+/*   sig_prompt.c                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/04/16 17:10:38 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 16:39:18 by jboon         ########   odam.nl         */
+/*   Created: 2025/04/19 15:43:26 by jboon         #+#    #+#                 */
+/*   Updated: 2025/04/19 20:53:46 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
-
-#include "libft.h"
-#include "minishell.h"
 #include "ms_signals.h"
 
-static void	trap_sigint(int signo)
+/**
+ * @brief Display a new prompt on a new line
+ */
+static void	clear_prompt(void)
 {
-	g_signo = signo;
 	rl_done = 1;
 }
 
-bool	trap_sigint_heredoc(void)
+/**
+ * @brief Use this to catch any signal that should not alter the prompt.
+ */
+static void	do_nothing(void)
+{
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+static void	interative_mode(int signo)
+{
+	g_signo = signo;
+	if (signo == SIGINT)
+		clear_prompt();
+	else if (signo == SIGQUIT)
+		do_nothing();
+}
+
+bool	trap_prompt_signals(void)
 {
 	t_sigaction	sa;
 
-	sa.sa_flags = 0;
-	sa.sa_handler = trap_sigint;
-	return (
-		sigemptyset(&(sa.sa_mask)) != -1
-		&& sigaction(SIGINT, &sa, NULL) != -1);
+	return (init_sig(&sa, 0, interative_mode, NULL));
 }

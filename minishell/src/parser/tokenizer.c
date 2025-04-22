@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/17 08:24:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/22 14:56:22 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,9 @@
 #include "libft.h"
 #include "parser.h"
 
-/*Scans and returns a word token*/
-t_token	*return_word_token(t_source *src)
+/*Reads word for word token*/
+static void	read_word(t_source *src, int quoted)
 {
-	long	start;
-	char	*word;
-	t_token	*word_token;
-	int		quoted;
-
-	quoted = 0;
-	start = src->curpos - 1;
-	src->curpos = start;
 	while (src->curpos < src->bufsize)
 	{
 		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
@@ -38,6 +30,20 @@ t_token	*return_word_token(t_source *src)
 		else
 			src->curpos++;
 	}
+}
+
+/*Scans and returns a word token*/
+t_token	*return_word_token(t_source *src)
+{
+	long	start;
+	char	*word;
+	t_token	*word_token;
+	int		quoted;
+
+	quoted = 0;
+	start = src->curpos - 1;
+	src->curpos = start;
+	read_word(src, quoted);
 	word = ft_substr(src->buffer, start, src->curpos - start);
 	if (!word)
 		return (NULL);
@@ -105,6 +111,7 @@ t_token	*return_next_token(t_source *src)
 {
 	char	c;
 	t_token	*token;
+	long	saved_pos;
 
 	c = next_char(src);
 	while (c && is_space(c))
@@ -113,11 +120,11 @@ t_token	*return_next_token(t_source *src)
 		return (allocate_token(TOKEN_EOF, NULL));
 	if (is_operator(c))
 	{
+		saved_pos = src->curpos;
 		token = return_double_operator_token(src, c);
 		if (token != NULL)
 			return (token);
-		if (src->curpos < src->bufsize)
-			src->curpos--;
+		src->curpos = saved_pos;
 		return (return_single_operator_token(c));
 	}
 	return (return_word_token(src));

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 12:11:01 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/20 16:26:12 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ typedef t_str	(*t_strstr)(t_cstr, t_cstr);
 
 /* Execution */
 
-t_exec		*init_exec(t_str cmd, t_ast *head, t_token *tkns, t_alist *env_lst);
-void		free_exec(t_exec **exec);
+bool		init_exec(t_exec *exec, t_ast *head, t_token *tks, t_alist *env_ls);
+void		free_exec(t_exec *exec);
 t_exit_code	get_exit_code(int wstatus);
 void		store_exit_code(t_alist *env_lst, t_exit_code exit_code);
 t_exit_code	wait_on_child(pid_t cpid);

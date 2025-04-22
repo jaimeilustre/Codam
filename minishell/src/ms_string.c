@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 14:47:05 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 12:27:31 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/19 16:11:22 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 bool	is_empty_cmd(t_cstr str)
 {
 	while (*str != '\0' && *str != '#'
-		&& (*str == ' ' || *str == '\t' || *str == '\\'))
+		&& (*str == ' ' || *str == '\t'))
 		++str;
 	return (*str == '\0' || *str == '#');
 }
