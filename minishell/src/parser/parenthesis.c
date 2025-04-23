@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/22 15:51:35 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/22 16:54:41 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:32:19 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	validate_subshell(const char *input, const char **next)
 		return (-1);
 	if (!valid_content)
 	{
-		ft_putendl_fd("Syntax error: empty or invalid subshell", 2);
+		ft_putendl_fd("Syntax error: subshell is empty or contains only whitespace/operators", 2);
 		return (-1);
 	}
 	return (0);
@@ -69,6 +69,6 @@ int	check_parenthesis(const char *input)
 		input++;
 	}
 	if (depth > 0)
-		return (ft_putendl_fd("Syntax error: near unexpected token `('", 2), -1);
+		return (ft_putendl_fd("Syntax error: missing closing `)` for subshell", 2), -1);
 	return (0);
 }

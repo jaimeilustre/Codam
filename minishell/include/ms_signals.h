@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:38:52 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 16:19:38 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 18:13:45 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef void					(*t_sigact) (int, siginfo_t *, void *);
 
 bool	init_sig(t_sigaction *sa, int fl, t_handler handl, t_sigact sigact);
 bool	ign_signal_handler(void);
+bool	ign_pipe_signal_handler(void);
 bool	dfl_signal_handler(void);
 bool	trap_sigint_heredoc(void);
 bool	trap_prompt_signals(void);

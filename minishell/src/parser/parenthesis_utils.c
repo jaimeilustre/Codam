@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/18 08:27:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/22 16:00:59 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:32:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	valid_position(const char *input, const char *start, int operator)
 {
 	if (!(operator || input == start))
 	{
-		ft_putendl_fd("Syntax error: unexpected token `('", 2);
+		ft_putendl_fd("Syntax error: `(' must follow an operator or start the command", 2);
 		return (0);
 	}
 	return (1);
@@ -33,7 +33,7 @@ int	check_closing_parenthesis(char c, int *depth)
 	{
 		if (*depth == 0)
 		{
-			ft_putendl_fd("Syntax error: near unexpected token `)'", 2);
+			ft_putendl_fd("Syntax error: unmatched closing parenthesis `)'", 2);
 			return (-1);
 		}
 		(*depth)--;
@@ -48,7 +48,7 @@ static int	check_next_word(const char *input, const char **next)
 		input++;
 	if (*input && !is_operator(*input) && *input != ')')
 	{
-		ft_putendl_fd("Syntax error: unexpected token", 2);
+		ft_putendl_fd("Syntax error: expected operator after closing `)'", 2);
 		return (-1);
 	}
 	*next = input;
@@ -85,6 +85,6 @@ int	check_subshell(const char *input, const char **next, int *valid)
 		input++;
 	}
 	if (depth != 0)
-		return (ft_putendl_fd("Syntax error: unclosed `(`", 2), -1);
+		return (ft_putendl_fd("Syntax error: unmatched opening parenthesis `('", 2), -1);
 	return (0);
 }

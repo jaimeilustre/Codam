@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/18 11:32:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/23 16:52:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,26 @@
 static int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 {
 	char	*unquoted_delimiter;
+	size_t	len;
 
-	*in_quotes = tokens->quoted;
-	if (tokens->quoted)
+	len = ft_strlen(tokens->value);
+	if ((tokens->value[0] == '\'' && tokens->value[len - 1] == '\'')
+		|| (tokens->value[0] == '"' && tokens->value[len - 1] == '"'))
 	{
+		*in_quotes = 1;
 		unquoted_delimiter = remove_quotes(tokens);
 		if (!unquoted_delimiter)
 			return (0);
 		redir->file = unquoted_delimiter;
 	}
 	else
+	{
+		*in_quotes = 0;
 		redir->file = ft_strdup(tokens->value);
+	}
 	return (redir->file != NULL);
 }
+
 
 /*Handles variable expansion in heredoc input*/
 static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)

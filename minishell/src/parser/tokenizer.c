@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/22 14:56:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:31:45 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_token	*return_word_token(t_source *src)
 	if (!word)
 		return (NULL);
 	word_token = create_token(TOKEN_WORD, word);
-	word_token->quoted = quoted;
+	// word_token->quoted = quoted;
 	return (word_token);
 }
 

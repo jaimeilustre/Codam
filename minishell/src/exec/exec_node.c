@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:19:15 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 20:44:09 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 18:07:45 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
+#include "libft.h"
 #include "minishell.h"
 #include "exec.h"
 #include "ms_error.h"
@@ -24,9 +25,13 @@ static t_exit_code	exec_subnode(t_ast *node, t_exec *exec)
 
 	exit_code = exec_node(node, exec);
 	store_exit_code(exec->env_lst, exit_code);
-	if (apply_std_redirection(exec->dup_std_fd))
+	if (dup2(exec->dup_std_fd[0], exec->redir_fd[0]) != -1
+		&& dup2(exec->dup_std_fd[1], exec->redir_fd[1]) != -1)
 		return (exit_code);
 	ms_error(PERROR, NULL, NULL);
+	if (!exec->is_child)
+		ft_putendl_fd("Unable to restore the STDIN AND/OR STDOUT!", STDERR);
+	close_redir(exec->redir_fd);
 	return (E_GEN_ERR);
 }
 

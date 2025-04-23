@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/17 11:29:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/13 15:38:42 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/21 13:13:32 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	swapi(int *a, int *b)
 	*b = tmp;
 }
 
-t_cstr	join_pair(t_cstr left, t_cstr right, char *sep)
+t_str	join_pair(t_cstr left, t_cstr right, char *sep)
 {
 	size_t	len;
 	size_t	curr_len;

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/04 11:29:59 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 11:50:55 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 13:30:15 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ static bool	expand_double_quote(t_strb *sb, t_cstr *quote_str, t_alist *env_lst)
 	return (append_strb(sb, start, end - start));
 }
 
+static bool	is_variable(t_cstr ch)
+{
+	return (*ch == '$' && *(ch + 1) != '\'' && *(ch + 1) != '\"');
+}
+
 /**
  * Expand the argument to its true string literal or if it has wildcards that
  * match a pattern it will populate the arguments list with any matching file
@@ -78,7 +83,7 @@ int	expand_arg(t_cstr arg, t_exp *exp, t_alist *env_lst)
 		if ((*ch == '\'' && !expand_single_quote(&exp->sb, &ch))
 			|| (*ch == '"' && !expand_double_quote(&exp->sb, &ch, env_lst))
 			|| (*ch == '*' && !expand_wildcard(&ch, exp))
-			|| (*ch == '$' && (!expand_variable(&exp->sb, &ch, env_lst)
+			|| (is_variable(ch) && (!expand_variable(&exp->sb, &ch, env_lst)
 					|| (exp->sb.str != NULL
 						&& !expand_var_wildcards(prev, exp)))))
 			return (-1);

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:29:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 20:54:58 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 18:13:23 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,15 @@ bool	ign_signal_handler(void)
 
 	g_signo = 0;
 	return (init_sig(&sa, 0, sig_ign, NULL));
+}
+
+bool	ign_pipe_signal_handler(void)
+{
+	t_sigaction	sa;
+
+	g_signo = 0;
+	return (init_sig(&sa, 0, sig_ign, NULL)
+		&& sigaction(SIGPIPE, &sa, NULL) != -1);
 }
 
 bool	init_sig(t_sigaction *sa, int flag, t_handler handl, t_sigact sigact)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   exec_expansion_var.c                               :+:    :+:            */
+/*   var_expansion.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 13:13:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:52:42 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/22 13:31:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /* Supports $? only, but could be extended for $$, $0, ect. */
 static bool	is_special_variable(const char c)
 {
-	return (ft_strchr("?", c) != NULL);
+	return (c != '\0' && ft_strchr("?", c) != NULL);
 }
 
 static t_cstr	get_end_of_name(t_cstr end)
