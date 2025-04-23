@@ -6,139 +6,126 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/12 10:48:12 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/04/23 21:02:31 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "parser.h"
-#include "ms_string.h"
+#include <stdlib.h>
+#include <readline/readline.h>
 
+#include "libft.h"
 #include "exec.h"
 #include "list.h"
+#include "parser.h"
+#include "ms_signals.h"
+#include "ms_string.h"
+#include "ms_error.h"
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <readline/readline.h>
-#include <stdio.h>
-
-char	*remove_quotes(const char *str)
+/*Handles delimiter or quoted delimiter*/
+static int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 {
-	const char	*src = str;
-	char		*result;
-	char		*dst;
-	char		quote = 0;
+	char	*unquoted_delimiter;
+	size_t	len;
 
-	result = malloc(ft_strlen(str) + 1);
-	if (!result)
-		return (NULL);
-	dst = result;
-	while (*src)
+	len = ft_strlen(tokens->value);
+	if ((tokens->value[0] == '\'' && tokens->value[len - 1] == '\'')
+		|| (tokens->value[0] == '"' && tokens->value[len - 1] == '"'))
 	{
-		if (!quote && (*src == '\'' || *src == '"'))
-			quote = *src++;
-		else if (quote && *src == quote)
-		{
-			quote = 0;
-			src++;
-		}
-		else
-			*dst++ = *src++;
+		*in_quotes = 1;
+		unquoted_delimiter = remove_quotes(tokens);
+		if (!unquoted_delimiter)
+			return (0);
+		redir->file = unquoted_delimiter;
 	}
-	*dst = '\0';
-	return (result);
+	else
+	{
+		*in_quotes = 0;
+		redir->file = ft_strdup(tokens->value);
+	}
+	return (redir->file != NULL);
+}
+
+
+/*Handles variable expansion in heredoc input*/
+static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
+{
+	t_cstr	ptr;
+
+	ptr = line;
+	if (quoted)
+		return (append_strb(sb, line, ft_strlen(line))
+			&& append_strb(sb, "\n", 1));
+	while (*ptr)
+	{
+		ptr = ft_strchrnul(ptr, '$');
+		if (!append_strb(sb, line, ptr - line)
+			|| (*ptr == '$' && !expand_variable(sb, &ptr, env_lst)))
+			return (0);
+		line = ptr + 1;
+	}
+	return (append_strb(sb, "\n", 1));
+}
+
+static int	end_of_heredoc(char *line, char *delim)
+{
+	if (line == NULL)
+	{
+		ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
+		ft_putstr_fd(delim, 2);
+		ft_putendl_fd("\')", 2);
+		return (1);
+	}
+	return (ft_strcmp(line, delim) == 0);
+}
+
+/*Handles regular line heredoc input*/
+static int	heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst)
+{
+	t_strb	sb;
+	char	*line;
+
+	if (!trap_sigint_heredoc() || !init_strb(&sb, 512))
+		return (ms_error(PERROR, NULL, NULL), 0);
+	while (1)
+	{
+		g_signo = 0;
+		line = readline("> ");
+		if (g_signo == SIGINT)
+			return (free(line), free_strb(&sb), 0);
+		else if (end_of_heredoc(line, redir->file))
+			break ;
+		else if (!heredoc_exp(&sb, line, quoted, env_lst))
+			return (free(line), free_strb(&sb), 0);
+		free(line);
+	}
+	free(line);
+	free(redir->file);
+	shrink_strb(&sb);
+	redir->file = sb.str;
+	return (1);
 }
 
 /*Building the heredoc in AST*/
 t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
 {
 	t_redirect	*redir;
-	t_strb		sb;
-	char		*line;
-	char		*delimiter;
-	t_cstr		ptr;
 	int			in_quotes;
-	char		*unquoted_delimiter;
 
 	redir = allocate_ast_redir(*tokens);
 	if (!redir)
-	{
-		free_ast(left);
-		return (NULL);
-	}
+		return (free_ast(left), NULL);
+	append_redir(left, redir);
 	*tokens = (*tokens)->next;
 	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
 	{
-		ft_putendl_fd("Heredoc must be followed by a delimiter", 2);
-		free(redir);
-		free_ast(left);
-		return (NULL);
+		ft_putendl_fd("Syntax error: near unexpected token `newline'", 2);
+		return (free_ast(left), NULL);
 	}
-	delimiter = ((*tokens)->value);
-	if ((*tokens)->quoted)
+	else if (check_delimiter(redir, *tokens, &in_quotes))
 	{
-		unquoted_delimiter = remove_quotes(delimiter);
-		if (!unquoted_delimiter)
-			return (free(unquoted_delimiter), NULL);
-		free(delimiter);
-		delimiter = unquoted_delimiter;
-		// free(unquoted_delimiter);
+		*tokens = (*tokens)->next;
+		if (heredoc_input(redir, in_quotes, env_lst))
+			return (left);
 	}
-	redir->file = ft_strdup(delimiter);
-	if (!redir->file)
-	{
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
-	in_quotes = ((*tokens)->quoted);
-	*tokens = (*tokens)->next;
-	if (!init_strb(&sb, 512))
-	{
-		free(redir->file);
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strcmp(line, delimiter) == 0)
-		{			
-			free(line);
-			break ;
-		}
-		if (in_quotes)
-			append_strb(&sb, line, ft_strlen(line));
-		else
-		{
-			ptr = line;
-			while (*ptr)
-			{
-				if (*ptr == '$')
-				{
-					if (!expand_variable(&sb, &ptr, env_lst))
-					{
-						free(line);
-						free(redir);
-						free_ast(left);
-						return (NULL);
-					}
-				}
-				else
-					append_strb(&sb, ptr, 1);
-				ptr++;
-			}
-		}
-		append_strb(&sb, "\n", 1);
-		free(line);
-	}
-	free(redir->file);
-	free(unquoted_delimiter);
-	redir->file = sb.str;
-	append_redir(left, redir);
-	printf("String:\n%s", redir->file);
-	return (left);
+	return (free_ast(left), NULL);
 }

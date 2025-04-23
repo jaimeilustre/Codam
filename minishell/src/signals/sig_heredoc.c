@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ms_error.h                                         :+:    :+:            */
+/*   sig_heredoc.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/27 18:02:48 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 15:57:48 by jboon         ########   odam.nl         */
+/*   Created: 2025/04/16 17:10:38 by jboon         #+#    #+#                 */
+/*   Updated: 2025/04/19 16:39:18 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MS_ERROR_H
-# define MS_ERROR_H
+#include <readline/readline.h>
 
-# include "ms_string.h"
+#include "libft.h"
+#include "minishell.h"
+#include "ms_signals.h"
 
-# define MS_ERROR_MAX 12
-
-typedef enum e_ms_error_code
+static void	trap_sigint(int signo)
 {
-	UNKNOWN = 0,
-	NO_PERM = 1,
-	NO_CMD = 2,
-	NO_FILE_DIR = 3,
-	NO_ALLOC = 4,
-	INVALID_ID = 5,
-	NO_ARGS = 6,
-	NO_ENV_VAR = 7,
-	TOO_N_ARGS = 8,
-	NUM_ARG_REQ = 9,
-	IS_DIR = 10,
-	AMB_REDIR = 11,
-	PERROR = 12,
-}	t_ms_errno;
+	g_signo = signo;
+	rl_done = 1;
+}
 
-void	ms_error(int ms_errno, t_str str, t_str arg);
+bool	trap_sigint_heredoc(void)
+{
+	t_sigaction	sa;
 
-#endif
+	sa.sa_flags = 0;
+	sa.sa_handler = trap_sigint;
+	return (
+		sigemptyset(&(sa.sa_mask)) != -1
+		&& sigaction(SIGINT, &sa, NULL) != -1);
+}

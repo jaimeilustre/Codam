@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 12:21:47 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/10 11:01:15 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 10:21:24 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@
 static t_str	*get_paths(t_alist *env_lst)
 {
 	t_cstr	env_path;
+	t_str	*paths;
 
 	env_path = ms_getenv(env_lst, "PATH");
 	if (env_path == NULL)
 		return (NULL);
-	return (ft_split(env_path, ':'));
+	paths = ft_split(env_path, ':');
+	if (paths == NULL)
+		ms_error(PERROR, NULL, NULL);
+	return (paths);
 }
 
 static t_str	get_cmd_path(t_str *paths, t_cstr cmd)
@@ -71,7 +75,7 @@ t_str	find_cmd(t_str cmd, t_alist *env_lst)
 
 	paths = get_paths(env_lst);
 	if (paths == NULL)
-		return (ms_error(PERROR, NULL, NULL), NULL);
+		return (ms_error(NO_CMD, cmd, NULL), NULL);
 	cmd_path = get_cmd_path(paths, cmd);
 	if (cmd_path == NULL)
 		ms_error(NO_CMD, cmd, NULL);

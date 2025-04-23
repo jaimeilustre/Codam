@@ -6,13 +6,18 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 18:03:53 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/15 11:32:44 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
 #include "list.h"
+
+static inline bool	is_out_of_bounds(int i, int max)
+{
+	return (i < 0 || i >= max);
+}
 
 int	find_item_in_list(t_alist *list, t_cstr item, t_compare comp)
 {
@@ -28,14 +33,17 @@ int	find_item_in_list(t_alist *list, t_cstr item, t_compare comp)
 	return (-1);
 }
 
-void	sort_list(t_alist *list, t_compare comp)
+void	sort_list(t_alist *list, int start, int end, t_compare comp)
 {
 	int		i;
 	int		j;
 	int		min;
 
-	i = 0;
-	while (i < list->size)
+	if (start >= end || is_out_of_bounds(start, list->size)
+		|| is_out_of_bounds(end, list->size))
+		return ;
+	i = start;
+	while (i < end)
 	{
 		min = i;
 		j = i + 1;

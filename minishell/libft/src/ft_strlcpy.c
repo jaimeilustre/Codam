@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jboon <jboon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 16:58:25 by jboon             #+#    #+#             */
-/*   Updated: 2024/10/17 11:48:47 by jboon            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_strlcpy.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jboon <jboon@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/07 16:58:25 by jboon         #+#    #+#                 */
+/*   Updated: 2025/04/03 14:07:37 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,19 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	while (src[len])
 		++len;
 	return (len);
+}
+
+char	*ft_strcpy(char *dst, const char *src)
+{
+	char	*ptr;
+
+	ptr = dst;
+	while (*src)
+	{
+		*dst = *src;
+		++dst;
+		++src;
+	}
+	*dst = *src;
+	return (ptr);
 }

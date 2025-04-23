@@ -6,12 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/07 07:42:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/11 10:25:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/18 10:58:17 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "parser.h"
+#include "exec.h"
+#include "ms_error.h"
 
 /*Checking for unclosed quotes before tokenization*/
 int	check_quotes(const char *input)
@@ -23,7 +25,7 @@ int	check_quotes(const char *input)
 			input = ft_strchrnul(input + 1, *input);
 			if (*input == '\0')
 			{
-				ft_putendl_fd("Unclosed quote", 2);
+				ft_putendl_fd("Syntax error: near unexpected token `quote'", 2);
 				return (-1);
 			}
 		}
@@ -49,4 +51,34 @@ int	read_quotes(t_source *src, long start)
 		src->curpos++;
 	}
 	return (0);
+}
+
+/*Removes quotes from the delimiter token*/
+char	*remove_quotes(t_token *token)
+{
+	const char	*src;
+	char		*result;
+	char		*dest;
+	char		quote_type;
+
+	src = token->value;
+	quote_type = 0;
+	result = malloc(ft_strlen(src) + 1);
+	if (!result)
+		return (NULL);
+	dest = result;
+	while (*src)
+	{
+		if (!quote_type && (*src == '\'' || *src == '"'))
+			quote_type = *src++;
+		else if (quote_type && *src == quote_type)
+		{
+			quote_type = 0;
+			src++;
+		}
+		else
+			*dest++ = *src++;
+	}
+	*dest = '\0';
+	return (result);
 }

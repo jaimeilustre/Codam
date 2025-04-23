@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:50:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/10 11:05:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 13:50:34 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include "ms_string.h"
 #include "ms_error.h"
 
-static t_cstr	g_errors[] = {
+#define MS_MESSAGE_SIZE 2048
+
+static t_cstr		g_errors[] = {
 	"unknown error",
 	"permission denied",
 	"command not found",
@@ -29,27 +31,31 @@ static t_cstr	g_errors[] = {
 	"not set",
 	"too many arguments",
 	"numeric argument required",
-	"is a directory"
+	"is a directory",
+	"ambiguous redirect"
 };
 
 void	ms_error(int ms_errno, t_str str, t_str arg)
 {
+	char	message[MS_MESSAGE_SIZE];
+
 	if (ms_errno < 0 || ms_errno > MS_ERROR_MAX)
 		ms_errno = UNKNOWN;
-	ft_putstr_fd(MINISHELL ": ", STDERR);
+	ft_bzero(message, 1);
+	ft_strlcat(message, MINISHELL ": ", MS_MESSAGE_SIZE);
 	if (str != NULL)
 	{
-		ft_putstr_fd(str, STDERR);
+		ft_strlcat(message, str, MS_MESSAGE_SIZE);
 		if (arg != NULL)
 		{
-			ft_putstr_fd(" \'", STDERR);
-			ft_putstr_fd(arg, STDERR);
-			ft_putchar_fd('\'', STDERR);
+			ft_strlcat(message, ": ", MS_MESSAGE_SIZE);
+			ft_strlcat(message, arg, MS_MESSAGE_SIZE);
 		}
-		ft_putstr_fd(": ", STDERR);
+		ft_strlcat(message, ": ", MS_MESSAGE_SIZE);
 	}
 	if (ms_errno == PERROR)
-		ft_putendl_fd(strerror(errno), STDERR);
+		ft_strlcat(message, strerror(errno), MS_MESSAGE_SIZE);
 	else
-		ft_putendl_fd((t_str)g_errors[ms_errno], STDERR);
+		ft_strlcat(message, g_errors[ms_errno], MS_MESSAGE_SIZE);
+	ft_putendl_fd(message, STDERR);
 }

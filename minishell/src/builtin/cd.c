@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:52:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 01:13:22 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/22 11:01:57 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,25 @@
 #include "utils.h"
 #include "exec.h"
 
+static void	store_abs_path_in_pwd(t_alist *env_lst, t_cstr pwd_key)
+{
+	t_path	cwd[PATH_MAX];
+	t_str	env_pwd;
+
+	if (getcwd(cwd, PATH_MAX) == NULL)
+		*cwd = '\0';
+	env_pwd = join_pair(pwd_key, cwd, "=");
+	ms_setenv(env_lst, pwd_key, env_pwd, ENV_NONE);
+	free(env_pwd);
+}
+
 static int	change_directory(t_cstr path, t_alist *env_lst)
 {
-	t_path	prev_cwd[PATH_MAX];
-	t_cstr	env_pwd;
-	t_cstr	env_oldpwd;
-
-	if (getcwd(prev_cwd, PATH_MAX) == NULL)
-	{
-		ms_error(PERROR, CD_NAME, NULL);
-		*prev_cwd = '\0';
-	}
+	store_abs_path_in_pwd(env_lst, V_OLDPWD);
 	if (chdir(path) == -1)
 		return (ms_error(PERROR, CD_NAME, (t_str)path), E_GEN_ERR);
-	env_pwd = join_pair(V_PWD, path, "=");
-	env_oldpwd = join_pair(V_OLDPWD, prev_cwd, "=");
-	if (env_pwd != NULL)
-		ms_setenv(env_lst, V_PWD, env_pwd, ENV_NONE);
-	if (env_oldpwd != NULL)
-		ms_setenv(env_lst, V_OLDPWD, env_oldpwd, ENV_NONE);
-	free((void *)env_pwd);
-	free((void *)env_oldpwd);
-	return (E_GEN_ERR);
+	store_abs_path_in_pwd(env_lst, V_PWD);
+	return (E_SUCCESS);
 }
 
 static int	cd_to_home(t_alist *env_lst)
@@ -66,10 +63,9 @@ static int	cd_to_oldpwd(t_alist *env_lst)
 		return (E_GEN_ERR);
 	}
 	str_copy = ft_strdup(prev_dir);
-	if (change_directory(prev_dir, env_lst) == E_SUCCESS)
+	if (str_copy != NULL && change_directory(str_copy, env_lst) == E_SUCCESS)
 	{
-		if (str_copy != NULL)
-			ft_putendl_fd(str_copy, STDOUT);
+		ft_putendl_fd(str_copy, STDOUT);
 		return (free(str_copy), E_SUCCESS);
 	}
 	return (free(str_copy), E_GEN_ERR);

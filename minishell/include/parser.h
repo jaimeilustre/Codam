@@ -6,9 +6,10 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 16:31:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/23 17:31:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef PARSER_H
 # define PARSER_H
@@ -27,14 +28,16 @@ typedef enum e_token_type
 	TOKEN_HEREDOC,
 	TOKEN_AND,
 	TOKEN_OR,
+	TOKEN_LEFTPAR,
+	TOKEN_RIGHTPAR,
 	TOKEN_EOF
 }	t_token_type;
 
 typedef struct s_source
 {
-	char	*buffer; /*Input text*/
-	long	bufsize; /*Size of the input text*/
-	long	curpos; /*Current position in the input text*/
+	char	*buffer;
+	long	bufsize;
+	long	curpos;
 }	t_source;
 
 typedef struct s_token
@@ -42,20 +45,21 @@ typedef struct s_token
 	t_token_type	type;
 	int				size;
 	char			*value;
-	int				quoted;
+	// int				quoted;
 	struct s_token	*next;
 }	t_token;
 
 typedef enum e_node_type
 {
-	NODE_COMMAND, /*A simple command*/
-	NODE_PIPE,	/*A pipeline*/
-	NODE_REDIRECT_IN, /*Redirection in*/
-	NODE_REDIRECT_OUT, /*Redirection out*/
-	NODE_APPEND, /*Append*/
-	NODE_HEREDOC, /*Heredoc*/
-	NODE_AND, /*Logical &&*/
-	NODE_OR, /*Logical ||*/
+	NODE_COMMAND,
+	NODE_PIPE,
+	NODE_REDIRECT_IN,
+	NODE_REDIRECT_OUT,
+	NODE_APPEND,
+	NODE_HEREDOC,
+	NODE_AND,
+	NODE_OR,
+	NODE_SUBSHELL
 }	t_node_type;
 
 typedef struct s_redirect
@@ -85,6 +89,13 @@ void		free_token(t_token *token);
 
 int			check_quotes(const char *input);
 int			read_quotes(t_source *src, long start);
+char		*remove_quotes(t_token *token);
+
+int			valid_position(const char *input, const char *start, int operator);
+int			check_closing_parenthesis(char c, int *depth);
+int			check_subshell(const char *input, const char **next, int *valid);
+int			validate_subshell(const char *input, const char **next);
+int			check_parenthesis(const char *input);
 
 t_token		*return_word_token(t_source *src);
 t_token		*return_single_operator_token(char c);
@@ -94,7 +105,8 @@ t_token		*return_next_token(t_source *src);
 int			arg_count(t_token *tokens);
 void		free_token_list(t_token **head);
 void		append_redir(t_ast *left, t_redirect *redir);
-bool		is_valid_next_token(t_token *token);
+t_ast		*choose_redir(t_ast *cmd, t_token **tokens, t_alist *env_lst);
+bool		is_valid_token(t_token *token);
 
 t_ast		*allocate_ast_node(t_node_type type);
 t_ast		*create_command_node(char **args);
@@ -102,10 +114,17 @@ void		free_ast(t_ast *node);
 t_redirect	*allocate_ast_redir(t_token *token);
 void		add_argument_to_ast(t_ast *left, t_token **tokens);
 
+t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
+
 t_ast		*parse_simple_command(t_token **tokens);
 t_ast		*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*create_ast_redir(t_ast *left, t_token **tokens);
-t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
-t_ast		*build_ast_tree(t_token **tokens, t_alist *env_lst);
+t_ast		*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst);
+
+t_ast		*parse_subshell(t_token **tokens, t_alist *env_lst);
+t_ast		*parse_redirections(t_token **tokens, t_alist *env_lst);
+t_ast		*parse_pipes(t_token **tokens, t_alist *env_lst);
+t_ast		*parse_logical(t_token **tokens, t_alist *env_lst);
+t_ast		*build_ast_tree(t_token *tokens, t_alist *env_lst);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 11:08:34 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/11 10:22:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/20 16:10:15 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <sys/wait.h>
 #include "libft.h"
 #include "minishell.h"
-#include "signal_utils.h"
+#include "ms_signals.h"
 #include "ms_error.h"
 #include "exec.h"
 
@@ -48,6 +48,9 @@ t_exit_code	wait_on_child(pid_t cpid)
 
 	while (waitpid(cpid, &wstatus, 0) != cpid)
 		;
+	if (WIFSIGNALED(wstatus)
+		&& (WTERMSIG(wstatus) == SIGINT || WCOREDUMP(wstatus)))
+		ft_putstr_fd("\n", STDOUT);
 	return (get_exit_code(wstatus));
 }
 
@@ -57,7 +60,7 @@ void	exit_process(t_exec *exec, t_exit_code exit_code)
 	free_ast(exec->head);
 	free_token_list(&exec->tokens);
 	free_list(exec->env_lst);
-	free_exec(&exec);
+	free_exec(exec);
 	rl_clear_history();
 	exit(exit_code);
 }
