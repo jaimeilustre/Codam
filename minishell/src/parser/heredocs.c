@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/23 16:52:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:18:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
 	return (redir->file != NULL);
 }
 
-
 /*Handles variable expansion in heredoc input*/
 static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
 {
@@ -69,12 +68,7 @@ static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
 static int	end_of_heredoc(char *line, char *delim)
 {
 	if (line == NULL)
-	{
-		ft_putstr_fd("here-document delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(delim, 2);
-		ft_putendl_fd("\')", 2);
-		return (1);
-	}
+		return (syntax_error(SYN_UNEXPEC_TOKEN, delim), 1);
 	return (ft_strcmp(line, delim) == 0);
 }
 
@@ -106,7 +100,7 @@ static int	heredoc_input(t_redirect *redir, int quoted, t_alist *env_lst)
 }
 
 /*Building the heredoc in AST*/
-t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
+t_ast	*create_ast_hdoc(t_ast *left, t_token **tokens, t_alist *env_lst)
 {
 	t_redirect	*redir;
 	int			in_quotes;
@@ -116,11 +110,8 @@ t_ast	*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst)
 		return (free_ast(left), NULL);
 	append_redir(left, redir);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
-	{
-		ft_putendl_fd("Syntax error: near unexpected token `newline'", 2);
-		return (free_ast(left), NULL);
-	}
+	if (!(*tokens) || (*tokens)->type != TOKEN_WRD)
+		return (syntax_error(SYN_NO_DELIMITER, NULL), free_ast(left), NULL);
 	else if (check_delimiter(redir, *tokens, &in_quotes))
 	{
 		*tokens = (*tokens)->next;

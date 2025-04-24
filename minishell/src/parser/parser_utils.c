@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/22 15:10:18 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:18:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	arg_count(t_token *tokens)
 	count = 0;
 	while (is_valid_token(tokens))
 	{
-		if (tokens->type == TOKEN_WORD)
+		if (tokens->type == TOKEN_WRD)
 			++count;
 		tokens = tokens->next;
 	}
@@ -71,8 +71,8 @@ t_ast	*choose_redir(t_ast *cmd, t_token **tokens, t_alist *env_lst)
 		|| (*tokens)->type == TOKEN_APPEND)
 		cmd = create_ast_redir(cmd, tokens);
 	else if ((*tokens)->type == TOKEN_HEREDOC)
-		cmd = create_ast_heredoc(cmd, tokens, env_lst);
-	else if ((*tokens)->type == TOKEN_WORD)
+		cmd = create_ast_hdoc(cmd, tokens, env_lst);
+	else if ((*tokens)->type == TOKEN_WRD)
 		add_argument_to_ast(cmd, tokens);
 	return (cmd);
 }
@@ -82,12 +82,12 @@ bool	is_valid_token(t_token *token)
 {
 	if (!token)
 		return (false);
-	if (token->type == TOKEN_WORD
+	if (token->type == TOKEN_WRD
 		|| token->type == TOKEN_REDIRECT_IN
 		|| token->type == TOKEN_REDIRECT_OUT
 		|| token->type == TOKEN_APPEND
 		|| token->type == TOKEN_HEREDOC
-		|| token->type == TOKEN_LEFTPAR)
+		|| token->type == TOKEN_LPAR)
 		return (true);
 	return (false);
 }

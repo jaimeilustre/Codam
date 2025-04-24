@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/23 17:31:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:18:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,18 @@
 #include "parser.h"
 
 /*Reads word for word token*/
-static void	read_word(t_source *src, int quoted)
+static void	read_word(t_source *src, int *quoted)
 {
 	while (src->curpos < src->bufsize)
 	{
 		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
 		{
 			read_quotes(src, src->curpos);
-			quoted = 1;
+			*quoted = 1;
 		}
 		else if (is_space(src->buffer[src->curpos])
-			|| is_operator(src->buffer[src->curpos]))
+			|| is_double_operator(src->buffer[src->curpos], peek_char(src))
+			|| is_single_operator(src->buffer[src->curpos]))
 			break ;
 		else
 			src->curpos++;
@@ -41,14 +42,13 @@ t_token	*return_word_token(t_source *src)
 	int		quoted;
 
 	quoted = 0;
-	start = src->curpos - 1;
+	start = src->curpos;
 	src->curpos = start;
-	read_word(src, quoted);
+	read_word(src, &quoted);
 	word = ft_substr(src->buffer, start, src->curpos - start);
 	if (!word)
 		return (NULL);
-	word_token = create_token(TOKEN_WORD, word);
-	// word_token->quoted = quoted;
+	word_token = create_token(TOKEN_WRD, word);
 	return (word_token);
 }
 
@@ -67,11 +67,9 @@ t_token	*return_single_operator_token(char c)
 	if (c == '|')
 		return (create_token(TOKEN_PIPE, operator));
 	if (c == '(')
-		return (create_token(TOKEN_LEFTPAR, operator));
+		return (create_token(TOKEN_LPAR, operator));
 	if (c == ')')
-		return (create_token(TOKEN_RIGHTPAR, operator));
-	if (c == '&')
-		return (create_token(TOKEN_WORD, operator));
+		return (create_token(TOKEN_RPAR, operator));
 	free(operator);
 	return (NULL);
 }
@@ -83,6 +81,7 @@ t_token	*return_double_operator_token(t_source *src, char c)
 	char	next;
 
 	next = next_char(src);
+	src->curpos++;
 	if ((c == '>' || c == '<') && next == c)
 	{
 		operator = ft_strdup((char []){c, next, '\0'});
@@ -90,8 +89,7 @@ t_token	*return_double_operator_token(t_source *src, char c)
 			return (NULL);
 		if (c == '>')
 			return (create_token(TOKEN_APPEND, operator));
-		else
-			return (create_token(TOKEN_HEREDOC, operator));
+		return (create_token(TOKEN_HEREDOC, operator));
 	}
 	if ((c == '&' && next == '&') || (c == '|' && next == '|'))
 	{
@@ -100,8 +98,7 @@ t_token	*return_double_operator_token(t_source *src, char c)
 			return (NULL);
 		if (c == '&')
 			return (create_token(TOKEN_AND, operator));
-		else
-			return (create_token(TOKEN_OR, operator));
+		return (create_token(TOKEN_OR, operator));
 	}
 	return (NULL);
 }
@@ -110,21 +107,17 @@ t_token	*return_double_operator_token(t_source *src, char c)
 t_token	*return_next_token(t_source *src)
 {
 	char	c;
-	t_token	*token;
-	long	saved_pos;
 
-	c = next_char(src);
+	c = src->buffer[src->curpos];
 	while (c && is_space(c))
 		c = next_char(src);
 	if (c == '\0')
 		return (allocate_token(TOKEN_EOF, NULL));
-	if (is_operator(c))
+	if (is_double_operator(c, peek_char(src)))
+		return (return_double_operator_token(src, c));
+	else if (is_single_operator(c))
 	{
-		saved_pos = src->curpos;
-		token = return_double_operator_token(src, c);
-		if (token != NULL)
-			return (token);
-		src->curpos = saved_pos;
+		src->curpos++;
 		return (return_single_operator_token(c));
 	}
 	return (return_word_token(src));

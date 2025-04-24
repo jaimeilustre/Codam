@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/18 10:54:01 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_ast	*parse_simple_command(t_token **tokens)
 	if (args == NULL)
 		return (NULL);
 	i = 0;
-	while (*tokens && ((*tokens)->type == TOKEN_WORD))
+	while (*tokens && ((*tokens)->type == TOKEN_WRD))
 	{
 		args[i] = ft_strdup((*tokens)->value);
 		if (!args[i])
@@ -39,6 +39,9 @@ t_ast	*parse_simple_command(t_token **tokens)
 		*tokens = (*tokens)->next;
 	}
 	args[i] = NULL;
+	if (*tokens && (*tokens)->type == TOKEN_LPAR)
+		return (syntax_error(SYN_SUBSHELL_AFTER_CMD, NULL)
+			, free_args(args), NULL);
 	return (create_command_node(args));
 }
 
@@ -52,13 +55,8 @@ t_ast	*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst)
 		return (free_ast(left), NULL);
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || !is_valid_token(*tokens))
-	{
-		ft_putendl_fd("Syntax error: unexpected end of file", 2);
-		free(node);
-		free_ast(left);
-		return (NULL);
-	}
+	if (!is_valid_token(*tokens))
+		return (syntax_error(SYN_EOF, NULL), free(node), free_ast(left), NULL);
 	node->right = parse_redirections(tokens, env_lst);
 	if (!node->right)
 		return (free_ast(node), NULL);
@@ -74,13 +72,8 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 	if (!redir)
 		return (free_ast(left), NULL);
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || (*tokens)->type != TOKEN_WORD)
-	{
-		ft_putendl_fd("Syntax error: unexpected end of file", 2);
-		free(redir);
-		free_ast(left);
-		return (NULL);
-	}
+	if (!(*tokens) || (*tokens)->type != TOKEN_WRD)
+		return (syntax_error(SYN_EOF, NULL), free(redir), free_ast(left), NULL);
 	redir->file = ft_strdup((*tokens)->value);
 	if (!redir->file)
 		return (free(redir), free_ast(left), NULL);
@@ -90,7 +83,7 @@ t_ast	*create_ast_redir(t_ast *left, t_token **tokens)
 }
 
 /*Building the logical operator in AST*/
-t_ast	*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst)
+t_ast	*create_ast_logic(t_ast *left, t_token **tokens, t_alist *env_lst)
 {
 	t_ast	*node;
 
@@ -103,15 +96,40 @@ t_ast	*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst)
 		return (free_ast(left), NULL);
 	node->left = left;
 	*tokens = (*tokens)->next;
-	if (!(*tokens) || !is_valid_token(*tokens))
-	{
-		ft_putendl_fd("Syntax error: unexpected end of file", 2);
-		free(node);
-		free_ast(left);
-		return (NULL);
-	}
+	if (!is_valid_token(*tokens))
+		return (syntax_error(SYN_EOF, NULL), free(node), free_ast(left), NULL);
 	node->right = parse_pipes(tokens, env_lst);
 	if (!node->right)
 		return (free_ast(node), NULL);
+	return (node);
+}
+
+/*Building the subshell in AST*/
+t_ast	*create_ast_subshell(t_token **tokens, t_alist *env_lst)
+{
+	t_ast	*subshell;
+	t_ast	*node;
+
+	*tokens = (*tokens)->next;
+	if (!*tokens)
+		return (NULL);
+	if (((*tokens)->type != TOKEN_WRD && (*tokens)->type != TOKEN_LPAR))
+		return (syntax_error(SYN_UNEXPEC_TOKEN, (*tokens)->value), NULL);
+	if ((*tokens)->type == TOKEN_RPAR)
+		return (syntax_error(SYN_EMPTY_SUBSHELL, NULL), NULL);
+	subshell = parse_logical(tokens, env_lst);
+	if (!subshell)
+		return (NULL);
+	if ((*tokens)->type != TOKEN_RPAR)
+		return (syntax_error(SYN_CLOSE_PAR, NULL), free_ast(subshell), NULL);
+	*tokens = (*tokens)->next;
+	if (*tokens && (*tokens)->type != TOKEN_PIPE && (*tokens)->type != TOKEN_AND
+		&& (*tokens)->type != TOKEN_OR && (*tokens)->type != TOKEN_RPAR
+		&& (*tokens)->type != TOKEN_EOF)
+		return (syntax_error(SYN_AFT_SUBSHELL, NULL), free_ast(subshell), NULL);
+	node = allocate_ast_node(NODE_SUBSHELL);
+	if (!node)
+		return (free_ast(subshell), NULL);
+	node->left = subshell;
 	return (node);
 }

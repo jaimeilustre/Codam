@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 14:06:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/22 15:09:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,8 @@
 /*Parsing subshells (parenthesis)*/
 t_ast	*parse_subshell(t_token **tokens, t_alist *env_lst)
 {
-	t_ast	*subshell;
-	t_ast	*node;
-
-	if (*tokens && (*tokens)->type == TOKEN_LEFTPAR)
-	{
-		*tokens = (*tokens)->next;
-		subshell = parse_logical(tokens, env_lst);
-		if (!subshell)
-			return (NULL);
-		if (!*tokens || (*tokens)->type != TOKEN_RIGHTPAR)
-			return (free_ast(subshell), NULL);
-		*tokens = (*tokens)->next;
-		node = allocate_ast_node(NODE_SUBSHELL);
-		if (!node)
-			return (free_ast(subshell), NULL);
-		node->left = subshell;
-		return (node);
-	}
+	if (*tokens && (*tokens)->type == TOKEN_LPAR)
+		return (create_ast_subshell(tokens, env_lst));
 	return (parse_simple_command(tokens));
 }
 
@@ -52,7 +36,7 @@ t_ast	*parse_redirections(t_token **tokens, t_alist *env_lst)
 			|| (*tokens)->type == TOKEN_REDIRECT_OUT
 			|| (*tokens)->type == TOKEN_APPEND
 			|| (*tokens)->type == TOKEN_HEREDOC
-			|| (*tokens)->type == TOKEN_WORD)
+			|| (*tokens)->type == TOKEN_WRD)
 		{
 			cmd = choose_redir(cmd, tokens, env_lst);
 			if (!cmd)
@@ -92,7 +76,7 @@ t_ast	*parse_logical(t_token **tokens, t_alist *env_lst)
 	while (*tokens && ((*tokens)->type == TOKEN_AND
 			|| (*tokens)->type == TOKEN_OR))
 	{
-		left = create_ast_logical(left, tokens, env_lst);
+		left = create_ast_logic(left, tokens, env_lst);
 		if (!left)
 			return (NULL);
 	}
@@ -102,17 +86,11 @@ t_ast	*parse_logical(t_token **tokens, t_alist *env_lst)
 /*Building the Abstract Syntax tree*/
 t_ast	*build_ast_tree(t_token *tokens, t_alist *env_lst)
 {
+	if (!check_opening_parenthesis(tokens))
+		return (NULL);
 	if (tokens == NULL)
-	{
-		ft_putendl_fd("Syntax error: NULL pointer as first token", STDERR);
-		return (NULL);
-	}
+		return (syntax_error(SYN_NULL_POINTER, NULL), NULL);
 	else if (!is_valid_token(tokens))
-	{
-		ft_putstr_fd("Syntax error: near unexpected token `", STDERR);
-		ft_putstr_fd(tokens->value, STDERR);
-		ft_putendl_fd("'", STDERR);
-		return (NULL);
-	}
+		return (syntax_error(SYN_UNEXPEC_TOKEN, tokens->value), NULL);
 	return (parse_logical(&tokens, env_lst));
 }

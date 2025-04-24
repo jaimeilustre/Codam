@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_strtrim.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jboon <jboon@student.42.fr>                +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 15:11:45 by jboon             #+#    #+#             */
-/*   Updated: 2024/12/02 17:38:56 by jboon            ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_strtrim.c                                       :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jboon <jboon@student.42.fr>                  +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/10 15:11:45 by jboon         #+#    #+#                 */
+/*   Updated: 2025/04/24 14:17:07 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	start = s1;
 	while (*s1)
 		++s1;
-	while (is_seperator(*s1, set) || *s1 == '\0')
+	while ((is_seperator(*s1, set) || *s1 == '\0') && s1 != start)
 		--s1;
-	if (s1 >= start)
+	if (s1 >= start && *start != '\0')
 		len = (s1 + 1) - start;
 	else
 		len = 0;

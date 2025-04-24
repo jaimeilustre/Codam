@@ -6,10 +6,9 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 17:31:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PARSER_H
 # define PARSER_H
@@ -18,9 +17,24 @@
 # include "ms_string.h"
 # include "list.h"
 
+typedef enum e_syntax_error_code
+{
+	SYN_EOF = 0,
+	SYN_EMPTY_SUBSHELL = 1,
+	SYN_CLOSE_PAR = 2,
+	SYN_EXPEC_OPEN_PAR = 3,
+	SYN_AFT_SUBSHELL = 4,
+	SYN_SUBSHELL_AFTER_CMD = 5,
+	SYN_NULL_POINTER = 6,
+	SYN_NO_DELIMITER = 7,
+	SYN_UNCLOSED_QUOTE = 8,
+	SYN_UNEXPEC_TOKEN = 9,
+	SYN_SYNTAX_ERROR_MAX = 10
+}	t_syntax_error;
+
 typedef enum e_token_type
 {
-	TOKEN_WORD,
+	TOKEN_WRD,
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,
@@ -28,8 +42,8 @@ typedef enum e_token_type
 	TOKEN_HEREDOC,
 	TOKEN_AND,
 	TOKEN_OR,
-	TOKEN_LEFTPAR,
-	TOKEN_RIGHTPAR,
+	TOKEN_LPAR,
+	TOKEN_RPAR,
 	TOKEN_EOF
 }	t_token_type;
 
@@ -45,7 +59,6 @@ typedef struct s_token
 	t_token_type	type;
 	int				size;
 	char			*value;
-	// int				quoted;
 	struct s_token	*next;
 }	t_token;
 
@@ -78,8 +91,10 @@ typedef struct s_ast
 	t_redirect		*redirect;
 }	t_ast;
 
+char		peek_char(t_source *src);
 char		next_char(t_source *src);
-bool		is_operator(char c);
+bool		is_double_operator(char c, char d);
+bool		is_single_operator(char c);
 bool		is_space(char c);
 
 t_token		*create_token(t_token_type type, char *value);
@@ -90,12 +105,7 @@ void		free_token(t_token *token);
 int			check_quotes(const char *input);
 int			read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
-
-int			valid_position(const char *input, const char *start, int operator);
-int			check_closing_parenthesis(char c, int *depth);
-int			check_subshell(const char *input, const char **next, int *valid);
-int			validate_subshell(const char *input, const char **next);
-int			check_parenthesis(const char *input);
+bool		check_opening_parenthesis(t_token *tokens);
 
 t_token		*return_word_token(t_source *src);
 t_token		*return_single_operator_token(char c);
@@ -114,17 +124,20 @@ void		free_ast(t_ast *node);
 t_redirect	*allocate_ast_redir(t_token *token);
 void		add_argument_to_ast(t_ast *left, t_token **tokens);
 
-t_ast		*create_ast_heredoc(t_ast *left, t_token **tokens, t_alist *env_lst);
+t_ast		*create_ast_hdoc(t_ast *left, t_token **tokens, t_alist *env_lst);
 
 t_ast		*parse_simple_command(t_token **tokens);
 t_ast		*create_ast_pipe(t_ast *left, t_token **tokens, t_alist *env_lst);
 t_ast		*create_ast_redir(t_ast *left, t_token **tokens);
-t_ast		*create_ast_logical(t_ast *left, t_token **tokens, t_alist *env_lst);
+t_ast		*create_ast_logic(t_ast *left, t_token **tokens, t_alist *env_lst);
+t_ast		*create_ast_subshell(t_token **tokens, t_alist *env_lst);
 
 t_ast		*parse_subshell(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_redirections(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_pipes(t_token **tokens, t_alist *env_lst);
 t_ast		*parse_logical(t_token **tokens, t_alist *env_lst);
 t_ast		*build_ast_tree(t_token *tokens, t_alist *env_lst);
+
+void		syntax_error(t_syntax_error code, const char *token);
 
 #endif

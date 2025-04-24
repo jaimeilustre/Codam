@@ -18,15 +18,14 @@ C_LIB		:= -lreadline
 # BINARIES
 NAME		:= minishell
 DB_NAME		:= db_minishell
-SRCS		:= ast.c builtin.c cd.c exec_node.c echo.c env.c environment.c exec_cmd.c \
+SRCS		:= ast_utils.c builtin.c cd.c exec_node.c echo.c env.c environment.c exec_cmd.c \
 				exec_init.c exec_pipe.c exec_utils.c export.c find_cmd.c list.c \
 				list_operations.c main.c ms_error.c ms_string.c parser.c \
 				parser_utils.c prompt.c pwd.c redir.c redir_utils.c \
 				ms_signals.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
 				validate.c env_init.c list_init.c exit.c stringbuilder.c \
-				var_expansion.c quotes.c heredocs.c std_redir.c expansion.c wildcard.c \
-				expansion_utils.c ast_builder.c sig_heredoc.c sig_prompt.c parenthesis.c \
-				parenthesis_utils.c
+				var_expansion.c quote_paren_utils.c heredocs.c std_redir.c expansion.c wildcard.c \
+				expansion_utils.c ast_builder.c sig_heredoc.c sig_prompt.c syntax_errors.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 
