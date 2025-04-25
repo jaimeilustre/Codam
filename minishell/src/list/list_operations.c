@@ -6,11 +6,12 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 15:24:42 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/21 16:08:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:15:59 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "list.h"
 
 static bool	expand_list(t_alist *list);

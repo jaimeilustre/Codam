@@ -6,11 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/21 13:11:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 10:53:29 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:56:18 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "libft.h"
+
 #include "list.h"
 
 bool	init_list(t_alist *list, int capacity)

@@ -6,16 +6,18 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 08:23:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
+
 #include "libft.h"
-#include "parser.h"
-#include "ms_string.h"
+
 #include "list.h"
+#include "ms_string.h"
+#include "parser.h"
 
 /*Parse simple command and return node command*/
 t_ast	*parse_simple_command(t_token **tokens)

@@ -6,14 +6,16 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 14:47:05 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 16:11:22 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:56:35 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdbool.h>
 #include <stdlib.h>
+
 #include "libft.h"
+
 #include "ms_string.h"
 
 bool	is_empty_cmd(t_cstr str)

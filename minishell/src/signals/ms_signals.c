@@ -6,14 +6,13 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:29:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 18:13:23 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:17:15 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include "minishell.h"
+
 #include "ms_signals.h"
-#include "libft.h"
 
 volatile sig_atomic_t	g_signo = 0;
 

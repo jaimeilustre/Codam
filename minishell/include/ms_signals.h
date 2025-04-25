@@ -6,15 +6,15 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 13:38:52 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 18:13:45 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 16:37:56 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MS_SIGNALS_H
 # define MS_SIGNALS_H
 
-# include <stdbool.h>
 # include <signal.h>
+# include <stdbool.h>
 
 extern volatile sig_atomic_t	g_signo;
 

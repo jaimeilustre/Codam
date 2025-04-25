@@ -6,14 +6,13 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 16:17:08 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 11:33:16 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 16:36:18 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_H
 # define LIST_H
 
-# include <stdlib.h>
 # include "ms_string.h"
 
 typedef enum e_env_flag

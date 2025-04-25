@@ -6,14 +6,19 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:27:18 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/20 16:40:31 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:47:02 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+
 #include "libft.h"
-#include "minishell.h"
+
 #include "exec.h"
+#include "list.h"
+#include "minishell.h"
 #include "ms_error.h"
+#include "parser.h"
 
 bool	init_exec(t_exec *exec, t_ast *head, t_token *tks, t_alist *env_ls)
 {

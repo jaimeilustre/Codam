@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:52:16 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 11:56:57 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 #include <readline/readline.h>
 
 #include "libft.h"
+
 #include "exec.h"
 #include "list.h"
-#include "parser.h"
+#include "ms_error.h"
 #include "ms_signals.h"
 #include "ms_string.h"
-#include "ms_error.h"
+#include "parser.h"
 
 /*Handles delimiter or quoted delimiter*/
 static int	check_delimiter(t_redirect *redir, t_token *tokens, int *in_quotes)
@@ -56,7 +57,7 @@ static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
 			&& append_strb(sb, "\n", 1));
 	while (*ptr)
 	{
-		ptr = ft_strchrnul(ptr, '$');
+		ptr = ft_strchrnul(line, '$');
 		if (!append_strb(sb, line, ptr - line)
 			|| (*ptr == '$' && !expand_variable(sb, &ptr, env_lst)))
 			return (0);

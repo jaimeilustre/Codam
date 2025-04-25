@@ -6,25 +6,23 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:34:06 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 11:20:27 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:22:41 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
-#include <limits.h>
-#include <signal.h>
-#include <stdio.h>
 #include <stdlib.h>
-#include <sys/wait.h>
+#include <readline/readline.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <readline/readline.h>
 
 #include "libft.h"
 #include "get_next_line.h"
+
 #include "minishell.h"
-#include "ms_signals.h"
 #include "ms_error.h"
+#include "ms_signals.h"
+#include "ms_string.h"
 #include "exec.h"
 
 /* Event hook that forces readline to exit on ctrl-c */

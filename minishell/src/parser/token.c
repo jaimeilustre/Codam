@@ -6,14 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/03 09:43:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 08:29:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 08:47:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
-#include "parser.h"
+
 #include "exec.h"
+#include "parser.h"
 
 /*Create a new token*/
 t_token	*create_token(t_token_type type, char *value)
@@ -26,14 +28,18 @@ t_token	*create_token(t_token_type type, char *value)
 	return (token);
 }
 
-t_token	*create_tokens(t_str cmd)
+t_token	*create_tokens(t_str cmd, int *error)
 {
 	t_source	src;
 	t_token		*first_token;
 	t_token		*last_token;
 
+	*error = 0;
 	if (check_quotes(cmd) == -1)
+	{
+		*error = 1;
 		return (NULL);
+	}
 	src = (t_source){cmd, ft_strlen(cmd), 0};
 	first_token = return_next_token(&src);
 	last_token = first_token;

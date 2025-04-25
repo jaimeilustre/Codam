@@ -6,19 +6,23 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 14:22:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:59:50 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 
 #include "libft.h"
+
 #include "builtin.h"
 #include "exec.h"
-#include "parser.h"
+#include "list.h"
 #include "ms_error.h"
 #include "ms_signals.h"
+#include "ms_string.h"
+#include "parser.h"
 
 static t_exit_code	set_cmd_path(t_str *cmd_path, t_str *cmd, t_exec *exec)
 {

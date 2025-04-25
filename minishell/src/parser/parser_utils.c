@@ -6,15 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 12:20:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:18:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:24:31 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <stdbool.h>
-#include "libft.h"
-#include "parser.h"
+#include <stdlib.h>
+
 #include "ms_string.h"
+#include "parser.h"
 
 /*Count args for args array*/
 int	arg_count(t_token *tokens)
@@ -73,7 +73,10 @@ t_ast	*choose_redir(t_ast *cmd, t_token **tokens, t_alist *env_lst)
 	else if ((*tokens)->type == TOKEN_HEREDOC)
 		cmd = create_ast_hdoc(cmd, tokens, env_lst);
 	else if ((*tokens)->type == TOKEN_WRD)
-		add_argument_to_ast(cmd, tokens);
+	{
+		if (add_argument_to_ast(cmd, tokens) == -1)
+			return (NULL);
+	}
 	return (cmd);
 }
 

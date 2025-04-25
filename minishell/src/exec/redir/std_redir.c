@@ -6,14 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 15:38:32 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 12:11:56 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:45:14 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 
-#include "minishell.h"
 #include "exec.h"
+#include "minishell.h"
 
 bool	store_std_fd(int new_fd[RE_MAX_FD])
 {

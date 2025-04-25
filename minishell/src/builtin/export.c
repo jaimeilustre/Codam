@@ -6,15 +6,19 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 17:01:23 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/20 14:54:36 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:00:55 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "libft.h"
+
+#include "builtin.h"
+#include "exec.h"
+#include "list.h"
 #include "minishell.h"
 #include "ms_error.h"
-#include "utils.h"
-#include "exec.h"
 
 static void	print_exp_var(t_cstr item, t_env_fl flag)
 {

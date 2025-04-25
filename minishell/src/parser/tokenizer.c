@@ -6,24 +6,23 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:08 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:18:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:21:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
+
 #include "parser.h"
 
 /*Reads word for word token*/
-static void	read_word(t_source *src, int *quoted)
+static void	read_word(t_source *src)
 {
 	while (src->curpos < src->bufsize)
 	{
 		if (src->buffer[src->curpos] == '\'' || src->buffer[src->curpos] == '"')
-		{
 			read_quotes(src, src->curpos);
-			*quoted = 1;
-		}
 		else if (is_space(src->buffer[src->curpos])
 			|| is_double_operator(src->buffer[src->curpos], peek_char(src))
 			|| is_single_operator(src->buffer[src->curpos]))
@@ -39,12 +38,10 @@ t_token	*return_word_token(t_source *src)
 	long	start;
 	char	*word;
 	t_token	*word_token;
-	int		quoted;
 
-	quoted = 0;
 	start = src->curpos;
 	src->curpos = start;
-	read_word(src, &quoted);
+	read_word(src);
 	word = ft_substr(src->buffer, start, src->curpos - start);
 	if (!word)
 		return (NULL);

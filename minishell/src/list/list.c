@@ -6,13 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 18:03:53 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 11:32:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:56:21 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "utils.h"
+
 #include "list.h"
+#include "utils.h"
 
 static inline bool	is_out_of_bounds(int i, int max)
 {

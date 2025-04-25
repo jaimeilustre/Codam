@@ -6,13 +6,19 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 13:13:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 13:31:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:01:32 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+#include <stdlib.h>
+
 #include "libft.h"
-#include "minishell.h"
+
 #include "exec.h"
+#include "list.h"
+#include "minishell.h"
+#include "ms_string.h"
 
 /* Supports $? only, but could be extended for $$, $0, ect. */
 static bool	is_special_variable(const char c)

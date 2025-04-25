@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 14:49:22 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/28 11:08:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 16:37:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <stdbool.h>
 # include <stddef.h>
-# include <limits.h>
 
 typedef char*		t_str;
 typedef const char*	t_cstr;

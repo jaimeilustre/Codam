@@ -6,12 +6,16 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 16:21:36 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 17:51:34 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:35:31 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+
 #include "libft.h"
+
 #include "exec.h"
+#include "list.h"
 #include "ms_string.h"
 
 /* Hidden files are only included if the wildcard starts with . */

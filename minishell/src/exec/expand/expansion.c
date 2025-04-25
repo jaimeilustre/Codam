@@ -6,12 +6,17 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/04 11:29:59 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 13:30:15 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:36:12 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
+
 #include "libft.h"
+
 #include "exec.h"
+#include "list.h"
+#include "ms_string.h"
 
 /* Append the string literal within the quotes to sb */
 static bool	expand_single_quote(t_strb *sb, t_cstr *quote_str)

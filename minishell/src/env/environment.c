@@ -6,16 +6,18 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/13 11:59:32 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/20 14:11:44 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:55:52 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdbool.h>
+
 #include "libft.h"
+
+#include "list.h"
 #include "minishell.h"
 #include "ms_string.h"
-#include "list.h"
 #include "utils.h"
 
 static int	cmp_env_var(t_cstr a, t_cstr b)

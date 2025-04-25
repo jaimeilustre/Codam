@@ -6,13 +6,14 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 14:04:17 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/18 12:02:15 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:41:31 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
+#include <unistd.h>
+
 #include "minishell.h"
-#include "exec.h"
 
 static bool	is_std(int fd)
 {

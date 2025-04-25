@@ -6,16 +6,18 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:37:04 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 01:28:34 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:55:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include <unistd.h>
+#include <limits.h>
+
 #include "libft.h"
+
+#include "exec.h"
 #include "minishell.h"
 #include "ms_error.h"
-#include "exec.h"
 
 int	pwd(int argc, t_str *argv, void *env_lst)
 {

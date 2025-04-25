@@ -6,17 +6,19 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/28 14:47:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/09 01:16:28 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:55:36 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
+
 #include "libft.h"
-#include "minishell.h"
-#include "ms_string.h"
-#include "ms_error.h"
-#include "list.h"
+
+#include "builtin.h"
 #include "exec.h"
+#include "minishell.h"
+#include "ms_error.h"
+#include "ms_string.h"
 
 static int	str_to_exit(t_cstr exit_str)
 {

@@ -6,18 +6,18 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:19:15 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 18:07:45 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:59:31 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-#include <stdlib.h>
-#include <sys/wait.h>
+#include <unistd.h>
 
 #include "libft.h"
-#include "minishell.h"
+
 #include "exec.h"
+#include "minishell.h"
 #include "ms_error.h"
+#include "parser.h"
 
 static t_exit_code	exec_subnode(t_ast *node, t_exec *exec)
 {
@@ -30,7 +30,7 @@ static t_exit_code	exec_subnode(t_ast *node, t_exec *exec)
 		return (exit_code);
 	ms_error(PERROR, NULL, NULL);
 	if (!exec->is_child)
-		ft_putendl_fd("Unable to restore the STDIN AND/OR STDOUT!", STDERR);
+		ft_putendl_fd("Unable to restore the STDIN and/or STDOUT!", STDERR);
 	close_redir(exec->redir_fd);
 	return (E_GEN_ERR);
 }

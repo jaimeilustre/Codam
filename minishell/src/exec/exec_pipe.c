@@ -6,14 +6,17 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:43:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 18:14:21 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:50:55 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <unistd.h>
+
 #include "exec.h"
-#include "utils.h"
 #include "ms_error.h"
 #include "ms_signals.h"
+#include "parser.h"
+#include "utils.h"
 
 static pid_t	exec_child(t_ast *node, t_exec *exec, int pipe_fd[2], int *rdir)
 {

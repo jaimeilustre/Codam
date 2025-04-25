@@ -6,40 +6,38 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:50:14 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 13:50:34 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:40:32 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
 #include <errno.h>
+#include <string.h>
+
+#include "libft.h"
 
 #include "minishell.h"
-#include "libft.h"
-#include "ms_string.h"
 #include "ms_error.h"
+#include "ms_string.h"
 
 #define MS_MESSAGE_SIZE 2048
 
-static t_cstr		g_errors[] = {
-	"unknown error",
-	"permission denied",
-	"command not found",
-	"no file or directory called",
-	"failed to allocated memory",
-	"not a valid identifier",
-	"not enough arguments",
-	"not set",
-	"too many arguments",
-	"numeric argument required",
-	"is a directory",
-	"ambiguous redirect"
+static t_cstr		g_errors[PERROR] = {
+[UNKNOWN] = "unknown error",
+[NO_PERM] = "permission denied",
+[NO_CMD] = "command not found",
+[INVALID_ID] = "not a valid identifier",
+[NO_ENV_VAR] = "not set",
+[TOO_N_ARGS] = "too many arguments",
+[NUM_ARG_REQ] = "numeric argument required",
+[IS_DIR] = "is a directory",
+[AMB_REDIR] = "ambiguous redirect"
 };
 
 void	ms_error(int ms_errno, t_str str, t_str arg)
 {
 	char	message[MS_MESSAGE_SIZE];
 
-	if (ms_errno < 0 || ms_errno > MS_ERROR_MAX)
+	if (ms_errno < UNKNOWN || ms_errno > PERROR)
 		ms_errno = UNKNOWN;
 	ft_bzero(message, 1);
 	ft_strlcat(message, MINISHELL ": ", MS_MESSAGE_SIZE);

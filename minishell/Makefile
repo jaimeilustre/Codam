@@ -45,7 +45,6 @@ $(LIBFT):
 	make -C $(LIBFT_DIR) all
 
 debug: $(DB_NAME)
-	@export LSAN_OPTIONS=suppressions=asan_minishell.supp
 
 $(DB_NAME): $(DB_DIR) $(DB_LIBFT) $(DB_OBJS)
 	$(CC) $(C_DEBUG) $(DB_OBJS) $(DB_LIBFT) $(C_LIB) -o $(DB_NAME)
@@ -58,6 +57,9 @@ $(DB_LIBFT):
 
 valgrind: all
 	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=minishell.supp ./$(NAME)
+
+fsan: debug
+	@env LSAN_OPTIONS=suppressions=asan_minishell.supp ./$(DB_NAME)
 
 # DIRECTORY RULES
 

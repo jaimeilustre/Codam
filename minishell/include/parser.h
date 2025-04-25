@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:31:47 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,12 @@ bool		is_single_operator(char c);
 bool		is_space(char c);
 
 t_token		*create_token(t_token_type type, char *value);
-t_token		*create_tokens(t_str cmd);
+t_token		*create_tokens(t_str cmd, int *error);
 t_token		*allocate_token(t_token_type type, char *value);
 void		free_token(t_token *token);
 
 int			check_quotes(const char *input);
-int			read_quotes(t_source *src, long start);
+void		read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
 bool		check_opening_parenthesis(t_token *tokens);
 
@@ -122,7 +122,7 @@ t_ast		*allocate_ast_node(t_node_type type);
 t_ast		*create_command_node(char **args);
 void		free_ast(t_ast *node);
 t_redirect	*allocate_ast_redir(t_token *token);
-void		add_argument_to_ast(t_ast *left, t_token **tokens);
+int			add_argument_to_ast(t_ast *left, t_token **tokens);
 
 t_ast		*create_ast_hdoc(t_ast *left, t_token **tokens, t_alist *env_lst);
 

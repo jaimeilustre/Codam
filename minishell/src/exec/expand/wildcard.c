@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 16:31:54 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/14 18:38:33 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:40:11 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <stdlib.h>
 
 #include "libft.h"
+
 #include "exec.h"
+#include "list.h"
 #include "ms_string.h"
 
 /*

@@ -6,18 +6,20 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/25 11:52:20 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 11:01:57 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:59:01 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
-#include <stddef.h>
+#include <stdlib.h>
+
 #include "libft.h"
+
 #include "builtin.h"
+#include "exec.h"
 #include "minishell.h"
 #include "ms_error.h"
 #include "utils.h"
-#include "exec.h"
 
 static void	store_abs_path_in_pwd(t_alist *env_lst, t_cstr pwd_key)
 {

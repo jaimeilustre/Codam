@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:47:45 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 15:48:43 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:57:13 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_H
 
 # include <unistd.h>
-# include "builtin.h"
+
 # include "list.h"
 # include "ms_string.h"
 

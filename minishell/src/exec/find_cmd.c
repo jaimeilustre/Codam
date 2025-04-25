@@ -6,16 +6,20 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 12:21:47 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/22 10:21:24 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:55:00 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
+#include <stdlib.h>
 #include <sys/stat.h>
 
 #include "libft.h"
+
+#include "list.h"
 #include "minishell.h"
 #include "ms_error.h"
+#include "ms_string.h"
 
 static t_str	*get_paths(t_alist *env_lst)
 {

@@ -6,13 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 13:55:51 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 16:36:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:17:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "minishell.h"
 #include "libft.h"
+
+#include "minishell.h"
+#include "parser.h"
 
 #define MS_MESSAGE_SIZE 2048
 
@@ -35,7 +36,7 @@ void	syntax_error(t_syntax_error code, const char *token)
 
 	if (code < 0 || code >= SYN_SYNTAX_ERROR_MAX)
 		code = SYN_UNEXPEC_TOKEN;
-	ft_bzero(message, sizeof(message));
+	ft_bzero(message, MS_MESSAGE_SIZE);
 	ft_strlcat(message, "minishell: syntax error: ", MS_MESSAGE_SIZE);
 	ft_strlcat(message, g_syntax_errors[code], MS_MESSAGE_SIZE);
 	if (token)

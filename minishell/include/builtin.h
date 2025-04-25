@@ -6,14 +6,13 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/11 15:54:48 by jboon         #+#    #+#                 */
-/*   Updated: 2025/03/31 15:51:53 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 16:33:43 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "list.h"
 # include "ms_string.h"
 
 # define CD_NAME "cd"

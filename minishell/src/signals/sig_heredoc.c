@@ -6,14 +6,12 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/16 17:10:38 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/19 16:39:18 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:18:07 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
 
-#include "libft.h"
-#include "minishell.h"
 #include "ms_signals.h"
 
 static void	trap_sigint(int signo)

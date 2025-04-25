@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/25 13:08:25 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/13 10:49:59 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 17:32:27 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "libft.h"
+
 #include "ms_string.h"
 
 static bool	expand_strb(t_strb *sb, size_t min_cap)

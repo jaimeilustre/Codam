@@ -3,18 +3,21 @@
 /*                                                        ::::::::            */
 /*   quote_paren_utils.c                                :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
+/*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 15:18:19 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:17:35 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:31:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
+
 #include "libft.h"
-#include "parser.h"
+
 #include "exec.h"
-#include "ms_error.h"
 #include "minishell.h"
+#include "ms_error.h"
+#include "parser.h"
 
 /*Checking for unclosed quotes before tokenization*/
 int	check_quotes(const char *input)
@@ -33,7 +36,7 @@ int	check_quotes(const char *input)
 }
 
 /*Reading single or double quotes*/
-int	read_quotes(t_source *src, long start)
+void	read_quotes(t_source *src, long start)
 {
 	char	quote_type;
 
@@ -48,7 +51,6 @@ int	read_quotes(t_source *src, long start)
 		}
 		src->curpos++;
 	}
-	return (0);
 }
 
 /*Removes quotes from the delimiter token*/

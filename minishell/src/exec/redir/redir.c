@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:46:10 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/15 10:35:39 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:01:19 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
-#include <unistd.h>
+#include <stdlib.h>
 
 #include "libft.h"
-#include "minishell.h"
+
 #include "exec.h"
+#include "list.h"
+#include "minishell.h"
 #include "ms_error.h"
+#include "ms_string.h"
+#include "parser.h"
 
 static bool	redir_heredoc(t_str file, int std_fd)
 {

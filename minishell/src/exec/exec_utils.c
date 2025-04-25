@@ -6,17 +6,23 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/10 11:08:34 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/20 16:10:15 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:00:28 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <readline/readline.h>
+#include <stdlib.h>
 #include <sys/wait.h>
+
 #include "libft.h"
-#include "minishell.h"
-#include "ms_signals.h"
-#include "ms_error.h"
+
 #include "exec.h"
+#include "list.h"
+#include "minishell.h"
+#include "ms_error.h"
+#include "ms_signals.h"
+#include "ms_string.h"
+#include "parser.h"
 
 t_exit_code	get_exit_code(int wstatus)
 {

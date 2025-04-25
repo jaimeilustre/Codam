@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/20 16:26:12 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/23 18:39:51 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define EXEC_H
 
 # include <unistd.h>
-# include "ms_string.h"
+
 # include "list.h"
+# include "ms_string.h"
 # include "parser.h"
 
 # define RE_MAX_FD 2

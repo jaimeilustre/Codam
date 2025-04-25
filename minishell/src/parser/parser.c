@@ -6,13 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 14:06:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 17:28:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 08:34:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
-#include "libft.h"
 #include "minishell.h"
+#include "parser.h"
 
 /*Parsing subshells (parenthesis)*/
 t_ast	*parse_subshell(t_token **tokens, t_alist *env_lst)

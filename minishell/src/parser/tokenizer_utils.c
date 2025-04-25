@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/27 11:59:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 11:48:33 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/25 08:32:55 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdbool.h>
 #include <stdlib.h>
-#include "libft.h"
+
 #include "parser.h"
 
 /* Peek at the next character from the input */

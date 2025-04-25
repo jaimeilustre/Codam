@@ -6,14 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 15:18:26 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/24 15:18:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/25 10:19:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
 #include "libft.h"
-#include "parser.h"
+
 #include "ms_string.h"
+#include "parser.h"
 
 /*Allocate memory for an Abstract Syntax Tree node*/
 t_ast	*allocate_ast_node(t_node_type type)
@@ -88,7 +90,7 @@ t_redirect	*allocate_ast_redir(t_token *token)
 }
 
 /*Adding later arguments to AST*/
-void	add_argument_to_ast(t_ast *left, t_token **tokens)
+int	add_argument_to_ast(t_ast *left, t_token **tokens)
 {
 	int	i;
 
@@ -99,8 +101,9 @@ void	add_argument_to_ast(t_ast *left, t_token **tokens)
 	if (!left->args[i])
 	{
 		free_args(left->args);
-		return ;
+		return (-1);
 	}
 	left->args[i + 1] = NULL;
 	*tokens = (*tokens)->next;
+	return (0);
 }
