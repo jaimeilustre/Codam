@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/19 10:35:34 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/02/19 17:40:13 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/29 09:59:35 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,51 +22,51 @@ void	*say_hello()
 	return (NULL);
 }
 
-int	main(void)
-{
-	pthread_t	thread;
+// int	main(void)
+// {
+// 	pthread_t	thread;
 	
-	pthread_create(&thread, NULL, say_hello, NULL);
-	pthread_join(thread, NULL);
-	// pthread_detach(thread);
-	printf("Main thread is done!\n");
-	return (0);
-}
+// 	pthread_create(&thread, NULL, say_hello, NULL);
+// 	pthread_join(thread, NULL);
+// 	// pthread_detach(thread);
+// 	printf("Main thread is done!\n");
+// 	return (0);
+// }
 
 /*Basic example of mutexes*/
 
 /*Without mutex; multiple threads access and modify shared data 
 at the same time, causing unexpected behavior (corruption, crashes, wrong results)*/
 
-int	counter = 0; // Shared resource
+// int	counter = 0; // Shared resource
 
-void	*increment()
-{
-	int	i;
+// void	*increment()
+// {
+// 	int	i;
 
-	i = 0;
-	while (i < 1000000)
-	{
-		counter++;
-		i++;
-	}
-	return (NULL);
-}
+// 	i = 0;
+// 	while (i < 1000000)
+// 	{
+// 		counter++;
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
 
-int	main(void)
-{
-	pthread_t	t1;
-	pthread_t	t2;
+// int	main(void)
+// {
+// 	pthread_t	t1;
+// 	pthread_t	t2;
 	
-	pthread_create(&t1, NULL, increment, NULL);
-	pthread_create(&t2, NULL, increment, NULL);
-	pthread_join(t1, NULL);
-	pthread_join(t2, NULL);
-	printf("Final counter: %d\n", counter);
-	return (0);
-}
+// 	pthread_create(&t1, NULL, increment, NULL);
+// 	pthread_create(&t2, NULL, increment, NULL);
+// 	pthread_join(t1, NULL);
+// 	pthread_join(t2, NULL);
+// 	printf("Final counter: %d\n", counter);
+// 	return (0);
+// }
 
-/*With mutex; only one thread at a time can modify counter*/
+// /*With mutex; only one thread at a time can modify counter*/
 
 int counter = 0;
 pthread_mutex_t lock;
