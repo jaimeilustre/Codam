@@ -6,34 +6,31 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/01 16:02:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/02 14:12:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
+#include <stdbool.h>
+#include <stdio.h>
 
 #include "philo.h"
 
-static int	ft_isdigit(int c)
-{
-	return (c >= '0' && c <= '9');
-}
-
-static int	valid_int(const char *str)
+static bool	valid_int(const char *str)
 {
 	while (*str == ' ')
 		str++;
 	if (*str == '-')
-		return (0);
+		str++;
 	if (*str == '\0')
 		return (0);
 	while (*str)
 	{
-		if (!ft_isdigit(*str))
-			return (0);
+		if (!(*str >= '0' && *str <= '9'))
+			return (false);
 		str++;
 	}
-	return (1);
+	return (true);
 }
 
 long	ft_strtol(const char *nptr)
@@ -65,27 +62,62 @@ long	ft_strtol(const char *nptr)
 	return (nb * sign);
 }
 
-int	parse_args(char *arg)
+void	*ft_memset(void *s, int c, size_t n)
 {
-	long	nb_long;
-	int		nb;
-	t_data	data;
+	size_t			i;
 
-	if (!valid_int(arg))
-		return (-1);
-	nb_long = ft_strtol(arg);
-	nb = (int)nb_long;
-	return (nb);
+	i = 0;
+	while (i < n)
+	{
+		((unsigned char *)s)[i] = c;
+		i++;
+	}
+	return (s);
 }
 
-#include <stdio.h>
-
-int main(void)
+bool	parse_args(char *arg, int index, t_data *data)
 {
-	char *arg = "21474836478";
-	int	nb = parse_args(arg);
-	if (!nb)
-		return (-1);
-	printf("%d\n", nb);
+	long	nb_long;
+
+	if (!valid_int(arg))
+		return (false);
+	nb_long = ft_strtol(arg);
+	if (nb_long > INT_MAX || nb_long <= 0)
+		return (false);
+	if (index == 0)
+		data->nb_of_philos = (int)nb_long;
+	else if (index == 1)
+		data->time_to_die = (int)nb_long;
+	else if (index == 2)
+		data->time_to_eat = (int)nb_long;
+	else if (index == 3)
+		data->time_to_sleep = (int)nb_long;
+	else if (index == 4)
+		data->nb_of_meals_per_philo = (int)nb_long;
+	return (true);
+}
+
+int	main(int argc, char **argv)
+{
+	t_data	data;
+	int		i;
+
+	if (argc >= 5 && argc <= 6)
+	{
+		ft_memset(&data, 0, sizeof(t_data));
+		i = 0;
+		while (i < argc - 1)
+		{
+			if (!parse_args(argv[i + 1], i, &data))
+				return (-1);
+			i++;
+		}
+		if (argc == 5)
+			data.nb_of_meals_per_philo = -1;
+	}
+	else if (argc <= 4)
+		printf("Too few arguments\n");
+	else
+		printf("Too many arguments\n");
 	return (0);
 }

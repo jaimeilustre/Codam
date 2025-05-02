@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/30 10:07:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/02 08:47:28 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,3 +31,8 @@ typedef struct s_philo
 	pthread_t	*left_fork;
 	pthread_t	*right_fork;
 }	t_philo;
+
+long	ft_strtol(const char *nptr);
+void	*ft_memset(void *s, int c, size_t n);
+bool	parse_args(char *arg, int index, t_data *data);
+int		main(int argc, char **argv);

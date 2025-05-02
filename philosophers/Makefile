@@ -14,11 +14,9 @@ $(NAME): $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
-	$(MAKE) clean -C
 
 fclean:	clean
 	$(RM) $(NAME)
-	$(MAKE) fclean -C
 
 re:	fclean all
 
