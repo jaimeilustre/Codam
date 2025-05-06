@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/02 08:47:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/06 15:44:55 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ typedef struct s_data
 
 typedef struct s_philo
 {
-	int			id;
-	int			meals_eaten;
-	int			time_since_last_meal;
-	pthread_t	*left_fork;
-	pthread_t	*right_fork;
+	int				id;
+	int				meals_eaten;
+	int				time_since_last_meal;
+	pthread_mutex_t	*left_fork;
+	pthread_mutex_t	*right_fork;
+	t_data			*data;
 }	t_philo;
 
 long	ft_strtol(const char *nptr);

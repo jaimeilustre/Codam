@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/02 14:12:15 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/06 07:53:18 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	valid_int(const char *str)
 	return (true);
 }
 
-long	ft_strtol(const char *nptr)
+static long	ft_strtol(const char *nptr)
 {
 	int			i;
 	int			sign;
@@ -62,7 +62,7 @@ long	ft_strtol(const char *nptr)
 	return (nb * sign);
 }
 
-void	*ft_memset(void *s, int c, size_t n)
+static void	*ft_memset(void *s, int c, size_t n)
 {
 	size_t			i;
 
