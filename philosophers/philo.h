@@ -6,25 +6,31 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/06 15:44:55 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/08 17:18:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
+#include <stdbool.h>
+
+struct	s_philo;
 
 typedef struct s_data
 {
-	int			nb_of_philos;
-	int			time_to_die;
-	int			time_to_eat;
-	int			time_to_sleep;
-	int			nb_of_meals_per_philo;
-	int			nb_of_forks;
-	int			deaths;
+	int				nb_of_philos;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				nb_of_meals_per_philo;
+	pthread_mutex_t	*forks;
+	pthread_mutex_t	print;
+	struct s_philo	*philos;
+	int				deaths;
 }	t_data;
 
 typedef struct s_philo
 {
+	pthread_t		thread;
 	int				id;
 	int				meals_eaten;
 	int				time_since_last_meal;
@@ -33,7 +39,16 @@ typedef struct s_philo
 	t_data			*data;
 }	t_philo;
 
+bool	valid_int(const char *str);
 long	ft_strtol(const char *nptr);
 void	*ft_memset(void *s, int c, size_t n);
-bool	parse_args(char *arg, int index, t_data *data);
+size_t	get_current_time(void);
+int		ft_usleep(size_t ms);
+
+bool	initialize_args(char *arg, int index, t_data *data);
+bool	parse_args(int argc, char **arg, t_data *data);
+bool	init_mutex(t_data *data);
+bool	init_data(t_data *data);
+void	init_philos(t_data *data);
+
 int		main(int argc, char **argv);
