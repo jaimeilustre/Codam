@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/08 17:17:47 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/09 15:36:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,22 @@ bool	parse_args(int argc, char **argv, t_data *data)
 	return (true);
 }
 
+/*Initialize data in struct*/
+bool	init_data(t_data *data)
+{
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_of_philos);
+	if (!data->forks)
+		return (false);
+	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
+	if (!data->philos)
+		return (free(data->forks), false);
+	if (pthread_mutex_init(&data->print, NULL))
+		return (free(data->forks), free(data->philos), false);
+	if (pthread_mutex_init(&data->meal_mutex, NULL))
+		return (free(data->forks), free(data->philos), false);
+	return (true);
+}
+
 /*Initialize mutexes*/
 bool	init_mutex(t_data *data)
 {
@@ -70,20 +86,6 @@ bool	init_mutex(t_data *data)
 			return (false);
 		i++;
 	}
-	return (true);
-}
-
-/*Initialize data in struct*/
-bool	init_data(t_data *data)
-{
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_of_philos);
-	if (!data->forks)
-		return (false);
-	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
-	if (!data->philos)
-		return (free(data->forks), false);
-	if (pthread_mutex_init(&data->print, NULL))
-		return (free(data->forks), free(data->philos), false);
 	return (true);
 }
 
