@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/09 15:36:23 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/11 13:36:47 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,11 @@ bool	init_data(t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
 	if (!data->philos)
 		return (free(data->forks), false);
-	if (pthread_mutex_init(&data->print, NULL))
+	if (pthread_mutex_init(&data->print_mutex, NULL))
 		return (free(data->forks), free(data->philos), false);
 	if (pthread_mutex_init(&data->meal_mutex, NULL))
+		return (free(data->forks), free(data->philos), false);
+	if (pthread_mutex_init(&data->death_mutex, NULL))
 		return (free(data->forks), free(data->philos), false);
 	return (true);
 }

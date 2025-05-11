@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/09 17:21:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/11 17:37:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@
 
 void	print_message(t_philo *philo, char *msg)
 {
-	int	timestamp;
+	size_t	timestamp;
 
-	pthread_mutex_lock(&philo->data->print);
+	pthread_mutex_lock(&philo->data->print_mutex);
 	timestamp = get_current_time() - philo->data->start_time;
-	printf("%d %d %s\n", timestamp, philo->id, msg);
-	pthread_mutex_unlock(&philo->data->print);
+	printf("%lu %d %s\n", timestamp, philo->id, msg);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
 void	think(t_philo *philo)
@@ -32,18 +32,18 @@ void	think(t_philo *philo)
 void	take_forks(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
-	printf(philo, "has taken a fork");
+	print_message(philo, "has taken a fork");
 	pthread_mutex_lock(philo->right_fork);
-	printf(philo, "has taken a fork");
+	print_message(philo, "has taken a fork");
 }
 
 void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->time_since_last_meal = get_current_time();
+	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->meal_mutex);
 	print_message(philo, "is eating");
-	philo->meals_eaten++;
 	ft_usleep(philo->data->time_to_eat);
 }
 
@@ -53,7 +53,7 @@ void	return_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->left_fork);
 }
 
-void	sleep(t_philo *philo)
+void	sleeping(t_philo *philo)
 {
 	print_message(philo, "is sleeping");
 	ft_usleep(philo->data->time_to_sleep);
@@ -64,13 +64,23 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while (true)
+	while (1)
 	{
+		pthread_mutex_lock(&philo->data->death_mutex);
+		if (philo->data->deaths)
+		{
+			pthread_mutex_unlock(&philo->data->death_mutex);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->data->death_mutex);
 		think(philo);
 		take_forks(philo);
 		eat(philo);
 		return_forks(philo);
-		sleep(philo);
+		sleeping(philo);
+		if (philo->data->nb_of_meals_per_philo > 0
+			&& philo->meals_eaten >= philo->data->nb_of_meals_per_philo)
+			break ;
 	}
 	return (NULL);
 }
