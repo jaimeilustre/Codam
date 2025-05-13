@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/12 15:03:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/13 14:34:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*Frees the forks array and destroys the mutexes*/
 void	free_and_destroy(t_data *data)
 {
 	int	i;
@@ -24,18 +25,25 @@ void	free_and_destroy(t_data *data)
 		i = 0;
 		while (i < data->nb_of_philos)
 		{
-			pthread_mutex_destroy(&data->forks[i]);
+			if (data->forks_init && data->forks_init[i])
+				pthread_mutex_destroy(&data->forks[i]);
 			i++;
 		}
 		free(data->forks);
 	}
+	if (data->forks_init)
+		free(data->forks_init);
 	if (data->philos)
 		free(data->philos);
-	pthread_mutex_destroy(&data->meal_mutex);
-	pthread_mutex_destroy(&data->print_mutex);
-	pthread_mutex_destroy(&data->death_mutex);
+	if (data->meal_mutex_init)
+		pthread_mutex_destroy(&data->meal_mutex);
+	if (data->print_mutex_init)
+		pthread_mutex_destroy(&data->print_mutex);
+	if (data->death_mutex_init)
+		pthread_mutex_destroy(&data->death_mutex);
 }
 
+/*Checks if any deaths occured during the simulation*/
 static bool	death_check(t_data *data)
 {
 	bool	status;
@@ -46,13 +54,14 @@ static bool	death_check(t_data *data)
 	return (status);
 }
 
+/*Philosopher's routine*/
 void	*routine(void *arg)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		ft_usleep(1);
+	if (philo->id % 2 != 0)
+		ft_usleep(10);
 	while (1)
 	{
 		if (death_check(philo->data))
@@ -71,24 +80,25 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-int	main(int argc, char **argv)
+/*Main program logic*/
+int	philo(int argc, char **argv)
 {
 	t_data		data;
 	pthread_t	monitor_thread;
 	int			i;
 
 	if (!parse_args(argc, argv, &data))
-		printf("Error with parsing\n");
+		exit_error(&data, "Error with parsing");
 	if (!init_data(&data))
-		printf("Error with initialising\n");
+		exit_error(&data, "Error with initialising");
 	if (!init_mutex(&data))
-		printf("Error with mutex\n");
+		exit_error(&data, "Error with mutex");
 	init_philos(&data);
 	data.start_time = get_current_time();
 	if (!create_philo_thread(&data))
-		printf("Error with creating philo thread\n");
+		exit_error(&data, "Error with creating philo thread");
 	if (pthread_create(&monitor_thread, NULL, monitor, &data) != 0)
-		printf("Error with creating monitor thread\n");
+		exit_error(&data, "Error with creating monitor thread");
 	pthread_join(monitor_thread, NULL);
 	i = 0;
 	while (i < data.nb_of_philos)
@@ -97,5 +107,16 @@ int	main(int argc, char **argv)
 		i++;
 	}
 	free_and_destroy(&data);
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	if (argc >= 5 && argc <= 6)
+		philo(argc, argv);
+	else if (argc <= 4)
+		ft_putendl_fd("Too few arguments", 2);
+	else
+		ft_putendl_fd("Too many arguments", 2);
 	return (0);
 }

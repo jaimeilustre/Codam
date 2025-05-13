@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/12 16:19:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/13 08:16:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ typedef struct s_data
 	struct s_philo	*philos;
 	int				deaths;
 	size_t			start_time;
+	bool			*forks_init;
+	bool			print_mutex_init;
+	bool			meal_mutex_init;
+	bool			death_mutex_init;
 }	t_data;
 
 typedef struct s_philo
@@ -57,6 +61,7 @@ void	init_philos(t_data *data);
 
 void	free_and_destroy(t_data *data);
 void	*routine(void *arg);
+int		philo(int argc, char **argv);
 int		main(int argc, char **argv);
 
 void	think(t_philo *philo);
@@ -64,6 +69,9 @@ void	take_forks(t_philo *philo);
 void	eat(t_philo *philo);
 void	return_forks(t_philo *philo);
 void	sleeping(t_philo *philo);
+
+void	ft_putendl_fd(char *s, int fd);
+void	exit_error(t_data *data, char *msg);
 
 bool	create_philo_thread(t_data *data);
 void	*monitor(void *arg);

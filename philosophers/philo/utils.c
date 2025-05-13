@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/08 16:13:36 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/12 13:50:23 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/13 08:24:40 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 
 #include "philo.h"
 
+/*Checks for valid int*/
 bool	valid_int(const char *str)
 {
 	while (*str == ' ')
@@ -34,6 +35,7 @@ bool	valid_int(const char *str)
 	return (true);
 }
 
+/*Convers string to long type*/
 long	ft_strtol(const char *nptr)
 {
 	int			i;
@@ -83,6 +85,7 @@ int	ft_usleep(size_t ms)
 	return (0);
 }
 
+/*Prints message for each part of the routine*/
 void	print_message(t_philo *philo, char *msg)
 {
 	size_t	timestamp;

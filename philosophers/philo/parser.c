@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/12 13:04:37 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/13 08:35:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,6 @@ bool	init_data(t_data *data)
 	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
 	if (!data->philos)
 		return (free(data->forks), false);
-	if (pthread_mutex_init(&data->print_mutex, NULL))
-		return (free(data->forks), free(data->philos), false);
-	if (pthread_mutex_init(&data->meal_mutex, NULL))
-		return (free(data->forks), free(data->philos), false);
-	if (pthread_mutex_init(&data->death_mutex, NULL))
-		return (free(data->forks), free(data->philos), false);
 	return (true);
 }
 
@@ -82,13 +76,27 @@ bool	init_mutex(t_data *data)
 {
 	int	i;
 
+	data->forks_init = malloc(sizeof(bool) * data->nb_of_philos);
+	if (!data->forks_init)
+		return (false);
+	memset(data->forks_init, 0, sizeof(bool) * data->nb_of_philos);
 	i = 0;
 	while (i < data->nb_of_philos)
 	{
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			return (false);
+		data->forks_init[i] = true;
 		i++;
 	}
+	if (pthread_mutex_init(&data->print_mutex, NULL))
+		return (free(data->forks), free(data->philos), false);
+	data->print_mutex_init = true;
+	if (pthread_mutex_init(&data->meal_mutex, NULL))
+		return (free(data->forks), free(data->philos), false);
+	data->meal_mutex_init = true;
+	if (pthread_mutex_init(&data->death_mutex, NULL))
+		return (free(data->forks), free(data->philos), false);
+	data->death_mutex_init = true;
 	return (true);
 }
 
