@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/13 08:22:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/15 15:35:46 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	eat(t_philo *philo)
 /*Returning forks routine*/
 void	return_forks(t_philo *philo)
 {
+	if (philo->data->nb_of_philos == 1)
+		return ;
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }

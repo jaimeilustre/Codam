@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/08 16:13:36 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/14 14:25:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/15 10:45:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,6 @@ void	print_message(t_philo *philo, char *msg)
 {
 	size_t	timestamp;
 
-	sem_wait(philo->data->death_sem);
-	if (philo->data->deaths)
-	{
-		sem_post(philo->data->death_sem);
-		return ;
-	}
-	sem_post(philo->data->death_sem);
 	sem_wait(philo->data->print_sem);
 	timestamp = get_current_time() - philo->data->start_time;
 	printf("%lu %d %s\n", timestamp, philo->id, msg);

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/14 14:30:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/15 16:24:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	eat(t_philo *philo)
 /*Returning forks routine*/
 void	return_forks(t_philo *philo)
 {
+	if (philo->data->nb_of_philos == 1)
+		return ;
 	sem_post(philo->data->forks);
 	sem_post(philo->data->forks);
 }

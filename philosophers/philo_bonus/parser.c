@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/14 10:51:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/15 14:38:10 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "philo.h"
 
 /*Initialize arguments from argv*/
-bool	initialize_args(char *arg, int index, t_data *data)
+static bool	initialize_args(char *arg, int index, t_data *data)
 {
 	long	nb_long;
 
@@ -60,22 +60,37 @@ bool	parse_args(int argc, char **argv, t_data *data)
 	return (true);
 }
 
-/*Initialize data in struct*/
+/*Initialize data in structs*/
 bool	init_data(t_data *data)
 {
-	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
-	if (data->forks == SEM_FAILED)
-		return (false);
-	data->forks_sem_init = true;
+	int	i;
+
 	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
 	if (!data->philos)
 		return (false);
+	i = 0;
+	while (i < data->nb_of_philos)
+	{
+		data->philos[i].id = i + 1;
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].time_since_last_meal = 0;
+		data->philos[i].data = data;
+		i++;
+	}
 	return (true);
 }
 
 /*Initialize semaphores*/
 bool	init_semaphores(t_data *data)
 {
+	sem_unlink("/forks");
+	sem_unlink("/print");
+	sem_unlink("/meal");
+	sem_unlink("/death");
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
+	if (data->forks == SEM_FAILED)
+		return (false);
+	data->forks_sem_init = true;
 	data->print_sem = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print_sem == SEM_FAILED)
 		return (false);
@@ -89,20 +104,4 @@ bool	init_semaphores(t_data *data)
 		return (false);
 	data->death_sem_init = true;
 	return (true);
-}
-
-/*Initialize philo struct*/
-void	init_philos(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_of_philos)
-	{
-		data->philos[i].id = i + 1;
-		data->philos[i].meals_eaten = 0;
-		data->philos[i].time_since_last_meal = 0;
-		data->philos[i].data = data;
-		i++;
-	}
 }
