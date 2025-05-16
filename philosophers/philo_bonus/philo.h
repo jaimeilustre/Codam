@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/15 14:37:50 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/16 17:09:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_data
 	sem_t			*print_sem;
 	sem_t			*meal_sem;
 	sem_t			*death_sem;
+	sem_t			*all_meals_sem;
 	struct s_philo	*philos;
 	int				deaths;
 	size_t			start_time;
@@ -34,6 +35,7 @@ typedef struct s_data
 	bool			print_sem_init;
 	bool			meal_sem_init;
 	bool			death_sem_init;
+	bool			all_meals_sem_init;
 }	t_data;
 
 typedef struct s_philo

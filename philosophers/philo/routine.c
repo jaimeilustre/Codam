@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/15 15:35:46 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/16 17:29:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ void	eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->data->meal_mutex);
 	philo->time_since_last_meal = get_current_time();
-	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->meal_mutex);
 	print_message(philo, "is eating");
 	ft_usleep(philo->data->time_to_eat);
+	pthread_mutex_lock(&philo->data->meal_mutex);
+	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->data->meal_mutex);
 }
 
 /*Returning forks routine*/

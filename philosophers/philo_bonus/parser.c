@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/15 14:38:10 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/16 17:11:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ bool	init_semaphores(t_data *data)
 	sem_unlink("/print");
 	sem_unlink("/meal");
 	sem_unlink("/death");
+	sem_unlink("/meals");
 	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
 	if (data->forks == SEM_FAILED)
 		return (false);
@@ -103,5 +104,9 @@ bool	init_semaphores(t_data *data)
 	if (data->death_sem == SEM_FAILED)
 		return (false);
 	data->death_sem_init = true;
+	data->all_meals_sem = sem_open("/meals", O_CREAT, 0644, 1);
+	if (data->all_meals_sem == SEM_FAILED)
+		return (false);
+	data->all_meals_sem_init = true;
 	return (true);
 }

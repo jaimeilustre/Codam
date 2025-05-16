@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/15 15:08:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/16 17:33:38 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ void	free_and_close(t_data *data)
 		sem_close(data->death_sem);
 		sem_unlink("/death");
 	}
+	if (data->all_meals_sem_init)
+	{
+		sem_close(data->all_meals_sem);
+		sem_unlink("/meals");
+	}
 	if (data->philos)
 		free(data->philos);
 }
@@ -55,7 +60,9 @@ void	*monitor_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
+		sem_wait(philo->data->meal_sem);
 		time_since = get_current_time() - philo->time_since_last_meal;
+		sem_post(philo->data->meal_sem);
 		if (time_since > (size_t)philo->data->time_to_die)
 		{
 			if (sem_wait(philo->data->death_sem) == 0)
@@ -114,6 +121,12 @@ int	philo(int argc, char **argv)
 		exit_error(&data, "Error with semaphores");
 	if (!create_philo_processes(&data))
 		exit_error(&data, "Error with creating philo processes");
+	i = 0;
+	while (i < data.nb_of_philos)
+	{
+		sem_wait(data.all_meals_sem);
+		i++;
+	}
 	pid = waitpid(-1, &status, 0);
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 	{

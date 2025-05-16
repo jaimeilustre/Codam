@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/15 16:24:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/16 17:32:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ void	eat(t_philo *philo)
 {
 	sem_wait(philo->data->meal_sem);
 	philo->time_since_last_meal = get_current_time();
-	philo->meals_eaten++;
 	sem_post(philo->data->meal_sem);
 	print_message(philo, "is eating");
 	ft_usleep(philo->data->time_to_eat);
+	philo->meals_eaten++;
+	if (philo->data->max_meals > 0 && philo->meals_eaten
+		== philo->data->max_meals)
+		sem_post(philo->data->all_meals_sem);
 }
 
 /*Returning forks routine*/
