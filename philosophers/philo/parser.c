@@ -6,20 +6,19 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/13 08:35:11 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 13:13:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "philo.h"
 
 /*Initialize arguments from argv*/
-bool	initialize_args(char *arg, int index, t_data *data)
+static bool	initialize_args(char *arg, int index, t_data *data)
 {
 	long	nb_long;
 
@@ -42,7 +41,7 @@ bool	initialize_args(char *arg, int index, t_data *data)
 }
 
 /*Parse arguments into struct*/
-bool	parse_args(int argc, char **argv, t_data *data)
+static bool	parse_args(int argc, char **argv, t_data *data)
 {
 	int		i;
 
@@ -60,19 +59,32 @@ bool	parse_args(int argc, char **argv, t_data *data)
 }
 
 /*Initialize data in struct*/
-bool	init_data(t_data *data)
+static bool	init_data(t_data *data)
 {
+	int	i;
+
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->nb_of_philos);
 	if (!data->forks)
 		return (false);
 	data->philos = malloc(sizeof(t_philo) * data->nb_of_philos);
 	if (!data->philos)
 		return (free(data->forks), false);
+	i = 0;
+	while (i < data->nb_of_philos)
+	{
+		data->philos[i].id = i + 1;
+		data->philos[i].meals_eaten = 0;
+		data->philos[i].time_since_last_meal = 0;
+		data->philos[i].data = data;
+		data->philos[i].left_fork = &data->forks[i];
+		data->philos[i].right_fork = &data->forks[(i + 1) % data->nb_of_philos];
+		i++;
+	}
 	return (true);
 }
 
 /*Initialize mutexes*/
-bool	init_mutex(t_data *data)
+static bool	init_mutex(t_data *data)
 {
 	int	i;
 
@@ -100,20 +112,23 @@ bool	init_mutex(t_data *data)
 	return (true);
 }
 
-/*Initialize philo struct*/
-void	init_philos(t_data *data)
+/*Putting it all together*/
+bool	parse_and_init(int argc, char **argv, t_data *data)
 {
-	int	i;
-
-	i = 0;
-	while (i < data->nb_of_philos)
+	if (!parse_args(argc, argv, data))
 	{
-		data->philos[i].id = i + 1;
-		data->philos[i].meals_eaten = 0;
-		data->philos[i].time_since_last_meal = 0;
-		data->philos[i].data = data;
-		data->philos[i].left_fork = &data->forks[i];
-		data->philos[i].right_fork = &data->forks[(i + 1) % data->nb_of_philos];
-		i++;
+		if (exit_error(data, "Error with parsing") != 0)
+			return (false);
 	}
+	if (!init_data(data))
+	{
+		if (exit_error(data, "Error with initialising struct data") != 0)
+			return (false);
+	}
+	if (!init_mutex(data))
+	{
+		if (exit_error(data, "Error with mutex") != 0)
+			return (false);
+	}
+	return (true);
 }

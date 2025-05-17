@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/16 17:09:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 16:23:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,10 @@ size_t	get_current_time(void);
 int		ft_usleep(size_t ms);
 void	print_message(t_philo *philo, char *msg);
 
-bool	parse_args(int argc, char **arg, t_data *data);
-bool	init_data(t_data *data);
-bool	init_semaphores(t_data *data);
+void	parse_and_init(int argc, char **argv, t_data *data);
 
 void	free_and_close(t_data *data);
+void	free_philos(t_data *data);
 void	*routine(void *arg);
 int		philo(int argc, char **argv);
 int		main(int argc, char **argv);
@@ -73,4 +72,4 @@ void	ft_putendl_fd(char *s, int fd);
 void	exit_error(t_data *data, char *msg);
 
 bool	create_philo_processes(t_data *data);
-void	*monitor(void *arg);
+void	wait_and_handle_exit(t_data *data);

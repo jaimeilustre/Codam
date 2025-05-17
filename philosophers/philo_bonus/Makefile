@@ -2,7 +2,7 @@ CC				= cc
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	parser.c utils.c routine.c process.c philo.c error_handling.c
+SRCS			=	parser.c utils.c routine.c process.c philo.c error_handling.c free.c
 					
 OBJS			= $(SRCS:.c=.o)
 NAME			= philo_bonus

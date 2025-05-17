@@ -6,14 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/13 07:27:44 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/13 08:16:00 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 12:50:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-#include <stdlib.h>
 #include <unistd.h>
+
+#include "philo.h"
 
 static size_t	ft_strlen(const char *s)
 {
@@ -45,9 +44,9 @@ void	ft_putendl_fd(char *s, int fd)
 	ft_putchar_fd('\n', fd);
 }
 
-void	exit_error(t_data *data, char *msg)
+int	exit_error(t_data *data, char *msg)
 {
 	free_and_destroy(data);
 	ft_putendl_fd(msg, 2);
-	exit(EXIT_FAILURE);
+	return (1);
 }

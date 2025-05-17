@@ -6,14 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/13 14:34:04 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 13:09:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
-#include <stdio.h>
 #include <stdlib.h>
+
+#include "philo.h"
 
 /*Frees the forks array and destroys the mutexes*/
 void	free_and_destroy(t_data *data)
@@ -87,13 +86,8 @@ int	philo(int argc, char **argv)
 	pthread_t	monitor_thread;
 	int			i;
 
-	if (!parse_args(argc, argv, &data))
-		exit_error(&data, "Error with parsing");
-	if (!init_data(&data))
-		exit_error(&data, "Error with initialising");
-	if (!init_mutex(&data))
-		exit_error(&data, "Error with mutex");
-	init_philos(&data);
+	if (!parse_and_init(argc, argv, &data))
+		return (EXIT_FAILURE);
 	data.start_time = get_current_time();
 	if (!create_philo_thread(&data))
 		exit_error(&data, "Error with creating philo thread");
@@ -107,7 +101,7 @@ int	philo(int argc, char **argv)
 		i++;
 	}
 	free_and_destroy(&data);
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char **argv)

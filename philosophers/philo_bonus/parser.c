@@ -6,14 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/16 17:11:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 16:21:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include <fcntl.h>
+#include <limits.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -43,7 +42,7 @@ static bool	initialize_args(char *arg, int index, t_data *data)
 }
 
 /*Parse arguments into struct*/
-bool	parse_args(int argc, char **argv, t_data *data)
+static bool	parse_args(int argc, char **argv, t_data *data)
 {
 	int		i;
 
@@ -61,7 +60,7 @@ bool	parse_args(int argc, char **argv, t_data *data)
 }
 
 /*Initialize data in structs*/
-bool	init_data(t_data *data)
+static bool	init_data(t_data *data)
 {
 	int	i;
 
@@ -77,21 +76,21 @@ bool	init_data(t_data *data)
 		data->philos[i].data = data;
 		i++;
 	}
-	return (true);
-}
-
-/*Initialize semaphores*/
-bool	init_semaphores(t_data *data)
-{
 	sem_unlink("/forks");
-	sem_unlink("/print");
-	sem_unlink("/meal");
-	sem_unlink("/death");
-	sem_unlink("/meals");
 	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
 	if (data->forks == SEM_FAILED)
 		return (false);
 	data->forks_sem_init = true;
+	return (true);
+}
+
+/*Initialize semaphores*/
+static bool	init_semaphores(t_data *data)
+{
+	sem_unlink("/print");
+	sem_unlink("/meal");
+	sem_unlink("/death");
+	sem_unlink("/meals");
 	data->print_sem = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print_sem == SEM_FAILED)
 		return (false);
@@ -109,4 +108,15 @@ bool	init_semaphores(t_data *data)
 		return (false);
 	data->all_meals_sem_init = true;
 	return (true);
+}
+
+/*Putting it all together*/
+void	parse_and_init(int argc, char **argv, t_data *data)
+{
+	if (!parse_args(argc, argv, data))
+		exit_error(data, "Error with parsing");
+	if (!init_data(data))
+		exit_error(data, "Error with initialising");
+	if (!init_semaphores(data))
+		exit_error(data, "Error with semaphores");
 }

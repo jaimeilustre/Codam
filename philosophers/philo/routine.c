@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/16 17:29:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 13:27:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
 #include <stdio.h>
+
+#include "philo.h"
 
 /*Thinking routine*/
 void	think(t_philo *philo)

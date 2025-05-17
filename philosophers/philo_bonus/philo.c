@@ -6,50 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/16 17:33:38 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 16:27:40 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <signal.h>
 #include <pthread.h>
 
-/*Frees the philos array and closes the semaphores*/
-void	free_and_close(t_data *data)
-{
-	if (data->forks_sem_init)
-	{
-		sem_close(data->forks);
-		sem_unlink("/forks");
-	}
-	if (data->meal_sem_init)
-	{
-		sem_close(data->meal_sem);
-		sem_unlink("/meal");
-	}
-	if (data->print_sem_init)
-	{
-		sem_close(data->print_sem);
-		sem_unlink("/print");
-	}
-	if (data->death_sem_init)
-	{
-		sem_close(data->death_sem);
-		sem_unlink("/death");
-	}
-	if (data->all_meals_sem_init)
-	{
-		sem_close(data->all_meals_sem);
-		sem_unlink("/meals");
-	}
-	if (data->philos)
-		free(data->philos);
-}
+#include "philo.h"
 
 /*Monitor thread within each philo process that checks for deaths*/
 void	*monitor_routine(void *arg)
@@ -109,16 +74,9 @@ void	*routine(void *arg)
 int	philo(int argc, char **argv)
 {
 	t_data		data;
-	pid_t		pid;
-	int			status;
 	int			i;
 
-	if (!parse_args(argc, argv, &data))
-		exit_error(&data, "Error with parsing");
-	if (!init_data(&data))
-		exit_error(&data, "Error with initialising");
-	if (!init_semaphores(&data))
-		exit_error(&data, "Error with semaphores");
+	parse_and_init(argc, argv, &data);
 	if (!create_philo_processes(&data))
 		exit_error(&data, "Error with creating philo processes");
 	i = 0;
@@ -127,17 +85,9 @@ int	philo(int argc, char **argv)
 		sem_wait(data.all_meals_sem);
 		i++;
 	}
-	pid = waitpid(-1, &status, 0);
-	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
-	{
-		i = 0;
-		while (i < data.nb_of_philos)
-			kill(data.philos[i++].pid, SIGKILL);
-	}
-	i = 0;
-	while (i < data.nb_of_philos)
-		waitpid(data.philos[i++].pid, NULL, 0);
+	wait_and_handle_exit(&data);
 	free_and_close(&data);
+	free_philos(&data);
 	return (0);
 }
 

@@ -6,13 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/13 08:16:09 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/17 16:30:50 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <pthread.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 struct	s_philo;
 
@@ -53,16 +52,7 @@ size_t	get_current_time(void);
 int		ft_usleep(size_t ms);
 void	print_message(t_philo *philo, char *msg);
 
-bool	initialize_args(char *arg, int index, t_data *data);
-bool	parse_args(int argc, char **arg, t_data *data);
-bool	init_mutex(t_data *data);
-bool	init_data(t_data *data);
-void	init_philos(t_data *data);
-
-void	free_and_destroy(t_data *data);
-void	*routine(void *arg);
-int		philo(int argc, char **argv);
-int		main(int argc, char **argv);
+bool	parse_and_init(int argc, char **argv, t_data *data);
 
 void	think(t_philo *philo);
 void	take_forks(t_philo *philo);
@@ -70,8 +60,13 @@ void	eat(t_philo *philo);
 void	return_forks(t_philo *philo);
 void	sleeping(t_philo *philo);
 
-void	ft_putendl_fd(char *s, int fd);
-void	exit_error(t_data *data, char *msg);
-
 bool	create_philo_thread(t_data *data);
 void	*monitor(void *arg);
+
+void	ft_putendl_fd(char *s, int fd);
+int		exit_error(t_data *data, char *msg);
+
+void	free_and_destroy(t_data *data);
+void	*routine(void *arg);
+int		philo(int argc, char **argv);
+int		main(int argc, char **argv);
