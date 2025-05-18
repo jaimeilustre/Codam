@@ -6,12 +6,11 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/08 16:13:36 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:29:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:50:14 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
-#include <stdbool.h>
 #include <sys/time.h>
 #include <stdio.h>
 #include <unistd.h>

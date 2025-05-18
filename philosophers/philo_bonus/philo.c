@@ -6,13 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:27:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:48:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <pthread.h>
 
 #include "philo.h"
 
@@ -74,20 +73,12 @@ void	*routine(void *arg)
 int	philo(int argc, char **argv)
 {
 	t_data		data;
-	int			i;
 
 	parse_and_init(argc, argv, &data);
 	if (!create_philo_processes(&data))
 		exit_error(&data, "Error with creating philo processes");
-	i = 0;
-	while (i < data.nb_of_philos)
-	{
-		sem_wait(data.all_meals_sem);
-		i++;
-	}
 	wait_and_handle_exit(&data);
 	free_and_close(&data);
-	free_philos(&data);
 	return (0);
 }
 

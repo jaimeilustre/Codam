@@ -6,16 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/17 14:30:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:20:41 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:46:27 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <pthread.h>
 
 #include "philo.h"
 
-/*Closes the semaphores*/
+/*Closes the semaphores and frees the philos array*/
 void	free_and_close(t_data *data)
 {
 	if (data->forks_sem_init)
@@ -38,16 +37,6 @@ void	free_and_close(t_data *data)
 		sem_close(data->death_sem);
 		sem_unlink("/death");
 	}
-	if (data->all_meals_sem_init)
-	{
-		sem_close(data->all_meals_sem);
-		sem_unlink("/meals");
-	}
-}
-
-/*Frees the philos array*/
-void	free_philos(t_data *data)
-{
 	if (data->philos)
 		free(data->philos);
 }

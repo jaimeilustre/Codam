@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:24:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:41:30 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ void	eat(t_philo *philo)
 	print_message(philo, "is eating");
 	ft_usleep(philo->data->time_to_eat);
 	philo->meals_eaten++;
-	if (philo->data->max_meals > 0 && philo->meals_eaten
-		== philo->data->max_meals)
-		sem_post(philo->data->all_meals_sem);
 }
 
 /*Returning forks routine*/

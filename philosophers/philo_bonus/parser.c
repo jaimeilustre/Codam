@@ -6,13 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:54:12 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:21:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:53:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <limits.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -76,21 +75,20 @@ static bool	init_data(t_data *data)
 		data->philos[i].data = data;
 		i++;
 	}
-	sem_unlink("/forks");
-	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
-	if (data->forks == SEM_FAILED)
-		return (false);
-	data->forks_sem_init = true;
 	return (true);
 }
 
 /*Initialize semaphores*/
 static bool	init_semaphores(t_data *data)
 {
+	sem_unlink("/forks");
 	sem_unlink("/print");
 	sem_unlink("/meal");
 	sem_unlink("/death");
-	sem_unlink("/meals");
+	data->forks = sem_open("/forks", O_CREAT, 0644, data->nb_of_philos);
+	if (data->forks == SEM_FAILED)
+		return (false);
+	data->forks_sem_init = true;
 	data->print_sem = sem_open("/print", O_CREAT, 0644, 1);
 	if (data->print_sem == SEM_FAILED)
 		return (false);
@@ -103,10 +101,6 @@ static bool	init_semaphores(t_data *data)
 	if (data->death_sem == SEM_FAILED)
 		return (false);
 	data->death_sem_init = true;
-	data->all_meals_sem = sem_open("/meals", O_CREAT, 0644, 1);
-	if (data->all_meals_sem == SEM_FAILED)
-		return (false);
-	data->all_meals_sem_init = true;
 	return (true);
 }
 
