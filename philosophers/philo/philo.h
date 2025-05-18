@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/30 07:55:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 16:30:50 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 08:02:39 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_putendl_fd(char *s, int fd);
 int		exit_error(t_data *data, char *msg);
 
 void	free_and_destroy(t_data *data);
+
 void	*routine(void *arg);
 int		philo(int argc, char **argv);
 int		main(int argc, char **argv);

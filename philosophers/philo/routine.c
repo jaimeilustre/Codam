@@ -6,11 +6,9 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/09 15:40:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/17 13:27:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/18 07:57:18 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include <stdio.h>
 
 #include "philo.h"
 
