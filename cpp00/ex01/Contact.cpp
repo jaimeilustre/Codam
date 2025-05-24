@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:48:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/24 15:06:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,30 @@ void Contact::displaySpecificContact()
 	std::cout << "Darkest secret: " << darkestSecret << std::endl;
 }
 
+std::string truncateInput(std::string& str)
+{
+	if (str.length() > 10)
+		return (str.substr(0, 8) += ".");
+	return (str);	
+}
+
 void Contact::displaySavedContacts(int index)
 {
 	std::cout << std::setw(10) << index << std::setw(10) << "|" << std::setw(10)
-		<< firstName << std::setw(10) << "|" << std::setw(10) << lastName
-		<< std::setw(10) << "|" << std::setw(10) << nickname;
+		<< truncateInput(firstName) << std::setw(10) << "|" << std::setw(10)
+		<< truncateInput(lastName) << std::setw(10) << "|" << std::setw(10)
+		<< truncateInput(nickname);
 }
+
+// int main(void)
+// {
+// 	Contact newContact;
+	
+// 	newContact.addFirstName();
+// 	newContact.addLastName();
+// 	newContact.addNickname();
+// 	newContact.addPhoneNumber();
+// 	newContact.addDarkestSecret();
+	
+// 	return (0);
+// }

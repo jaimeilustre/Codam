@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/23 16:43:34 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/24 13:25:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,7 @@ public:
 	void displaySavedContacts(int index);
 	void displaySpecificContact();
 };
+
+std::string truncateInput(std::string& str);
 
 #endif
