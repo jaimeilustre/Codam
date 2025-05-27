@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/26 17:41:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/27 10:07:41 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ bool Contact::addFirstName()
 	std::string input;
 	
 	std::cout << "Enter first name: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+		return (false);
 	if (input.empty())
 		return (false);
 	firstName = input;
@@ -32,7 +33,8 @@ bool Contact::addLastName()
 	std::string input;
 	
 	std::cout << "Enter last name: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+		return (false);
 	if (input.empty())
 		return (false);
 	lastName = input;
@@ -44,7 +46,8 @@ bool Contact::addNickname()
 	std::string input;
 	
 	std::cout << "Enter nickname: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+		return (false);
 	if (input.empty())
 		return (false);
 	nickname = input;
@@ -56,7 +59,8 @@ bool Contact::addPhoneNumber()
 	std::string input;
 
 	std::cout << "Enter phone number: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+		return (false);
 	if (input.empty())
 		return (false);
 	phoneNumber = input;
@@ -68,7 +72,8 @@ bool Contact::addDarkestSecret()
 	std::string input;
 
 	std::cout << "Enter darkest secret: ";
-	std::getline(std::cin, input);
+	if (!std::getline(std::cin, input))
+		return (false);
 	if (input.empty())
 		return (false);
 	darkestSecret = input;

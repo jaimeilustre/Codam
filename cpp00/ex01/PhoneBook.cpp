@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:19:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/26 17:51:10 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/27 10:08:37 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,35 @@ void PhoneBook::addContact()
 	Contact newContact;
 
 	while (!newContact.addFirstName())
+	{
+		if (std::cin.eof())
+			return ;
 		std::cout << "First name cannot be empty. Please add your first name" << std::endl;
+	}
 	while (!newContact.addLastName())
+	{
+		if (std::cin.eof())
+			return ;
 		std::cout << "Last name cannot be empty. Please add your last name" << std::endl;
+	}
 	while (!newContact.addNickname())
+	{
+		if (std::cin.eof())
+			return ;
 		std::cout << "Nickname cannot be empty. Please add your nickname" << std::endl;
+	}
 	while (!newContact.addPhoneNumber())
+	{
+		if (std::cin.eof())
+			return ;
 		std::cout << "Phone number cannot be empty. Please add your phone number" << std::endl;
+	}
 	while (!newContact.addDarkestSecret())
+	{
+		if (std::cin.eof())
+			return ;
 		std::cout << "C'mon don't be shy, this is a safe space" << std::endl;
+	}
 	contacts[index] = newContact;
 	if (countContacts < 8)
 		countContacts++;
@@ -52,11 +72,11 @@ void PhoneBook::searchContact()
 	std::string input;
 	std::cout << "Please enter index of contact you want to see" << std::endl;
 	std::getline(std::cin, input);
-	int inputInt = std::atoi(input.c_str());
-	if (inputInt == index)
-		contacts[inputInt].displaySpecificContact();
+	int inputInt = std::stoi(input);
+	if (inputInt < 0 || inputInt >= countContacts)
+		std::cout << "Invalid index number" << std::endl;
 	else
-		std::cout << "Invalid index number" << std::endl;	
+		contacts[inputInt].displaySpecificContact();	
 }
 
 int main(void)
