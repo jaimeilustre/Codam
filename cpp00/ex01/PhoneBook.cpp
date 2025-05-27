@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:19:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/27 10:08:37 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/27 11:35:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,31 +23,26 @@ void PhoneBook::addContact()
 	{
 		if (std::cin.eof())
 			return ;
-		std::cout << "First name cannot be empty. Please add your first name" << std::endl;
 	}
 	while (!newContact.addLastName())
 	{
 		if (std::cin.eof())
 			return ;
-		std::cout << "Last name cannot be empty. Please add your last name" << std::endl;
 	}
 	while (!newContact.addNickname())
 	{
 		if (std::cin.eof())
 			return ;
-		std::cout << "Nickname cannot be empty. Please add your nickname" << std::endl;
 	}
 	while (!newContact.addPhoneNumber())
 	{
 		if (std::cin.eof())
 			return ;
-		std::cout << "Phone number cannot be empty. Please add your phone number" << std::endl;
 	}
 	while (!newContact.addDarkestSecret())
 	{
 		if (std::cin.eof())
 			return ;
-		std::cout << "C'mon don't be shy, this is a safe space" << std::endl;
 	}
 	contacts[index] = newContact;
 	if (countContacts < 8)

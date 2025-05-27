@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/27 10:07:41 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/27 11:35:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ bool Contact::addFirstName()
 	if (!std::getline(std::cin, input))
 		return (false);
 	if (input.empty())
+	{
+		std::cout << "First name cannot be empty. Please add your first name" << std::endl;
 		return (false);
+	}
 	firstName = input;
 	return (true);
 }
@@ -36,7 +39,10 @@ bool Contact::addLastName()
 	if (!std::getline(std::cin, input))
 		return (false);
 	if (input.empty())
+	{
+		std::cout << "Last name cannot be empty. Please add your last name" << std::endl;
 		return (false);
+	}
 	lastName = input;
 	return (true);
 }
@@ -49,7 +55,10 @@ bool Contact::addNickname()
 	if (!std::getline(std::cin, input))
 		return (false);
 	if (input.empty())
+	{
+		std::cout << "Nickname cannot be empty. Please add your nickname" << std::endl;
 		return (false);
+	}
 	nickname = input;
 	return (true);
 }
@@ -62,7 +71,18 @@ bool Contact::addPhoneNumber()
 	if (!std::getline(std::cin, input))
 		return (false);
 	if (input.empty())
+	{
+		std::cout << "Phone number cannot be empty. Please add your phone number" << std::endl;
 		return (false);
+	}
+	for (char c : input)
+	{
+		if (!std::isdigit(c))
+		{
+			std::cout << "Phone number must contain only digits" << std::endl;
+			return (false);
+		}
+	}
 	phoneNumber = input;
 	return (true);
 }
@@ -75,7 +95,10 @@ bool Contact::addDarkestSecret()
 	if (!std::getline(std::cin, input))
 		return (false);
 	if (input.empty())
+	{
+		std::cout << "C'mon don't be shy, this is a safe space" << std::endl;
 		return (false);
+	}
 	darkestSecret = input;
 	return (true);
 }
