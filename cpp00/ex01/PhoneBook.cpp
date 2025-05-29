@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:19:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/27 11:35:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/29 22:16:05 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void PhoneBook::addContact()
 
 void PhoneBook::searchContact()
 {
+	std::string input;
+	int			inputInt;
+	
 	if (countContacts == 0)
 	{
 		std::cout << "Phonebook is empty!" << std::endl;
@@ -64,10 +67,9 @@ void PhoneBook::searchContact()
 				<< std::setw(10) << "Nickname" << std::endl;
 	for (int i = 0; i < countContacts; i++)
 		contacts[i].displaySavedContacts(i);
-	std::string input;
 	std::cout << "Please enter index of contact you want to see" << std::endl;
 	std::getline(std::cin, input);
-	int inputInt = std::stoi(input);
+	inputInt = std::stoi(input);
 	if (inputInt < 0 || inputInt >= countContacts)
 		std::cout << "Invalid index number" << std::endl;
 	else
@@ -76,7 +78,7 @@ void PhoneBook::searchContact()
 
 int main(void)
 {
-	PhoneBook phoneBook;
+	PhoneBook	phoneBook;
 	std::string	input;
 
 	std::cout << "Welcome to my phonebook!" << std:: endl;

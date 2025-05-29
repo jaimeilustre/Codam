@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/29 12:11:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/29 22:14:59 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,100 +18,104 @@
 bool Contact::addFirstName()
 {
 	std::string input;
+	size_t		start;
+	size_t		end;
+	std::string trimmedInput;
 	
 	std::cout << "Enter first name: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	bool onlyWhitespace = true;
-	for (int i = 0; i < input.length(); i++)
-	{
-		if (!std::isspace(input[i]))
-		{
-			onlyWhitespace = false;
-			break ;
-		}
-	}
-	if (input.empty() || onlyWhitespace)
+	start = 0;
+	while (start < input.length() && std::isspace((input[start])))
+		start++;
+	end = input.length();
+	while (end > start && std::isspace((input[end - 1])))
+		end--;
+	trimmedInput = input.substr(start, end - start);
+	if (trimmedInput.empty())
 	{
 		std::cout << "First name cannot be empty. Please add your first name" << std::endl;
 		return (false);
 	}
-	firstName = input;
+	firstName = trimmedInput;
 	return (true);
 }
 
 bool Contact::addLastName()
 {
 	std::string input;
+	size_t		start;
+	size_t		end;
+	std::string trimmedInput;
 	
 	std::cout << "Enter last name: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	bool onlyWhitespace = true;
-	for (int i = 0; i < input.length(); i++)
-	{
-		if (!std::isspace(input[i]))
-		{
-			onlyWhitespace = false;
-			break ;
-		}
-	}
-	if (input.empty() || onlyWhitespace)
+	start = 0;
+	while (start < input.length() && std::isspace((input[start])))
+		start++;
+	end = input.length();
+	while (end > start && std::isspace((input[end - 1])))
+		end--;
+	trimmedInput = input.substr(start, end - start);
+	if (trimmedInput.empty())
 	{
 		std::cout << "Last name cannot be empty. Please add your last name" << std::endl;
 		return (false);
 	}
-	lastName = input;
+	lastName = trimmedInput;
 	return (true);
 }
 
 bool Contact::addNickname()
 {
 	std::string input;
+	size_t		start;
+	size_t		end;
+	std::string trimmedInput;
 	
 	std::cout << "Enter nickname: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	bool onlyWhitespace = true;
-	for (int i = 0; i < input.length(); i++)
-	{
-		if (!std::isspace(input[i]))
-		{
-			onlyWhitespace = false;
-			break ;
-		}
-	}
-	if (input.empty() || onlyWhitespace)
+	start = 0;
+	while (start < input.length() && std::isspace((input[start])))
+		start++;
+	end = input.length();
+	while (end > start && std::isspace((input[end - 1])))
+		end--;
+	trimmedInput = input.substr(start, end - start);
+	if (trimmedInput.empty())
 	{
 		std::cout << "Nickname cannot be empty. Please add your nickname" << std::endl;
 		return (false);
 	}
-	nickname = input;
+	nickname = trimmedInput;
 	return (true);
 }
 
 bool Contact::addPhoneNumber()
 {
 	std::string input;
+	size_t		start;
+	size_t		end;
+	std::string trimmedInput;
 
 	std::cout << "Enter phone number: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	bool onlyWhitespace = true;
-	for (int i = 0; i < input.length(); i++)
-	{
-		if (!std::isspace(input[i]))
-		{
-			onlyWhitespace = false;
-			break ;
-		}
-	}
-	if (input.empty() || onlyWhitespace)
+	start = 0;
+	while (start < input.length() && std::isspace((input[start])))
+		start++;
+	end = input.length();
+	while (end > start && std::isspace((input[end - 1])))
+		end--;
+	trimmedInput = input.substr(start, end - start);
+	if (trimmedInput.empty())
 	{
 		std::cout << "Phone number cannot be empty. Please add your phone number" << std::endl;
 		return (false);
 	}
-	for (char c : input)
+	for (char c : trimmedInput)
 	{
 		if (!std::isdigit(c))
 		{
@@ -119,32 +123,33 @@ bool Contact::addPhoneNumber()
 			return (false);
 		}
 	}
-	phoneNumber = input;
+	phoneNumber = trimmedInput;
 	return (true);
 }
 
 bool Contact::addDarkestSecret()
 {
 	std::string input;
+	size_t		start;
+	size_t		end;
+	std::string trimmedInput;
 
 	std::cout << "Enter darkest secret: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	bool onlyWhitespace = true;
-	for (int i = 0; i < input.length(); i++)
-	{
-		if (!std::isspace(input[i]))
-		{
-			onlyWhitespace = false;
-			break ;
-		}
-	}
-	if (input.empty() || onlyWhitespace)
+	start = 0;
+	while (start < input.length() && std::isspace((input[start])))
+		start++;
+	end = input.length();
+	while (end > start && std::isspace((input[end - 1])))
+		end--;
+	trimmedInput = input.substr(start, end - start);
+	if (trimmedInput.empty())
 	{
 		std::cout << "C'mon don't be shy, this is a safe space" << std::endl;
 		return (false);
 	}
-	darkestSecret = input;
+	darkestSecret = trimmedInput;
 	return (true);
 }
 
@@ -167,7 +172,7 @@ std::string truncateInput(std::string& str)
 void Contact::displaySavedContacts(int index)
 {
 	std::cout << std::setw(10) << index << "|"
-				<< std::setw(10) << truncateInput(firstName)  << "|" 
-				<< std::setw(10) << truncateInput(lastName) << "|" 
-				<< std::setw(10) << truncateInput(nickname) << std::endl;
+		<< std::setw(10) << truncateInput(firstName)  << "|" 
+		<< std::setw(10) << truncateInput(lastName) << "|" 
+		<< std::setw(10) << truncateInput(nickname) << std::endl;
 }

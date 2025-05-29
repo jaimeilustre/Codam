@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/27 18:36:52 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/05/29 11:14:19 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/29 22:17:36 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ void Account::displayAccountsInfos()
 void Account::_displayTimestamp()
 {
 	
-	time_t timestamp = time(NULL);
-	struct tm datetime = *localtime(&timestamp);
-	
-	char output[50];
+	time_t		timestamp;
+	struct tm	datetime;
+	char		output[50];
 
+	timestamp = time(NULL);
+	datetime = *localtime(&timestamp);
 	strftime(output, 50, "[%Y%m%d_%H%M%S] ", &datetime);
 	std::cout << output;
 }
@@ -98,12 +99,10 @@ void Account::makeDeposit(int deposit)
 	_displayTimestamp();
 	std::cout << "index:" << _accountIndex 
 		<< ";p_amount:" << _amount;
-	
 	_amount += deposit;
 	_nbDeposits++;
 	_totalAmount += deposit;
 	_totalNbDeposits++;
-	
 	std::cout << ";deposit:" << deposit 
 		<< ";amount:" << _amount 
 		<< ";nb_deposits:" << _nbDeposits 
@@ -115,18 +114,15 @@ bool Account::makeWithdrawal(int withdrawal)
 	_displayTimestamp();
 	std::cout << "index:" << _accountIndex 
 		<< ";p_amount:" << _amount;
-	
 	if (withdrawal > _amount)
 	{
 		std::cout << ";withdrawal:refused" << std::endl;
 		return (false);
 	}
-	
 	_amount -= withdrawal;
 	_nbWithdrawals++;
 	_totalAmount -= withdrawal;
 	_totalNbWithdrawals++;
-	
 	std::cout << ";withdrawal:" << withdrawal 
 		<< ";amount:" << _amount 
 		<< ";nb_withdrawals:" << _nbWithdrawals
