@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/27 11:35:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/29 12:11:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,16 @@ bool Contact::addFirstName()
 	std::cout << "Enter first name: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	if (input.empty())
+	bool onlyWhitespace = true;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (!std::isspace(input[i]))
+		{
+			onlyWhitespace = false;
+			break ;
+		}
+	}
+	if (input.empty() || onlyWhitespace)
 	{
 		std::cout << "First name cannot be empty. Please add your first name" << std::endl;
 		return (false);
@@ -38,7 +47,16 @@ bool Contact::addLastName()
 	std::cout << "Enter last name: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	if (input.empty())
+	bool onlyWhitespace = true;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (!std::isspace(input[i]))
+		{
+			onlyWhitespace = false;
+			break ;
+		}
+	}
+	if (input.empty() || onlyWhitespace)
 	{
 		std::cout << "Last name cannot be empty. Please add your last name" << std::endl;
 		return (false);
@@ -54,7 +72,16 @@ bool Contact::addNickname()
 	std::cout << "Enter nickname: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	if (input.empty())
+	bool onlyWhitespace = true;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (!std::isspace(input[i]))
+		{
+			onlyWhitespace = false;
+			break ;
+		}
+	}
+	if (input.empty() || onlyWhitespace)
 	{
 		std::cout << "Nickname cannot be empty. Please add your nickname" << std::endl;
 		return (false);
@@ -70,7 +97,16 @@ bool Contact::addPhoneNumber()
 	std::cout << "Enter phone number: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	if (input.empty())
+	bool onlyWhitespace = true;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (!std::isspace(input[i]))
+		{
+			onlyWhitespace = false;
+			break ;
+		}
+	}
+	if (input.empty() || onlyWhitespace)
 	{
 		std::cout << "Phone number cannot be empty. Please add your phone number" << std::endl;
 		return (false);
@@ -94,7 +130,16 @@ bool Contact::addDarkestSecret()
 	std::cout << "Enter darkest secret: ";
 	if (!std::getline(std::cin, input))
 		return (false);
-	if (input.empty())
+	bool onlyWhitespace = true;
+	for (int i = 0; i < input.length(); i++)
+	{
+		if (!std::isspace(input[i]))
+		{
+			onlyWhitespace = false;
+			break ;
+		}
+	}
+	if (input.empty() || onlyWhitespace)
 	{
 		std::cout << "C'mon don't be shy, this is a safe space" << std::endl;
 		return (false);
