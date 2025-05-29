@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/29 22:14:59 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/29 22:29:35 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void Contact::displaySpecificContact()
 	std::cout << "Darkest secret: " << darkestSecret << std::endl;
 }
 
-std::string truncateInput(std::string& str)
+std::string Contact::truncateInput(const std::string& str) const
 {
 	if (str.length() > 10)
 		return (str.substr(0, 8) += ".");

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/26 14:17:32 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/29 22:28:58 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ private:
 	std::string nickname;
 	std::string phoneNumber;
 	std::string darkestSecret;
+	std::string truncateInput(const std::string& str) const;
 public:
 	bool addFirstName();
 	bool addLastName();
@@ -32,7 +33,5 @@ public:
 	void displaySavedContacts(int index);
 	void displaySpecificContact();
 };
-
-std::string truncateInput(std::string& str);
 
 #endif
