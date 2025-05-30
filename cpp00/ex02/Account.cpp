@@ -6,14 +6,14 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/27 18:36:52 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/05/29 22:17:36 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/30 08:23:11 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Account.hpp"
-
 #include <ctime>
 #include <iostream>
+
+#include "Account.hpp"
 
 int Account::_nbAccounts = 0;
 int Account::_totalAmount = 0;

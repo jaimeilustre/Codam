@@ -6,14 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/29 22:29:35 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/30 08:22:28 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Contact.hpp"
-
 #include <iomanip>
 #include <iostream>
+
+#include "Contact.hpp"
 
 bool Contact::addFirstName()
 {
