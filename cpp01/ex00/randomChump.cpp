@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   randomChump.cpp                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/01 14:58:42 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/01 15:01:03 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:21:00 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/02 17:21:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   HumanA.hpp                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/02 10:10:47 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/02 11:02:31 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:22:10 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/02 17:22:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

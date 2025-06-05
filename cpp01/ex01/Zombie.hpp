@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Zombie.hpp                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/01 14:35:02 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/01 17:07:20 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:21:33 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/04 14:47:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ class Zombie
 {
 	public:
 		Zombie();
-		// Zombie(std::string name);
 		~Zombie();
 		void announce(void);
 		void setName(std::string name);

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   zombieHorde.cpp                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/01 16:24:50 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/01 17:03:30 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:21:41 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/02 17:21:43 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

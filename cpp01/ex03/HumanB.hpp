@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   HumanB.hpp                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/02 10:21:28 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/02 11:00:46 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:22:24 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/02 17:22:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

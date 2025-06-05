@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   main.cpp                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/03 06:12:48 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/03 07:28:55 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/04 15:52:23 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/04 15:52:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

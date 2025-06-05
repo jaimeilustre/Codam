@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Harl.hpp                                           :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/03 18:31:51 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/03 18:34:47 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/04 16:16:35 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/04 16:16:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

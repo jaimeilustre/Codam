@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Zombie.cpp                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/01 14:45:00 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/01 15:23:54 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:21:06 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/02 17:21:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

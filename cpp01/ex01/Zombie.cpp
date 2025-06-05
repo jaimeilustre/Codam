@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Zombie.cpp                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/01 14:45:00 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/01 17:07:30 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/02 17:21:26 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/04 14:47:20 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,8 @@
 /*Default constructor*/
 Zombie::Zombie() 
 {
-	this->name = "Unnamed";
 	std::cout << "Default constructor called for zombie " << name << std::endl;
 };
-
-// /*Constructor*/
-// Zombie::Zombie(std::string name)
-// {
-// 	this->name = name;
-// 	std::cout << "Param constructor called for zombie " << name << std::endl;
-// }
 
 void Zombie::setName(std::string name)
 {
