@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 10:18:26 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/12 15:48:59 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/12 15:18:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void bresenham_line(mlx_image_t *img, t_line line, uint32_t color)
 {
 	int dx = abs(line.x2 - line.x1);
 	int dy = abs(line.y2 - line.y1);
+
 	int sx; // new;
 	int sy;
+
 	int e2;
 	int err;
 
@@ -70,12 +72,13 @@ void bresenham_line(mlx_image_t *img, t_line line, uint32_t color)
 		sy = 1;
 	else
 		sy = -1;
+
 	err = dx - dy;
-	while (1)
-	{
+	while (1) {
 		set_pixel(img, line.x1, line.y1, color);
 		if (line.x1 == line.x2 && line.y1 == line.y2) // Reached endpoint
 			break;
+
 		e2 = 2 * err;
 		if (e2 > -dy) {
 			err -= dy;
@@ -88,6 +91,20 @@ void bresenham_line(mlx_image_t *img, t_line line, uint32_t color)
 	}
 }
 
+void	clear_image(mlx_image_t *img)
+{
+	uint32_t i = 0;
+	while (i < img->width * img->height)
+	{
+		// Each pixel = 4 bytes (RGBA)
+		img->pixels[i * 4 + 0] = 0; // R
+		img->pixels[i * 4 + 1] = 0; // G
+		img->pixels[i * 4 + 2] = 0; // B
+		img->pixels[i * 4 + 3] = 0; // A
+		i++;
+	}
+}
+
 void	draw_fov_line(t_vars *data)
 {
 	const int num_rays = 30;  // number of rays
@@ -97,8 +114,9 @@ void	draw_fov_line(t_vars *data)
 	int	i = 0;
 	t_line line;
 
-	mlx_delete_image(data->mlx, data->fovlines);
-	data->fovlines = mlx_new_image(data->mlx, 700, 400);
+	// mlx_delete_image(data->mlx, data->fovlines);
+	// data->fovlines = mlx_new_image(data->mlx, 700, 400);
+	clear_image(data->fovlines);
 	while (i < num_rays)
 	{
 		double angle = start_angle + i * step;
@@ -106,5 +124,5 @@ void	draw_fov_line(t_vars *data)
 		bresenham_line(data->fovlines, line, 0xFFFFFF);
 		i++;
 	}
-	mlx_image_to_window(data->mlx, data->fovlines, 0, 0);
+	// mlx_image_to_window(data->mlx, data->fovlines, 0, 0);
 }

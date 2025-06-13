@@ -6,7 +6,7 @@
 /*   By: rhol <rhol@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 16:52:25 by rhol          #+#    #+#                 */
-/*   Updated: 2025/06/05 17:15:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/12 15:20:07 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_vars
 	double			pla; // player angle -> in radians 0 - 2pi
 	double			pdx; // player delta x
 	double			pdy; // player delta y
-	mlx_image_t		*mmpl; //minimap player.
+	// mlx_image_t		*mmpl; //minimap player.
 	mlx_image_t		*fovlines; // minimap player fov lines go here.
 	mlx_image_t		*layer1; // for draw_mm.c (don't work)
 }				t_vars;
@@ -122,13 +122,15 @@ int			print_map_color(char **map, int len);
 int			start_mlx(t_vars *data);
 
 /* key_input_handler.c */
+void		change_player_angle(t_vars *data, int dir);
+void		mouse_hook(double xpos, double ypos, void *param);
 void		input_hook(void *param);
 
 /* draw_minimap.c */
 int			draw_minimap(t_vars *data);
 
 /* draw_minimap_player.c */
-void		move_minimap_player(t_vars *vars);
+// void		move_minimap_player(t_vars *vars);
 void		first_draw_minimap_player(t_vars *data);
 
 /* draw_utils_color.c */
@@ -140,13 +142,5 @@ void		draw_fov_line(t_vars *data);
 
 /* draw_mm.c */
 void		draw_mm_new(t_vars *data);
-
-/*raycaster*/
-t_line		calculate_line_direction(double angle);
-void		set_pixel(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color);
-void		bresenham_line(mlx_image_t *img, t_line line, uint32_t color);
-void		draw_line_in_direction(mlx_image_t *img, double angle);
-void		draw_minimap_player(t_vars *vars);
-void		draw_rays(t_vars *vars);
 
 #endif
