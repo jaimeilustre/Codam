@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:22:49 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/02 17:22:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/16 10:15:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 class Weapon
 {
 	public:
-		Weapon(const std::string& type) : type(type) {}
+		Weapon(const std::string& type);
 		~Weapon();
 		const std::string& getType() const;
 		void setType(const std::string& newType);

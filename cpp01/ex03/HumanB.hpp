@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:22:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/02 17:22:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/16 10:13:37 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class HumanB
 {
 	public:
-		HumanB(const std::string& name): name(name), weapon(nullptr) {}
+		HumanB(const std::string& name);
 		~HumanB();
 		void attack() const;
 		void setWeapon(Weapon& newWeapon);

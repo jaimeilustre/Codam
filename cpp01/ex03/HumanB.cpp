@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:22:17 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/02 17:22:19 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/16 10:13:28 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 #include "HumanB.hpp"
 #include "Weapon.hpp"
+
+HumanB::HumanB(const std::string& name): name(name), weapon(nullptr)
+{
+	std::cout << "HumanB constructor called!" << std::endl;
+}
 
 void HumanB::attack() const
 {

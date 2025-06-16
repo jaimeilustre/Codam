@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:22:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/02 17:22:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/16 10:11:42 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class HumanA
 {
 	public:
-		HumanA(const std::string& name, Weapon& weapon): name(name), weapon(weapon) {}
+		HumanA(const std::string& name, Weapon& weapon);
 		~HumanA();
 		void attack() const;
 	private:

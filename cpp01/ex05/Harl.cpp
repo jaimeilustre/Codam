@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/04 16:16:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/04 16:16:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/16 11:10:23 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,31 +19,33 @@ void Harl::debug(void)
 {
 	std::cout << "[ DEBUG ]" << std::endl;
 	std::cout << "I love having extra bacon for my 7XL-double-cheese-triple-pickle-specialketchup burger. I really do!" << std::endl;
+	std::cout << std::endl;
 }
 
 void Harl::info(void)
 {
 	std::cout << "[ INFO ]" << std::endl;
 	std::cout << "I cannot believe adding extra bacon costs more money. You didn’t put enough bacon in my burger! If you did, I wouldn’t be asking for more!" << std::endl;
+	std::cout << std::endl;
 }
 
 void Harl::warning(void)
 {
 	std::cout << "[ WARNING ]" << std::endl;
 	std::cout << "I think I deserve to have some extra bacon for free. I’ve been coming for years, whereas you started working here just last month." << std::endl;
+	std::cout << std::endl;
 }
 
 void Harl::error(void)
 {
 	std::cout << "[ ERROR ]" << std::endl;
 	std::cout << "This is unacceptable! I want to speak to the manager now." << std::endl;
+	std::cout << std::endl;
 }
 
 void Harl::complain(std::string level)
 {
-	typedef void (Harl::*HarlFunc) (void);
-	
-	HarlFunc functions[] = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
+	void (Harl::*functions[])(void) = {&Harl::debug, &Harl::info, &Harl::warning, &Harl::error};
 	std::string levels[] = {"DEBUG", "INFO", "WARNING", "ERROR"};
 	for (int i = 0; i < 4; i++)
 	{

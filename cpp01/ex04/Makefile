@@ -2,7 +2,7 @@ CC				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	main.cpp
+SRCS			=	main.cpp Replacer.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= file
