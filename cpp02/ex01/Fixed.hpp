@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:22:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/20 17:04:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/20 18:35:32 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ class Fixed
 {
 	public:
 		Fixed();
-		Fixed(const int);
-		Fixed(const float);
+		Fixed(const int intValue);
+		Fixed(const float floatValue);
 		Fixed(const Fixed& other);
 		Fixed& operator=(const Fixed& other);
 		~Fixed();

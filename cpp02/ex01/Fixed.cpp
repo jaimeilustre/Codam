@@ -6,10 +6,11 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:19:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/20 17:09:13 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/20 18:36:10 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cmath>
 #include <iostream>
 
 #include "Fixed.hpp"
@@ -19,14 +20,16 @@ Fixed::Fixed(): fixedPointNumber(0)
 	std::cout << "Default constructor called" << std::endl;
 }
 
-Fixed::Fixed(const int)
+Fixed::Fixed(const int intValue)
 {
 	std::cout << "Int constructor called" << std::endl;
+	fixedPointNumber = intValue << fractionalBits;
 }
 
-Fixed::Fixed(const float)
+Fixed::Fixed(const float floatValue)
 {
 	std::cout << "Float constructor called" << std::endl;
+	fixedPointNumber = roundf(floatValue * (1 << fractionalBits));
 }
 
 Fixed::Fixed(const Fixed& other): fixedPointNumber(other.fixedPointNumber)
@@ -67,11 +70,10 @@ std::ostream& operator<<(std::ostream& os, const Fixed& fixed)
 
 float Fixed::toFloat(void) const
 {
-	
+	return (static_cast<float>(fixedPointNumber)/ (1 << fractionalBits));
 }
 
 int	Fixed::toInt(void) const
 {
-	
+	return (fixedPointNumber >> fractionalBits);
 }
-
