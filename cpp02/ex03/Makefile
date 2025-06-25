@@ -2,7 +2,7 @@ CC				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	Fixed.cpp main.cpp
+SRCS			=	Fixed.cpp main.cpp Point.cpp bsp.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= bsp

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 12:59:49 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/24 14:41:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/25 17:33:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ class Point
 {
 	public:
 		Point();
-		Point(const float x, const float y);
+		Point(const Fixed& x, const Fixed& y);
 		Point(const Point& other);
-		Point& operator=(const Point& other);
+		Point& operator=(const Point& other) = delete;
 		~Point();
 
 		Fixed getX() const;
@@ -30,5 +30,9 @@ class Point
 		const Fixed x;
 		const Fixed y;
 };
+
+Point	operator-(const Point& a, const Point& b);
+Fixed	dot(const Point& a, const Point& b);
+bool	bsp(Point const a, Point const b, Point const c, Point const point);
 
 #endif

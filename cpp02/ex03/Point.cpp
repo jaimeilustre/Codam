@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 14:54:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/24 15:42:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/25 07:39:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,25 @@
 /*Default constructor for point class*/
 Point::Point(): x(0), y(0)
 {
-	std::cout << "Default constructor called" << std::endl;
+	// std::cout << "Default constructor called" << std::endl;
 }
 
 /*Parameterized constructor for point class*/
-Point::Point(const float x, const float y): x(x), y(y)
+Point::Point(const Fixed& x, const Fixed& y): x(x), y(y)
 {
-	std::cout << "Parameterized constructor called" << std::endl;
+	// std::cout << "Parameterized constructor called" << std::endl;
 }
 
 /*Destructor*/
 Point::~Point()
 {
-	std::cout << "Destructor called" << std::endl;
+	// std::cout << "Destructor called" << std::endl;
 }
 
 /*Copy constructor*/
 Point::Point(const Point& other): x(other.x), y(other.y)
 {
-	std::cout << "Copy constructor called" << std::endl;
-}
-
-/*Copy assignment operator*/
-Point& Point::operator=(const Point& other)
-{
-	std::cout << "Copy assignment operator called" << std::endl;
+	// std::cout << "Copy constructor called" << std::endl;
 }
 
 /*Getter for x attribute*/
@@ -57,4 +51,14 @@ Fixed Point::getY() const
 	return (y);
 }
 
+/*Vector subtraction between two points*/
+Point	operator-(const Point& a, const Point& b)
+{
+	return (Point(a.getX() - b.getX(), a.getY() - b.getY()));
+}
 
+/*Dot product calculation of two 2D vectors*/
+Fixed dot(const Point& a, const Point& b)
+{
+    return (a.getX() * b.getX() + a.getY() * b.getY());
+}
