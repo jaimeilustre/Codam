@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 07:33:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/25 07:39:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/26 08:45:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Point.hpp"
 
-bool	bsp( Point const a, Point const b, Point const c, Point const point)
+bool	bsp(Point const a, Point const b, Point const c, Point const point)
 {
     Point v0 = c - a;
     Point v1 = b - a;

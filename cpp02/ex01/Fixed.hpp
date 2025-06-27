@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:22:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/20 18:35:32 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/06/26 08:28:03 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@ class Fixed
 		Fixed(const int intValue);
 		Fixed(const float floatValue);
 		Fixed(const Fixed& other);
-		Fixed& operator=(const Fixed& other);
+		Fixed&	operator=(const Fixed& other);
 		~Fixed();
+		
 		int		getRawBits(void) const;
 		void	setRawBits(int const raw);
 		float	toFloat(void) const;
 		int		toInt(void) const;
 	private:
-		int	fixedPointNumber;
-		static const int fractionalBits = 8;
+		int					_fixedPointNumber;
+		static const int	_fractionalBits = 8;
 };
 
-std::ostream& operator<<(std::ostream& os, const Fixed& fixed);
+std::ostream&	operator<<(std::ostream& os, const Fixed& fixed);
 
 #endif

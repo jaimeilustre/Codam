@@ -6,12 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:22:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/24 10:27:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/26 08:53:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FIXED_HPP
 # define FIXED_HPP
+
+# include <ostream>
 
 class Fixed
 {
@@ -20,7 +22,7 @@ class Fixed
 		Fixed(const int intValue);
 		Fixed(const float floatValue);
 		Fixed(const Fixed& other);
-		Fixed& operator=(const Fixed& other);
+		Fixed&	operator=(const Fixed& other);
 		~Fixed();
 		
 		int		getRawBits(void) const;
@@ -45,15 +47,15 @@ class Fixed
 		Fixed	operator++(int);
 		Fixed	operator--(int);
 
-		static	Fixed& min(Fixed& a, Fixed& b);
-		static const	Fixed& min(const Fixed& a, const Fixed& b);
-		static	Fixed& max(Fixed& a, Fixed& b);
-		static const	Fixed& max(const Fixed& a, const Fixed& b);
+		static Fixed&		min(Fixed& a, Fixed& b);
+		static const Fixed&	min(const Fixed& a, const Fixed& b);
+		static Fixed&		max(Fixed& a, Fixed& b);
+		static const Fixed&	max(const Fixed& a, const Fixed& b);
 	private:
-		int	fixedPointNumber;
-		static const int fractionalBits = 8;
+		int					_fixedPointNumber;
+		static const int	_fractionalBits = 8;
 };
 
-std::ostream& operator<<(std::ostream& os, const Fixed& fixed);
+std::ostream&	operator<<(std::ostream& os, const Fixed& fixed);
 
 #endif

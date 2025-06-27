@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:41:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/20 14:41:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/26 08:17:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 #include "Fixed.hpp"
 
-int main( void ) 
+int main(void) 
 {
 	Fixed a;
-	Fixed b( a );
+	Fixed b(a);
 	Fixed c;
 	
 	c = b;
