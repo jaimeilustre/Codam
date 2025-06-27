@@ -2,7 +2,7 @@ CC				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	ClapTrap.cpp main.cpp 
+SRCS			=	ClapTrap.cpp main.cpp ScavTrap.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= claptrap
