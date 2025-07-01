@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 11:23:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/30 12:37:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/01 06:57:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,11 @@
 
 #include "DiamondTrap.hpp"
 
-DiamondTrap::DiamondTrap(std::string name): ClapTrap(name + "_clap_name"), ScavTrap(), FragTrap()
+DiamondTrap::DiamondTrap(std::string name): ClapTrap(name + "_clap_name"), ScavTrap(name), FragTrap(name), _name(name)
 {
-	this->_name = name;
-	this->_hitPoints = 100; // FragTrap
-	this->_energyPoints = 50;// ScavTrap
-	this->_attackDamage = 30; // FragTrap
+	_hitPoints = FragTrap::_hitPoints;
+	_energyPoints = ScavTrap::_energyPoints;
+	_attackDamage = FragTrap::_attackDamage;
 	
 	std::cout << "DiamondTrap " << this->_name << " constructed!" << std::endl;
 }

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 15:18:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/30 12:15:21 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/01 06:50:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int main(void)
 	ft.highFivesGuys();
 	std::cout << std::endl;
 
-	std::cout << "Testing polymorphism:" << std::endl;
-	ClapTrap	*ptr = new FragTrap("PF-01");
-	ptr->attack("Target E");
-	delete (ptr);
+	std::cout << "Creating DiamondTrap:" << std::endl;
+	DiamondTrap	dt("DT-01");
+	dt.whoAmI();
+	dt.attack("Target F");
 	
 	return (0);
 }
