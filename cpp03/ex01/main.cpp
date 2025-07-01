@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 15:18:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/27 10:47:29 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/01 17:03:41 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ int main(void)
 	st.attack("Target D");
 	st.guardGate();
 	std::cout << std::endl;
-
-	std::cout << "Testing polymorphism:" << std::endl;
-	ClapTrap	*ptr = new ScavTrap("PS-01");
-	ptr->attack("Target E");
-	delete (ptr);
 	
 	return (0);
 }
