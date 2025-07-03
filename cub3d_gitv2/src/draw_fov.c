@@ -6,20 +6,18 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/12 10:18:26 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/12 15:18:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/03 14:38:20 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "header.h"
+#include <stdio.h>
 
 // Function to set a pixel using mlx_put_pixel
 static void set_pixel(mlx_image_t *img, uint32_t x, uint32_t y, uint32_t color)
 {
-	if (x > 0 && y > 0) //& within minimap bounds ?
-	{
-		if (x < 700 && y < 700)
-			mlx_put_pixel(img, x, y, color);
-	}
+	if (x < img->width && y < img->height)
+		mlx_put_pixel(img, x, y, color);
 }
 
 static t_line ray_wall(t_vars *data, double angle)
@@ -107,22 +105,98 @@ void	clear_image(mlx_image_t *img)
 
 void	draw_fov_line(t_vars *data)
 {
-	const int num_rays = 30;  // number of rays
+	const int num_rays = 700;  // number of rays
 	const double fov = PI / 3;  // 60 degrees field of view
 	const double start_angle = data->pla - fov / 2;
 	const double step = fov / num_rays;
 	int	i = 0;
 	t_line line;
 
-	// mlx_delete_image(data->mlx, data->fovlines);
-	// data->fovlines = mlx_new_image(data->mlx, 700, 400);
 	clear_image(data->fovlines);
-	while (i < num_rays)
+	while (i <= num_rays)
 	{
 		double angle = start_angle + i * step;
 		line = ray_wall(data, angle);
 		bresenham_line(data->fovlines, line, 0xFFFFFF);
 		i++;
 	}
-	// mlx_image_to_window(data->mlx, data->fovlines, 0, 0);
+}
+
+double normalize_angle(double angle)
+{
+    while (angle < 0)
+        angle += 2 * PI;
+    while (angle >= 2 * PI)
+        angle -= 2 * PI;
+    return angle;
+}
+
+void	draw_3d_view(t_vars *data)
+{
+	// int	screen_w = 700;
+	int	screen_h = 400;
+	int	tile_size = 32;
+	int	num_rays = 60;
+	double	fov = PI / 3;
+	double	start_angle = data->pla - fov / 2;
+	double	step = fov/num_rays;
+
+	clear_image(data->view3d);
+	
+	int	ray = 0;
+	while (ray <= num_rays)
+	{
+		double	angle = normalize_angle(start_angle + ray * step);
+		t_line	rayline = ray_wall(data, angle);
+
+		/*Calculate distance from player to wall*/
+		double	ray_x = rayline.x2 / 32.0;
+		double	ray_y = rayline.y2 / 32.0;
+		double	dx = ray_x - data->plx;
+		double	dy = ray_y - data->ply;
+		double	distance = sqrt(dx * dx + dy * dy);
+
+		/*Fisheye correction*/
+		distance *= cos(angle - data->pla);
+		if (distance < 0.01)
+			distance = 0.01;
+		
+		/*Calculate wall height based on distance*/
+		int	wall_height = (int)((tile_size * screen_h) / distance);
+		if (wall_height > screen_h)
+			wall_height = screen_h;
+
+		printf("Ray %d angle %.2f distance %.2f wall_height %d\n", ray, angle, distance, wall_height);
+
+		int top = (screen_h / 2) - (wall_height / 2);
+		int	bottom = top + wall_height;
+
+		/*Draw ceiling*/
+		int y = 0;
+		while (y < top)
+		{
+			set_pixel(data->view3d, ray, y, 0x333366);
+			y++;
+		}
+		
+		/*Draw wall slice*/
+		y = top;
+		while (y < bottom)
+		{
+			// int color = 0x010101 * ray;
+			set_pixel(data->view3d, ray, y, 0xAAAAAA);
+			// set_pixel(data->view3d, ray, y, color);
+			y++;
+		}
+
+		/*Draw floor*/
+		y = bottom;
+		while (y < screen_h)
+		{
+			set_pixel(data->view3d, ray, y, 0x333300);
+			y++;
+		}
+		
+		ray++;
+	}
 }

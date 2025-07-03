@@ -6,7 +6,7 @@
 /*   By: rhol <rhol@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 16:52:25 by rhol          #+#    #+#                 */
-/*   Updated: 2025/06/18 16:17:07 by rhol          ########   odam.nl         */
+/*   Updated: 2025/07/03 09:07:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_vars
 	double			pdy; // player delta y
 	mlx_image_t		*fovlines; // minimap player fov lines go here.
 	mlx_image_t		*layer1; // small minimap
+	mlx_image_t		*view3d;
 }				t_vars;
 
 /* linkedlist - for map import*/
@@ -143,6 +144,7 @@ int			ft_get_rgba(int r, int g, int b, int a);
 double		degree_to_radians(double degree);
 void		clear_image(mlx_image_t *img);
 void		draw_fov_line(t_vars *data);
+void		draw_3d_view(t_vars *data);
 
 /* draw_small_minimap.c */
 void	draw_small_minimap(t_vars *data);
