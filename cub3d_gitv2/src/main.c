@@ -6,7 +6,7 @@
 /*   By: rhol <rhol@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:05:48 by rhol          #+#    #+#                 */
-/*   Updated: 2025/07/03 11:37:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/04 09:16:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 
 void	draw_hook(void *param)
 {
-	// (void) param;
 	t_vars *data;
 
 	data = (t_vars *)param;
 
+	draw_3d_view(data);
 	draw_fov_line(data);
-	draw_3d_view(data);	
 	draw_small_minimap(data);
 	// limit fps here ?
 }
@@ -35,7 +34,6 @@ void	game_hook(void *param)
 	draw_hook(data); // draw minimap & draw 3d cast
 }
 
-
 int	main(int argc, char **argv)
 {
 	t_vars	data;
@@ -49,10 +47,10 @@ int	main(int argc, char **argv)
 
 	draw_minimap(&data); //only walls - background for data.fovlines.
 	
-	data.view3d = mlx_new_image(data.mlx, 700, 300);
-	mlx_image_to_window(data.mlx, data.view3d, 1, 702);
+	data.view3d = mlx_new_image(data.mlx, 700, 400);
+	mlx_image_to_window(data.mlx, data.view3d, 0, 400);
 	
-	data.fovlines = mlx_new_image(data.mlx, 700, 700); //first map. no zoom.
+	data.fovlines = mlx_new_image(data.mlx, 700, 300); //first map. no zoom.
 	mlx_image_to_window(data.mlx, data.fovlines, 1, 2);
 
 	data.layer1 = mlx_new_image(data.mlx, 400, 400); // new small minimap
@@ -68,3 +66,4 @@ int	main(int argc, char **argv)
 	clean_2dchar_array(&data, data.mapheight);
 	return (0);
 }
+
