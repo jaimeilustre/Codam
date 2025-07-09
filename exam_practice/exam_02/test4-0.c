@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/29 17:29:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/08 21:55:28 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/09 08:45:30 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,45 @@ bool main_check(const char *input)
 		free_stack(&stack);
 		return (false);
 	}
+}
+
+bool main_check(const char *input)
+{
+	char stack[512][64];
+	int top = -1;
+
+	int i = 0;
+	int is_closing;
+	char *tag;
+
+	while ((tag = extract_tag(input, &i, &is_closing)))
+	{
+		if (!is_closing)
+		{
+			if (strcmp(tag, "img") == 0)
+			{
+				free(tag);
+				continue;
+			}
+			if (top >= 64 - 1)
+			{
+				free(tag);
+				return false; // Stack overflow
+			}
+			strncpy(stack[++top], tag, 64 - 1);
+			stack[top][64 - 1] = '\0'; // Ensure null-terminated
+		}
+		else
+		{
+			if (top < 0 || strcmp(stack[top--], tag) != 0)
+			{
+				free(tag);
+				return false;
+			}
+		}
+		free(tag);
+	}
+	return top == -1;
 }
 
 int main(int argc, char **argv)

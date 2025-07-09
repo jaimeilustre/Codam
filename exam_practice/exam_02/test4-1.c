@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 16:03:00 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/04 10:53:04 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/09 08:42:58 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,31 @@ int	countNodes(t_node *root)
 	return (1 + countNodes(root->left) + countNodes(root->right));
 }
 
+static void dfs_deepest(t_node *node, int depth, int *max_depth, t_node **deepest)
+{
+	if (!node)
+		return;
+	if (depth > *max_depth)
+	{
+		*max_depth = depth;
+		*deepest = node;
+	}
+	dfs_deepest(node->left, depth + 1, max_depth, deepest);
+	dfs_deepest(node->right, depth + 1, max_depth, deepest);
+}
+
+t_node *findDeepestNode(t_node *root)
+{
+	if (!root)
+		return NULL;
+
+	t_node *deepest = NULL;
+	int max_depth = -1;
+	dfs_deepest(root, 0, &max_depth, &deepest);
+	return deepest;
+}
+
+
 void	freeTree(t_node *root)
 {
 	if (!root)
@@ -139,6 +164,10 @@ int main(int argc, char **argv)
 	t_node *root = NULL;
 	for (int i = 1; i < argc; i++)
 		insert_node(&root, atoi(argv[i]));
+	
+	t_node *deepest = findDeepestNode(root);
+	if (deepest)
+		printf("Deepest node: %d\n", deepest->data);
 	
 	printf("Inorder traversal: ");
 	inorder(root);
