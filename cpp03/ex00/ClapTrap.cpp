@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 13:34:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 15:39:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/11 14:43:44 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ClapTrap::takeDamage(unsigned int amount)
 		std::cout << "No health left, you dead!" << std::endl;
 		return ;
 	}
-	std::cout << "ClapTrap taking damage!" << std::endl;
+	std::cout << _name << " taking " << amount << " points of damage!" << std::endl;
 	if (amount >= _hitPoints)
 		_hitPoints = 0;
 	else

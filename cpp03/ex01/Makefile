@@ -5,7 +5,7 @@ CFLAGS			= -Wall -Wextra -Werror
 SRCS			=	ClapTrap.cpp main.cpp ScavTrap.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
-NAME			= claptrap
+NAME			= scavtrap
 all:	$(NAME)
 
 $(NAME): $(OBJS)
