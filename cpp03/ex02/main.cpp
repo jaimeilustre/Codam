@@ -6,29 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 15:18:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/01 16:57:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/13 15:02:14 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-
-#include "ClapTrap.hpp"
 #include "FragTrap.hpp"
 
 int main(void)
 {
-	std::cout << "Creating ClapTrap:" << std::endl;
-	ClapTrap	ct("CT-01");
-	ct.attack("Target A");
-	ct.takeDamage(5);
-	ct.beRepaired(3);
-	ct.takeDamage(8);
-	ct.beRepaired(5);
-	ct.attack("Target B");
-	std::cout << std::endl;
-	
-	std::cout << "Creating FragTrap:" << std::endl;
 	FragTrap	ft("FT-01");
+	
 	ft.attack("Target C");
 	ft.takeDamage(50);
 	ft.beRepaired(30);
@@ -36,7 +23,6 @@ int main(void)
 	ft.beRepaired(50);
 	ft.attack("Target D");
 	ft.highFivesGuys();
-	std::cout << std::endl;
 
 	return (0);
 }
