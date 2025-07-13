@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 15:18:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 15:40:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/13 10:53:02 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 
 int main(void)
 {
-	ClapTrap	ct("CL4P-TP");
+	ClapTrap	ct("CT-01");
 
-	ct.attack("Target");
+	ct.attack("Target A");
 	ct.takeDamage(5);
 	ct.beRepaired(3);
 	ct.takeDamage(8);
 	ct.beRepaired(5);
-	ct.attack("New target");
+	ct.attack("Target B");
 	
 	return (0);
 }
