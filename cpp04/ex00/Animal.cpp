@@ -6,19 +6,19 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:43:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/16 17:11:15 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/16 21:00:10 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Animal.hpp"
 
-Animal::Animal()
+Animal::Animal(): type("Non existent animal")
 {
 	std::cout << "Animal default constructor called!" << std::endl;
 	std::cout << std::endl;
 }
 
-Animal::Animal(const Animal& other): _type(other._type)
+Animal::Animal(const Animal& other): type(other.type)
 {
 	std::cout << "Animal copy constructor called!" << std::endl;
 	std::cout << std::endl;
@@ -28,7 +28,7 @@ Animal&	Animal::operator=(const Animal& other)
 {
 	std::cout << "Animal copy assignment operator called!" << std::endl;
 	if (this != &other)
-		_type = other._type;
+		type = other.type;
 	return (*this);
 }
 
@@ -38,14 +38,9 @@ Animal::~Animal()
 	std::cout << std::endl;
 }
 
-void	Animal::setType(const std::string& type)
-{
-	_type = type;
-}
-
 std::string	Animal::getType() const
 {
-	return (_type);
+	return (type);
 }
 
 void	Animal::makeSound() const

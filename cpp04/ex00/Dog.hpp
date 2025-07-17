@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:32:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/16 16:34:19 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/16 20:59:51 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ class Dog: public Animal
 		Dog(const Dog& other);
 		Dog&	operator=(const Dog& other);
 		~Dog();
+
+		void		makeSound() const;
+		void		setType(const std::string& animalType);
 };
 
 #endif

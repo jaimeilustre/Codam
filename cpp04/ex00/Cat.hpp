@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:26:46 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/16 16:31:02 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/16 20:59:46 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ class Cat: public Animal
 		Cat(const Cat& other);
 		Cat&	operator=(const Cat& other);
 		~Cat();
+
+		void		makeSound() const;
+		void		setType(const std::string& animalType);
 };
 
 #endif
