@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/18 11:19:06 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/18 15:56:58 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/18 16:57:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ Brain::~Brain()
 	std::cout << "Brain destructor called!\n" << std::endl;
 }
 
-void	Brain::setIdea(std::string& idea, int index)
+void	Brain::setIdea(const std::string& idea, int index)
 {
 	if (index >= 0 && index < 100)
 		ideas[index] = idea;
