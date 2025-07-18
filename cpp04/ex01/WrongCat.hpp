@@ -1,29 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Dog.hpp                                            :+:    :+:            */
+/*   WrongCat.hpp                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/16 16:32:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/17 07:30:55 by jilustre      ########   odam.nl         */
+/*   Created: 2025/07/17 07:48:21 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/07/17 08:06:33 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOG_HPP
-# define DOG_HPP
+#ifndef WRONGCAT_HPP
+# define WRONGCAT_HPP
 
-# include "Animal.hpp"
+# include "WrongAnimal.hpp"
 
-class Dog: public Animal
+class WrongCat: public WrongAnimal
 {
 	public:
-		Dog();
-		Dog(const Dog& other);
-		Dog&	operator=(const Dog& other);
-		~Dog() override;
+		WrongCat();
+		WrongCat(const WrongCat& other);
+		WrongCat&	operator=(const WrongCat& other);
+		~WrongCat();
 
-		void		makeSound() const override;
+		void		makeSound() const;
 };
 
 #endif

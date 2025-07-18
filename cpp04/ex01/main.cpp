@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:10:58 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/17 08:03:58 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/18 15:55:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,30 @@
 
 int main()
 {
-	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const Animal* i = new Cat();
-	
-	std::cout << j->getType() << " " << std::endl;
-	std::cout << i->getType() << " " << std::endl;
-	i->makeSound(); //will output the cat sound!
-	j->makeSound();
-	meta->makeSound();
+	int n = 100;
+	Animal* animals[n];
 
-	delete (meta);
-	delete (j);
-	delete (i);
+	for (int i = 0; i < n / 2; i++)
+	{
+		std::cout << i << ": ";
+		animals[i] = new Dog();
+	}
+	for (int i = n / 2; i < n; i++)
+	{
+		std::cout << i << ": ";
+		animals[i] = new Cat();
+	}
+	for (int i = 0; i < 100; i++)
+	{
+		std::cout << i << ": ";
+		delete animals[i];
+	}
 
-	const WrongAnimal* wa = new WrongAnimal();
-	const WrongAnimal* wc = new WrongCat();
-	
-	std::cout << wa->getType() << " " << std::endl;
-	std::cout << wc->getType() << " " << std::endl;
-	wa->makeSound();
-	wc->makeSound();
+	Dog Dog1;
+	Dog1.makeSound();
 
-	delete (wa);
-	delete (wc);
+	Dog copyDog = Dog1;
+	copyDog.makeSound();
 	
 	return (0);
 }

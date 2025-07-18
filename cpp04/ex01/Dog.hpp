@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:32:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/17 07:30:55 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/18 15:16:03 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define DOG_HPP
 
 # include "Animal.hpp"
+# include "Brain.hpp"
 
 class Dog: public Animal
 {
@@ -24,6 +25,8 @@ class Dog: public Animal
 		~Dog() override;
 
 		void		makeSound() const override;
+	private:
+		Brain*	brain;
 };
 
 #endif
