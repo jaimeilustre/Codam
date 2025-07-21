@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:54:59 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/18 15:29:01 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/21 15:20:20 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,9 @@ Dog::~Dog()
 void	Dog::makeSound() const
 {
 	std::cout << "Woof woof...\n" << std::endl;
+}
+
+Brain*	Dog::getBrain() const
+{
+	return (brain);
 }

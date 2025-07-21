@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:25:38 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/18 15:31:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/21 15:19:44 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,9 @@ Cat::~Cat()
 void	Cat::makeSound() const
 {
 	std::cout << "Meowwwww...\n" << std::endl;
+}
+
+Brain*	Cat::getBrain() const
+{
+	return (brain);
 }

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/18 11:16:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/18 16:57:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/21 15:18:38 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ class Brain
 		Brain&	operator=(const Brain& other);
 		~Brain();
 
-		void	setIdea(const std::string& idea, int index);
+		void		setIdea(const std::string& idea, int index);
 		std::string	getIdea(int index) const;
 	private:
 		std::string	ideas[100];

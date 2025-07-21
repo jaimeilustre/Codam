@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:26:46 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/18 16:55:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/21 15:19:01 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ class Cat: public Animal
 		~Cat() override;
 
 		void		makeSound() const override;
-		Brain*		getBrain() const {
-			return (brain);
-		}
+		Brain*		getBrain() const;
 	private:
 		Brain*	brain;
 };
