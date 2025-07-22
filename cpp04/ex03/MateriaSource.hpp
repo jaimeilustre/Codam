@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Animal.hpp                                         :+:    :+:            */
+/*   MateriaSource.hpp                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/07/16 16:12:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/22 12:32:22 by jilustre      ########   odam.nl         */
+/*   Created: 2025/07/22 17:23:24 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/07/22 17:26:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ANIMAL_HPP
-# define ANIMAL_HPP
+#ifndef MATERIASOURCE_HPP
+# define MATERIASOURCE_HPP
 
-# include <iostream>
-# include <string>
+# include "IMateriaSource.hpp"
 
-class Animal
+class MateriaSource: public IMateriaSource
 {
 	public:
-		Animal();
-		Animal(const Animal& other);
-		Animal&	operator=(const Animal& other);
-		virtual ~Animal();
-		
-		virtual void	makeSound() const = 0;
-		std::string		getType() const;
-	protected:
-		std::string	type;
+		MateriaSource();
+		MateriaSource(const MateriaSource& other);
+		MateriaSource&	operator=(const MateriaSource& other);
+		virtual ~MateriaSource();
+
+		virtual void	learnMateria(AMateria*);
+		virtual AMateria*	createMateria(std::string const& type);
 };
 
 #endif
