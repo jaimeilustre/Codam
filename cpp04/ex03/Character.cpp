@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/26 16:49:36 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/26 17:13:43 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/28 10:36:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	Character::equip(AMateria* m)
 			return ;
 		}
 	}
+	std::cout << "Inventory full. Cannot equip " << m->getType() << " materia." << std::endl;
 }
 
 void	Character::unequip(int idx)

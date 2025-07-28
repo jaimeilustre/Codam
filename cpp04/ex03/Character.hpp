@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/22 15:49:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/26 16:55:15 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/28 10:18:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define CHARACTER_HPP
 
 # include "ICharacter.hpp"
+# include "AMateria.hpp"
 
 class Character: public ICharacter
 {
