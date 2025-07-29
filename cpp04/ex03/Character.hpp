@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/22 15:49:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/29 07:36:13 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/29 21:10:04 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Character: public ICharacter
 		virtual void				unequip(int idx);
 		virtual void				use(int idx, ICharacter& target);
 		virtual bool				hasInventorySpace() const;
+		virtual void				printInventory() const;
 };
 
 #endif

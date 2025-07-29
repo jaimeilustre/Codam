@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/28 10:00:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/29 08:04:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/29 21:13:32 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,30 +80,44 @@ int main(void)
 {
 	std::cout << "\n--- SETUP ---\n";
 	IMateriaSource* src = new MateriaSource();
-	src->learnMateria(new Ice());
-	src->learnMateria(new Cure());
 
-	Character* me = new Character("me");
+	AMateria* ice = new Ice();
+	src->learnMateria(ice);
+	delete ice;
+
+	AMateria* cure = new Cure();
+	src->learnMateria(cure);
+	delete cure;
+
+	ICharacter* me = new Character("me");
+
+	AMateria* tmp;
 
 	std::cout << "\n--- EQUIP TEST (2 Materias) ---\n";
-	if (me->hasInventorySpace())
-		me->equip(src->createMateria("ice"));
-	if (me->hasInventorySpace())
-		me->equip(src->createMateria("cure"));
+	tmp = src->createMateria("ice");
+	me->equip(tmp);
+	tmp = src->createMateria("cure");
+	me->equip(tmp);
+
+	me->printInventory();
 
 	std::cout << "\n--- USE TEST (valid use) ---\n";
-	Character* bob = new Character("bob");
+	ICharacter* bob = new Character("bob");
 	me->use(0, *bob); // shoot ice bolt
 	me->use(1, *bob); // heal wounds
 
 	std::cout << "\n--- EQUIP TEST (more than 4 slots) ---\n";
-	if (me->hasInventorySpace())
-		me->equip(src->createMateria("ice"));
-	if (me->hasInventorySpace())
-		me->equip(src->createMateria("cure"));
-	if (me->hasInventorySpace())
-		me->equip(src->createMateria("ice")); // 5th: should be skipped
+	AMateria *m3 = src->createMateria("ice");
+	AMateria *m4 = src->createMateria("cure");
+	AMateria *m5 = src->createMateria("ice");// 5th: should be deleted to avoid leaks
+	me->equip(m3);
+	me->equip(m4);
+	me->equip(m5);
+	if (!me->hasInventorySpace())
+		delete m5;
 
+	me->printInventory();
+	
 	std::cout << "\n--- USE TEST (invalid indexes) ---\n";
 	me->use(-1, *bob); // nothing should happen
 	me->use(4, *bob);  // nothing should happen
@@ -112,6 +126,8 @@ int main(void)
 	me->unequip(1); // unequip Cure
 	me->use(1, *bob); // nothing should happen
 
+	me->printInventory();
+
 	std::cout << "\n--- CREATE UNKNOWN MATERIA ---\n";
 	AMateria* unknown = src->createMateria("fire");
 	if (!unknown)
@@ -119,17 +135,19 @@ int main(void)
 
 	std::cout << "\n--- DEEP COPY TEST ---\n";
 	Character* original = new Character("original");
-	if (original->hasInventorySpace())
-		original->equip(src->createMateria("ice"));
-	if (original->hasInventorySpace())
-		original->equip(src->createMateria("cure"));
+	original->equip(src->createMateria("ice"));
+	original->equip(src->createMateria("cure"));
 
-	Character copy = *original; // invokes copy constructor
+	original->printInventory();
+
+	Character copy = *original; // copy constructor
 	std::cout << "[Original uses index 0] ";
 	original->use(0, *bob);
 	std::cout << "[Copy uses index 0] ";
 	copy.use(0, *bob);
-	
+
+	copy.printInventory();
+
 	delete original;
 
 	std::cout << "\n--- CLEANUP ---\n";
@@ -139,4 +157,5 @@ int main(void)
 
 	return 0;
 }
+
 

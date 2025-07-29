@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/26 16:49:36 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/29 07:43:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/29 21:10:37 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,3 +124,14 @@ bool	Character::hasInventorySpace() const
 	return (_inventoryCount < 4);
 }
 
+void Character::printInventory() const
+{
+	std::cout << "Inventory of \"" << _name << "\":" << std::endl;
+	for (int i = 0; i < 4; ++i) {
+		std::cout << "  Slot " << i << ": ";
+		if (_inventory[i])
+			std::cout << _inventory[i]->getType() << std::endl;
+		else
+			std::cout << "[empty]" << std::endl;
+	}
+}
