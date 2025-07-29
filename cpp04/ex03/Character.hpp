@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/22 15:49:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/28 10:18:34 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/29 07:36:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ class Character: public ICharacter
 	private:
 		std::string	_name;
 		AMateria*	_inventory[4];
-		AMateria*	_floorInventory[100];
+		int			_inventoryCount;
+		AMateria*	_floorInventory[5];
 		int			_floorCount;
 	public:
 		Character();
@@ -34,6 +35,7 @@ class Character: public ICharacter
 		virtual void				equip(AMateria* m);
 		virtual void				unequip(int idx);
 		virtual void				use(int idx, ICharacter& target);
+		virtual bool				hasInventorySpace() const;
 };
 
 #endif

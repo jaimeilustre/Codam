@@ -6,28 +6,36 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/26 16:49:36 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/28 10:36:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/29 07:43:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
 
-Character::Character(std::string const& name): _name(name), _floorCount(0)
+Character::Character(std::string const& name): _name(name), _floorCount(0), _inventoryCount(0)
 {
 	std::cout << "Character constructor called!\n" << std::endl;
 	for (int i = 0; i < 4; i++)
 		_inventory[i] = NULL;
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 5; i++)
 		_floorInventory[i] = NULL;
 }
 
-Character::Character(const Character& other): _name(other._name), _floorCount(0)
+Character::Character(const Character& other): _name(other._name), _floorCount(0), _inventoryCount(0)
 {
 	std::cout << "Character copy constructor called!\n" << std::endl;
-	for (int i = 0; i < 4; i++)
-		_inventory[i] = other._inventory[i] ? other._inventory[i]->clone() : NULL;
-	for (int i = 0; i < 100; i++)
-		_floorInventory[i] = other._floorInventory[i] ? other._floorInventory[i]->clone() : NULL;	
+	for (int i = 0; i < 4; ++i)
+	{
+		if (other._inventory[i])
+		{
+			_inventory[i] = other._inventory[i]->clone();
+			_inventoryCount++;
+		}
+		else
+			_inventory[i] = NULL;
+	}
+	for (int i = 0; i < 5; ++i)
+		_floorInventory[i] = NULL;	
 }
 
 Character&	Character::operator=(const Character& other)
@@ -36,11 +44,26 @@ Character&	Character::operator=(const Character& other)
 	if (this != &other)
 	{
 		_name = other._name;
+		for (int i = 0; i < 4; ++i)
+			delete _inventory[i];
+		for (int i = 0; i < 4; ++i)
+			delete _floorInventory[i];
+		
+		_inventoryCount = 0;
+		_floorCount = 0;
+		
 		for (int i = 0; i < 4; i++)
 		{
-			delete _inventory[i];
-			_inventory[i] = other._inventory[i] ? other._inventory[i]->clone() : NULL;
+			if (other._inventory[i])
+			{
+				_inventory[i] = other._inventory[i]->clone();
+				_inventoryCount++;
+			}
+			else
+				_inventory[i] = NULL;
 		}
+		for (int i = 0; i < 5; ++i)
+			_floorInventory[i] = NULL;	
 	}
 	return (*this);
 }
@@ -48,9 +71,9 @@ Character&	Character::operator=(const Character& other)
 Character::~Character()
 {
 	std::cout << "Character destructor called!\n" << std::endl;
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 		delete _inventory[i];
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 5; ++i)
 		delete _floorInventory[i];
 }
 
@@ -63,30 +86,41 @@ void	Character::equip(AMateria* m)
 {
 	if (!m)
 		return ;
+	if (_inventoryCount >= 4)
+	{
+		std::cout << "Inventory full. Cannot equip " << m->getType() << " materia." << std::endl;
+		return ;
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		if (!_inventory[i])
 		{
 			_inventory[i] = m;
+			_inventoryCount++;
 			return ;
 		}
 	}
-	std::cout << "Inventory full. Cannot equip " << m->getType() << " materia." << std::endl;
 }
 
 void	Character::unequip(int idx)
 {
-	if (idx >= 0 && idx <= 4 && _inventory[idx])
+	if (idx >= 0 && idx < 4 && _inventory[idx])
 	{
-		if (_floorCount < 100)
+		if (_floorCount < 5)
 			_floorInventory[_floorCount++] = _inventory[idx];
 		_inventory[idx] = NULL;
+		_inventoryCount--;
 	}
 }
 
 void	Character::use(int idx, ICharacter& target)
 {
-	if (idx >= 0 && idx <= 4 && _inventory[idx])
+	if (idx >= 0 && idx < 4 && _inventory[idx])
 		_inventory[idx]->use(target);
+}
+
+bool	Character::hasInventorySpace() const
+{
+	return (_inventoryCount < 4);
 }
 
