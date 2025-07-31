@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:10:58 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/31 04:51:12 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 06:54:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int main()
 {
-	std::cout << "Base Animal Tests\n" << std::endl;
+	std::cout << "\n---Base Animal Tests---\n" << std::endl;
 	const Animal* meta = new Animal();
 	const Animal* j = new Dog();
 	const Animal* i = new Cat();
@@ -32,7 +32,7 @@ int main()
 	delete (j);
 	delete (i);
 
-	std::cout << "\nWrongAnimal Tests\n" << std::endl;
+	std::cout << "\n---WrongAnimal Tests---\n" << std::endl;
 	const WrongAnimal* wa = new WrongAnimal();
 	const WrongAnimal* wc = new WrongCat();
 	
@@ -45,7 +45,7 @@ int main()
 	delete (wa);
 	delete (wc);
 
-	std::cout << "\nDirect Cat & Dog Usage\n" << std::endl;
+	std::cout << "\n---Direct Cat & Dog Usage---\n" << std::endl;
 	Cat myCat;
 	Dog myDog;
 	
@@ -55,7 +55,7 @@ int main()
 	myCat.makeSound();
 	myDog.makeSound();
 
-	std::cout << "\nCopy Constructor and Assignment\n" << std::endl;
+	std::cout << "\n---Copy Constructor and Assignment---\n" << std::endl;
 	Cat copyCat(myCat); 
 	Dog copyDog;
 	

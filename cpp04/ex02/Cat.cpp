@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:25:38 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/21 15:19:44 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 06:14:51 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ Cat&	Cat::operator=(const Cat& other)
 	std::cout << "Cat copy assignment operator called!\n" << std::endl;
 	if (this != &other)
 	{
-		type = other.type;
 		delete brain;
 		brain = new Brain(*other.brain);
+		type = other.type;
 	}
 	return (*this);
 }
@@ -49,7 +49,12 @@ void	Cat::makeSound() const
 	std::cout << "Meowwwww...\n" << std::endl;
 }
 
-Brain*	Cat::getBrain() const
+void Cat::setIdea(const std::string& idea, int index)
 {
-	return (brain);
+    brain->setIdea(idea, index);
+}
+
+std::string Cat::getIdea(int index) const
+{
+    return brain->getIdea(index);
 }
