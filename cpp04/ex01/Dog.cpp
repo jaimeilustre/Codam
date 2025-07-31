@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:54:59 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/21 15:20:20 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 05:03:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ Dog&	Dog::operator=(const Dog& other)
 	std::cout << "Dog copy assignment operator called!\n" << std::endl;
 	if (this != &other)
 	{
-		type = other.type;
 		delete brain;
 		brain = new Brain(*other.brain);
+		type = other.type;
 	}
 	return (*this);
 }
@@ -49,7 +49,17 @@ void	Dog::makeSound() const
 	std::cout << "Woof woof...\n" << std::endl;
 }
 
-Brain*	Dog::getBrain() const
+Animal* Dog::clone() const
 {
-	return (brain);
+    return new Dog(*this);
+}
+
+void Dog::setIdea(const std::string& idea, int index)
+{
+    brain->setIdea(idea, index);
+}
+
+std::string Dog::getIdea(int index) const
+{
+    return brain->getIdea(index);
 }

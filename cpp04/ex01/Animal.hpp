@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:12:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/16 20:59:41 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 04:58:56 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class Animal
 		
 		virtual void	makeSound() const;
 		std::string		getType() const;
+		virtual Animal*	clone() const;
 	protected:
 		std::string	type;
 };
