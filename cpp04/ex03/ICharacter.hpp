@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/22 15:20:22 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/29 21:10:27 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 07:45:07 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ class ICharacter
 		virtual void				unequip(int idx) = 0;
 		virtual void				use(int idx, ICharacter& target) = 0;
 		virtual bool				hasInventorySpace() const = 0;
-		virtual void				printInventory() const = 0;		
+		virtual void				printInventory() const = 0;
+		virtual void 				printFloorInventory() const = 0;
 };
 
 #endif

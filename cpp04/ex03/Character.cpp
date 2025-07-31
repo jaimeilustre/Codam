@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/26 16:49:36 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/29 21:10:37 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 07:56:40 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ Character::~Character()
 	std::cout << "Character destructor called!\n" << std::endl;
 	for (int i = 0; i < 4; ++i)
 		delete _inventory[i];
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 4; ++i)
 		delete _floorInventory[i];
 }
 
@@ -104,6 +104,11 @@ void	Character::equip(AMateria* m)
 
 void	Character::unequip(int idx)
 {
+	if (_floorCount > 4)
+	{
+		std::cout << "Floor inventory full" << std::endl;
+		return ;
+	}
 	if (idx >= 0 && idx < 4 && _inventory[idx])
 	{
 		if (_floorCount < 5)
@@ -127,10 +132,24 @@ bool	Character::hasInventorySpace() const
 void Character::printInventory() const
 {
 	std::cout << "Inventory of \"" << _name << "\":" << std::endl;
-	for (int i = 0; i < 4; ++i) {
+	for (int i = 0; i < 4; ++i)
+	{
 		std::cout << "  Slot " << i << ": ";
 		if (_inventory[i])
 			std::cout << _inventory[i]->getType() << std::endl;
+		else
+			std::cout << "[empty]" << std::endl;
+	}
+}
+
+void Character::printFloorInventory() const
+{
+	std::cout << "Floor inventory of \"" << _name << "\":" << std::endl;
+	for (int i = 0; i < 4; ++i)
+	{
+		std::cout << "  Slot " << i << ": ";
+		if (_floorInventory[i])
+			std::cout << _floorInventory[i]->getType() << std::endl;
 		else
 			std::cout << "[empty]" << std::endl;
 	}

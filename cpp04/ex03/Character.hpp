@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/22 15:49:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/29 21:10:04 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 07:49:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Character: public ICharacter
 		std::string	_name;
 		AMateria*	_inventory[4];
 		int			_inventoryCount;
-		AMateria*	_floorInventory[5];
+		AMateria*	_floorInventory[4];
 		int			_floorCount;
 	public:
 		Character();
@@ -37,6 +37,7 @@ class Character: public ICharacter
 		virtual void				use(int idx, ICharacter& target);
 		virtual bool				hasInventorySpace() const;
 		virtual void				printInventory() const;
+		virtual void 				printFloorInventory() const;
 };
 
 #endif
