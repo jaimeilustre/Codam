@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:10:58 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/31 06:54:42 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/31 08:10:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,19 @@ int main()
 	std::cout << "\n---WrongAnimal Tests---\n" << std::endl;
 	const WrongAnimal* wa = new WrongAnimal();
 	const WrongAnimal* wc = new WrongCat();
+	const WrongCat* wd = new WrongCat();
 	
 	std::cout << wa->getType() << " " << std::endl;
 	std::cout << wc->getType() << " " << std::endl;
+	std::cout << wd->getType() << " " << std::endl;
 	
 	wa->makeSound();
 	wc->makeSound();
+	wd->makeSound();
 
 	delete (wa);
 	delete (wc);
+	delete (wd);
 
 	std::cout << "\n---Direct Cat & Dog Usage---\n" << std::endl;
 	Cat myCat;
