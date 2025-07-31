@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:54:59 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/31 05:03:09 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 06:14:37 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ Dog::~Dog()
 void	Dog::makeSound() const
 {
 	std::cout << "Woof woof...\n" << std::endl;
-}
-
-Animal* Dog::clone() const
-{
-    return new Dog(*this);
 }
 
 void Dog::setIdea(const std::string& idea, int index)

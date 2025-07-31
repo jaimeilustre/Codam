@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:26:46 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/31 05:03:43 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 06:14:25 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ class Cat: public Animal
 		~Cat() override;
 
 		void		makeSound() const override;
-		Animal*		clone() const override;
 		void		setIdea(const std::string& idea, int index);
 		std::string	getIdea(int index) const;
 	private:

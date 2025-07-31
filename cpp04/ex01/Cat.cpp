@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 20:25:38 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/31 05:04:58 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/31 06:14:51 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ Cat::~Cat()
 void	Cat::makeSound() const
 {
 	std::cout << "Meowwwww...\n" << std::endl;
-}
-
-Animal* Cat::clone() const
-{
-    return new Cat(*this);
 }
 
 void Cat::setIdea(const std::string& idea, int index)
