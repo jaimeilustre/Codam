@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/28 10:00:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/31 07:57:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/08/01 06:11:11 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 int main(void)
 {
-	std::cout << "\n--- SETUP ---\n";
+	std::cout << "\n---Setup---\n";
 	IMateriaSource* src = new MateriaSource();
 
 	AMateria* ice = new Ice();
@@ -32,7 +32,7 @@ int main(void)
 
 	AMateria* tmp;
 
-	std::cout << "\n--- EQUIP TEST (2 Materias) ---\n";
+	std::cout << "\n---Equip Test (2 Materias)---\n";
 	tmp = src->createMateria("ice");
 	me->equip(tmp);
 	tmp = src->createMateria("cure");
@@ -41,12 +41,12 @@ int main(void)
 	me->printInventory();
 	me->printFloorInventory();
 
-	std::cout << "\n--- USE TEST (valid use) ---\n";
+	std::cout << "\n---Use Test (valid)---\n";
 	ICharacter* bob = new Character("bob");
 	me->use(0, *bob); // shoot ice bolt
 	me->use(1, *bob); // heal wounds
 
-	std::cout << "\n--- EQUIP TEST (more than 4 slots) ---\n";
+	std::cout << "\n---Equip Test (more than 4 slots)---\n";
 	AMateria *m3 = src->createMateria("ice");
 	AMateria *m4 = src->createMateria("cure");
 	AMateria *m5 = src->createMateria("ice");// 5th: should be deleted to avoid leaks
@@ -59,23 +59,23 @@ int main(void)
 	me->printInventory();
 	me->printFloorInventory();
 	
-	std::cout << "\n--- USE TEST (invalid indexes) ---\n";
+	std::cout << "\n---Use Test (invalid indexes)---\n";
 	me->use(-1, *bob); // nothing should happen
 	me->use(4, *bob);  // nothing should happen
 
-	std::cout << "\n--- UNEQUIP TEST ---\n";
+	std::cout << "\n---Unequip Test---\n";
 	me->unequip(1); // unequip Cure
 	me->use(1, *bob); // nothing should happen
 
 	me->printInventory();
 	me->printFloorInventory();
 
-	std::cout << "\n--- CREATE UNKNOWN MATERIA ---\n";
+	std::cout << "\n---Create Unknown Materia---\n";
 	AMateria* unknown = src->createMateria("fire");
 	if (!unknown)
 		std::cout << "Unknown materia type 'fire'\n";
 
-	std::cout << "\n--- DEEP COPY TEST ---\n";
+	std::cout << "\n---Deep Copy Test---\n";
 	Character* original = new Character("original");
 	original->equip(src->createMateria("ice"));
 	original->equip(src->createMateria("cure"));
@@ -95,7 +95,7 @@ int main(void)
 
 	delete original;
 
-	std::cout << "\n--- CLEANUP ---\n";
+	std::cout << "\n---Cleanup---\n";
 	delete bob;
 	delete me;
 	delete src;
