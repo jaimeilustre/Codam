@@ -6,16 +6,19 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 16:34:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/13 11:40:10 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/15 07:30:23 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScavTrap.hpp"
 
-ScavTrap::ScavTrap()
+ScavTrap::ScavTrap(): ClapTrap("Default")
 {
 	std::cout << "ScavTrap " << _name << " default constructor called!" << std::endl;
 	std::cout << std::endl;
+	_hitPoints = 100;
+	_energyPoints = 50;
+	_attackDamage = 20;
 }
 
 ScavTrap::ScavTrap(const std::string& name): ClapTrap(name)
@@ -73,6 +76,12 @@ void	ScavTrap::attack(const std::string& target)
 
 void	ScavTrap::guardGate()
 {
+	if (_hitPoints == 0)
+	{
+		std::cout << "No health left for gate keeper mode" << std::endl;
+		std::cout << std::endl;
+		return ;
+	}
 	std::cout << "ScavTrap is now in Gate keeper mode. YOU SHALL NOT PASS!!!" << std::endl;
 	std::cout << std::endl;
 }

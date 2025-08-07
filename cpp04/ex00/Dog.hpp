@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:32:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/17 07:30:55 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/08/01 07:05:15 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Dog: public Animal
 		Dog();
 		Dog(const Dog& other);
 		Dog&	operator=(const Dog& other);
-		~Dog() override;
+		virtual ~Dog();
 
 		void		makeSound() const override;
 };

@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/27 18:36:52 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/05/30 08:23:11 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/30 10:55:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void Account::displayAccountsInfos()
 
 void Account::_displayTimestamp()
 {
-	
 	time_t		timestamp;
 	struct tm	datetime;
 	char		output[50];

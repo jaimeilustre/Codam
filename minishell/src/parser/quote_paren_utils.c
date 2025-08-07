@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/24 15:18:19 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/25 10:31:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/28 10:15:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,18 @@ bool	check_opening_parenthesis(t_token *tokens)
 		current = current->next;
 	}
 	return (true);
+}
+
+/*Checks for valid tokens after closing parenthesis*/
+bool	is_valid_token_after_subshell(t_token *token)
+{
+	if (!token)
+		return (false);
+	if (token->type == TOKEN_PIPE || token->type == TOKEN_AND
+		|| token->type == TOKEN_OR || token->type == TOKEN_RPAR
+		|| token->type == TOKEN_REDIRECT_IN || token->type == TOKEN_REDIRECT_OUT
+		|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC
+		|| token->type == TOKEN_EOF)
+		return (true);
+	return (false);
 }

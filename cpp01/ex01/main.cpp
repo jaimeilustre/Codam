@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:21:20 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/02 17:21:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/17 09:42:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <string>
 
 #include "Zombie.hpp"
-
-Zombie* zombieHorde(int N, std::string name);
 
 int main(void)
 {

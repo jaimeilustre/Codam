@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/14 15:38:32 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 17:45:14 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 11:34:56 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include "exec.h"
 #include "minishell.h"
+#include "ms_error.h"
 
 bool	store_std_fd(int new_fd[RE_MAX_FD])
 {
@@ -56,7 +57,7 @@ bool	apply_std_redirection(int pipe_fd[2])
 	while (i < 2)
 	{
 		if (pipe_fd[i] != std[i] && !redirect_fd(&(pipe_fd[i]), std[i]))
-			return (false);
+			return (ms_error(PERROR, NULL, NULL), false);
 		++i;
 	}
 	return (true);

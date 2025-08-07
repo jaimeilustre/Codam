@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:19:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/30 08:22:50 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/30 10:35:07 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void PhoneBook::searchContact()
 {
 	std::string input;
 	int			inputInt;
+	bool		valid;
 	
 	if (countContacts == 0)
 	{
@@ -68,12 +69,35 @@ void PhoneBook::searchContact()
 	for (int i = 0; i < countContacts; i++)
 		contacts[i].displaySavedContacts(i);
 	std::cout << "Please enter index of contact you want to see" << std::endl;
-	std::getline(std::cin, input);
-	inputInt = std::stoi(input);
-	if (inputInt < 0 || inputInt >= countContacts)
-		std::cout << "Invalid index number" << std::endl;
-	else
-		contacts[inputInt].displaySpecificContact();	
+	while (true)
+	{
+		if (!std::getline(std::cin, input))
+			return ;
+		valid = true;
+		for (size_t i = 0; i < input.length(); i++)
+		{
+			if (!std::isdigit(input[i]))
+			{
+				valid = false;
+				break ;
+			}
+		}
+		if (!valid || input.empty())
+		{
+			std::cout << "Invalid input. Please enter a number between 0 and " 
+				<< (countContacts - 1) << std::endl;
+			continue ;
+		}
+		inputInt = std::stoi(input);
+		if (inputInt < 0 || inputInt >= countContacts)
+			std::cout << "Invalid index number. Please enter a number between 0 and " 
+				<< (countContacts - 1) << std::endl;
+		else
+		{
+			contacts[inputInt].displaySpecificContact();
+			break ;
+		}
+	}	
 }
 
 int main(void)

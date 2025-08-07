@@ -6,12 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/20 06:58:03 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/20 08:30:16 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/05/30 10:43:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
 #include <cctype>
+#include <iostream>
 
 int	main(int argc, char **argv)
 {

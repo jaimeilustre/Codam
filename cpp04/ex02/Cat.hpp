@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/16 16:26:46 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/31 06:14:25 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/01 07:05:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class Cat: public Animal
 		Cat();
 		Cat(const Cat& other);
 		Cat&	operator=(const Cat& other);
-		~Cat() override;
+		virtual ~Cat();
 
 		void		makeSound() const override;
 		void		setIdea(const std::string& idea, int index);

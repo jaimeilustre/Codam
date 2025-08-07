@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/09 17:24:54 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/25 11:56:57 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/25 08:24:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	heredoc_exp(t_strb *sb, t_cstr line, int quoted, t_alist *env_lst)
 			&& append_strb(sb, "\n", 1));
 	while (*ptr)
 	{
-		ptr = ft_strchrnul(line, '$');
+		ptr = ft_strchrnul(ptr, '$');
 		if (!append_strb(sb, line, ptr - line)
 			|| (*ptr == '$' && !expand_variable(sb, &ptr, env_lst)))
 			return (0);

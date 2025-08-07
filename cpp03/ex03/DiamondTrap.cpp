@@ -6,16 +6,20 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/30 11:23:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/14 12:40:34 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/15 07:11:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DiamondTrap.hpp"
 
 DiamondTrap::DiamondTrap()
+	: ClapTrap("Default_clap_name"), ScavTrap(), FragTrap(), _name("Default")
 {
 	std::cout << "DiamondTrap: " << _name << " default constructor called!" << std::endl;
 	std::cout << std::endl;
+	_hitPoints = 100; // FragTrap
+	_energyPoints = 50; // ScavTrap
+	_attackDamage = 30; // FragTrap
 }
 
 DiamondTrap::DiamondTrap(std::string name)

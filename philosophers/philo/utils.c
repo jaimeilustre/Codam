@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/08 16:13:36 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/18 07:57:51 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/06 17:08:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ void	print_message(t_philo *philo, char *msg)
 		return ;
 	}
 	pthread_mutex_unlock(&philo->data->death_mutex);
-	pthread_mutex_lock(&philo->data->print_mutex);
+	// pthread_mutex_lock(&philo->data->print_mutex);
 	timestamp = get_current_time() - philo->data->start_time;
 	printf("%lu %d %s\n", timestamp, philo->id, msg);
-	pthread_mutex_unlock(&philo->data->print_mutex);
+	// pthread_mutex_unlock(&philo->data->print_mutex);
 }

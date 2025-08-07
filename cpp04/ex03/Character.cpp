@@ -6,11 +6,20 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/07/26 16:49:36 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/07/31 07:56:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/08/01 07:09:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Character.hpp"
+
+Character::Character(): _name("Default"), _floorCount(0), _inventoryCount(0)
+{
+	std::cout << "Character default constructor called!\n" << std::endl;
+	for (int i = 0; i < 4; i++)
+		_inventory[i] = NULL;
+	for (int i = 0; i < 5; i++)
+		_floorInventory[i] = NULL;
+}
 
 Character::Character(std::string const& name): _name(name), _floorCount(0), _inventoryCount(0)
 {

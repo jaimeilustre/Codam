@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 12:59:49 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 10:30:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/04 16:38:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ class Point
 {
 	public:
 		Point();
-		Point(const Fixed& x, const Fixed& y);
+		Point(const float x, const float y);
 		Point(const Point& other);
 		Point&	operator=(const Point& other);
 		~Point();

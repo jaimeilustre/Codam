@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/24 19:34:06 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 17:22:41 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 12:11:32 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,26 @@ static int	force_sigint_return(void)
 	return (0);
 }
 
-static int	get_stdin_fd(t_str file)
+static t_exit_code	get_stdin_fd(t_str file, int *fd)
 {
 	struct stat	statbuf;
 
+	*fd = -1;
 	if (file != NULL)
-		return (open(file, O_RDONLY));
+	{
+		if (stat(file, &statbuf) == -1)
+			return (ms_error(PERROR, file, NULL), E_CMD_NOT_FOUND);
+		else if ((statbuf.st_mode & S_IFDIR) == S_IFDIR)
+			return (ms_error(IS_DIR, file, NULL), E_CMD_NO_PERM);
+		else if ((statbuf.st_mode & S_IRUSR) != S_IRUSR)
+			return (ms_error(NO_PERM, file, NULL), E_CMD_NO_PERM);
+		*fd = open(file, O_RDONLY);
+	}
 	else if (fstat(STDIN, &statbuf) == 0)
-		return (dup(STDIN));
-	return (-1);
+		*fd = dup(STDIN);
+	if (*fd == -1)
+		return (ms_error(PERROR, file, NULL), E_GEN_ERR);
+	return (E_SUCCESS);
 }
 
 static t_exit_code	run_non_interative_mode(t_str file, t_alist *env_lst)
@@ -49,12 +60,12 @@ static t_exit_code	run_non_interative_mode(t_str file, t_alist *env_lst)
 	t_str		cmd;
 	t_exit_code	exit_code;
 
-	fd = get_stdin_fd(file);
+	exit_code = get_stdin_fd(file, &fd);
 	if (fd == -1)
-		return (ms_error(PERROR, file, NULL), E_CMD_NOT_FOUND);
-	exit_code = E_SUCCESS;
+		return (exit_code);
 	line = get_next_line(fd);
-	while (line != NULL && dup2(fd, STDIN) != -1)
+	while (line != NULL && dup2(fd, STDIN) != -1
+		&& g_signo != SIGINT && g_signo != SIGQUIT && ign_signal_handler())
 	{
 		cmd = ft_strtrim(line, "\n");
 		if (!is_empty_cmd(cmd))
@@ -67,7 +78,8 @@ static t_exit_code	run_non_interative_mode(t_str file, t_alist *env_lst)
 		line = get_next_line(fd);
 	}
 	close(fd);
-	return (exit_code);
+	get_next_line(-1);
+	return (free(line), exit_code);
 }
 
 static t_exit_code	run_interactive_mode(t_alist *env_lst)
@@ -112,6 +124,7 @@ int	main(int argc, t_str argv[], t_str *env)
 		exit_code = run_interactive_mode(&env_lst);
 	rl_clear_history();
 	free_list(&env_lst);
-	ft_putendl_fd("exit", STDOUT);
+	if (argc == 1)
+		ft_putendl_fd("exit", STDOUT);
 	return (exit_code);
 }

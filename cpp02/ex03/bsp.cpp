@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/25 07:33:39 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 08:45:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/04 16:48:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ bool	bsp(Point const a, Point const b, Point const c, Point const point)
     Fixed d20 = dot(v2, v0);
     Fixed d21 = dot(v2, v1);
 
-    Fixed denom = d00 * d11 - d01 * d01;
-    Fixed v = (d11 * d20 - d01 * d21) / denom;
-    Fixed w = (d00 * d21 - d01 * d20) / denom;
+    Fixed denominator = d00 * d11 - d01 * d01;
+    Fixed v = (d11 * d20 - d01 * d21) / denominator;
+    Fixed w = (d00 * d21 - d01 * d20) / denominator;
     Fixed u = Fixed(1) - v - w;
 
     return (u >= 0 && v >= 0 && w >= 0);

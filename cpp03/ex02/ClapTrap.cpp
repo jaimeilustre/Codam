@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 13:34:52 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/13 11:09:52 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/15 07:33:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ClapTrap.hpp"
 
-ClapTrap::ClapTrap()
+ClapTrap::ClapTrap(): _name("Default"), _hitPoints(10), _energyPoints(10), _attackDamage(0)
 {
 	std::cout << "ClapTrap " << _name << " default constructor called!" << std::endl;
 	std::cout << std::endl;
@@ -108,7 +108,7 @@ void	ClapTrap::beRepaired(unsigned int amount)
 		return ;
 	}
 	std::cout << "Energy Points: " << _energyPoints << std::endl;
-	std::cout << "Healing..." << std::endl;
+	std::cout << _name << " healing..." << std::endl;
 	_hitPoints += amount;
 	_energyPoints--;
 	std::cout << "New health: " << _hitPoints << " hit points" << std::endl;

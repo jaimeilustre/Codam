@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:50:57 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 18:39:51 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 11:39:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void		close_redir(int fd[2]);
 void		safe_close_fd(int *fd);
 bool		redirect_fd(int *fd, int dupfd);
 bool		apply_std_redirection(int pipe_fd[2]);
-bool		apply_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls);
+bool		file_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls);
 bool		store_std_fd(int new_fd[RE_MAX_FD]);
 bool		dup_fd_into(int old_fd[2], int new_fd[2]);
 

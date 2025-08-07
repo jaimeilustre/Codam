@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/10 16:49:19 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/25 10:31:47 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/28 12:17:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int			check_quotes(const char *input);
 void		read_quotes(t_source *src, long start);
 char		*remove_quotes(t_token *token);
 bool		check_opening_parenthesis(t_token *tokens);
+bool		is_valid_token_after_subshell(t_token *token);
 
 t_token		*return_word_token(t_source *src);
 t_token		*return_single_operator_token(char c);
@@ -140,4 +141,5 @@ t_ast		*build_ast_tree(t_token *tokens, t_alist *env_lst);
 
 void		syntax_error(t_syntax_error code, const char *token);
 
+t_ast		*subshell_redir(t_ast *node, t_token **tokens, t_alist *env_lst);
 #endif

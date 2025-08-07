@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/02 17:21:33 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/04 14:47:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/06/17 09:42:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,7 @@ class Zombie
 	private:
 		std::string name;
 };
+
+Zombie* zombieHorde(int N, std::string name);
 
 #endif

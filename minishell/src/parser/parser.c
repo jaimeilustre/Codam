@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/04/15 14:06:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/25 08:34:48 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/28 12:07:46 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ t_ast	*parse_redirections(t_token **tokens, t_alist *env_lst)
 			if (!cmd)
 				return (NULL);
 		}
+		else if ((*tokens)->type == TOKEN_LPAR)
+			return (syntax_error(SYN_SUBSHELL_AFTER_CMD, NULL)
+				, free_ast(cmd), NULL);
 		else
 			break ;
 	}

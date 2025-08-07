@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/01/27 17:19:15 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 17:59:31 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 11:39:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ static t_exit_code	exec_subshell(t_ast *node, t_exec *exec)
 		return (E_GEN_ERR);
 	else if (cpid == 0)
 	{
-		if (dup_fd_into(exec->redir_fd, exec->dup_std_fd))
+		if (file_redirection(node->redirect, exec->redir_fd, exec->env_lst)
+			&& dup_fd_into(exec->redir_fd, exec->dup_std_fd))
 			exit_code = exec_node(node->left, exec);
 		else
 		{

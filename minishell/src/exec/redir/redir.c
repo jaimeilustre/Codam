@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/04 11:46:10 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 18:01:19 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 11:39:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,10 @@ static int	file_expansion(t_cstr file, t_alist *env_lst, t_str *outfile)
 	return (*outfile != NULL);
 }
 
-bool	apply_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls)
+bool	file_redirection(t_redirect *redir, int dir_fd[2], t_alist *ev_ls)
 {
 	t_str	file;
 
-	if (!apply_std_redirection(dir_fd))
-		return (ms_error(PERROR, NULL, NULL), false);
 	while (redir)
 	{
 		if (redir->type != NODE_HEREDOC)

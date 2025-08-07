@@ -6,7 +6,7 @@
 /*   By: jboon <jboon@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/03/14 17:23:02 by jboon         #+#    #+#                 */
-/*   Updated: 2025/04/23 17:59:50 by jboon         ########   odam.nl         */
+/*   Updated: 2025/04/28 11:39:42 by jboon         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,9 @@ t_exit_code	exec_cmd(t_ast *node, t_exec *exec)
 	t_alist		ls;
 
 	ft_bzero(&ls, sizeof(t_alist));
-	if (!expand_argv(node->args, exec->env_lst, &ls)
-		|| !apply_redirection(node->redirect, exec->redir_fd, exec->env_lst))
+	if (!apply_std_redirection(exec->redir_fd)
+		|| !file_redirection(node->redirect, exec->redir_fd, exec->env_lst)
+		|| !expand_argv(node->args, exec->env_lst, &ls))
 	{
 		free_list(&ls);
 		return (E_GEN_ERR);

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/20 14:41:24 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 08:41:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/04 16:23:43 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int main(void)
 {
-	Fixed a;
+	Fixed		a;
 	Fixed const b(Fixed(5.05f) * Fixed(2));
 	
 	std::cout << a << std::endl;

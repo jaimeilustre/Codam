@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/26 15:18:23 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/13 15:02:14 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/15 07:27:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int main(void)
 	ft.attack("Target C");
 	ft.takeDamage(50);
 	ft.beRepaired(30);
-	ft.takeDamage(80);
+	ft.takeDamage(70);
 	ft.beRepaired(50);
 	ft.attack("Target D");
 	ft.highFivesGuys();

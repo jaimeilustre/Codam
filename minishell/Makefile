@@ -25,7 +25,8 @@ SRCS		:= ast_utils.c builtin.c cd.c exec_node.c echo.c env.c environment.c exec_
 				ms_signals.c token.c tokenizer.c tokenizer_utils.c unset.c utils.c \
 				validate.c env_init.c list_init.c exit.c stringbuilder.c \
 				var_expansion.c quote_paren_utils.c heredocs.c std_redir.c expansion.c wildcard.c \
-				expansion_utils.c ast_builder.c sig_heredoc.c sig_prompt.c syntax_errors.c
+				expansion_utils.c ast_builder.c sig_heredoc.c sig_prompt.c syntax_errors.c \
+				subshell_utils.c
 OBJS 		:= $(SRCS:%.c=$(BIN)%.o)
 DB_OBJS 	:= $(SRCS:%.c=$(DB_DIR)%.o)
 

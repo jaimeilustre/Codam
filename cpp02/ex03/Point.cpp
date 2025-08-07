@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/24 14:54:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/06/26 10:32:03 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/07/04 16:42:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ Point::Point(): _x(0), _y(0)
 }
 
 /*Parameterized constructor for point class*/
-Point::Point(const Fixed& x, const Fixed& y):_x(x), _y(y)
+Point::Point(const float x, const float y):_x(x), _y(y)
 {
 	// std::cout << "Parameterized constructor called" << std::endl;
 }
@@ -66,7 +66,7 @@ Fixed	Point::getY() const
 /*Vector subtraction between two points*/
 Point	operator-(const Point& a, const Point& b)
 {
-	return (Point(a.getX() - b.getX(), a.getY() - b.getY()));
+	return (Point(a.getX().toFloat() - b.getX().toFloat(), a.getY().toFloat() - b.getY().toFloat()));
 }
 
 /*Dot product calculation of two 2D vectors*/

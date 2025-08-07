@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/02/14 10:03:57 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/04/25 08:23:06 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/04/28 12:17:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,23 +115,22 @@ t_ast	*create_ast_subshell(t_token **tokens, t_alist *env_lst)
 	*tokens = (*tokens)->next;
 	if (!*tokens)
 		return (NULL);
-	if (((*tokens)->type != TOKEN_WRD && (*tokens)->type != TOKEN_LPAR))
-		return (syntax_error(SYN_UNEXPEC_TOKEN, (*tokens)->value), NULL);
 	if ((*tokens)->type == TOKEN_RPAR)
 		return (syntax_error(SYN_EMPTY_SUBSHELL, NULL), NULL);
+	if (!is_valid_token(*tokens))
+		return (syntax_error(SYN_UNEXPEC_TOKEN, (*tokens)->value), NULL);
 	subshell = parse_logical(tokens, env_lst);
 	if (!subshell)
 		return (NULL);
 	if ((*tokens)->type != TOKEN_RPAR)
 		return (syntax_error(SYN_CLOSE_PAR, NULL), free_ast(subshell), NULL);
-	*tokens = (*tokens)->next;
-	if (*tokens && (*tokens)->type != TOKEN_PIPE && (*tokens)->type != TOKEN_AND
-		&& (*tokens)->type != TOKEN_OR && (*tokens)->type != TOKEN_RPAR
-		&& (*tokens)->type != TOKEN_EOF)
-		return (syntax_error(SYN_AFT_SUBSHELL, NULL), free_ast(subshell), NULL);
 	node = allocate_ast_node(NODE_SUBSHELL);
 	if (!node)
 		return (free_ast(subshell), NULL);
 	node->left = subshell;
+	*tokens = (*tokens)->next;
+	node = subshell_redir(node, tokens, env_lst);
+	if (!is_valid_token_after_subshell(*tokens))
+		return (syntax_error(SYN_AFT_SUBSHELL, NULL), free_ast(subshell), NULL);
 	return (node);
 }

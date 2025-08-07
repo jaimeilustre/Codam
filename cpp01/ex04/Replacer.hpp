@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Replacer.hpp                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/16 10:17:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/16 10:27:43 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/16 11:13:55 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/16 11:16:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

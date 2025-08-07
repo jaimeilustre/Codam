@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/06 08:08:10 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/18 07:48:09 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/05/18 13:29:28 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	philo(int argc, char **argv)
 	return (0);
 }
 
+/*Main*/
 int	main(int argc, char **argv)
 {
 	if (argc >= 5 && argc <= 6)

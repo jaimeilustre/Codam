@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   Replacer.cpp                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/06/16 10:21:14 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/06/16 10:31:18 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/06/16 11:14:01 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/06/17 08:45:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ std::string Replacer::replaceString(const std::string& input) const
 	{
 		updatedInput += input.substr(position, first_occurence - position); //append up to the first occurence of s1
 		updatedInput += s2; // append s2 that replaces s1
-		position = s1.length() + first_occurence; // update position to be after the appended s2
+		position = s1.length() + first_occurence; // update position to be after the just replaced s1
 		first_occurence = input.find(s1, position); // move to next position
 	}
 	updatedInput += input.substr(position);

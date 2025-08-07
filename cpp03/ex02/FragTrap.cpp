@@ -6,16 +6,19 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/06/27 12:06:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/07/13 15:01:39 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/07/15 07:27:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "FragTrap.hpp"
 
-FragTrap::FragTrap()
+FragTrap::FragTrap(): ClapTrap("Default")
 {
 	std::cout << "FragTrap " << _name << " default constructor called!" << std::endl;
 	std::cout << std::endl;
+	_hitPoints = 100;
+	_energyPoints = 100;
+	_attackDamage = 30;
 }
 
 FragTrap::FragTrap(const std::string& name): ClapTrap(name)
@@ -73,6 +76,12 @@ void	FragTrap::attack(const std::string& target)
 
 void	FragTrap::highFivesGuys()
 {
+	if (_hitPoints == 0)
+	{
+		std::cout << "No health left for giving high fives" << std::endl;
+		std::cout << std::endl;
+		return ;
+	}
 	std::cout << "FragTrap " << _name << " says high-five!" << std::endl;
 	std::cout << std::endl;
 }
