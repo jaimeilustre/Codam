@@ -3,13 +3,14 @@
 /*                                                        ::::::::            */
 /*   file_handling.c                                    :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/16 15:14:43 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/16 16:02:11 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/01/16 15:14:43 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/01/17 08:05:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <fcntl.h>
 #include "pipex.h"
 
 int	open_input_file(char *filename)

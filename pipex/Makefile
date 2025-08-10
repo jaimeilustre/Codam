@@ -5,10 +5,9 @@ CFLAGS			= -Wall -Wextra -Werror
 SRCS			=	pipex.c \
 					command_execution.c \
 					command_parsing.c \
-					error_handling.c \
 					file_handling.c \
-					free_memory.c \
 					process_management.c \
+					utils.c
 					
 OBJS			= $(SRCS:.c=.o)
 

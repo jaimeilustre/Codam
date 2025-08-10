@@ -3,13 +3,15 @@
 /*                                                        ::::::::            */
 /*   process_management.c                               :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/16 15:22:26 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/16 15:22:57 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/01/16 15:22:26 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/01/17 08:05:47 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "pipex.h"
 
 void	create_pipe(int pipe_fd[])
@@ -24,7 +26,7 @@ void	create_pipe(int pipe_fd[])
 pid_t	fork_first_child(int input_fd, int *pipe_fd, char *cmd, char **envp)
 {
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pid < 0)
 	{
@@ -32,14 +34,14 @@ pid_t	fork_first_child(int input_fd, int *pipe_fd, char *cmd, char **envp)
 		exit(1);
 	}
 	else if (pid == 0)
-		handle_first_child(input_fd, pipe_fd, cmd, envp);
+		first_child(input_fd, pipe_fd, cmd, envp);
 	return (pid);
 }
 
 pid_t	fork_second_child(int output_fd, int *pipe_fd, char *cmd, char **envp)
 {
 	pid_t	pid;
-	
+
 	pid = fork();
 	if (pid < 0)
 	{
@@ -47,7 +49,7 @@ pid_t	fork_second_child(int output_fd, int *pipe_fd, char *cmd, char **envp)
 		exit(1);
 	}
 	else if (pid == 0)
-		handle_second_child(output_fd, pipe_fd, cmd, envp);
+		second_child(output_fd, pipe_fd, cmd, envp);
 	return (pid);
 }
 

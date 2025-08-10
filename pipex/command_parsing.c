@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   command_parsing.c                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/01/16 15:16:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/01/17 03:50:59 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/01/16 15:16:16 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/01/17 08:05:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 

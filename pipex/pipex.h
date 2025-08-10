@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   pipex.h                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: jaimeilustre <jaimeilustre@student.42.f      +#+                     */
+/*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/11/27 15:23:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/01/16 15:11:12 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/01/17 08:04:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
-# include <fcntl.h>
-# include <errno.h>
+# include <sys/types.h>
 # include "libft/libft.h"
 
 void	free_array(char **arr);
@@ -31,8 +29,8 @@ char	*try_paths(char *cmd, char **paths);
 void	parse_command(char *cmd, char **envp, char ***args, char **cmd_path);
 void	execute_command(char *cmd, char **envp);
 void	create_pipe(int pipe_fd[]);
-void	handle_first_child(int input_fd, int pipe_fd[], char *cmd, char **envp);
-void	handle_second_child(int output_fd, int pipe_fd[], char *cmd, char **envp);
+void	first_child(int input_fd, int pipe_fd[], char *cmd, char **envp);
+void	second_child(int output_fd, int pipe_fd[], char *cmd, char **envp);
 void	open_files(char **argv, int *input_fd, int *output_fd);
 pid_t	fork_first_child(int input_fd, int *pipe_fd, char *cmd, char **envp);
 pid_t	fork_second_child(int output_fd, int *pipe_fd, char *cmd, char **envp);

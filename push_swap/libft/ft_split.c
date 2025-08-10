@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jilustre <jilustre@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/14 11:30:53 by jilustre          #+#    #+#             */
-/*   Updated: 2024/10/17 16:26:28 by jilustre         ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_split.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: jilustre <jilustre@student.42.fr>            +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2024/10/14 11:30:53 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/02/04 11:29:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ static char	*allocate_word(const char *start, const char *end)
 	len = end - start;
 	word = (char *)malloc(len + 1);
 	if (!word)
+	{
+		free(word);
 		return (NULL);
+	}
 	i = 0;
 	while (start < end)
 		word[i++] = *start++;
