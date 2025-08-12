@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:58:27 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/12 12:17:43 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/12 14:14:20 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ class Bureaucrat
 		class GradeTooHighException: public std::exception
 		{
 			public:
-				const char* what() const noexcept override;
+				const char* what() const throw();
 		};
 
 		class GradeTooLowException: public std::exception
 		{
 			public:
-				const char* what() const noexcept override;
+				const char* what() const throw();
 		};
 		
 		std::string const& getName() const;
-		int			const& getGrade() const;
+		int			getGrade() const;
 		void		incrementGrade();
 		void		decrementGrade();
 	private:

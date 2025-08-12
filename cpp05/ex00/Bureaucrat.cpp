@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/12 12:25:42 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/12 14:13:01 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,27 @@ std::string const& Bureaucrat::getName() const
 	return (_name);
 }
 
-int	const& Bureaucrat::getGrade() const
+int	Bureaucrat::getGrade() const
 {
 	return (_grade);
 }
 
+void	Bureaucrat::incrementGrade()
+{
+	if (_grade - 1 < MAX_GRADE)
+		throw GradeTooHighException();
+	_grade--;
+}
+
+void	Bureaucrat::decrementGrade()
+{
+	if (_grade + 1 > MIN_GRADE)
+		throw GradeTooLowException();
+	_grade++;
+}
+
 std::ostream&	operator<<(std::ostream& os, const Bureaucrat& bureaucrat)
 {
-	os << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade();
+	os << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade() << ".";
 	return (os);
 }
