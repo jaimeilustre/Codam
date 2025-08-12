@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/12 14:13:01 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/12 14:36:04 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ Bureaucrat::~Bureaucrat()
 	std::cout << "Bureaucrat destructor called!" << std::endl;
 }
 
-const char* Bureaucrat::GradeTooHighException::what() const noexcept
+const char* Bureaucrat::GradeTooHighException::what() const throw()
 {
 	return ("Grade above max grade!");
 }
 
-const char* Bureaucrat::GradeTooLowException::what() const noexcept
+const char* Bureaucrat::GradeTooLowException::what() const throw()
 {
 	return ("Grade below min grade!");
 }
