@@ -6,11 +6,12 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/12 15:16:33 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:21:32 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
+#include "Form.hpp"
 
 int main(void)
 {

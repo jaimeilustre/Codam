@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:16:50 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:25:45 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define MAX_GRADE 1
 # define MIN_GRADE 150
 
-# include "Bureaucrat.hpp"
+class Bureaucrat;
 
 class Form
 {

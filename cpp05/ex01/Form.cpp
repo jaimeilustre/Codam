@@ -6,10 +6,11 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:20:02 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:27:24 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Bureaucrat.hpp"
 #include "Form.hpp"
 
 Form::Form(const std::string& name, int gradeToSign, int gradeToExecute): 
