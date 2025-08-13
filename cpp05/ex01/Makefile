@@ -5,7 +5,7 @@ CFLAGS			= -Wall -Wextra -Werror
 SRCS			=	main.cpp Bureaucrat.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
-NAME			= bureaucrat
+NAME			= form
 all:	$(NAME)
 
 $(NAME): $(OBJS)

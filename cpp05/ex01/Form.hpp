@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 11:14:13 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 14:52:38 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 # define MAX_GRADE 1
 # define MIN_GRADE 150
+
+# include "Bureaucrat.hpp"
 
 class Form
 {
@@ -41,14 +43,17 @@ class Form
 		};
 		
 		std::string const&	getName() const;
-		bool				getSignedBool();
-		int					getGradeToSign();
-		int					getGradeToExecute();
+		bool				getSignedBool() const;
+		int					getGradeToSign() const;
+		int					getGradeToExecute() const;
+		void				beSigned(const Bureaucrat& bureaucrat);
 	private:
 		std::string const	_name;
 		bool				_signedForm;
 		int					_gradeToSign;
 		int					_gradeToExecute;
 };
+
+std::ostream&	operator<<(std::ostream& os, const Form& form);
 
 #endif

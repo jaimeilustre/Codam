@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 11:21:43 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 14:55:28 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ Form::Form(const std::string& name, int gradeToSign, int gradeToExecute):
 }
 
 Form::Form(const Form& other):
-	_name(other._name), _signedForm(other._signedForm), _gradeToSign(other._gradeToSign), _gradeToExecute(other._gradeToExecute)
+	_name(other._name), _signedForm(other._signedForm),
+	_gradeToSign(other._gradeToSign), _gradeToExecute(other._gradeToExecute)
 {
 	std::cout << "Form copy constructor called!" << std::endl;
 }
@@ -38,4 +39,56 @@ Form&	Form::operator=(const Form& other)
 		_gradeToExecute = other._gradeToExecute;
 	}
 	return (*this);
+}
+
+Form::~Form()
+{
+	std::cout << "Form destructor called!" << std::endl;
+}
+
+const char*	Form::GradeTooHighException::what() const throw()
+{
+	return ("Grade above max grade!");
+}
+
+const char*	Form::GradeTooLowException::what() const throw()
+{
+	return ("Grade below min grade!");
+}
+
+std::string const&	Form::getName() const
+{
+	return (_name);
+}
+
+bool	Form::getSignedBool() const
+{
+	return (_signedForm);
+}
+
+int	Form::getGradeToSign() const
+{
+	return (_gradeToSign);
+}
+
+int Form::getGradeToExecute() const
+{
+	return (_gradeToExecute);
+}
+
+void	Form::beSigned(const Bureaucrat& bureaucrat)
+{
+	if (bureaucrat.getGrade() >= _gradeToSign)
+		_signedForm = true;
+	else
+		throw GradeTooLowException();
+}
+
+std::ostream&	operator<<(std::ostream& os, const Form& form)
+{
+	os << "Form: " << form.getName() 
+		<< ", Grade to sign: " << form.getGradeToSign() 
+		<< ", Grade to execute: " << form.getGradeToExecute()
+		<< "Signed? " << (form.getSignedBool() ? "Yes" : "No");
+	return (os);
 }
