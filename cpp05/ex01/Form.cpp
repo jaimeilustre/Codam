@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 14:55:28 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:20:02 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,7 @@ Form&	Form::operator=(const Form& other)
 {
 	std::cout << "Form copy assignment operator called!" << std::endl;
 	if (this != &other)
-	{
-		_signedForm = other._signedForm; 
-		_gradeToSign = other._gradeToSign;
-		_gradeToExecute = other._gradeToExecute;
-	}
+		_signedForm = other._signedForm;
 	return (*this);
 }
 
@@ -78,7 +74,7 @@ int Form::getGradeToExecute() const
 
 void	Form::beSigned(const Bureaucrat& bureaucrat)
 {
-	if (bureaucrat.getGrade() >= _gradeToSign)
+	if (bureaucrat.getGrade() <= _gradeToSign)
 		_signedForm = true;
 	else
 		throw GradeTooLowException();
@@ -89,6 +85,6 @@ std::ostream&	operator<<(std::ostream& os, const Form& form)
 	os << "Form: " << form.getName() 
 		<< ", Grade to sign: " << form.getGradeToSign() 
 		<< ", Grade to execute: " << form.getGradeToExecute()
-		<< "Signed? " << (form.getSignedBool() ? "Yes" : "No");
+		<< ", Signed? " << (form.getSignedBool() ? "Yes" : "No");
 	return (os);
 }

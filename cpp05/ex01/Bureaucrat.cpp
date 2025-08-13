@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:05:18 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:13:26 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	Bureaucrat::signForm(Form& form)
 	{
 		std::cerr << _name << " couldn't sign " << form.getName() << " because " << e.what() << std::endl;
 	}
-	
 }
 
 std::ostream&	operator<<(std::ostream& os, const Bureaucrat& bureaucrat)

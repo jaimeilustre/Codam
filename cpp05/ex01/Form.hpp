@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 14:52:38 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/13 15:16:50 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ class Form
 		bool				getSignedBool() const;
 		int					getGradeToSign() const;
 		int					getGradeToExecute() const;
+		
 		void				beSigned(const Bureaucrat& bureaucrat);
 	private:
 		std::string const	_name;
 		bool				_signedForm;
-		int					_gradeToSign;
-		int					_gradeToExecute;
+		int const			_gradeToSign;
+		int const			_gradeToExecute;
 };
 
 std::ostream&	operator<<(std::ostream& os, const Form& form);
