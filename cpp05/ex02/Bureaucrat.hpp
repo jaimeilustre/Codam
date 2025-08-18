@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:58:27 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:26:48 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/18 11:25:36 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define MAX_GRADE 1
 # define MIN_GRADE 150
 
-class Form;
+class AForm;
 
 class Bureaucrat
 {
@@ -46,7 +46,7 @@ class Bureaucrat
 		int			getGrade() const;
 		void		incrementGrade();
 		void		decrementGrade();
-		void		signForm(Form& form);
+		void		signForm(AForm& form);
 	private:
 		std::string const	_name;
 		int					_grade;

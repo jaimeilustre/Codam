@@ -6,12 +6,12 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:27:12 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/18 11:26:19 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 Bureaucrat::Bureaucrat(const std::string& name, int grade): _name(name), _grade(grade)
 {
@@ -74,7 +74,7 @@ void	Bureaucrat::decrementGrade()
 	_grade++;
 }
 
-void	Bureaucrat::signForm(Form& form)
+void	Bureaucrat::signForm(AForm& form)
 {
 	try
 	{

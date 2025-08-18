@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Form.cpp                                           :+:    :+:            */
+/*   AForm.cpp                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:27:24 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/18 11:32:25 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
-Form::Form(const std::string& name, int gradeToSign, int gradeToExecute): 
+AForm::AForm(const std::string& name, int gradeToSign, int gradeToExecute): 
 	_name(name), _signedForm(false), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute)
 {
 	std::cout << "Form constructor called!" << std::endl;
@@ -23,14 +23,14 @@ Form::Form(const std::string& name, int gradeToSign, int gradeToExecute):
 		throw GradeTooLowException();
 }
 
-Form::Form(const Form& other):
+AForm::AForm(const AForm& other):
 	_name(other._name), _signedForm(other._signedForm),
 	_gradeToSign(other._gradeToSign), _gradeToExecute(other._gradeToExecute)
 {
 	std::cout << "Form copy constructor called!" << std::endl;
 }
 
-Form&	Form::operator=(const Form& other)
+AForm&	AForm::operator=(const AForm& other)
 {
 	std::cout << "Form copy assignment operator called!" << std::endl;
 	if (this != &other)
@@ -38,42 +38,42 @@ Form&	Form::operator=(const Form& other)
 	return (*this);
 }
 
-Form::~Form()
+AForm::~AForm()
 {
 	std::cout << "Form destructor called!" << std::endl;
 }
 
-const char*	Form::GradeTooHighException::what() const throw()
+const char*	AForm::GradeTooHighException::what() const throw()
 {
 	return ("Grade above max grade!");
 }
 
-const char*	Form::GradeTooLowException::what() const throw()
+const char*	AForm::GradeTooLowException::what() const throw()
 {
 	return ("Grade below min grade!");
 }
 
-std::string const&	Form::getName() const
+std::string const&	AForm::getName() const
 {
 	return (_name);
 }
 
-bool	Form::getSignedBool() const
+bool	AForm::getSignedBool() const
 {
 	return (_signedForm);
 }
 
-int	Form::getGradeToSign() const
+int	AForm::getGradeToSign() const
 {
 	return (_gradeToSign);
 }
 
-int Form::getGradeToExecute() const
+int AForm::getGradeToExecute() const
 {
 	return (_gradeToExecute);
 }
 
-void	Form::beSigned(const Bureaucrat& bureaucrat)
+void	AForm::beSigned(const Bureaucrat& bureaucrat)
 {
 	if (bureaucrat.getGrade() <= _gradeToSign)
 		_signedForm = true;
@@ -81,7 +81,7 @@ void	Form::beSigned(const Bureaucrat& bureaucrat)
 		throw GradeTooLowException();
 }
 
-std::ostream&	operator<<(std::ostream& os, const Form& form)
+std::ostream&	operator<<(std::ostream& os, const AForm& form)
 {
 	os << "Form: " << form.getName() 
 		<< ", Grade to sign: " << form.getGradeToSign() 

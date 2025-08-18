@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Form.hpp                                           :+:    :+:            */
+/*   AForm.hpp                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/13 15:25:45 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/18 11:31:31 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORM_HPP
-# define FORM_HPP
+#ifndef AFORM_HPP
+# define AFORM_HPP
 
 # include <iostream>
 # include <exception>
@@ -22,13 +22,13 @@
 
 class Bureaucrat;
 
-class Form
+class AForm
 {
 	public:
-		Form(const std::string& name, int gradeToSign, int gradeToExecute);
-		Form(const Form& other);
-		Form&	operator=(const Form& other);
-		~Form();
+		AForm(const std::string& name, int gradeToSign, int gradeToExecute);
+		AForm(const AForm& other);
+		AForm&	operator=(const AForm& other);
+		~AForm();
 
 		class GradeTooHighException: public std::exception
 		{
@@ -55,6 +55,6 @@ class Form
 		int const			_gradeToExecute;
 };
 
-std::ostream&	operator<<(std::ostream& os, const Form& form);
+std::ostream&	operator<<(std::ostream& os, const AForm& form);
 
 #endif
