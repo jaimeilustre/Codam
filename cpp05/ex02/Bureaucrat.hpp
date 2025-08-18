@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:58:27 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:25:36 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/08/18 11:38:16 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ class Bureaucrat
 		void		incrementGrade();
 		void		decrementGrade();
 		void		signForm(AForm& form);
+
+		void		executeForm(AForm const& form);
 	private:
 		std::string const	_name;
 		int					_grade;
