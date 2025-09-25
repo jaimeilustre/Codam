@@ -6,11 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 11:42:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/24 15:31:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 14:13:07 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RobotomyRequestForm.hpp"
+#include "Bureaucrat.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("Robotonomy Request", 72, 45), _target(target)
 {
@@ -35,8 +36,16 @@ RobotomyRequestForm::~RobotomyRequestForm()
 	std::cout << "RobotomyRequestForm destructor called!\n" << std::endl;
 }
 
-void	RobotomyRequestForm::execute(Bureaucrat const& executor)
+void	RobotomyRequestForm::execute(Bureaucrat const& executor) const
 {
-	
+	if (!getSignedBool())
+		throw NotSignedException();
+	if (executor.getGrade() > getGradeToExecute())
+		throw GradeTooLowException();
+	std::cout << "*Drilling noises.....*" << std::endl;
+	if (rand() % 2)
+		std::cout << _target << " has been robotomized" << std::endl;
+	else
+		std::cout << _target << " has failed its robotomy" << std::endl;
 }
 

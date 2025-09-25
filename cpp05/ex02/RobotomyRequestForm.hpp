@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/03 17:07:59 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/24 11:44:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 13:53:04 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class RobotomyRequestForm: public AForm
 		RobotomyRequestForm&	operator=(const RobotomyRequestForm& other);
 		~RobotomyRequestForm();
 
-		void		execute(Bureaucrat const& executor);
+		void		execute(Bureaucrat const& executor) const;
 	private:
 		std::string	_target;
 };

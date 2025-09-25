@@ -6,11 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 15:34:38 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/24 15:47:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 14:01:28 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ShrubberyCreationForm.hpp"
+#include "Bureaucrat.hpp"
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target): AForm("Shrubbery Creation", 145, 137), _target(target)
 {
@@ -35,7 +36,7 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
 	std::cout << "ShrubberyCreationForm destructor called!\n" << std::endl;
 }
 
-void	ShrubberyCreationForm::execute(Bureaucrat const& executor)
+void	ShrubberyCreationForm::execute(Bureaucrat const& executor) const
 {
 	
 }

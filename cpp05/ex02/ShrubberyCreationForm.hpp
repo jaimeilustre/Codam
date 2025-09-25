@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/03 17:02:29 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/24 11:44:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 13:53:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class ShrubberyCreationForm: public AForm
 		ShrubberyCreationForm&	operator=(const ShrubberyCreationForm& other);
 		~ShrubberyCreationForm();
 
-		void		execute(Bureaucrat const& executor);
+		void		execute(Bureaucrat const& executor) const;
 	private:
 		std::string	_target;
 };

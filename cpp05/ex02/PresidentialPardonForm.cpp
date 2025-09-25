@@ -6,11 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/04 11:04:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/04 15:21:19 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 13:57:49 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PresidentialPardonForm.hpp"
+#include "Bureaucrat.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(const std::string& target): AForm("Presidential Pardon", 25, 5), _target(target)
 {
@@ -35,10 +36,11 @@ PresidentialPardonForm::~PresidentialPardonForm()
 	std::cout << "PresidentialPardonForm destructor called!\n" << std::endl;
 }
 
-void	PresidentialPardonForm::execute(Bureaucrat const& executor)
+void	PresidentialPardonForm::execute(Bureaucrat const& executor) const
 {
+	if (!getSignedBool())
+		throw NotSignedException();
+	if (executor.getGrade() > getGradeToExecute())
+		throw GradeTooHighException();
 	std::cout << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 }
-
-
-
