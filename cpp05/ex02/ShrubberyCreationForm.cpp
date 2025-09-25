@@ -6,12 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 15:34:38 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/25 14:01:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 15:01:45 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ShrubberyCreationForm.hpp"
 #include "Bureaucrat.hpp"
+#include <fstream>
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target): AForm("Shrubbery Creation", 145, 137), _target(target)
 {
@@ -38,5 +39,10 @@ ShrubberyCreationForm::~ShrubberyCreationForm()
 
 void	ShrubberyCreationForm::execute(Bureaucrat const& executor) const
 {
-	
+	if (!getSignedBool())
+		throw NotSignedException();
+	if (executor.getGrade() > getGradeToExecute())
+		throw GradeTooLowException();
+	std::ofstream outputFile(_target + "_shrubbery");
+	outputFile.close();
 }

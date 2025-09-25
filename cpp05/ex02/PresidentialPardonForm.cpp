@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/04 11:04:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/25 13:57:49 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/09/25 14:42:05 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ void	PresidentialPardonForm::execute(Bureaucrat const& executor) const
 	if (!getSignedBool())
 		throw NotSignedException();
 	if (executor.getGrade() > getGradeToExecute())
-		throw GradeTooHighException();
+		throw GradeTooLowException();
 	std::cout << _target << " has been pardoned by Zaphod Beeblebrox" << std::endl;
 }
