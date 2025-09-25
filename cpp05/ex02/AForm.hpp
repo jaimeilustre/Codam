@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:39:00 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/09/25 13:54:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ class AForm
 			public:
 				const char* what() const throw();
 		};
+
+		class NotSignedException: public std::exception
+		{
+			public:
+				const char* what() const throw();
+		};
 		
 		std::string const&	getName() const;
 		bool				getSignedBool() const;
@@ -49,7 +55,7 @@ class AForm
 		
 		void				beSigned(const Bureaucrat& bureaucrat);
 
-		virtual void		execute(Bureaucrat const& executor) = 0;
+		virtual void		execute(Bureaucrat const& executor) const = 0;
 	private:
 		std::string const	_name;
 		bool				_signedForm;

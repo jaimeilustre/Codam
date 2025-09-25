@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:32:25 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/09/25 13:45:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ const char*	AForm::GradeTooHighException::what() const throw()
 const char*	AForm::GradeTooLowException::what() const throw()
 {
 	return ("Grade below min grade!");
+}
+
+const char* AForm::NotSignedException::what() const throw()
+{
+	return ("Form not signed!");
 }
 
 std::string const&	AForm::getName() const
