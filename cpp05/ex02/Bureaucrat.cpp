@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:26:19 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/09/26 12:00:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,17 @@ std::ostream&	operator<<(std::ostream& os, const Bureaucrat& bureaucrat)
 {
 	os << bureaucrat.getName() << ", bureaucrat grade " << bureaucrat.getGrade() << ".";
 	return (os);
+}
+
+void	Bureaucrat::executeForm(AForm const& form)
+{
+	try
+	{
+		form.execute(*this);
+		std::cout << _name << " executed " << form.getName() << std::endl;
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << _name << " could not execute " << form.getName() << " because " << e.what() << std::endl;
+	}
 }
