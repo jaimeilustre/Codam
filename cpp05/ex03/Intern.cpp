@@ -6,11 +6,29 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/02 14:06:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/13 14:01:58 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Intern.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
+
+static AForm* createShrubbery(const std::string& target)
+{
+	return new ShrubberyCreationForm(target);
+}
+
+static AForm* createRobotomy(const std::string& target)
+{
+	return new RobotomyRequestForm(target);
+}
+
+static AForm* createPresidential(const std::string& target)
+{
+	return new PresidentialPardonForm(target);	
+}
 
 Intern::Intern()
 {
@@ -28,5 +46,22 @@ Intern::~Intern()
 
 AForm*	Intern::makeForm(const std::string& formName, const std::string& formTarget)
 {
-	std::cout << "Intern creates " << formName << std::endl;
+	std::string formNames[3] = {"Shrubbery Creation", "Robotomy Request", "Presidential Pardon"};
+	
+	AForm*	(*creators[3])(const std::string&) = {
+		createShrubbery,
+		createRobotomy,
+		createPresidential,
+	};
+	
+	for (int i = 0; i < 3; i++)
+	{
+		if (formName == formNames[i])
+		{
+			std::cout << "Intern creates " << formName << std::endl;
+			return creators[i](formTarget);
+		}
+	}
+	std::cout << "Intern couldn't find a form named " << formName << std::endl;
+	return (NULL); 	
 }
