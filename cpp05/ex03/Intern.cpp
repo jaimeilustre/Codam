@@ -6,14 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/13 14:01:58 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/14 14:01:07 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Intern.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "RobotomyRequestForm.hpp"
+#include "AForm.hpp"
 
 static AForm* createShrubbery(const std::string& target)
 {
@@ -35,9 +33,9 @@ Intern::Intern()
 	std::cout << "Intern default constructor called!\n" << std::endl;
 }
 
-Intern::Intern(const Intern& other) {};
+// Intern::Intern(const Intern& other) {};
 
-Intern&	Intern::operator=(const Intern& other) {};
+// Intern&	Intern::operator=(const Intern& other) {};
 
 Intern::~Intern()
 {

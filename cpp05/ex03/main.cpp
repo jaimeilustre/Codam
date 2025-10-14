@@ -6,49 +6,26 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:25:07 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/14 13:50:01 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 #include "AForm.hpp"
+#include "Intern.hpp"
 
 int main(void)
 {
-	try
+	Intern		someRandomIntern;
+	Bureaucrat	boss("Boss", 1);
+	AForm*		form1;
+	
+	form1 = someRandomIntern.makeForm("Robotomy Request", "Bender");
+	if (form1)
 	{
-		Bureaucrat b1("John Doe", 2);
-		Bureaucrat b2("Jane Doe", 149);
-
-		std::cout << b1 << std::endl;
-		std::cout << b2 << std::endl;
-
-		b1.incrementGrade();
-		std::cout << "b1 incremented grade: " << b1 << std::endl;
-
-		try
-		{
-			b1.incrementGrade();
-		}
-		catch (std::exception& e)
-		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
-		}
-
-		b2.decrementGrade();
-		std::cout << "b2 decremented grade: " << b2 << std::endl;
-
-		try
-		{
-			b2.decrementGrade();
-		}
-		catch(std::exception& e)
-		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
-		}
+		boss.signForm(*form1);
+		boss.executeForm(*form1);
+		delete form1;
 	}
-	catch(std::exception& e)
-	{
-		std::cerr << "Constructor failed!: " << e.what() << std::endl;
-	}
+	return (0);
 }
