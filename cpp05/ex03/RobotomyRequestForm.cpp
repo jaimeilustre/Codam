@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 11:42:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/15 12:10:31 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/16 14:11:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	RobotomyRequestForm::execute(Bureaucrat const& executor) const
 		throw NotSignedException();
 	if (executor.getGrade() > getGradeToExecute())
 		throw GradeTooLowException();
+		
 	std::cout << "*Drilling noises.....*" << std::endl;
+
+	std::srand(std::time(NULL));
 	if (std::rand() % 2)
 		std::cout << _target << " has been robotomized" << std::endl;
 	else

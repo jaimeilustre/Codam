@@ -6,15 +6,17 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/03 17:07:59 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/15 12:12:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/16 14:11:58 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ROBOTOMYREQUESTFORM_HPP
 # define ROBOTOMYREQUESTFORM_HPP
 
-# include "AForm.hpp"
 # include <cstdlib>
+# include <ctime>
+
+# include "AForm.hpp"
 
 class RobotomyRequestForm: public AForm
 {
