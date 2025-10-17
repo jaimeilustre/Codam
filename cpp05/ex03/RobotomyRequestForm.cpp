@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 11:42:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 12:07:29 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 13:44:29 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("Robotonomy Request", 72, 45), _target(target)
 {
-	std::cout << "RobotomyRequestForm constructor called!\n" << std::endl;
+	std::cout << "RobotomyRequestForm constructor called!" << std::endl;
 }
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other): AForm(other), _target(other._target)
@@ -33,7 +33,7 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& o
 
 RobotomyRequestForm::~RobotomyRequestForm()
 {
-	std::cout << "RobotomyRequestForm destructor called!\n" << std::endl;
+	std::cout << "RobotomyRequestForm destructor called!" << std::endl;
 }
 
 void	RobotomyRequestForm::execute(Bureaucrat const& executor) const

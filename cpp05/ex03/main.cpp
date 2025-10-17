@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/17 12:07:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 13:41:09 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,15 @@ int main(void)
 		boss.signForm(*form3);
 		boss.executeForm(*form3);
 		delete form3;
+	}
+
+	AForm*	form4;
+	form4 = someRandomIntern.makeForm("non-existent", "ghost");
+	if (form4)
+	{
+		boss.signForm(*form4);
+		boss.executeForm(*form4);
+		delete form4;
 	}
 	
 	return (0);

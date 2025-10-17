@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/09/25 13:45:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 13:45:14 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ AForm&	AForm::operator=(const AForm& other)
 
 AForm::~AForm()
 {
-	std::cout << "Form destructor called!" << std::endl;
+	std::cout << "Form destructor called!\n" << std::endl;
 }
 
 const char*	AForm::GradeTooHighException::what() const throw()

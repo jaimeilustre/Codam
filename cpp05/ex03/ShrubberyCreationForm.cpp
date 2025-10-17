@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 15:34:38 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/25 15:01:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 13:44:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 ShrubberyCreationForm::ShrubberyCreationForm(const std::string& target): AForm("Shrubbery Creation", 145, 137), _target(target)
 {
-	std::cout << "ShrubbberyCreationForm constructor called!\n" << std::endl;
+	std::cout << "ShrubbberyCreationForm constructor called!" << std::endl;
 }
 
 ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm& other): AForm(other), _target(other._target)
@@ -34,7 +34,7 @@ ShrubberyCreationForm&	ShrubberyCreationForm::operator=(const ShrubberyCreationF
 
 ShrubberyCreationForm::~ShrubberyCreationForm()
 {
-	std::cout << "ShrubberyCreationForm destructor called!\n" << std::endl;
+	std::cout << "ShrubberyCreationForm destructor called!" << std::endl;
 }
 
 void	ShrubberyCreationForm::execute(Bureaucrat const& executor) const
