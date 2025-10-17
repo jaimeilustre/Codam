@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 15:32:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/14 13:59:22 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 14:33:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ class Intern
 {
 	public:
 		Intern();
-		// Intern(const Intern& other);
-		// Intern&	operator=(const Intern& other);
+		Intern(const Intern& other);
+		Intern&	operator=(const Intern& other);
 		~Intern();
 
 		AForm*	makeForm(const std::string& formName, const std::string& formTarget);

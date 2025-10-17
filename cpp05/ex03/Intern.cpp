@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 11:54:25 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 14:39:44 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,16 @@ Intern::Intern()
 	std::cout << "Intern default constructor called!\n" << std::endl;
 }
 
-// Intern::Intern(const Intern& other) {};
+Intern::Intern(const Intern& other)
+{
+	(void)other;
+}
 
-// Intern&	Intern::operator=(const Intern& other) {};
+Intern&	Intern::operator=(const Intern& other)
+{
+	(void)other;
+	return (*this);
+}
 
 Intern::~Intern()
 {
@@ -60,6 +67,6 @@ AForm*	Intern::makeForm(const std::string& formName, const std::string& formTarg
 			return creators[i](formTarget);
 		}
 	}
-	std::cout << "Intern couldn't find a form named " << formName << std::endl;
+	std::cout << "Intern couldn't find a form named " << formName << std::endl << std::endl;
 	return (NULL); 	
 }
