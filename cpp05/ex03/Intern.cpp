@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/14 14:01:07 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/17 11:54:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ Intern::~Intern()
 
 AForm*	Intern::makeForm(const std::string& formName, const std::string& formTarget)
 {
-	std::string formNames[3] = {"Shrubbery Creation", "Robotomy Request", "Presidential Pardon"};
+	std::string formNames[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
 	
 	AForm*	(*creators[3])(const std::string&) = {
 		createShrubbery,
