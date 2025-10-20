@@ -6,15 +6,15 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:58:27 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:38:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/20 14:06:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 
-# include <iostream>
 # include <exception>
+# include <iostream>
 # include <string>
 
 # define MAX_GRADE 1

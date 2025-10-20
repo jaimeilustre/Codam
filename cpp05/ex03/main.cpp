@@ -6,18 +6,22 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/17 13:41:09 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:08:38 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
+#include <ctime>
+
 #include "AForm.hpp"
+#include "Bureaucrat.hpp"
 #include "Intern.hpp"
 
 int main(void)
 {
 	Intern		someRandomIntern;
 	Bureaucrat	boss("Boss", 1);
+	
+	std::srand(std::time(NULL));
 	
 	AForm*		form1;
 	form1 = someRandomIntern.makeForm("robotomy request", "Bender");

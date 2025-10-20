@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/03 17:07:59 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/16 14:11:58 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:07:21 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define ROBOTOMYREQUESTFORM_HPP
 
 # include <cstdlib>
-# include <ctime>
 
 # include "AForm.hpp"
 

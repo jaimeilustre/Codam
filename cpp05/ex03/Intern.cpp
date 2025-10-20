@@ -6,12 +6,15 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/20 11:18:11 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:08:20 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Intern.hpp"
 #include "AForm.hpp"
+#include "Intern.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include "RobotomyRequestForm.hpp"
 
 Intern::Intern()
 {

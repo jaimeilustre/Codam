@@ -6,12 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 11:42:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 13:44:29 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:10:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "RobotomyRequestForm.hpp"
 #include "Bureaucrat.hpp"
+#include "RobotomyRequestForm.hpp"
 
 RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("Robotonomy Request", 72, 45), _target(target)
 {
@@ -45,7 +45,6 @@ void	RobotomyRequestForm::execute(Bureaucrat const& executor) const
 		
 	std::cout << "*Drilling noises.....*" << std::endl;
 
-	std::srand(std::time(NULL));
 	if (std::rand() % 2)
 		std::cout << _target << " has been robotomized" << std::endl;
 	else

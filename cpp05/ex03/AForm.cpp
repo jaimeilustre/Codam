@@ -6,12 +6,12 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 11:06:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/17 13:45:14 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:05:49 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
 #include "AForm.hpp"
+#include "Bureaucrat.hpp"
 
 AForm::AForm(const std::string& name, int gradeToSign, int gradeToExecute): 
 	_name(name), _signedForm(false), _gradeToSign(gradeToSign), _gradeToExecute(gradeToExecute)

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 15:32:37 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 14:45:41 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:06:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include <iostream>
 # include <string>
-
-# include "ShrubberyCreationForm.hpp"
-# include "PresidentialPardonForm.hpp"
-# include "RobotomyRequestForm.hpp"
 
 class AForm;
 

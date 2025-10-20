@@ -6,12 +6,13 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 11:46:05 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/17 13:56:55 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:05:59 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bureaucrat.hpp"
 #include "AForm.hpp"
+#include "Bureaucrat.hpp"
+
 
 Bureaucrat::Bureaucrat(const std::string& name, int grade): _name(name), _grade(grade)
 {

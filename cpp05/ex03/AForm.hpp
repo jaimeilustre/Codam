@@ -6,15 +6,15 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/13 10:58:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/09/25 13:54:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:05:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AFORM_HPP
 # define AFORM_HPP
 
-# include <iostream>
 # include <exception>
+# include <iostream>
 # include <string>
 
 # define MAX_GRADE 1

@@ -6,12 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/04 11:04:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 13:44:33 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:10:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PresidentialPardonForm.hpp"
 #include "Bureaucrat.hpp"
+#include "PresidentialPardonForm.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(const std::string& target): AForm("Presidential Pardon", 25, 5), _target(target)
 {
