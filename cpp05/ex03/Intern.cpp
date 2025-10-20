@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/17 14:52:17 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 11:18:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,18 @@ AForm*	Intern::makeForm(const std::string& formName, const std::string& formTarg
 {
 	std::string formNames[3] = {"shrubbery creation", "robotomy request", "presidential pardon"};
 	
-	// AForm*	(*creators[3])(const std::string&) = {
-	// 	createShrubbery,
-	// 	createRobotomy,
-	// 	createPresidential,
-	// };
+	AForm*	(Intern::*createForms[3])(const std::string&) = {
+		&Intern::createShrubbery,
+		&Intern::createRobotomy,
+		&Intern::createPresidential,
+	};
 	
 	for (int i = 0; i < 3; i++)
 	{
 		if (formName == formNames[i])
 		{
 			std::cout << "Intern creates " << formName << std::endl;
-			return creators[i](formTarget);
+			return (this->*createForms[i])(formTarget);
 		}
 	}
 	std::cout << "Intern couldn't find a form named " << formName << std::endl << std::endl;
