@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/12 15:16:33 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/21 13:58:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int main(void)
 {
 	try
 	{
+		std::cout << "=== BASIC BUREACRAT TESTS ===" << std::endl;
+		
 		Bureaucrat b1("John Doe", 2);
 		Bureaucrat b2("Jane Doe", 149);
 
@@ -45,6 +47,18 @@ int main(void)
 		{
 			std::cerr << "Exception caught: " << e.what() << std::endl;
 		}
+		std::cout << std::endl;
+
+		std::cout << "=== COPY CONSTRUCTOR AND COPY ASSIGNMENT OPERATOR TESTS" << std::endl;
+		
+		Bureaucrat	b3(b1);
+		Bureaucrat	b4("Test", 1);
+		
+		b4 = b2;
+		
+		std::cout << b3 << std::endl;
+		std::cout << b4 << std::endl;
+		
 	}
 	catch(std::exception& e)
 	{
