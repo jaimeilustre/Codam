@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/08/18 11:25:07 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/22 13:49:31 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,30 +17,26 @@ int main(void)
 {
 	try
 	{
-		Bureaucrat b1("John Doe", 2);
-		Bureaucrat b2("Jane Doe", 149);
-
+		std::cout << "=== BASIC BUREACRAT TESTS ===" << std::endl;
+		
+		Bureaucrat	b1("John Doe", 139);
+		Bureaucrat	b2("Jane Doe", 6);
+		
 		std::cout << b1 << std::endl;
 		std::cout << b2 << std::endl;
 
-		b1.incrementGrade();
-		std::cout << "b1 incremented grade: " << b1 << std::endl;
-
 		try
 		{
-			b1.incrementGrade();
+			
 		}
-		catch (std::exception& e)
+		catch(std::exception& e)
 		{
 			std::cerr << "Exception caught: " << e.what() << std::endl;
 		}
 
-		b2.decrementGrade();
-		std::cout << "b2 decremented grade: " << b2 << std::endl;
-
 		try
 		{
-			b2.decrementGrade();
+			
 		}
 		catch(std::exception& e)
 		{

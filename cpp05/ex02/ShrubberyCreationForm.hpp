@@ -6,14 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/03 17:02:29 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/25 13:53:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:11:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHRUBBERYCREATIONFORM_HPP
 # define SHRUBBERYCREATIONFORM_HPP
 
-#include "AForm.hpp"
+# include <fstream>
+
+# include "AForm.hpp"
 
 class ShrubberyCreationForm: public AForm
 {

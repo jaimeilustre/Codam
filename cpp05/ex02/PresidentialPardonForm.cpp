@@ -6,16 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/04 11:04:00 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/09/25 14:42:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/20 14:10:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "PresidentialPardonForm.hpp"
 #include "Bureaucrat.hpp"
+#include "PresidentialPardonForm.hpp"
 
 PresidentialPardonForm::PresidentialPardonForm(const std::string& target): AForm("Presidential Pardon", 25, 5), _target(target)
 {
-	std::cout << "PresidentialPardonForm constructor called!\n" << std::endl;
+	std::cout << "PresidentialPardonForm constructor called!" << std::endl;
 }
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other): AForm(other), _target(other._target)
@@ -33,7 +33,7 @@ PresidentialPardonForm&	PresidentialPardonForm::operator=(const PresidentialPard
 
 PresidentialPardonForm::~PresidentialPardonForm()
 {
-	std::cout << "PresidentialPardonForm destructor called!\n" << std::endl;
+	std::cout << "PresidentialPardonForm destructor called!" << std::endl;
 }
 
 void	PresidentialPardonForm::execute(Bureaucrat const& executor) const
