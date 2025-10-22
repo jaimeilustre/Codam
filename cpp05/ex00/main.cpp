@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/21 15:55:04 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/22 13:34:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,37 +47,6 @@ int main(void)
 		{
 			std::cerr << "Exception caught: " << e.what() << std::endl;
 		}
-		std::cout << std::endl;
-
-		std::cout << "=== COPY CONSTRUCTOR AND COPY ASSIGNMENT OPERATOR TESTS ===" << std::endl;
-		
-		Bureaucrat	original("Original", 140);
-		Bureaucrat	copy(original);
-
-		std::cout << original << std::endl;
-		std::cout << copy << std::endl;
-
-		try
-		{
-			original.incrementGrade();
-		}
-		catch(std::exception& e)
-		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
-		}
-		std::cout << "After increment: " << original << std::endl;
-		std::cout << "After increment: " << copy << std::endl;
-
-		try
-		{
-			copy.decrementGrade();
-		}
-		catch(std::exception& e)
-		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
-		}
-		std::cout << "After decrement: " << original << std::endl;
-		std::cout << "After decrement: " << copy << std::endl;
 	}
 	catch(std::exception& e)
 	{
