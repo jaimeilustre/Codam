@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/22 13:34:27 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/24 14:29:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,21 @@ int main(void)
 {
 	try
 	{
-		std::cout << "=== BASIC BUREACRAT TESTS ===" << std::endl;
+		std::cout << "=== CREATING BUREAUCRATS ===" << std::endl;
 		
 		Bureaucrat b1("John Doe", 2);
 		Bureaucrat b2("Jane Doe", 149);
 
 		std::cout << b1 << std::endl;
 		std::cout << b2 << std::endl;
-
-		b1.incrementGrade();
-		std::cout << "b1 incremented grade: " << b1 << std::endl;
-
+		std::cout << std::endl;
+		
+		std::cout << "=== INCREMENTING GRADE ===" << std::endl;
+		
 		try
 		{
+			b1.incrementGrade();
+			std::cout << "b1 incremented grade: " << b1 << std::endl;
 			b1.incrementGrade();
 		}
 		catch (std::exception& e)
@@ -36,17 +38,21 @@ int main(void)
 			std::cerr << "Exception caught: " << e.what() << std::endl;
 		}
 
-		b2.decrementGrade();
-		std::cout << "b2 decremented grade: " << b2 << std::endl;
-
+		std::cout << std::endl;
+		std::cout << "=== DECREMENTING GRADE ===" << std::endl;
+		
 		try
 		{
+			b2.decrementGrade();
+			std::cout << "b2 decremented grade: " << b2 << std::endl;
 			b2.decrementGrade();
 		}
 		catch(std::exception& e)
 		{
 			std::cerr << "Exception caught: " << e.what() << std::endl;
 		}
+		std::cout << std::endl;
+		std::cout << "=== DESTRUCTION ===" << std::endl;
 	}
 	catch(std::exception& e)
 	{
