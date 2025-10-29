@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/05/22 07:24:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/05/30 08:22:28 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/10/29 12:32:18 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ void Contact::displaySpecificContact()
 std::string Contact::truncateInput(const std::string& str) const
 {
 	if (str.length() > 10)
-		return (str.substr(0, 8) += ".");
+		return (str.substr(0, 9) += ".");
 	return (str);	
 }
 
