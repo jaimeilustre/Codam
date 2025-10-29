@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/30 16:04:14 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/20 14:08:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/28 08:37:39 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ AForm*	Intern::makeForm(const std::string& formName, const std::string& formTarg
 			return (this->*createForms[i])(formTarget);
 		}
 	}
-	std::cout << "Intern couldn't find a form named " << formName << std::endl << std::endl;
+	std::cout << "Intern couldn't find a form named " << formName << std::endl;
 	return (NULL); 	
 }

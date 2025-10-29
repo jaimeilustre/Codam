@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/20 14:08:38 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/10/28 08:37:13 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,19 @@
 
 int main(void)
 {
+	std::cout << "=== CREATING INTERN ===" << std::endl; 
+	
 	Intern		someRandomIntern;
+
+	std::cout << "=== CREATING BUREAUCRAT ===" << std::endl;
+		
 	Bureaucrat	boss("Boss", 1);
 	
+	std::cout << "=== SEEDING TIME FOR ROBOTOMY FORM ===" << std::endl << std::endl;
+	
 	std::srand(std::time(NULL));
+	
+	std::cout << "=== TESTING ROBOTOMY FORM ===" << std::endl;
 	
 	AForm*		form1;
 	form1 = someRandomIntern.makeForm("robotomy request", "Bender");
@@ -32,6 +41,8 @@ int main(void)
 		delete form1;
 	}
 
+	std::cout << "=== TESTING PRESIDENTIAL PARDON FORM ===" << std::endl;
+	
 	AForm*	form2;
 	form2 = someRandomIntern.makeForm("presidential pardon", "Prisoner");
 	if (form2)
@@ -40,6 +51,8 @@ int main(void)
 		boss.executeForm(*form2);
 		delete form2;
 	}
+
+	std::cout << "=== TESTING SHRUBBERY CREATION FORM ===" << std::endl;
 
 	AForm*	form3;
 	form3 = someRandomIntern.makeForm("shrubbery creation", "Person");
@@ -50,6 +63,8 @@ int main(void)
 		delete form3;
 	}
 
+	std::cout << "=== TESTING NON-EXISTENT FORM ===" << std::endl;
+
 	AForm*	form4;
 	form4 = someRandomIntern.makeForm("non-existent", "ghost");
 	if (form4)
@@ -58,6 +73,7 @@ int main(void)
 		boss.executeForm(*form4);
 		delete form4;
 	}
-	
+	std::cout << std::endl;
+	std::cout << "=== DESTRUCTION ===" << std::endl;
 	return (0);
 }
