@@ -6,14 +6,14 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/09/24 11:42:31 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/10/20 14:10:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/03 11:54:23 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("Robotonomy Request", 72, 45), _target(target)
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("Robotomy Request", 72, 45), _target(target)
 {
 	std::cout << "RobotomyRequestForm constructor called!" << std::endl;
 }
