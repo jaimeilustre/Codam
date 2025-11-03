@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/24 14:29:34 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/03 11:33:00 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int main(void)
 		}
 		catch (std::exception& e)
 		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
+			std::cerr << b1.getName() << " Exception caught: " << e.what() << std::endl;
 		}
 
 		std::cout << std::endl;
@@ -49,7 +49,7 @@ int main(void)
 		}
 		catch(std::exception& e)
 		{
-			std::cerr << "Exception caught: " << e.what() << std::endl;
+			std::cerr << b2.getName() <<  " Exception caught: " << e.what() << std::endl;
 		}
 		std::cout << std::endl;
 		std::cout << "=== DESTRUCTION ===" << std::endl;
