@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/24 14:13:01 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/03 12:10:15 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@
 
 int main(void)
 {
+	std::srand(time(NULL));
+	
 	try
 	{
 		std::cout << "=== CREATING BUREAUCRATS ===" << std::endl;
 		
-		Bureaucrat	b1("John Doe", 139);
-		Bureaucrat	b2("Jane Doe", 73);
+		Bureaucrat	b1("John Doe", 135);
+		Bureaucrat	b2("Jane Doe", 44);
 		Bureaucrat	b3("Joe Doe", 1);
 		
 		std::cout << b1 << std::endl;
