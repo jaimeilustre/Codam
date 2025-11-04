@@ -6,12 +6,14 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/04 11:07:16 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/04 12:01:29 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/04 13:51:13 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECT2_HPP
 # define VECT2_HPP
+
+# include <iostream>
 
 class vect2
 {
@@ -51,11 +53,12 @@ class vect2
 		bool	operator==(const vect2& other) const;
 		bool	operator!=(const vect2& other) const;
 
-		
-
 	private:
 		int	_x;
 		int	_y;
 };
+
+vect2	operator*(int scalar, const vect2& other);
+std::ostream&	operator<<(std::ostream& os, const vect2& other);
 
 #endif
