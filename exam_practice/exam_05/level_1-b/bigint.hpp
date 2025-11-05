@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/04 15:48:06 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/04 16:16:09 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/05 11:05:58 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ class bigint
 		bigint&	operator+=(const bigint& other);
 		
 		// Comparison operators
-		bool	operator==(const bigint& other);
-		bool	operator!=(const bigint& other);
-		bool	operator<(const bigint& other);
-		bool	operator<=(const bigint& other);
-		bool	operator>(const bigint& other);
-		bool	operator>=(const bigint& other);
+		bool	operator==(const bigint& other) const;
+		bool	operator!=(const bigint& other) const;
+		bool	operator<(const bigint& other) const;
+		bool	operator<=(const bigint& other) const;
+		bool	operator>(const bigint& other) const;
+		bool	operator>=(const bigint& other) const;
 		
 		// Increment operators
 		bigint&	operator++();
