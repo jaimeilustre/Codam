@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   searchable_tree_bag.hpp                            :+:    :+:            */
+/*   set.hpp                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/11/05 13:44:22 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/05 14:20:39 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/11/05 14:04:38 by jaimeilustr   #+#    #+#                 */
+/*   Updated: 2025/11/05 14:17:59 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SEARCHABLE_TREE_BAG_HPP
-# define SEARCHABLE_TREE_BAG_HPP
+#ifndef SET_HPP
+# define SET_HPP
 
-# include "tree_bag.hpp"
 # include "searchable_bag.hpp"
 
-class searchable_tree_bag: public tree_bag, public searchable_bag
+class set
 {
 	public:
-		searchable_tree_bag() {};
-		searchable_tree_bag(const searchable_tree_bag& other): tree_bag(other) {};
-		searchable_tree_bag&	operator=(const searchable_tree_bag& other);
+		set(searchable_bag& bag): _bag(bag) {};
 
-		bool	has(int value) const;
+		// tree functions
+		bool	has(int value);
+		void	insert(int value);
+		void	insert(int *arr, int size);
+		void	print() const;
+		void	clear();
+
+		// getter
+		const searchable_bag&	get_bag() const;
+		
+	private:
+		searchable_bag&	_bag;
+	
 };
 
 #endif

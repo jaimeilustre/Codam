@@ -1,29 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   searchable_tree_bag.hpp                            :+:    :+:            */
+/*   set.cpp                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/11/05 13:44:22 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/05 14:20:39 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/11/05 14:10:13 by jaimeilustr   #+#    #+#                 */
+/*   Updated: 2025/11/05 14:18:03 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SEARCHABLE_TREE_BAG_HPP
-# define SEARCHABLE_TREE_BAG_HPP
+#include "set.hpp"
 
-# include "tree_bag.hpp"
-# include "searchable_bag.hpp"
-
-class searchable_tree_bag: public tree_bag, public searchable_bag
+bool	set::has(int value)
 {
-	public:
-		searchable_tree_bag() {};
-		searchable_tree_bag(const searchable_tree_bag& other): tree_bag(other) {};
-		searchable_tree_bag&	operator=(const searchable_tree_bag& other);
+	return (_bag.has(value));
+}
 
-		bool	has(int value) const;
-};
+void	set::insert(int value)
+{
+	_bag.insert(value);
+}
 
-#endif
+void	set::insert(int *arr, int size)
+{
+	_bag.insert(arr, size);
+}
+
+void	set::print() const
+{
+	_bag.print();
+}
+
+void	set::clear()
+{
+	_bag.clear();
+}
+
+const searchable_bag&	set::get_bag() const
+{
+	return (_bag);
+}
