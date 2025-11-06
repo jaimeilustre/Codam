@@ -6,12 +6,13 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/06 13:41:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/06 14:06:53 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/06 15:44:21 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "bsq.h"
 
+// Reads symbols and line count
 static int	parse_header(t_map *map, FILE *file)
 {
 	if (fscanf(file, "%d %c %c %c\n",
@@ -24,6 +25,7 @@ static int	parse_header(t_map *map, FILE *file)
 	return !!map->map;
 }
 
+// Reads map lines and validates them
 static int read_map(t_map *map, FILE *file)
 {
 	size_t len = 0;
@@ -45,26 +47,57 @@ static int read_map(t_map *map, FILE *file)
 	return (1);
 }
 
-static void solve(t_map *m) {
-	int **dp = calloc(m->rows, sizeof(int*)), max = 0, x = 0, y = 0;
-	for (int i = 0; i < m->rows; i++) dp[i] = calloc(m->cols, sizeof(int));
+// Finds and fills bigest square
+static void solve(t_map *m)
+{
+	int **dp = calloc(m->rows, sizeof(int *));
+	int max = 0;
+	int x = 0;
+	int y = 0;
+	
 	for (int i = 0; i < m->rows; i++)
-		for (int j = 0; j < m->cols; j++)
-			if (m->map[i][j] == m->e) {
-				if (i && j) {
-					int a = dp[i-1][j], b = dp[i][j-1], c = dp[i-1][j-1];
-					dp[i][j] = 1 + (a<b?(a<c?a:c):(b<c?b:c));
-				} else dp[i][j] = 1;
-				if (dp[i][j] > max) { max = dp[i][j]; y = i; x = j; }
+		dp[i] = calloc(m->cols, sizeof(int));
+	
+	for (int i = 0; i < m->rows; i++)
+	for (int j = 0; j < m->cols; j++)
+	{
+		if (m->map[i][j] == m->e)
+		{
+			if (i && j)
+			{
+				int a = dp[i - 1][j];
+				int b = dp[i][j - 1];
+				int c = dp[i - 1][j - 1];
+				
+				dp[i][j] = 1 + (a < b ? (a < c ? a : c) : (b < c ? b : c));
 			}
+			else
+				dp[i][j] = 1;
+	
+			if (dp[i][j] > max)
+			{
+				max = dp[i][j];
+				y = i;
+				x = j;
+			}
+		}
+	}
 	for (int i = y; i > y - max; i--)
 		for (int j = x; j > x - max; j--)
 			m->map[i][j] = m->f;
-	for (int i = 0; i < m->rows; i++) fputs(m->map[i], stdout);
-	for (int i = 0; i < m->rows; i++) free(m->map[i]), free(dp[i]);
-	free(m->map); free(dp);
+	
+	for (int i = 0; i < m->rows; i++)
+		fputs(m->map[i], stdout);
+	for (int i = 0; i < m->rows; i++)
+	{
+		free(m->map[i]);
+		free(dp[i]);
+	}
+	free(m->map);
+	free(dp);
 }
 
+// Opens file and calls all the helper functions
 static void	process(const char *path)
 {
 	FILE *f = path ? fopen(path, "r") : stdin;

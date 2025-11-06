@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/06 13:41:44 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/06 13:52:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/06 15:17:02 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ typedef struct s_map
 {
 	int	rows;
 	int	cols;
-	char	e;
-	char	o;
-	char	f;
+	char	e; // empty characters
+	char	o; // obstacles
+	char	f; // full characters
 	char	**map;
 }	t_map;
 
