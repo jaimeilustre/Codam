@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/06 11:00:49 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/06 12:03:41 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/06 12:11:18 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ static void free_map(t_game *game)
 	}
 }
 
+// Print map on standard output
 static void	print_map(t_game game)
 {
 	for (int y = 0; y < game.height; ++y)
