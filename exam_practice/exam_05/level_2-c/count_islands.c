@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/09 19:50:37 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/10 12:08:35 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static int	count_islands(t_map *map)
 
 static void	free_map(t_map *map)
 {
-	int i = map->height;
-	while (i--)
-		free(map->grid[i]);
+	int i = 0;
+	while (i < map->height)
+		free(map->grid[i++]);
 	free(map->grid);
 }
 
@@ -93,6 +93,12 @@ static t_map	*read_map(char *file)
 	{
 		if (buf[i] == '\n' || buf[i] == '\0')
 		{
+			// skips empty lines
+			if (i == start)
+			{
+				start = i + 1;
+				continue ;
+			}
 			map->grid[row] = malloc(map->width + 1);
 			j = 0;
 			while (start < i && j < map->width)
