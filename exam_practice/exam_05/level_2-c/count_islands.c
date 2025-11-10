@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/09 15:46:40 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/09 19:50:37 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ static t_map	*read_map(char *file)
 	}
 	return (map);
 }
-
 
 int main(int argc, char **argv)
 {

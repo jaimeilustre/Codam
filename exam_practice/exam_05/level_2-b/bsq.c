@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/06 13:41:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/09 12:31:18 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/10 10:29:56 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	parse_header(t_map *m, FILE *f)
 			|| m->o == m->f || m->rows <= 0)
 		return (0);
 	m->map = calloc(m->rows, sizeof(char *));
-	return !(!m->map);
+	return (m->map != NULL);
 }
 
 // Reads each map line with getline
@@ -62,8 +62,8 @@ static void solve(t_map *m)
 
 	// Step 2: initialize helper variables
 	int max = 0; // largest square size found
-	int x = 0; // x-coordinate (column) of bottom right corner
 	int y = 0; // y-coordinate (row) of bottom right corner
+	int x = 0; // x-coordinate (column) of bottom right corner
 	
 	// Step 3: scan the map and fill the 2d array
 	for (int i = 0; i < m->rows; i++)
@@ -144,7 +144,7 @@ int main(int argc, char **argv)
 	{
 		process(argv[i]);
 		if (i < argc - 1)
-			putchar('\n');
+			fputs("\n", stdout);
 	}
 	return (0);
 }
