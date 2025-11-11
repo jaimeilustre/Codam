@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/06 11:00:49 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/06 12:11:18 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/10 21:45:33 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	init(t_game *game, char **argv)
 	game->map = malloc(game->height * sizeof(char *));
 	for (int y = 0; y < game->height; ++y)
 	{
-		game->map[y] = malloc(game->width * sizeof(char *));
+		game->map[y] = malloc(game->width * sizeof(char));
 		for (int x = 0; x < game->width; ++x)
 			game->map[y][x] = ' ';
 	}
@@ -123,7 +123,7 @@ static void execute(t_game *game)
 {
 	char **new_map = malloc(game->height * sizeof(char *));
 	for (int y = 0; y < game->height; ++y)
-		new_map[y] = malloc(game->width * sizeof(char *));
+		new_map[y] = malloc(game->width * sizeof(char));
 
 	for (int y = 0; y < game->height; ++y)
 	for (int x = 0; x < game->width; ++x)

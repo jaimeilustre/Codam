@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/10 12:08:35 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/10 21:41:50 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ static t_map	*read_map(char *file)
 		map->height++;
 
 	// Step 2: Allocate grid
-	map->grid = malloc(sizeof(char *) * map->height);
+	map->grid = malloc(map->height * sizeof(char *));
 
 	// Step 3: Split lines manually 
-	row = 0;
-	start = 0;
+	row = 0; // current row index in the grid
+	start = 0; // marks the beginning of the current line in buf
 	for (i = 0; i <= len; i++)
 	{
 		if (buf[i] == '\n' || buf[i] == '\0')
@@ -99,11 +99,17 @@ static t_map	*read_map(char *file)
 				start = i + 1;
 				continue ;
 			}
+			
+			 // allocate enough space for one full line (+1 for null terminator)
 			map->grid[row] = malloc(map->width + 1);
+			
+			// copy characters into the grid
 			j = 0;
 			while (start < i && j < map->width)
 				map->grid[row][j++] = buf[start++];
 			map->grid[row][j] = '\0';
+
+			// move to next row
 			row++;
 			start = i + 1;
 		}
@@ -119,8 +125,10 @@ int main(int argc, char **argv)
 	int		i;
 
 	if (argc < 2 || !(map = read_map(argv[1])))
-		return (write(1, "Error\n", 6), 0);
+		return (write(1, "Error\n", 6), 1);
 	n = count_islands(map);
+
+	// essentially itoa/putnbr
 	i = 0;
 	if (n == 0)
 		buf[i++] = '0';
