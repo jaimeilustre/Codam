@@ -6,45 +6,80 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/10 21:41:50 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/11 15:18:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "count_islands.h"
 
-static void	flood(t_map *map, int y, int x)
+// static void	flood(t_map *map, int y, int x)
+// {
+// 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
+// 		return ;
+// 	if (map->grid[y][x] != '1')
+// 		return ;
+// 	map->grid[y][x] = 'x';
+// 	flood(map, y + 1, x);
+// 	flood(map, y - 1, x);
+// 	flood(map, y, x + 1);
+// 	flood(map, y, x - 1);
+// }
+
+// static int	count_islands(t_map *map)
+// {
+// 	int	y;
+// 	int	x;
+// 	int	count = 0;
+
+// 	y = -1;
+// 	while (++y < map->height)
+// 	{
+// 		x = -1;
+// 		while (++x < map->width)
+// 		{
+// 			if (map->grid[y][x] == '1')
+// 			{
+// 				count++;
+// 				flood(map, y, x);
+// 			}
+// 		}
+// 	}
+// 	return (count);
+// }
+
+// return largest island
+static int flood(t_map *map, int y, int x)
 {
-	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
-		return ;
+	if (y < 0 || y >= map->height || x < 0 || x >= map->height)
+		return (0);
 	if (map->grid[y][x] != '1')
-		return ;
+		return (0);
 	map->grid[y][x] = 'x';
-	flood(map, y + 1, x);
-	flood(map, y - 1, x);
-	flood(map, y, x + 1);
-	flood(map, y, x - 1);
+	return (1
+		+ flood(map, y + 1, x)
+		+ flood(map, y - 1, x)
+		+ flood(map, y, x + 1)
+		+ flood(map, y, x - 1));
 }
 
-static int	count_islands(t_map *map)
+static int count_islands(t_map *map)
 {
-	int	y;
-	int	x;
-	int	count = 0;
-
+	int y;
+	int x;
+	int max_size = 0;
+	
 	y = -1;
 	while (++y < map->height)
 	{
 		x = -1;
 		while (++x < map->width)
 		{
-			if (map->grid[y][x] == '1')
-			{
-				count++;
-				flood(map, y, x);
-			}
+			int size = flood(map, y, x);
+			if (size > max_size)
+				max_size = size;
 		}
 	}
-	return (count);
+	return (max_size);
 }
 
 static void	free_map(t_map *map)
