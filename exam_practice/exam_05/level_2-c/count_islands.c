@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/11 15:18:48 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/12 11:37:50 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,12 @@ static int count_islands(t_map *map)
 		x = -1;
 		while (++x < map->width)
 		{
-			int size = flood(map, y, x);
-			if (size > max_size)
-				max_size = size;
+			if (map->grid[y][x] == '1')
+			{
+				int size = flood(map, y, x);
+				if (size > max_size)
+					max_size = size;
+			}	
 		}
 	}
 	return (max_size);
