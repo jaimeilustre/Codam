@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/12 11:37:50 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/12 14:10:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 // return largest island
 static int flood(t_map *map, int y, int x)
 {
-	if (y < 0 || y >= map->height || x < 0 || x >= map->height)
+	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
 		return (0);
 	if (map->grid[y][x] != '1')
 		return (0);
