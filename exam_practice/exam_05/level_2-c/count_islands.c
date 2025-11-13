@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/12 14:10:02 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/13 17:45:38 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,75 @@ static void	free_map(t_map *map)
 	free(map->grid);
 }
 
+// static t_map	*read_map(char *file)
+// {
+// 	int		fd;
+// 	int		len;
+// 	char	buf[10000];
+// 	t_map	*map;
+// 	int		i, j, row, start;
+
+// 	fd = open(file, O_RDONLY);
+// 	if (fd < 0 || (len = read(fd, buf, 9999)) <= 0)
+// 		return (NULL);
+// 	close(fd);
+// 	buf[len] = '\0';
+
+// 	// Step 1: Count lines and width
+// 	map = malloc(sizeof(t_map));
+// 	map->height = 0;
+// 	map->width = 0;
+// 	for (i = 0; i < len; i++)
+// 	{
+// 		if (buf[i] == '\n')
+// 			map->height++;
+// 		else if (map->height == 0)
+// 			map->width++;
+// 	}
+// 	if (buf[len - 1] != '\n') // last line without newline
+// 		map->height++;
+
+// 	// Step 2: Allocate grid
+// 	map->grid = malloc(map->height * sizeof(char *));
+
+// 	// Step 3: Split lines manually 
+// 	row = 0; // current row index in the grid
+// 	start = 0; // marks the beginning of the current line in buf
+// 	for (i = 0; i <= len; i++)
+// 	{
+// 		if (buf[i] == '\n' || buf[i] == '\0')
+// 		{
+// 			// skips empty lines
+// 			if (i == start)
+// 			{
+// 				start = i + 1;
+// 				continue ;
+// 			}
+			
+// 			 // allocate enough space for one full line (+1 for null terminator)
+// 			map->grid[row] = malloc(map->width + 1);
+			
+// 			// copy characters into the grid
+// 			j = 0;
+// 			while (start < i && j < map->width)
+// 				map->grid[row][j++] = buf[start++];
+// 			map->grid[row][j] = '\0';
+
+// 			// move to next row
+// 			row++;
+// 			start = i + 1;
+// 		}
+// 	}
+// 	return (map);
+// }
+
 static t_map	*read_map(char *file)
 {
 	int		fd;
 	int		len;
 	char	buf[10000];
 	t_map	*map;
-	int		i, j, row, start;
+	int		i, j, row, start, line_len;
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0 || (len = read(fd, buf, 9999)) <= 0)
@@ -107,10 +169,11 @@ static t_map	*read_map(char *file)
 	close(fd);
 	buf[len] = '\0';
 
-	// Step 1: Count lines and width
 	map = malloc(sizeof(t_map));
 	map->height = 0;
 	map->width = 0;
+
+	// Step 1: determine width and height
 	for (i = 0; i < len; i++)
 	{
 		if (buf[i] == '\n')
@@ -118,42 +181,54 @@ static t_map	*read_map(char *file)
 		else if (map->height == 0)
 			map->width++;
 	}
-	if (buf[len - 1] != '\n') // last line without newline
+	if (buf[len - 1] != '\n')
 		map->height++;
 
-	// Step 2: Allocate grid
+	// Step 2: allocate grid
 	map->grid = malloc(map->height * sizeof(char *));
+	if (!map->grid)
+		return (free(map), NULL);
 
-	// Step 3: Split lines manually 
-	row = 0; // current row index in the grid
-	start = 0; // marks the beginning of the current line in buf
+	// Step 3: split lines manually and validate
+	row = 0;
+	start = 0;
 	for (i = 0; i <= len; i++)
 	{
 		if (buf[i] == '\n' || buf[i] == '\0')
 		{
-			// skips empty lines
-			if (i == start)
-			{
-				start = i + 1;
-				continue ;
-			}
-			
-			 // allocate enough space for one full line (+1 for null terminator)
-			map->grid[row] = malloc(map->width + 1);
-			
-			// copy characters into the grid
-			j = 0;
-			while (start < i && j < map->width)
-				map->grid[row][j++] = buf[start++];
-			map->grid[row][j] = '\0';
+			line_len = i - start;
 
-			// move to next row
+			// check for empty line (invalid)
+			if (line_len == 0)
+				return (free_map(map), free(map), NULL);
+
+			// check line length
+			if (line_len != map->width)
+				return (free_map(map), free(map), NULL);
+
+			map->grid[row] = malloc(map->width + 1);
+			if (!map->grid[row])
+				return (free_map(map), free(map), NULL);
+
+			// copy and validate characters
+			j = 0;
+			while (start < i)
+			{
+				char c = buf[start++];
+				if (c != '0' && c != '1')
+					return (free_map(map), free(map), NULL);
+				map->grid[row][j++] = c;
+			}
+			map->grid[row][j] = '\0';
 			row++;
 			start = i + 1;
 		}
 	}
+	if (row != map->height)
+		return (free_map(map), free(map), NULL);
 	return (map);
 }
+
 
 int main(int argc, char **argv)
 {
@@ -163,7 +238,7 @@ int main(int argc, char **argv)
 	int		i;
 
 	if (argc < 2 || !(map = read_map(argv[1])))
-		return (write(1, "Error\n", 6), 1);
+		return (write(1, "Map Error\n", 10), 1);
 	n = count_islands(map);
 
 	// essentially itoa/putnbr
