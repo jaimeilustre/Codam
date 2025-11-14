@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/14 10:50:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/14 15:46:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,42 +57,77 @@ typedef struct s_map
 // 	return (count);
 // }
 
-static int flood(t_map *map, int y, int x)
+
+static void flood(t_map *map, int y, int x, char id)
 {
 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
-		return (0);
+		return ;
 	if (map->grid[y][x] != 'X')
-		return (0);
-	map->grid[y][x] = 'x';
-	return (1
-		+ flood(map, y + 1, x)
-		+ flood(map, y - 1, x)
-		+ flood(map, y, x + 1)
-		+ flood(map, y, x - 1));
+		return ;
+	map->grid[y][x] = id;
+	flood(map, y + 1, x, id);
+	flood(map, y - 1, x, id);
+	flood(map, y, x + 1, id);
+	flood(map, y, x - 1, id);
 }
 
-static int count_islands(t_map *map)
-{
+static void label_islands(t_map *map)
+{	
 	int y;
 	int x;
-	int max_size = 0;
-
-	y = -1;
+	char id = '0';
+	
+	y = 0;
 	while (++y < map->height)
 	{
-		x = -1;
+		x = 0;
 		while (++x < map->width)
 		{
 			if (map->grid[y][x] == 'X')
 			{
-				int size = flood(map, y, x);
-				if (size > max_size)
-					max_size = size;
+				flood(map, y, x, id);
+				id++;
 			}
 		}
 	}
-	return (max_size);
 }
+
+// static int flood(t_map *map, int y, int x)
+// {
+// 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
+// 		return (0);
+// 	if (map->grid[y][x] != 'X')
+// 		return (0);
+// 	map->grid[y][x] = 'x';
+// 	return (1
+// 		+ flood(map, y + 1, x)
+// 		+ flood(map, y - 1, x)
+// 		+ flood(map, y, x + 1)
+// 		+ flood(map, y, x - 1));
+// }
+
+// static int count_islands(t_map *map)
+// {
+// 	int y;
+// 	int x;
+// 	int max_size = 0;
+
+// 	y = -1;
+// 	while (++y < map->height)
+// 	{
+// 		x = -1;
+// 		while (++x < map->width)
+// 		{
+// 			if (map->grid[y][x] == 'X')
+// 			{
+// 				int size = flood(map, y, x);
+// 				if (size > max_size)
+// 					max_size = size;
+// 			}
+// 		}
+// 	}
+// 	return (max_size);
+// }
 
 static void free_map(t_map *map)
 {
@@ -100,6 +135,16 @@ static void free_map(t_map *map)
 	while (i < map->height)
 			free(map->grid[i++]);
 	free(map->grid);
+}
+
+static void print_map(t_map map)
+{
+	for (int y = 0; y < map.height; y++)
+	{
+		for (int x = 0; x < map.width; x++)
+			write(1, &map.grid[y][x], 1);
+		write(1, "\n", 1);
+	}
 }
 
 static t_map	*read_map(char *file)
@@ -174,25 +219,28 @@ static t_map	*read_map(char *file)
 
 int main(int argc, char **argv)
 {
-	int i;
-	int n;
-	char buf[12];
+	// int i;
+	// int n;
+	// char buf[12];
 	t_map *map;
 
 	if (argc < 2 || !(map = read_map(argv[1])))
 		return (write(1, "Map Error\n", 10),1);
-	n = count_islands(map);
-	i = 0;
-	if (n == 0)
-		buf[i++] = '0';
-	while (n)
-	{
-		buf[i++] = n % 10 + '0';
-		n /= 10;
-	}
-	while (i--)
-		write(1, &buf[i], 1);
-	write (1, "\n", 1);
+	// n = count_islands(map);
+	// i = 0;
+	// if (n == 0)
+	// 	buf[i++] = '0';
+	// while (n)
+	// {
+	// 	buf[i++] = n % 10 + '0';
+	// 	n /= 10;
+	// }
+	// while (i--)
+	// 	write(1, &buf[i], 1);
+	// write (1, "\n", 1);
+
+	label_islands(map);
+	print_map(*map);
 	free_map(map);
 	free(map);
 	return (0);		
