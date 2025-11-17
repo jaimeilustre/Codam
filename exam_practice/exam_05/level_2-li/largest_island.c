@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/17 10:21:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/17 11:52:32 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/17 20:29:39 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,16 @@ static t_map	*read_map(char *file)
 			line_len = i - start;
 			
 			if (line_len == 0)
+			{
+				int k = i;
+				while (buf[k] == '\n')
+					k++;
+				
+				if (buf[k] == '\0')
+					break ;
+					
 				return (free_map(map), free(map), NULL);
+			}
 			
 			if (line_len != map->width)
 				return (free_map(map), free(map), NULL);

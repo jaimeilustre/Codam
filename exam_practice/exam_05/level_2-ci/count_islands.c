@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/17 10:25:10 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/17 20:28:23 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,16 @@ static t_map	*read_map(char *file)
 			line_len = i - start;
 			
 			if (line_len == 0)
+			{
+				int k = i;
+				while (buf[k] == '\n')
+					k++;
+				
+				if (buf[k] == '\0')
+					break ;
+					
 				return (free_map(map), free(map), NULL);
+			}
 			
 			if (line_len != map->width)
 				return (free_map(map), free(map), NULL);
