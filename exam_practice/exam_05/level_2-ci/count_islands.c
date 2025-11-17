@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/09 15:10:29 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/11/14 15:46:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/17 10:25:10 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,43 +91,6 @@ static void label_islands(t_map *map)
 		}
 	}
 }
-
-// static int flood(t_map *map, int y, int x)
-// {
-// 	if (y < 0 || y >= map->height || x < 0 || x >= map->width)
-// 		return (0);
-// 	if (map->grid[y][x] != 'X')
-// 		return (0);
-// 	map->grid[y][x] = 'x';
-// 	return (1
-// 		+ flood(map, y + 1, x)
-// 		+ flood(map, y - 1, x)
-// 		+ flood(map, y, x + 1)
-// 		+ flood(map, y, x - 1));
-// }
-
-// static int count_islands(t_map *map)
-// {
-// 	int y;
-// 	int x;
-// 	int max_size = 0;
-
-// 	y = -1;
-// 	while (++y < map->height)
-// 	{
-// 		x = -1;
-// 		while (++x < map->width)
-// 		{
-// 			if (map->grid[y][x] == 'X')
-// 			{
-// 				int size = flood(map, y, x);
-// 				if (size > max_size)
-// 					max_size = size;
-// 			}
-// 		}
-// 	}
-// 	return (max_size);
-// }
 
 static void free_map(t_map *map)
 {
