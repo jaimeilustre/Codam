@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/11/17 10:21:01 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/17 11:20:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/17 11:52:32 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,6 @@ int main(int argc, char **argv)
 		write(1, &buf[i], 1);
 	write (1, "\n", 1);
 
-	// label_islands(map);
 	// print_map(*map);
 	free_map(map);
 	free(map);
