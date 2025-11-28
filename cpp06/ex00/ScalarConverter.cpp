@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/28 14:51:26 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/28 17:02:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,55 @@ bool	ScalarConverter::isChar(const std::string& literal)
 	return (literal.length() == 3 && literal[0] == '\''
 			&& literal[2] == '\'' && isprint(literal[1]));
 }
+
+bool	ScalarConverter::isInt(const std::string& literal)
+{
+	int i = 0;
+	
+	if (i == literal.length())
+		return (false);
+	
+	if (literal[i] == '+' || literal[i] == '-')
+		i++;
+	
+	while (i < literal.length())
+	{
+		if (!isdigit(literal[i]))
+			return (false);
+		i++;
+	}
+	return (true);
+}
+
+bool	ScalarConverter::isFloat(const std::string& literal)
+{
+	if (literal[literal.length() - 1] != 'f')
+		return (false);
+	
+	std::string	digits = literal.substr(0, literal.length() - 1);
+	
+	int i = 0;
+	if (digits[i] == '+' || digits[i] == '-')
+		i++;
+	
+	bool	dot = false;
+	bool	digit = false;
+		
+	while (i < digits.length())
+	{
+		if (digits[i] == '.')
+		{
+			if (dot)
+				return (false);
+			dot = true;
+		}
+		else if (isdigit(digits[i]))
+			digit = true;
+		else
+			return (false);
+	}
+	return (dot && digit);
+}
+
+
 
