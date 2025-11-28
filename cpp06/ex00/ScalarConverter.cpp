@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/28 14:23:13 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/28 14:28:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	ScalarConverter::printChar(char c)
 {
 	std::cout << "char: '" << c << "'" << std::endl;
 	std::cout << "int: " << static_cast<int>(c) << std::endl;
-	std::cout << "float: " << static_cast<float>(c) << std::endl;
-	std::cout << "double: " << static_cast<double>(c) << std::endl;
+	std::cout << "float: " << static_cast<float>(c) << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(c) << ".0" << std::endl;
 }
 
 void	ScalarConverter::printInt(int n)
