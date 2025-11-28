@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/27 15:13:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/27 15:44:30 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,15 @@ void	ScalarConverter::printInt(int n)
 
 void	ScalarConverter::printFloat(float f)
 {
+	if (f < 0 || f > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (static_cast<int>(f) >= 32 && static_cast<int>(f) <= 126)
+		std::cout << "char: '" << static_cast<char>(f) << "'" << std::endl;
+	else
+		std::cout << "char: Non displayable" << std::endl;
 	
+	if (f < INT_MIN || f > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(f) << std::endl;
 }
