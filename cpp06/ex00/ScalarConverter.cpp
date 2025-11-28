@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/27 15:44:30 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/28 14:23:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,25 @@ void	ScalarConverter::printFloat(float f)
 		std::cout << "int: impossible" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(f) << std::endl;
+	
+	std::cout << "float: " << f << ".0f" << std::endl;
+	std::cout << "double: " << static_cast<double>(f) << ".0" << std::endl;
+}
+
+void	ScalarConverter::printDouble(double d)
+{
+	if (d < 0 || d > 127)
+		std::cout << "char: impossible" << std::endl;
+	else if (static_cast<int>(d) >= 32 && static_cast<int>(d) <= 126)
+		std::cout << "char: '" << static_cast<char>(d) << "'" << std::endl;
+	else
+		std::cout << "char: Non displayable" << std::endl;
+	
+	if (d < INT_MIN || d > INT_MAX)
+		std::cout << "int: impossible" << std::endl;
+	else
+		std::cout << "int: " << static_cast<int>(d) << std::endl;
+	
+	std::cout << "float: " << static_cast<float>(d) << ".0f" << std::endl;
+	std::cout << "double: " << d << ".0" << std::endl;
 }
