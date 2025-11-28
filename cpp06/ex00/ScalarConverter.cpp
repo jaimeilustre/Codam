@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/28 14:28:36 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/28 14:51:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,3 +90,22 @@ void	ScalarConverter::printDouble(double d)
 	std::cout << "float: " << static_cast<float>(d) << ".0f" << std::endl;
 	std::cout << "double: " << d << ".0" << std::endl;
 }
+
+// Detecting functions
+
+bool	ScalarConverter::pseudoFloat(const std::string& literal)
+{
+	return (literal == "-inff" || literal == "+inff" || literal == "nanf");
+}
+
+bool	ScalarConverter::pseudoDouble(const std::string& literal)
+{
+	return (literal == "-inf" || literal == "+inf" || literal == "nan");
+}
+
+bool	ScalarConverter::isChar(const std::string& literal)
+{
+	return (literal.length() == 3 && literal[0] == '\''
+			&& literal[2] == '\'' && isprint(literal[1]));
+}
+
