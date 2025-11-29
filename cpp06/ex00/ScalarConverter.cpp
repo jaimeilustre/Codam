@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/29 08:20:31 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/29 20:39:47 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ bool	ScalarConverter::isFloat(const std::string& literal)
 			digit = true;
 		else
 			return (false);
+		i++;
 	}
 	return (dot && digit);
 }
@@ -179,6 +180,7 @@ bool	ScalarConverter::isDouble(const std::string& literal)
 			digit = true;
 		else
 			return (false);
+		i++;
 	}
 	return (dot && digit);
 }
