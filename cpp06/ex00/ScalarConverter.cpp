@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/28 17:10:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/29 08:20:31 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,6 +181,58 @@ bool	ScalarConverter::isDouble(const std::string& literal)
 			return (false);
 	}
 	return (dot && digit);
+}
+
+ScalarConverter::type	ScalarConverter::detectType(const std::string& literal)
+{
+	if (pseudoFloat(literal))
+		return (PSEUDO_FLOAT);
+	if (pseudoDouble(literal))
+		return (PSEUDO_DOUBLE);
+	if (isChar(literal))
+		return (CHAR);
+	if (isInt(literal))
+		return (INT);
+	if (isFloat(literal))
+		return (FLOAT);
+	if (isDouble(literal))
+		return (DOUBLE);
+	return (INVALID);
+}
+
+void	ScalarConverter::convert(const std::string& literal)
+{
+	type	literalType = detectType(literal);
+
+	switch (literalType)
+	{
+		case CHAR:
+			printChar(literal[1]);
+			break ;
+		case INT:
+			printInt(atoi(literal.c_str()));
+			break ;
+		case FLOAT:
+			printFloat(static_cast<float>(strtod(literal.c_str(), NULL)));
+			break ;
+		case DOUBLE:
+			printDouble(strtod(literal.c_str(), NULL));
+			break ;
+		case PSEUDO_FLOAT:
+			std::cout << "char: impossible" << std::endl;
+			std::cout << "int: impossible" << std::endl;
+			std::cout << "float: " << literal << std::endl;
+			std::cout << "double: " << literal.substr(0, literal.size() - 1) << std::endl;
+			break ;
+		case PSEUDO_DOUBLE:
+			std::cout << "char: impossible" << std::endl;
+			std::cout << "int: impossible" << std::endl;
+			std::cout << "float: " << literal << "f" << std::endl;
+			std::cout << "double: " << literal << std::endl;
+			break ;
+		default:
+			std::cout << "Invalid literal" << std::endl;
+	}
 }
 
 

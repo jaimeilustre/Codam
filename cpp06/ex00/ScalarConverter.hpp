@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 10:58:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/28 14:51:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/11/29 08:05:41 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ class ScalarConverter
 		ScalarConverter&	operator=(const ScalarConverter& other);
 		~ScalarConverter();
 	
+		enum type
+		{
+			CHAR,
+			INT,
+			FLOAT,
+			DOUBLE,
+			PSEUDO_FLOAT,
+			PSEUDO_DOUBLE,
+			INVALID,
+		};
+
+		static type	detectType(const std::string& literal);
+
 		static void printChar(char c);
 		static void	printInt(int n);
 		static void	printFloat(float f);
