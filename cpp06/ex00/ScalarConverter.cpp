@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/01 16:57:57 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/01 21:28:50 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,8 +174,7 @@ bool	ScalarConverter::pseudoDouble(const std::string& literal)
 
 bool	ScalarConverter::isChar(const std::string& literal)
 {
-	return (literal.length() == 3 && literal[0] == '\''
-			&& literal[2] == '\'' && isprint(literal[1]));
+	return (literal.size() == 1 && std::isprint(literal[0]) && !std::isdigit(literal[0]));
 }
 
 bool	ScalarConverter::isInt(const std::string& literal)
@@ -283,12 +282,11 @@ void	ScalarConverter::convert(const std::string& literal)
 	switch (literalType)
 	{
 		case CHAR:
-			printChar(literal[1]);
+			printChar(literal[0]);
 			break ;
 		case INT:
 		{
-            char*	end;
-            long	val = std::strtol(literal.c_str(), &end, 10);
+            long	val = std::strtol(literal.c_str(), NULL, 10);
 
             if (val < INT_MIN || val > INT_MAX)
             {
@@ -302,10 +300,10 @@ void	ScalarConverter::convert(const std::string& literal)
             break;
         }	
 		case FLOAT:
-			printFloat(static_cast<float>(strtod(literal.c_str(), NULL)));
+			printFloat(std::stof(literal));
 			break ;
 		case DOUBLE:
-			printDouble(strtod(literal.c_str(), NULL));
+			printDouble(std::stod(literal));
 			break ;
 		case PSEUDO_FLOAT:
 			std::cout << "char: impossible" << std::endl;
