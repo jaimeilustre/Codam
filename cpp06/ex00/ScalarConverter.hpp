@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 10:58:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/11/29 08:05:41 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/01 16:26:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define SCALAR_CONVERTER_HPP
 
 # include <iostream>
-# include <cstdlib>
-# include <cctype>
+// # include <cstdlib>
+// # include <cctype>
+# include <cmath>
 # include <climits>
 # include <limits>
 
