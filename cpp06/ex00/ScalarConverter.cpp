@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/01 21:28:50 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/01 21:43:42 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,62 +198,15 @@ bool	ScalarConverter::isInt(const std::string& literal)
 
 bool	ScalarConverter::isFloat(const std::string& literal)
 {
-	if (literal.size() < 2 || literal.back() != 'f')
-		return (false);
-	
-	std::string	digits = literal.substr(0, literal.size() - 1);
-	
-	int i = 0;
-	if (digits[i] == '+' || digits[i] == '-')
-		i++;
-	
-	bool	dot = false;
-	bool	digit = false;
-		
-	while (i < digits.size())
-	{
-		if (digits[i] == '.')
-		{
-			if (dot)
-				return (false);
-			dot = true;
-		}
-		else if (isdigit(digits[i]))
-			digit = true;
-		else
-			return (false);
-		i++;
-	}
-	return (dot && digit);
+	static const std::regex r("^[+-]?((\\d+(\\.\\d*)?)|(\\.\\d+))([eE][+-]?\\d+)?f$");
+	return (std::regex_match(literal, r));
 }
+
 
 bool	ScalarConverter::isDouble(const std::string& literal)
 {
-	if (literal.empty())
-		return (false);
-	
-	int i = 0;
-	if (literal[i] == '+' || literal[i] == '-')
-		i++;
-		
-	bool	dot = false;
-	bool	digit = false;
-
-	while (i < literal.length())
-	{
-		if (literal[i] == '.')
-		{
-			if (dot)
-				return (false);
-			dot = true;
-		}
-		else if (isdigit(literal[i]))
-			digit = true;
-		else
-			return (false);
-		i++;
-	}
-	return (dot && digit);
+    static const std::regex r("^[+-]?((\\d+(\\.\\d*)?)|(\\.\\d+))([eE][+-]?\\d+)?$");
+    return (std::regex_match(literal, r));
 }
 
 ScalarConverter::type	ScalarConverter::detectType(const std::string& literal)
