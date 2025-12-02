@@ -2,7 +2,7 @@ CXX				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	main.cpp Base.cpp A.cpp B.cpp C.cpp
+SRCS			=	Functions.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= dynamic

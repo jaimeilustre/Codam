@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 11:56:42 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/02 11:57:49 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/02 14:36:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 
 # include "Base.hpp"
 
-class A: public Base
-{
-	public:
-		~A();
-};
+class A: public Base {};
 
 #endif
