@@ -1,34 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Serializer.hpp                                     :+:    :+:            */
+/*   Data.hpp                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/12/01 12:07:25 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/02 10:34:28 by jilustre      ########   odam.nl         */
+/*   Created: 2025/12/02 10:35:54 by jilustre      #+#    #+#                 */
+/*   Updated: 2025/12/02 10:37:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-# define SERIALIZER_HPP
+#ifndef DATA_HPP
+# define DATA_HPP
 
-# include <cstdint>
-# include <iostream>
+# include <string>
 
-# include "Data.hpp"
-
-class Serializer
+struct Data
 {
-	private:
-		Serializer();
-		Serializer(const Serializer& other);
-		Serializer&	operator=(const Serializer& other);
-		~Serializer();
-
-	public:
-		static uintptr_t	serialize(Data* ptr);
-		static Data*		deserialize(uintptr_t raw);
+	int			id;
+	std::string	name;
 };
 
 #endif
