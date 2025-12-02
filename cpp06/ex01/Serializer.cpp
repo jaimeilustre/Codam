@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 10:41:50 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/02 10:46:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/02 11:13:27 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 Serializer::Serializer() {};
 Serializer::Serializer(const Serializer& other) {};
-Serializer&	Serializer::operator=(const Serializer& other) {};
+Serializer&	Serializer::operator=(const Serializer& other) {(void)other; return (*this);};
 Serializer::~Serializer() {};
 
 uintptr_t	Serializer::serialize(Data* ptr)

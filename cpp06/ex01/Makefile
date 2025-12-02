@@ -2,7 +2,7 @@ CXX				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
-SRCS			=	main.cpp ScalarConverter.cpp
+SRCS			=	main.cpp Serializer.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= serialize
