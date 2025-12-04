@@ -6,16 +6,11 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 12:09:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/04 10:11:28 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/04 10:16:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "A.hpp"
-#include "B.hpp"
-#include "C.hpp"
-
-#include <ctime>
-#include <iostream>
+#include "Functions.hpp"
 
 Base*	generate(void)
 {
@@ -73,19 +68,3 @@ void	identify(Base& p)
 	std::cout << "Unknown" << std::endl;
 }
 
-int main(void)
-{
-	std::srand(time(NULL));
-	
-	Base *b = generate();
-
-	std::cout << "Identify Base*: ";
-	identify(b);
-
-	std::cout << "Identify Base&: ";
-	identify(*b);
-
-	delete b;
-	
-	return (0);
-}
