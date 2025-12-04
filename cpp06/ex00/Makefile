@@ -1,6 +1,6 @@
 CXX				= c++
 RM				= rm -f
-CFLAGS			= -Wall -Wextra -Werror
+CXXFLAGS		= -Wall -Wextra -Werror
 
 SRCS			=	main.cpp ScalarConverter.cpp
 					
@@ -10,7 +10,7 @@ NAME			= convert
 all:	$(NAME)
 
 $(NAME): $(OBJS)
-	$(CXX) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)

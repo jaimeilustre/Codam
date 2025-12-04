@@ -6,13 +6,13 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 11:08:49 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/02 11:20:54 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/04 10:08:06 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Serializer.hpp"
 
-int main(int argc, char **argv)
+int main(void)
 {
 	Data	test;
 	test.id = 8;

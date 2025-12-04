@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 12:09:16 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/02 14:47:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/04 10:11:28 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	identify(Base& p)
 	std::cout << "Unknown" << std::endl;
 }
 
-int main(int argc, char **argv)
+int main(void)
 {
 	std::srand(time(NULL));
 	
