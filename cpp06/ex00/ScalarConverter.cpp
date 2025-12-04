@@ -6,32 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/01 21:43:42 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/04 12:27:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ScalarConverter.hpp"
 
-ScalarConverter::ScalarConverter()
-{
-	std::cout << "ScalarConverter parameterized constructor called!" << std::endl;
-}
-
-ScalarConverter::ScalarConverter(const ScalarConverter& other)
-{
-	std::cout << "ScalarConverter copy constructor called!" << std::endl;
-}
-
-ScalarConverter&	ScalarConverter::operator=(const ScalarConverter& other)
-{
-	(void)other;
-	return (*this);
-}
-
-ScalarConverter::~ScalarConverter()
-{
-	std::cout << "ScalarConverter destructor called!" << std::endl;
-}
+ScalarConverter::ScalarConverter() {}
+ScalarConverter::ScalarConverter(const ScalarConverter& other) {(void)other;}
+ScalarConverter&	ScalarConverter::operator=(const ScalarConverter& other) {(void)other; return (*this);}
+ScalarConverter::~ScalarConverter() {}
 
 // Printing functions
 
@@ -182,14 +166,14 @@ bool	ScalarConverter::isInt(const std::string& literal)
 	if (literal.empty())
 		return (false);
 	
-	int i = 0;
+	size_t i = 0;
 	
 	if (literal[i] == '+' || literal[i] == '-')
 		i++;
 	
 	while (i < literal.length())
 	{
-		if (!isdigit(literal[i]))
+		if (!std::isdigit(literal[i]))
 			return (false);
 		i++;
 	}

@@ -6,16 +6,16 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/02 10:41:50 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/04 10:08:45 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/04 12:27:26 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Serializer.hpp"
 
-Serializer::Serializer() {};
-Serializer::Serializer(const Serializer& other) {(void)other;};
-Serializer&	Serializer::operator=(const Serializer& other) {(void)other; return (*this);};
-Serializer::~Serializer() {};
+Serializer::Serializer() {}
+Serializer::Serializer(const Serializer& other) {(void)other;}
+Serializer&	Serializer::operator=(const Serializer& other) {(void)other; return (*this);}
+Serializer::~Serializer() {}
 
 uintptr_t	Serializer::serialize(Data* ptr)
 {

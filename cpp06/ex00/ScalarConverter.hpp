@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 10:58:41 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/01 21:43:58 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/04 12:29:11 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@
 # include <regex>
 
 class ScalarConverter
-{
-	public:
-		static void	convert(const std::string& literal);
-		
+{		
 	private:
 		ScalarConverter();
 		ScalarConverter(const ScalarConverter& other);
@@ -55,6 +52,9 @@ class ScalarConverter
 		static bool isInt(const std::string& literal);
 		static bool	isFloat(const std::string& literal);
 		static bool isDouble(const std::string& literal);
+		
+	public:
+		static void	convert(const std::string& literal);
 };
 
 #endif
