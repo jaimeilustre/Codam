@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/10/30 11:12:21 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/04 12:27:08 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/05 11:46:13 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,10 +237,32 @@ void	ScalarConverter::convert(const std::string& literal)
             break;
         }	
 		case FLOAT:
-			printFloat(std::stof(literal));
+			try
+			{
+				printFloat(std::stof(literal));
+			}
+			catch (...)
+			{
+				std::cout << "char: impossible" << std::endl;
+				std::cout << "int: impossible" << std::endl;
+				std::cout << "float: impossible" << std::endl;
+				std::cout << "double: impossible" << std::endl;
+                return;
+			}
 			break ;
 		case DOUBLE:
-			printDouble(std::stod(literal));
+			try
+			{
+				printDouble(std::stod(literal));
+			}
+			catch (...)
+			{
+				std::cout << "char: impossible" << std::endl;
+				std::cout << "int: impossible" << std::endl;
+				std::cout << "float: impossible" << std::endl;
+				std::cout << "double: impossible" << std::endl;
+                return;
+			}
 			break ;
 		case PSEUDO_FLOAT:
 			std::cout << "char: impossible" << std::endl;
