@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/07 10:23:18 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/07 10:34:20 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/07 13:15:06 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ template <typename T> void swap(T& x, T& y)
 	y = tmp;
 }
 
-template <typename T> T min(T x, T y)
+template <typename T> T& min(T& x, T& y)
 {
 	return (x < y) ? x : y; 
 }
 
-template <typename T> T max(T x, T y)
+template <typename T> T& max(T& x, T& y)
 {
 	return (x > y) ? x : y;
 }
