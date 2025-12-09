@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/09 21:39:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/09 21:47:11 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/09 22:05:29 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ template <typename T> class Array
 		~Array();
 
 		// Element access
-		T&	operator[](unsigned int index);
+		T&			operator[](unsigned int index);
 		const T&	operator[](unsigned int index) const;
 
 		// Getter
 		unsigned int	getSize() const;
 };
+
+# include "Array.tpp"
 
 #endif
