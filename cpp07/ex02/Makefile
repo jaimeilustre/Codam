@@ -5,7 +5,7 @@ CXXFLAGS		= -Wall -Wextra -Werror
 SRCS			=	main.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
-NAME			= iter
+NAME			= array
 
 all:	$(NAME)
 
