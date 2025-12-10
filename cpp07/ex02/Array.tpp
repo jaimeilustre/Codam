@@ -6,14 +6,12 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/09 21:48:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/09 22:19:51 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/10 10:11:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARRAY_TPP
 # define ARRAY_TPP
-
-# include "Array.hpp"
 
 template <typename T> Array<T>::Array(): _arr(NULL), _size(0) {}
 
@@ -43,21 +41,16 @@ template <typename T> Array<T>::Array(const Array& other): _arr(NULL), _size(oth
 
 template <typename T> Array<T>&	Array<T>::operator=(const Array& other)
 {
-	if (this == &other)
-		return (*this);
-	
-	delete[] _arr;
-	_size = other._size;
-	
-	if (_size == 0)
+	if (this != &other)
 	{
-		_arr = NULL;
-		return (*this);
-	}
-	_arr = new T[_size];
-	for (unsigned int i = 0; i < _size; i++)
-	{
-		_arr[i] = other._arr[i];
+		delete[] _arr;
+		_size = other._size;
+		_arr = new T[_size];
+		
+		for (unsigned int i = 0; i < _size; i++)
+		{
+			_arr[i] = other._arr[i];
+		}
 	}
 	return (*this);
 }

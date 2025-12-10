@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/09 22:12:46 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/10 09:53:59 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/10 10:13:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int main(void)
     test5 = test4;
     test5[0] = "changed";
 
-    std::cout << "test4[0] = " << test4[0] << std::endl; // should remain "hello"
-    std::cout << "test5[0] = " << test5[0] << std::endl; // should be "changed"
+    std::cout << "test4[0] = " << test4[0] << " Expected: hello(original)" << std::endl;
+    std::cout << "test5[0] = " << test5[0] << " Expected: changed(modified)" << std::endl;
 
     std::cout << "=== OUT OF BOUNDS TEST ===" << std::endl;
 	

@@ -6,14 +6,13 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/09 21:39:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/10 09:54:18 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/10 10:05:25 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ARRAY_HPP
 # define ARRAY_HPP
 
-# include <iostream>
 # include <exception>
 
 template <typename T> class Array
