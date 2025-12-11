@@ -2,7 +2,7 @@ CXX				= c++
 RM				= rm -f
 CXXFLAGS		= -Wall -Wextra -Werror
 
-SRCS			=	main.cpp
+SRCS			=	main.cpp Span.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 NAME			= span

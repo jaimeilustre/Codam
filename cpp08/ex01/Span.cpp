@@ -6,11 +6,12 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:15:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 17:23:04 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/11 20:02:29 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
+#include <limits>
 
 Span::Span(unsigned int n): N(n)
 {
@@ -39,4 +40,36 @@ void	Span::addNumber(int n)
 	if (_integers.size() >= N)
 		throw std::runtime_error("Span is full");
 	_integers.push_back(n);
+}
+
+int	Span::shortestSpan() const
+{
+	if (_integers.size() < 2)
+		throw std::runtime_error("Span only contains 1 integer");
+
+	std::vector<int>	sortedSpan = _integers;
+	std::sort(sortedSpan.begin(), sortedSpan.end());
+
+	int	minSpan = INT_MAX;
+
+	for (size_t i = 1; i < sortedSpan.size() - 1; i++)
+	{
+		int span = sortedSpan[i + 1] - sortedSpan[i];
+		if (span < minSpan)
+			minSpan = span;
+	}
+	return (minSpan);
+}
+
+int Span::longestSpan() const
+{
+	if (_integers.size() < 2)
+		throw std::runtime_error("Span only contains 1 integer");
+		
+	std::vector<int>	sortedSpan = _integers;
+	std::sort(sortedSpan.begin(), sortedSpan.end());
+
+	int maxSpan = sortedSpan.back() - sortedSpan.front();
+
+	return (maxSpan);
 }
