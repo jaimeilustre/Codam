@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:01:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 17:16:35 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/11 20:29:13 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ class Span
 		void	addNumber(int n);
 		int		shortestSpan() const;
 		int		longestSpan() const;
+
+		template <typename T> void addRange(T begin, T end)
+		{
+			if (_integers.size() + std::distance(begin, end) > N)
+				throw std::runtime_error("Span is full");
+			_integers.insert(_integers.end(), begin, end);
+		}
 };
 
 #endif
