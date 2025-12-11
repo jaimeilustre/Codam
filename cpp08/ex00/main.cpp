@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 15:34:50 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 16:15:20 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/11 16:27:34 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int main(void)
 	v.push_back(2);
 	v.push_back(3);
 
-	for (int i = 0; i < 3; i++)
-		std::cout << v[i] << " ";
+	for (int i : v)
+		std::cout << i << " ";
 	std::cout << std::endl;
 
 	try
@@ -45,8 +45,8 @@ int main(void)
 	d.push_front(5);
 	d.push_front(4);
 
-	for (int i = 0; i < 3; i++)
-		std::cout << d[i] << " ";
+	for (int i : d)
+		std::cout << i << " ";
 	std::cout << std::endl;
 
 	try
@@ -57,6 +57,26 @@ int main(void)
 	catch(const std::exception& e)
 	{
 		std::cerr << "Deque: " << e.what() << std::endl;
+	}
+
+	std::cout << "=== LIST TESTS ===" << std::endl;
+	
+	l.push_back(7);
+	l.push_back(8);
+	l.push_back(9);
+
+	for (int i : l)
+		std::cout << i << " ";
+	std::cout << std::endl;
+
+	try
+	{
+		std::list<int>::iterator it_l = easyfind(l, 8);
+		std::cout << "Found in list: " << *it_l << std::endl;
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << "List: " << e.what() << std::endl;
 	}
 	
 	return (0);
