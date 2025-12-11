@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:01:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 17:08:42 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/11 17:16:35 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ class Span
 {
 	private:
 		unsigned int		N;
-		std::vector<int>	_nbs;
+		std::vector<int>	_integers;
 	
 	public:
 		// Orthodox canonical form
