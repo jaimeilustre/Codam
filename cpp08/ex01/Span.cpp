@@ -6,12 +6,11 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:15:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 20:02:29 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/12 14:28:53 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Span.hpp"
-#include <limits>
 
 Span::Span(unsigned int n): N(n)
 {

@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:01:09 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/11 20:29:13 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/12 14:29:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <vector>
 # include <algorithm>
 # include <stdexcept>
+# include <climits>
 
 class Span
 {
