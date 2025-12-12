@@ -2,10 +2,10 @@ CXX				= c++
 RM				= rm -f
 CXXFLAGS		= -Wall -Wextra -Werror
 
-SRCS			=	main.cpp Span.cpp
+SRCS			=	main.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
-NAME			= span
+NAME			= mutant
 
 all:	$(NAME)
 
