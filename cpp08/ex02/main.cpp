@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/12 15:31:20 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/13 21:18:38 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/13 21:24:09 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int main(void)
 
     const MutantStack<int> constStack(mstack);
 
-    MutantStack<int>::constIterator cit = constStack.begin();
-    MutantStack<int>::constIterator cite = constStack.end();
+    MutantStack<int>::const_iterator cit = constStack.begin();
+    MutantStack<int>::const_iterator cite = constStack.end();
 
     while (cit != cite)
     {
@@ -62,8 +62,8 @@ int main(void)
 
     std::cout << "=== REVERSE ITERATOR TEST ===" << std::endl;
 
-    MutantStack<int>::reverseIterator rit = mstack.rbegin();
-    MutantStack<int>::reverseIterator rite = mstack.rend();
+    MutantStack<int>::reverse_iterator rit = mstack.rbegin();
+    MutantStack<int>::reverse_iterator rite = mstack.rend();
 
     while (rit != rite)
     {
@@ -73,8 +73,8 @@ int main(void)
 
     std::cout << "=== CONST REVERSE ITERATOR TEST ===" << std::endl;
 
-    MutantStack<int>::constReverseIterator crit = constStack.rbegin();
-    MutantStack<int>::constReverseIterator crite = constStack.rend();
+    MutantStack<int>::const_reverse_iterator crit = constStack.rbegin();
+    MutantStack<int>::const_reverse_iterator crite = constStack.rend();
 
     while (crit != crite)
     {

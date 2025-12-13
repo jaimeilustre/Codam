@@ -6,14 +6,12 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/12 10:39:28 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/12 15:26:40 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/13 21:23:28 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MUTANTSTACK_TPP
 # define MUTANTSTACK_TPP
-
-# include "MutantStack.hpp"
 
 template <typename T> MutantStack<T>::MutantStack() : std::stack<T>() {}
 template <typename T> MutantStack<T>::MutantStack(const MutantStack& other) : std::stack<T>(other) {}
@@ -37,34 +35,34 @@ template <typename T> typename MutantStack<T>::iterator MutantStack<T>::end()
 }
 
 // Const normal iterator
-template <typename T> typename MutantStack<T>::constIterator MutantStack<T>::begin() const
+template <typename T> typename MutantStack<T>::const_iterator MutantStack<T>::begin() const
 {
 	return (this->c.begin());
 }
 
-template <typename T> typename MutantStack<T>::constIterator MutantStack<T>::end() const
+template <typename T> typename MutantStack<T>::const_iterator MutantStack<T>::end() const
 {
 	return (this->c.end());
 }
 
 // Reverse iterator
-template <typename T> typename MutantStack<T>::reverseIterator MutantStack<T>::rbegin()
+template <typename T> typename MutantStack<T>::reverse_iterator MutantStack<T>::rbegin()
 {
 	return (this->c.rbegin());
 }
 
-template <typename T> typename MutantStack<T>::reverseIterator MutantStack<T>::rend()
+template <typename T> typename MutantStack<T>::reverse_iterator MutantStack<T>::rend()
 {
 	return (this->c.rend());
 }
 
 // Const reverse iterator
-template <typename T> typename MutantStack<T>::constReverseIterator MutantStack<T>::rbegin() const
+template <typename T> typename MutantStack<T>::const_reverse_iterator MutantStack<T>::rbegin() const
 {
 	return (this->c.rbegin());
 }
 
-template <typename T> typename MutantStack<T>::constReverseIterator MutantStack<T>::rend() const
+template <typename T> typename MutantStack<T>::const_reverse_iterator MutantStack<T>::rend() const
 {
 	return (this->c.rend());
 }

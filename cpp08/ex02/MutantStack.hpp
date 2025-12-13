@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/12 10:25:32 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/12 15:21:19 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/13 21:22:55 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,21 @@ template <typename T> class MutantStack : public std::stack<T>
 		~MutantStack();
 
 		typedef typename std::stack<T>::container_type::iterator				iterator;
-		typedef	typename std::stack<T>::container_type::const_iterator			constIterator;
-		typedef typename std::stack<T>::container_type::reverse_iterator		reverseIterator;
-		typedef typename std::stack<T>::container_type::const_reverse_iterator	constReverseIterator;
+		typedef	typename std::stack<T>::container_type::const_iterator			const_iterator;
+		typedef typename std::stack<T>::container_type::reverse_iterator		reverse_iterator;
+		typedef typename std::stack<T>::container_type::const_reverse_iterator	const_reverse_iterator;
 
 		iterator				begin();
 		iterator				end();
 
-		constIterator			begin() const;
-		constIterator			end() const;
+		const_iterator			begin() const;
+		const_iterator			end() const;
 
-		reverseIterator			rbegin();
-		reverseIterator			rend();
+		reverse_iterator		rbegin();
+		reverse_iterator		rend();
 
-		constReverseIterator	rbegin() const;
-		constReverseIterator	rend() const;
+		const_reverse_iterator	rbegin() const;
+		const_reverse_iterator	rend() const;
 };
 
 # include "MutantStack.tpp"
