@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:15:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/12 14:28:53 by jilustre      ########   odam.nl         */
+/*   Updated: 2025/12/13 21:03:51 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ Span::Span(unsigned int n): N(n)
 	_integers.reserve(n);
 }
 
-Span::Span(const Span& other): N(other.N)
-{
-	*this = other;
-}
+Span::Span(const Span& other): N(other.N), _integers(other._integers) {}
 
 Span&	Span::operator=(const Span& other)
 {
