@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/11 17:15:13 by jilustre      #+#    #+#                 */
-/*   Updated: 2025/12/13 21:03:51 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/14 10:45:33 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	Span::addNumber(int n)
 int	Span::shortestSpan() const
 {
 	if (_integers.size() < 2)
-		throw std::runtime_error("Span only contains 1 integer");
+		throw std::runtime_error("Span only contains 1 or less integer");
 
 	std::vector<int>	sortedSpan = _integers;
 	std::sort(sortedSpan.begin(), sortedSpan.end());
 
 	int	minSpan = INT_MAX;
 
-	for (size_t i = 1; i < sortedSpan.size() - 1; i++)
+	for (size_t i = 0; i < sortedSpan.size() - 1; i++)
 	{
 		int span = sortedSpan[i + 1] - sortedSpan[i];
 		if (span < minSpan)
@@ -60,7 +60,7 @@ int	Span::shortestSpan() const
 int Span::longestSpan() const
 {
 	if (_integers.size() < 2)
-		throw std::runtime_error("Span only contains 1 integer");
+		throw std::runtime_error("Span only contains 1 or less integer");
 		
 	std::vector<int>	sortedSpan = _integers;
 	std::sort(sortedSpan.begin(), sortedSpan.end());
