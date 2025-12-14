@@ -1,10 +1,12 @@
 CXX				= c++
 RM				= rm -f
-CXXFLAGS		= -Wall -Wextra -Werror
+CXXFLAGS		= -Wall -Wextra -Werror -MMD -MP
 
 SRCS			=	main.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
+DEPS			= $(OBJS:.o=.d)
+
 NAME			= easyfind
 
 all:	$(NAME)
@@ -12,8 +14,10 @@ all:	$(NAME)
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(NAME)
 
+-include $(DEPS)
+
 clean:
-	$(RM) $(OBJS)
+	$(RM) $(OBJS) $(DEPS)
 
 fclean:	clean
 	$(RM) $(NAME)
