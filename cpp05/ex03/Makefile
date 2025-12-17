@@ -1,4 +1,4 @@
-CC				= c++
+CXX				= c++
 RM				= rm -f
 CFLAGS			= -Wall -Wextra -Werror
 
@@ -9,7 +9,7 @@ NAME			= forms
 all:	$(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CXX) $(CFLAGS) $(OBJS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJS)

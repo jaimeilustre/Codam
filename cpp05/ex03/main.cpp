@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/08/12 10:57:17 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/10/28 08:37:13 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/11/19 14:06:32 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 int main(void)
 {
+	std::srand(std::time(NULL));
+	
 	std::cout << "=== CREATING INTERN ===" << std::endl; 
 	
 	Intern		someRandomIntern;
@@ -25,10 +27,6 @@ int main(void)
 	std::cout << "=== CREATING BUREAUCRAT ===" << std::endl;
 		
 	Bureaucrat	boss("Boss", 1);
-	
-	std::cout << "=== SEEDING TIME FOR ROBOTOMY FORM ===" << std::endl << std::endl;
-	
-	std::srand(std::time(NULL));
 	
 	std::cout << "=== TESTING ROBOTOMY FORM ===" << std::endl;
 	
