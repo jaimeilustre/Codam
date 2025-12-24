@@ -6,38 +6,33 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 11:36:45 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 11:53:08 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
+# include <map>
 # include <string>
 
 class BitcoinExchange
 {
 	private:
-		std::string _date;
-		int			_btcExchangeRate;
-		int			_btcAmount;
-		int			_btcPrice;
-
+		std::map<std::string, double>	_exchangeRates;
+		
+		bool	validDateCheck(const std::string& date) const;
+		bool	getExchangeRate(const std::string& date) const;
+	
 	public:
 		// Orthodox Canonical Form
 		BitcoinExchange();
 		BitcoinExchange(const BitcoinExchange& other);
 		BitcoinExchange&	operator=(const BitcoinExchange& other);
 		~BitcoinExchange();
-
-		// Getters
-		std::string	getDate() const;
-		int			getExchangeRate() const;
-		int			getAmount() const;
-		int			getPrice() const;
-		
-		// Print function
-		void	printOutput();
+	
+		void	loadDb(const std::string& file);
+		void	processFile(const std::string& file) const;
 };
 
 #endif
