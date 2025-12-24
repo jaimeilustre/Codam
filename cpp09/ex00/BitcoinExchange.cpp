@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 16:50:45 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 17:21:20 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	BitcoinExchange::loadDb(const std::string& filename)
 	std::ifstream	inputFile(filename.c_str());
 	
 	if (!inputFile)
-		throw std::runtime_error("Cannot open file");
+		throw std::runtime_error("Cannot open database");
 	
 	std::string	line;
 	
@@ -68,5 +68,31 @@ void	BitcoinExchange::loadDb(const std::string& filename)
 		std::string date = line.substr(0, comma);
 		double rate = std::atof(line.substr(comma + 1).c_str());
 		_exchangeRates[date] = rate;
+	}
+}
+
+void	BitcoinExchange::processFile(const std::string& filename) const
+{
+	std::ifstream	inputFile(filename.c_str());
+
+	if (!inputFile)
+	{
+		std::cerr << "Cannot open database" << std::endl;
+		return ;
+	}
+
+	std::string	line;
+	std::getline(inputFile, line);
+	
+	while (std::getline(inputFile, line))
+	{
+		size_t	pipe = line.find('|');
+		if (pipe == std::string::npos)
+			continue ;
+		std::string date = line.substr(0, pipe);
+		if (!validDateCheck(date))
+		{
+			std::cerr << "Error: bad input" << std::endl;
+		}
 	}
 }

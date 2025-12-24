@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 16:41:57 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 17:11:47 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fstream>
 # include <map>
 # include <string>
+# include <iostream>
 
 class BitcoinExchange
 {
