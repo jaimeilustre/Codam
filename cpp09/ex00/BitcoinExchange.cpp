@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 16:29:33 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 16:50:45 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,25 @@ double	BitcoinExchange::getExchangeRate(const std::string& date) const
 	
 	--it;
 	return (it->second);
+}
+
+void	BitcoinExchange::loadDb(const std::string& filename)
+{
+	std::ifstream	inputFile(filename.c_str());
+	
+	if (!inputFile)
+		throw std::runtime_error("Cannot open file");
+	
+	std::string	line;
+	
+	std::getline(inputFile, line);
+	while (std::getline(inputFile, line))
+	{
+		size_t	comma = line.find(',');
+		if (comma == std::string::npos)
+			continue ;
+		std::string date = line.substr(0, comma);
+		double rate = std::atof(line.substr(comma + 1).c_str());
+		_exchangeRates[date] = rate;
+	}
 }

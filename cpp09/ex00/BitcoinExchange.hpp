@@ -6,13 +6,14 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 16:20:10 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 16:41:57 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
 
+# include <fstream>
 # include <map>
 # include <string>
 
@@ -31,8 +32,8 @@ class BitcoinExchange
 		BitcoinExchange&	operator=(const BitcoinExchange& other);
 		~BitcoinExchange();
 	
-		void	loadDb(const std::string& file);
-		void	processFile(const std::string& file) const;
+		void	loadDb(const std::string& filename);
+		void	processFile(const std::string& filename) const;
 };
 
 #endif
