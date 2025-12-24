@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 16:09:19 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 16:29:33 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,19 @@ bool	BitcoinExchange::validDateCheck(const std::string& date) const
 		return (false);
 		
 	return (true);
+}
+
+double	BitcoinExchange::getExchangeRate(const std::string& date) const
+{
+	std::map<std::string, double>::const_iterator	it;
+	it = _exchangeRates.lower_bound(date);
+
+	if (it != _exchangeRates.end() && it->first == date)
+		return (it->second);
+	
+	if (it == _exchangeRates.begin())
+		throw std::runtime_error("No earlier date possible");
+	
+	--it;
+	return (it->second);
 }

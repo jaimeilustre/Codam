@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 11:53:08 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/24 16:20:10 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ class BitcoinExchange
 		std::map<std::string, double>	_exchangeRates;
 		
 		bool	validDateCheck(const std::string& date) const;
-		bool	getExchangeRate(const std::string& date) const;
+		double	getExchangeRate(const std::string& date) const;
 	
 	public:
 		// Orthodox Canonical Form
