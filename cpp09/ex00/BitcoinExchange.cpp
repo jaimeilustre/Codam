@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 15:45:27 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 16:00:02 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	BitcoinExchange::validDateCheck(const std::string& date) const
 	if (date[4] != '-' || date[7] != '-')
 		return (false);
 	
-	int	year = std::atoi(date.substr(0, 4).c_str());
+	// int	year = std::atoi(date.substr(0, 4).c_str());
 	int	month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
@@ -30,8 +30,7 @@ bool	BitcoinExchange::validDateCheck(const std::string& date) const
 	int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 	if (day < 1 || day > monthDays[month - 1])
-		return (false);
-		
+		return (false);	
 	return (true);
 }
 
@@ -86,9 +85,12 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 	
 	while (std::getline(inputFile, line))
 	{
-		size_t	pipe = line.find('|');
+		size_t	pipe = line.find(" | ");
 		if (pipe == std::string::npos)
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
 			continue ;
+		}
 		std::string date = line.substr(0, pipe);
 		if (!validDateCheck(date))
 		{
@@ -117,3 +119,4 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 		}
 	}
 }
+

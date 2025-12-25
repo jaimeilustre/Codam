@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 17:11:47 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 15:49:53 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ class BitcoinExchange
 	
 	public:
 		// Orthodox Canonical Form
-		BitcoinExchange();
-		BitcoinExchange(const BitcoinExchange& other);
-		BitcoinExchange&	operator=(const BitcoinExchange& other);
-		~BitcoinExchange();
+		// BitcoinExchange();
+		// BitcoinExchange(const BitcoinExchange& other);
+		// BitcoinExchange&	operator=(const BitcoinExchange& other);
+		// ~BitcoinExchange();
 	
 		void	loadDb(const std::string& filename);
 		void	processFile(const std::string& filename) const;
