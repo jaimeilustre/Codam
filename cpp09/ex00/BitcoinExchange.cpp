@@ -6,11 +6,23 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:00:02 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 16:05:59 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "BitcoinExchange.hpp"
+
+BitcoinExchange::BitcoinExchange() {};
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange& other): _exchangeRates(other._exchangeRates) {}
+
+BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange& other)
+{
+	if (this != &other)
+		_exchangeRates = other._exchangeRates;
+	return (*this);
+}
+BitcoinExchange::~BitcoinExchange() {};
 
 bool	BitcoinExchange::validDateCheck(const std::string& date) const
 {
