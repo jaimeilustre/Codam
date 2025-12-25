@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:16:59 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 16:55:06 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 	
 	while (std::getline(inputFile, line))
 	{
+		if (line.empty())
+			continue ;
 		size_t	pipe = line.find(" | ");
 		if (pipe == std::string::npos)
 		{
