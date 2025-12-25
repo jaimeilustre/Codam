@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:02:22 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 16:14:08 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class BitcoinExchange
 	private:
 		std::map<std::string, double>	_exchangeRates;
 		
+		bool	leapYearCheck(int year) const;
 		bool	validDateCheck(const std::string& date) const;
 		double	getExchangeRate(const std::string& date) const;
 	

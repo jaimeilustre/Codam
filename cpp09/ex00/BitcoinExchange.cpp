@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:05:59 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 16:16:59 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ BitcoinExchange&	BitcoinExchange::operator=(const BitcoinExchange& other)
 }
 BitcoinExchange::~BitcoinExchange() {};
 
+bool	BitcoinExchange::leapYearCheck(int year) const
+{
+	if (year % 400 == 0)
+		return (true);
+	if (year % 100 == 0)
+		return (false);
+	return (year % 4 == 0);
+}
+
 bool	BitcoinExchange::validDateCheck(const std::string& date) const
 {
 	if (date.length() != 10)
@@ -32,7 +41,7 @@ bool	BitcoinExchange::validDateCheck(const std::string& date) const
 	if (date[4] != '-' || date[7] != '-')
 		return (false);
 	
-	// int	year = std::atoi(date.substr(0, 4).c_str());
+	int	year = std::atoi(date.substr(0, 4).c_str());
 	int	month = std::atoi(date.substr(5, 2).c_str());
 	int day = std::atoi(date.substr(8, 2).c_str());
 
@@ -40,6 +49,9 @@ bool	BitcoinExchange::validDateCheck(const std::string& date) const
 		return (false);
 
 	int monthDays[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+	if (month == 2 && leapYearCheck(year))
+		monthDays[1] = 29;
 
 	if (day < 1 || day > monthDays[month - 1])
 		return (false);	
