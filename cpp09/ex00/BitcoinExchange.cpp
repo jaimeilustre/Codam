@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 17:21:20 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/25 15:45:27 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,28 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 		std::string date = line.substr(0, pipe);
 		if (!validDateCheck(date))
 		{
-			std::cerr << "Error: bad input" << std::endl;
+			std::cerr << "Error: bad input => " << date << std::endl;
+			continue ;
+		}
+		double value = std::atof(line.substr(pipe + 3).c_str());
+		if (value < 0)
+		{
+			std::cerr << "Error: not a positive number." << std::endl;
+			continue ;
+		}
+		if (value > 1000)
+		{
+			std::cerr << "Error: too large a number." << std::endl;
+			continue ;
+		}
+		try
+		{
+			double rate = getExchangeRate(date);
+			std::cout << date << " => " << value << " = " << value * rate << std::endl;
+		}
+		catch(std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
 		}
 	}
 }
