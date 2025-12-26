@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:55:06 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/26 10:19:57 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,19 +111,29 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 	{
 		if (line.empty())
 			continue ;
+		
 		size_t	pipe = line.find(" | ");
 		if (pipe == std::string::npos)
 		{
 			std::cerr << "Error: bad input => " << line << std::endl;
 			continue ;
 		}
+		
 		std::string date = line.substr(0, pipe);
 		if (!validDateCheck(date))
 		{
 			std::cerr << "Error: bad input => " << date << std::endl;
 			continue ;
 		}
-		double value = std::atof(line.substr(pipe + 3).c_str());
+
+		std::string	valueString(line.substr(pipe + 3));
+		char *end;
+		double value = std::strtod(valueString.c_str(), &end);
+		if (end == valueString.c_str() || *end != '\0')
+		{
+			std::cerr << "Error: bad input => " << line << std::endl;
+			continue ;
+		}
 		if (value < 0)
 		{
 			std::cerr << "Error: not a positive number." << std::endl;
@@ -134,6 +144,7 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 			std::cerr << "Error: too large a number." << std::endl;
 			continue ;
 		}
+		
 		try
 		{
 			double rate = getExchangeRate(date);
