@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   RPN.hpp                                            :+:    :+:            */
+/*   main.cpp                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2025/12/26 10:41:49 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/26 14:19:22 by jaimeilustr   ########   odam.nl         */
+/*   Created: 2025/12/26 14:16:38 by jaimeilustr   #+#    #+#                 */
+/*   Updated: 2025/12/26 14:19:13 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RPN_HPP
-# define RPN_HPP
+#include "RPN.hpp"
+#include <iostream>
 
-# include <stack>
-# include <string>
-# include <sstream>
-
-class RPN
+int main(int argc, char **argv)
 {
-	private:
-		RPN();
-		// RPN(const RPN& other);
-		// RPN&	operator=(const RPN& other);
-		// ~RPN();
-
-	public:
-		static int calculate(const std::string& expression);
+	if (argc != 2)
+	{
+		std::cerr << "Too few arguments" << std::endl;
+		return (1);
+	}
+	try
+	{
+		int result = RPN::calculate(argv[1]);
+		std::cout << result << std::endl;
+	}
+	catch(std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 	
-};
-
-#endif
+	return (0);
+}
