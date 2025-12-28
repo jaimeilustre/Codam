@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/26 14:01:33 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/26 14:21:23 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2025/12/28 09:19:11 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	RPN::calculate(const std::string& expression)
 		{
 			if (stack.size() < 2)
 				throw std::runtime_error("Error");
+			
 			int b = stack.top();
 			stack.pop();
 			int a = stack.top();
@@ -54,5 +55,6 @@ int	RPN::calculate(const std::string& expression)
 	
 	if (stack.size() != 1)
 		throw std::runtime_error("Error");
+	
 	return (stack.top());
 }
