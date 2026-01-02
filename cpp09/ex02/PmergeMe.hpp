@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/02 09:42:23 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/01/02 11:04:48 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <vector>
 # include <deque>
+# include <iostream>
 
 class PmergeMe
 {
