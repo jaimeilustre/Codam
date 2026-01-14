@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/26 10:19:57 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/01/14 11:34:52 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	BitcoinExchange::processFile(const std::string& filename) const
 			std::cerr << "Error: bad input => " << line << std::endl;
 			continue ;
 		}
-		if (value < 0)
+		if (value < 0 || (!valueString.empty() && valueString[0] == '-'))
 		{
 			std::cerr << "Error: not a positive number." << std::endl;
 			continue ;
