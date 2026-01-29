@@ -6,11 +6,13 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/29 09:21:42 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/01/29 13:26:46 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+
+static size_t	g_steps = 0; // REMOVE BEFORE SUBMISSION
 
 int	PmergeMe::parserInts(const char* s)
 {
@@ -34,7 +36,10 @@ void	PmergeMe::createPairs(const std::vector<int>& input, std::vector<int>& main
 		int b = input[i + 1];
 		
 		if (a > b)
+		{
+			++g_steps;
 			std::swap(a, b);
+		}
 		
 		pend.push_back(a);
 		main.push_back(b);
@@ -61,6 +66,9 @@ void	PmergeMe::fjSort(std::vector<int>& vect)
 	std::vector<int> pend;
 	int odd = -1;
 
+	main.reserve((vect.size() + 1) / 2);
+	pend.reserve(vect.size() / 2);
+
 	createPairs(vect, main, pend, odd);
 	fjSort(main);
 	insert(main, pend);
@@ -71,7 +79,7 @@ void	PmergeMe::fjSort(std::vector<int>& vect)
 		main.insert(pos, odd);
 	}
 	
-	vect = main;
+	vect.swap(main);
 }
 
 void	PmergeMe::sort(int argc, char **argv)
