@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/29 08:58:16 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/01/29 09:11:58 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <iostream>
 # include <chrono>
 # include <algorithm>
+# include <climits>
 
 class PmergeMe
 {

@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/29 09:01:30 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/01/29 09:21:42 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ void	PmergeMe::fjSort(std::vector<int>& vect)
 
 void	PmergeMe::sort(int argc, char **argv)
 {
+	if (argc < 2)
+		throw std::runtime_error("Error: Only 1 number has been provided");
+	
 	std::vector<int>	vect;
 	std::deque<int>		deq;
 
@@ -113,16 +116,4 @@ void	PmergeMe::sort(int argc, char **argv)
 	std::cout << "Time to process a range of " << deq.size() << " elements with std::deque : " << deqTime << " us" << std::endl;
 }
 
-int main(int argc, char** argv)
-{
-	try
-	{
-		PmergeMe::sort(argc, argv);
-	}
-	catch (...)
-	{
-		std::cerr << "Error" << std::endl;
-		return 1;
-	}
-	return 0;
-}
+

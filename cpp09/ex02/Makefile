@@ -2,7 +2,7 @@ CXX				= c++
 RM				= rm -f
 CXXFLAGS		= -Wall -Wextra -Werror -MMD -MP -std=c++11
 
-SRCS			=	PmergeMe.cpp
+SRCS			= main.cpp PmergeMe.cpp
 					
 OBJS			= $(SRCS:.cpp=.o)
 DEPS			= $(OBJS:.o=.d)
