@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/02 11:15:40 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/01/29 08:58:16 by jaimeilustr   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <deque>
 # include <iostream>
 # include <chrono>
+# include <algorithm>
 
 class PmergeMe
 {
@@ -30,9 +31,9 @@ class PmergeMe
 		static void	insert(std::vector<int>& main, const std::vector<int>& pend);
 
 		// Deque container functions
-		static void	fjSort(std::deque<int>& deq);
-		static void	createPairs(const std::deque<int>& input, std::deque<int>& main, std::deque<int>& pend, int& odd);
-		static void	insert(std::deque<int>& main, const std::deque<int>& pend);
+		// static void	fjSort(std::deque<int>& deq);
+		// static void	createPairs(const std::deque<int>& input, std::deque<int>& main, std::deque<int>& pend, int& odd);
+		// static void	insert(std::deque<int>& main, const std::deque<int>& pend);
 		
 	public:
 		static void	sort(int argc, char **argv);
