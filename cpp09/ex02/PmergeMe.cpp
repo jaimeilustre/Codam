@@ -6,13 +6,11 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/29 13:26:46 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/02/05 12:49:08 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-
-static size_t	g_steps = 0; // REMOVE BEFORE SUBMISSION
 
 int	PmergeMe::parserInts(const char* s)
 {
@@ -36,10 +34,7 @@ void	PmergeMe::createPairs(const std::vector<int>& input, std::vector<int>& main
 		int b = input[i + 1];
 		
 		if (a > b)
-		{
-			++g_steps;
 			std::swap(a, b);
-		}
 		
 		pend.push_back(a);
 		main.push_back(b);
