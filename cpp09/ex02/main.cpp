@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/29 09:19:19 by jilustre      #+#    #+#                 */
-/*   Updated: 2026/01/29 09:19:51 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/04 16:28:12 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ int main(int argc, char** argv)
 {
 	try
 	{
-		PmergeMe::sort(argc, argv);
+		PmergeMe	pm;
+		pm.sort(argc, argv);
 	}
 	catch (...)
 	{
