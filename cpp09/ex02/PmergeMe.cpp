@@ -6,31 +6,31 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/04 16:56:07 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/04 17:16:59 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-#include <cmath>
 
 PmergeMe::PmergeMe(): _comparisons(0) {}
 PmergeMe::~PmergeMe() {}
+
+int	PmergeMe::parserInts(const char* s)
+{
+	char	*end;
+	errno = 0;
+	long	v = std::strtol(s, &end, 10);
+
+	if (*end != '\0' || errno == ERANGE || v < 0 || v > INT_MAX)
+		throw std::runtime_error("Error");
+
+	return static_cast<int>(v);
+}
 
 bool	PmergeMe::less(int a, int b)
 {
 	++_comparisons;
 	return a < b;
-}
-
-int	PmergeMe::maxComparisonsBound(int n)
-{
-	int sum = 0;
-	for (int k = 1; k <= n; ++k)
-	{
-		double value = (3.0 / 4.0) * k;
-		sum += static_cast<int>(std::ceil(std::log2(value)));
-	}
-	return sum;
 }
 
 std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
@@ -165,24 +165,97 @@ void	PmergeMe::fjSort(std::vector<int>& vect)
 }
 
 // DEQUE FUNCTIONS
-
-
-// void	PmergeMe::fjSort(std::deque<int>& deq)
-// {
-// 	_comparisons = 0;
-// 	fordJohnsonSort(deq);
-// }
-
-int	PmergeMe::parserInts(const char* s)
+void PmergeMe::createPairs(const std::deque<int>& input,
+						std::deque<int>& mainChain,
+						std::vector<pending>& pendPairs,
+						int& oddIndex)
 {
-	char	*end;
-	errno = 0;
-	long	v = std::strtol(s, &end, 10);
+	oddIndex = -1;
 
-	if (*end != '\0' || errno == ERANGE || v < 0 || v > INT_MAX)
-		throw std::runtime_error("Error");
+	for (std::size_t i = 0; i + 1 < input.size(); i += 2)
+	{
+		int a = input[i];
+		int b = input[i + 1];
+		
+		if (less(b, a))
+			std::swap(a, b);
+		
+		mainChain.push_back(b);
+		pendPairs.push_back(pending{a, b});
+	}
+	if ((input.size() % 2) != 0)
+		oddIndex = input.back();
+}
 
-	return static_cast<int>(v);
+void PmergeMe::insertBounded(std::deque<int>& mainChain, const pending& p)
+{
+	// Find bound
+	std::deque<int>::iterator boundIt =
+		std::lower_bound(mainChain.begin(),
+						 mainChain.end(),
+						 p.upperBound,
+						 [this](int a, int b) { return less(a, b); });
+
+	// Insert small up to bound
+	std::deque<int>::iterator pos =
+		std::lower_bound(mainChain.begin(),
+						 boundIt,
+						 p.lowerBound,
+						 [this](int a, int b) { return less(a, b); });
+	
+	mainChain.insert(pos, p.lowerBound);
+}
+
+void	PmergeMe::fordJohnsonSort(std::deque<int>& deq)
+{
+	if (deq.size() <= 1)
+		return;
+		
+	std::deque<int> mainChain;
+	std::vector<pending> pendPairs;
+	int oddIndex;
+	
+	createPairs(deq, mainChain, pendPairs, oddIndex);
+
+	fordJohnsonSort(mainChain);
+	
+	if (!pendPairs.empty())
+	{
+		insertBounded(mainChain, pendPairs[0]);
+		
+		std::vector<std::size_t> order = jacobsthalOrder(pendPairs.size());
+		
+		for (std::size_t i = 0; i < order.size(); ++i)
+		{
+			std::size_t idx = order[i];
+			if (idx < pendPairs.size())
+				insertBounded(mainChain, pendPairs[idx]);
+		}
+	}
+
+	if (oddIndex != -1)
+	{
+		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), oddIndex, [this](int a, int b) { return less(a, b); });
+		mainChain.insert(pos, oddIndex);
+	}
+	deq.swap(mainChain);
+}
+
+void	PmergeMe::fjSort(std::deque<int>& deq)
+{
+	_comparisons = 0;
+	fordJohnsonSort(deq);
+}
+
+int	PmergeMe::maxComparisonsBound(int n)
+{
+	int sum = 0;
+	for (int k = 1; k <= n; ++k)
+	{
+		double value = (3.0 / 4.0) * k;
+		sum += static_cast<int>(std::ceil(std::log2(value)));
+	}
+	return sum;
 }
 
 void PmergeMe::sort(int argc, char **argv)
@@ -214,7 +287,7 @@ void PmergeMe::sort(int argc, char **argv)
 
 	// ================= DEQUE ==================
 	auto deqStart = std::chrono::high_resolution_clock::now();
-	// fjSort(deq);
+	fjSort(deq);
 	auto deqEnd = std::chrono::high_resolution_clock::now();
 
 	long long deqComparisons = PmergeMe::_comparisons;
