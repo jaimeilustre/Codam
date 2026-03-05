@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/04 17:16:59 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/05 16:23:24 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,22 @@ bool	PmergeMe::less(int a, int b)
 	return a < b;
 }
 
+// Generates the insertion order for the pending elements using Jacobsthal numbers
 std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
 {
-	std::vector<std::size_t> order;
+	// Step 1: Create result container
+	std::vector<std::size_t> order; // insertion order of indices
 	
+	
+	// Step 2: For small cases since 0 or 1 elements requires no insertion
     if (m <= 2)
     {
-        if (m == 2) order.push_back(1);
+        if (m == 2)
+			order.push_back(1);
         return order;
     }
 
+	// Step 3: Building Jacobsthal sequence
     std::vector<std::size_t> J;
     J.push_back(0);
     J.push_back(1);
@@ -54,7 +60,9 @@ std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
         J.push_back(next);
     }
 
-    std::size_t prev = 1;
+	// Step 4: Build insertion blocks
+    std::size_t prev = 1; // Tracks previous Jacobsthal value
+	
     for (std::size_t idx = 2; idx < J.size(); ++idx)
     {
         std::size_t cur = J[idx];
@@ -63,14 +71,15 @@ std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
         prev = cur;
     }
 
+	// Step 5: Finish remaining indices (if Jacobsthal didn't cover all indices)
     for (std::size_t k = m - 1; k > prev; --k)
         order.push_back(k);
 
-    // Ensure index 1 is present (sometimes blocks may skip it depending on m)
+    // Step 6: Ensure index 1 is present (sometimes blocks may skip it depending on m)
     if (std::find(order.begin(), order.end(), static_cast<std::size_t>(1)) == order.end())
         order.insert(order.begin(), 1);
 
-    // Remove any accidental duplicates (safety)
+    // Step 7: Remove duplicates (safety)
     std::vector<std::size_t> unique;
     unique.reserve(order.size());
     for (std::size_t i = 0; i < order.size(); ++i)
@@ -78,70 +87,82 @@ std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
         if (std::find(unique.begin(), unique.end(), order[i]) == unique.end())
             unique.push_back(order[i]);
     }
-    return unique;
+    return unique; // Returns safe insertion order
 }
 
 // VECTOR FUNCTIONS
+
+// Creates larger values of each pair, stores both values, leftover element if size is odd
 void PmergeMe::createPairs(const std::vector<int>& input,
 						std::vector<int>& mainChain,
 						std::vector<pending>& pendPairs,
 						int& oddIndex)
 {
-	oddIndex = -1;
+	oddIndex = -1; // Initialize odd marker (no odd yet)
 
+	// Pair elements: moving in steps of 2
 	for (std::size_t i = 0; i + 1 < input.size(); i += 2)
 	{
 		int a = input[i];
 		int b = input[i + 1];
 		
+		// Ensure a is smaller than b
 		if (less(b, a))
 			std::swap(a, b);
 		
-		mainChain.push_back(b);
-		pendPairs.push_back(pending{a, b});
+		mainChain.push_back(b); // Pushes larger elements
+		pendPairs.push_back(pending{a, b}); // Stores pair
 	}
 	if ((input.size() % 2) != 0)
-		oddIndex = input.back();
+		oddIndex = input.back(); // If odd number, store last one
 }
 
+// Inserts the smaller element of a pair only up to its partner
 void PmergeMe::insertBounded(std::vector<int>& mainChain, const pending& p)
 {
-	// Find bound
+	// Find upper bound: find position of the larger partner
 	std::vector<int>::iterator boundIt =
 		std::lower_bound(mainChain.begin(),
 						 mainChain.end(),
 						 p.upperBound,
 						 [this](int a, int b) { return less(a, b); });
 
-	// Insert small up to bound
+	// Find the correct position to insert smaller element
 	std::vector<int>::iterator pos =
 		std::lower_bound(mainChain.begin(),
 						 boundIt,
 						 p.lowerBound,
 						 [this](int a, int b) { return less(a, b); });
 	
-	mainChain.insert(pos, p.lowerBound);
+	mainChain.insert(pos, p.lowerBound); // insert smaller element
 }
 
+// Main Ford Johnson algorithm
 void	PmergeMe::fordJohnsonSort(std::vector<int>& vect)
 {
+	// Check if already sorted
 	if (vect.size() <= 1)
 		return;
-		
-	std::vector<int> mainChain;
+	
+	// Create structures
+	std::vector<int> mainChain; 
 	std::vector<pending> pendPairs;
 	int oddIndex;
 	
+	// Split input into pairs
 	createPairs(vect, mainChain, pendPairs, oddIndex);
 
+	// Recursively sort mainChain
 	fordJohnsonSort(mainChain);
 	
+	// Insert pending elements
 	if (!pendPairs.empty())
 	{
-		insertBounded(mainChain, pendPairs[0]);
+		insertBounded(mainChain, pendPairs[0]); // Insert first pair manually
 		
-		std::vector<std::size_t> order = jacobsthalOrder(pendPairs.size());
+		std::vector<std::size_t> order = jacobsthalOrder(pendPairs.size()); // Get optimal order
 		
+		// Insert remaining pending elements in Jacobsthal order
 		for (std::size_t i = 0; i < order.size(); ++i)
 		{
 			std::size_t idx = order[i];
@@ -150,14 +171,17 @@ void	PmergeMe::fordJohnsonSort(std::vector<int>& vect)
 		}
 	}
 
+	// Insert odd element
 	if (oddIndex != -1)
 	{
 		std::vector<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), oddIndex, [this](int a, int b) { return less(a, b); });
 		mainChain.insert(pos, oddIndex);
 	}
-	vect.swap(mainChain);
+	
+	vect.swap(mainChain); // Replace original vect with the sorted one
 }
 
+// FJ sort wrapper
 void	PmergeMe::fjSort(std::vector<int>& vect)
 {
 	_comparisons = 0;

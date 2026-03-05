@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/04 17:17:07 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/05 16:02:37 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ class PmergeMe
 				
 	public:
 		PmergeMe();
+		PmergeMe(const PmergeMe& other) = delete;
+		PmergeMe&	operator=(const PmergeMe& other) = delete;
 		~PmergeMe();
 		
 		void	sort(int argc, char **argv);
