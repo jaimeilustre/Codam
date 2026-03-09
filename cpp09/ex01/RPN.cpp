@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/26 14:01:33 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/28 09:19:11 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/03/09 12:23:43 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	RPN::calculate(const std::string& expression)
 {
-	std::stack<int>	stack;
-	std::istringstream iss(expression);
-	std::string	token;
+	std::stack<int>		stack;
+	std::istringstream	iss(expression);
+	std::string			token;
 
 	while (iss >> token)
 	{

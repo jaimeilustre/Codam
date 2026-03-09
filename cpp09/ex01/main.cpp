@@ -6,12 +6,11 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/26 14:16:38 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/26 14:19:13 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/03/09 12:17:54 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
-#include <iostream>
 
 int main(int argc, char **argv)
 {
