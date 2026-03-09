@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:30:15 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/25 16:14:08 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/03/09 12:05:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define BITCOINEXCHANGE_HPP
 
 # include <fstream>
+# include <iostream>
 # include <map>
 # include <string>
-# include <iostream>
 
 class BitcoinExchange
 {
@@ -35,7 +35,7 @@ class BitcoinExchange
 		~BitcoinExchange();
 	
 		void	loadDb(const std::string& filename);
-		void	processFile(const std::string& filename) const;
+		void	processTextFile(const std::string& filename) const;
 };
 
 #endif

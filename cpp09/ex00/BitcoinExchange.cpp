@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 15:51:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/01/14 11:34:52 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/09 12:02:51 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void	BitcoinExchange::loadDb(const std::string& filename)
 	}
 }
 
-void	BitcoinExchange::processFile(const std::string& filename) const
+void	BitcoinExchange::processTextFile(const std::string& filename) const
 {
 	std::ifstream	inputFile(filename.c_str());
 

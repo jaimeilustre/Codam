@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/24 11:55:31 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2025/12/24 17:16:57 by jaimeilustr   ########   odam.nl         */
+/*   Updated: 2026/03/09 12:02:51 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 	
 	BitcoinExchange	btc;
 	btc.loadDb("data.csv");
-	btc.processFile(argv[1]);
+	btc.processTextFile(argv[1]);
 
 	return (0);
 }
