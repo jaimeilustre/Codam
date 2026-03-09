@@ -6,7 +6,7 @@
 /*   By: jilustre <jilustre@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/29 09:19:19 by jilustre      #+#    #+#                 */
-/*   Updated: 2026/03/04 16:28:12 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/09 15:32:02 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 	catch (...)
 	{
 		std::cerr << "Error" << std::endl;
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
 }

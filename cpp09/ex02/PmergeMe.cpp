@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/05 16:23:24 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/09 16:37:39 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ std::vector<size_t> PmergeMe::jacobsthalOrder(size_t m)
 {
 	// Step 1: Create result container
 	std::vector<std::size_t> order; // insertion order of indices
-	
 	
 	// Step 2: For small cases since 0 or 1 elements requires no insertion
     if (m <= 2)
@@ -145,9 +144,9 @@ void	PmergeMe::fordJohnsonSort(std::vector<int>& vect)
 		return;
 	
 	// Create structures
-	std::vector<int> mainChain; 
-	std::vector<pending> pendPairs;
-	int oddIndex;
+	std::vector<int>		mainChain; 
+	std::vector<pending>	pendPairs;
+	int						oddIndex;
 	
 	// Split input into pairs
 	createPairs(vect, mainChain, pendPairs, oddIndex);
@@ -262,6 +261,7 @@ void	PmergeMe::fordJohnsonSort(std::deque<int>& deq)
 		std::deque<int>::iterator pos = std::lower_bound(mainChain.begin(), mainChain.end(), oddIndex, [this](int a, int b) { return less(a, b); });
 		mainChain.insert(pos, oddIndex);
 	}
+	
 	deq.swap(mainChain);
 }
 

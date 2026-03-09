@@ -6,20 +6,20 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/05 16:02:37 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/09 16:39:05 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PMERGEME_HPP
 # define PMERGEME_HPP
 
+# include <algorithm>
+# include <chrono>
+# include <climits>
 # include <cmath>
-# include <vector>
 # include <deque>
 # include <iostream>
-# include <chrono>
-# include <algorithm>
-# include <climits>
+# include <vector>
 
 class PmergeMe
 {
@@ -45,17 +45,17 @@ class PmergeMe
 		void	fjSort(std::vector<int>& vect);
 		
 		// Deque
-		void createPairs(const std::deque<int>& input,
+		void	createPairs(const std::deque<int>& input,
 						std::deque<int>& mainChain,
 						std::vector<pending>& pendPairs,
 						int& oddIndex);
-		void insertBounded(std::deque<int>& mainChain, const pending& p);		
+		void	insertBounded(std::deque<int>& mainChain, const pending& p);		
 		void	fordJohnsonSort(std::deque<int>& deq);
 		void	fjSort(std::deque<int>& deq);
 		
 		// DEBUG: total comparisons in last sort
-		int maxComparisonsBound(int n);		
-		long long _comparisons;
+		int 		maxComparisonsBound(int n);		
+		long long	_comparisons;
 				
 	public:
 		PmergeMe();
