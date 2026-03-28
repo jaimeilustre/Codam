@@ -6,11 +6,13 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/28 20:06:56 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/28 20:36:00 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+
+// #define DEBUG_COMPARISONS
 
 PmergeMe::PmergeMe(): _comparisons(0) {}
 PmergeMe::~PmergeMe() {}
@@ -300,14 +302,12 @@ void PmergeMe::sort(int argc, char **argv)
 	fjSort(vect);
 	auto vectEnd = std::chrono::high_resolution_clock::now();
 
-	long long vectComparisons = PmergeMe::_comparisons;
+	
 
 	// ================= DEQUE ==================
 	auto deqStart = std::chrono::high_resolution_clock::now();
 	fjSort(deq);
 	auto deqEnd = std::chrono::high_resolution_clock::now();
-
-	long long deqComparisons = PmergeMe::_comparisons;
 
 	// ==========================================
 
@@ -334,12 +334,16 @@ void PmergeMe::sort(int argc, char **argv)
 			  << deqTime << " us"
 			  << std::endl;
 
-
+#ifdef DEBUG_COMPARISONS
+	long long vectComparisons = PmergeMe::_comparisons;
+	long long deqComparisons = PmergeMe::_comparisons;
+	
 	int bound = maxComparisonsBound(static_cast<int>(vect.size()));
 
 	std::cout << "Vector comparisons: " << vectComparisons << std::endl;
 	std::cout << "Deque comparisons:  " << deqComparisons << std::endl;
 	std::cout << "Theoretical bound:  " << bound << std::endl;
+#endif
 }
 
 
