@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 09:33:30 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/09 16:39:05 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/28 20:06:36 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <cmath>
 # include <deque>
 # include <iostream>
+# include <map>
 # include <vector>
 
 class PmergeMe
@@ -28,8 +29,9 @@ class PmergeMe
 		
 		struct pending
 		{
-			int	lowerBound;
-			int	upperBound;
+			int		lowerBound;
+			int		upperBound;
+			size_t	boundIndex;
 		};
 	
 		bool	less(int a, int b);

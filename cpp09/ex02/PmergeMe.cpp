@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2026/01/02 10:45:45 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/09 16:37:39 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/03/28 20:06:56 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,30 +110,27 @@ void PmergeMe::createPairs(const std::vector<int>& input,
 			std::swap(a, b);
 		
 		mainChain.push_back(b); // Pushes larger elements
-		pendPairs.push_back(pending{a, b}); // Stores pair
+		pendPairs.push_back(pending{a, b, mainChain.size() - 1}); // Stores pair
 	}
 	if ((input.size() % 2) != 0)
 		oddIndex = input.back(); // If odd number, store last one
 }
 
-// Inserts the smaller element of a pair only up to its partner
 void PmergeMe::insertBounded(std::vector<int>& mainChain, const pending& p)
 {
-	// Find upper bound: find position of the larger partner
-	std::vector<int>::iterator boundIt =
-		std::lower_bound(mainChain.begin(),
-						 mainChain.end(),
-						 p.upperBound,
-						 [this](int a, int b) { return less(a, b); });
-
-	// Find the correct position to insert smaller element
-	std::vector<int>::iterator pos =
-		std::lower_bound(mainChain.begin(),
-						 boundIt,
-						 p.lowerBound,
-						 [this](int a, int b) { return less(a, b); });
+	std::map<int, std::vector<size_t> > positions;
 	
-	mainChain.insert(pos, p.lowerBound); // insert smaller element
+	for (size_t i = 0; i < mainChain.size(); ++i)
+		positions[mainChain[i]].push_back(i);
+	
+	size_t	boundIndex = positions[p.upperBound].back();
+	positions[p.upperBound].pop_back();
+
+	auto boundIt = mainChain.begin() + boundIndex;
+
+	auto pos = std::lower_bound(mainChain.begin(), boundIt, p.lowerBound, [this](int a, int b){return less(a,b); });
+	
+	mainChain.insert(pos, p.lowerBound);
 }
 
 // Main Ford Johnson algorithm
@@ -147,7 +144,7 @@ void	PmergeMe::fordJohnsonSort(std::vector<int>& vect)
 	std::vector<int>		mainChain; 
 	std::vector<pending>	pendPairs;
 	int						oddIndex;
-	
+
 	// Split input into pairs
 	createPairs(vect, mainChain, pendPairs, oddIndex);
 
@@ -204,7 +201,7 @@ void PmergeMe::createPairs(const std::deque<int>& input,
 			std::swap(a, b);
 		
 		mainChain.push_back(b);
-		pendPairs.push_back(pending{a, b});
+		pendPairs.push_back(pending{a, b, mainChain.size() - 1});
 	}
 	if ((input.size() % 2) != 0)
 		oddIndex = input.back();
@@ -212,20 +209,16 @@ void PmergeMe::createPairs(const std::deque<int>& input,
 
 void PmergeMe::insertBounded(std::deque<int>& mainChain, const pending& p)
 {
-	// Find bound
-	std::deque<int>::iterator boundIt =
-		std::lower_bound(mainChain.begin(),
-						 mainChain.end(),
-						 p.upperBound,
-						 [this](int a, int b) { return less(a, b); });
-
-	// Insert small up to bound
-	std::deque<int>::iterator pos =
-		std::lower_bound(mainChain.begin(),
-						 boundIt,
-						 p.lowerBound,
-						 [this](int a, int b) { return less(a, b); });
+	std::map<int, std::vector<size_t> > positions;
+	for (size_t i = 0; i < mainChain.size(); ++i)
+		positions[mainChain[i]].push_back(i);
 	
+	size_t	boundIndex = positions[p.upperBound].back();
+	positions[p.upperBound].pop_back();
+
+	auto boundIt = mainChain.begin() + boundIndex;
+
+	auto pos = std::lower_bound(mainChain.begin(), boundIt, p.lowerBound, [this](int a, int b){return less(a,b); });
 	mainChain.insert(pos, p.lowerBound);
 }
 
@@ -234,9 +227,9 @@ void	PmergeMe::fordJohnsonSort(std::deque<int>& deq)
 	if (deq.size() <= 1)
 		return;
 		
-	std::deque<int> mainChain;
-	std::vector<pending> pendPairs;
-	int oddIndex;
+	std::deque<int>			mainChain;
+	std::vector<pending>	pendPairs;
+	int						oddIndex;
 	
 	createPairs(deq, mainChain, pendPairs, oddIndex);
 
