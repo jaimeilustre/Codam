@@ -6,7 +6,7 @@
 /*   By: jaimeilustre <jaimeilustre@student.coda      +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2025/12/26 10:41:49 by jaimeilustr   #+#    #+#                 */
-/*   Updated: 2026/03/09 12:18:01 by jilustre      ########   odam.nl         */
+/*   Updated: 2026/06/05 15:57:48 by jilustre      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,16 @@
 # include <stack>
 # include <string>
 
-
 class RPN
 {
 	private:
-		RPN();
-		RPN(const RPN& other);
+		RPN() = delete;
+		RPN(const RPN& other) = delete;
 		RPN&	operator=(const RPN& other) = delete;
 		~RPN() = delete;
 
 	public:
 		static int calculate(const std::string& expression);
-	
 };
 
 #endif
