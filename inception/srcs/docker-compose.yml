@@ -1,0 +1,69 @@
+services:
+
+  mariadb:
+    build:
+      context: requirements/mariadb
+    image: mariadb
+    container_name: mariadb
+    networks:
+      - inception-network
+    restart: always
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    env_file:
+      - .env
+    secrets:
+      - db_password
+      - db_root_password
+
+  wordpress:
+    build:
+      context: requirements/wordpress
+    images: wordpress
+    container_name: wordpress
+    networks:
+      - inception-network
+    restart: always
+    volumes:
+      - wordpress_data:/var/www/html
+    env_file:
+      - .env
+    secrets:
+      - db_password
+    depends_on:
+      - mariadb
+
+  nginx:
+    build:
+      context: requirements/nginx
+    images: nginx
+    container_name: nginx
+    networks:
+      - inception-network
+    restart: always
+    volumes:
+      - wordpress_data:/var/www/html
+    env_file:
+      - .env
+    depends_on:
+      - wordpress
+
+networks:
+  inception-network:
+    driver: bridge
+
+volumes:
+
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jilustre/data/mariadb
+
+  wordpress_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/jilustre/data/wordpress

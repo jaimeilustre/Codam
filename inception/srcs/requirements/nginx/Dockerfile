@@ -15,7 +15,7 @@ RUN mkdir -p /etc/nginx/ssl
 COPY conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copy setup script
-COPY tools/nginx_setup.sh /usr/local/bin
+COPY tools/nginx_setup.sh /usr/local/bin/nginx_setup.sh
 
 EXPOSE 443
 
