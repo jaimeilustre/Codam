@@ -17,7 +17,7 @@ The services communicate through a dedicated Docker network while persistent dat
 
 ### Architecture
 
-### Why Docker?
+### Why Docker? 
 
 Docker provides lightweight, isolated environments that package an application together with its dependencies. Unlike traditional virtual machines, containers share the host operating system's kernel, making them significantly faster to start and more resource efficient.
 
