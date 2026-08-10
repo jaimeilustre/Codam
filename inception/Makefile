@@ -5,13 +5,13 @@ DATA_DIR = /home/$(USER)/data
 all: build up
 
 $(DATA_DIR)/mariadb:
-    mkdir -p $(DATA_DIR)/mariadb
+	mkdir -p $(DATA_DIR)/mariadb
 
 $(DATA_DIR)/wordpress:
-    mkdir -p $(DATA_DIR)/wordpress
+	mkdir -p $(DATA_DIR)/wordpress
 
 build: $(DATA_DIR)/mariadb $(DATA_DIR)/wordpress
-    docker compose -f $(DOCKER_COMPOSE_FILE) build
+	docker compose -f $(DOCKER_COMPOSE_FILE) build
 
 up:
 	docker compose -f $(DOCKER_COMPOSE_FILE) up -d
