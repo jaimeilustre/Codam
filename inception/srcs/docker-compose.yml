@@ -7,7 +7,7 @@ services:
     container_name: mariadb
     networks:
       - inception-network
-    restart: always
+    restart: unless-stopped
     volumes:
       - mariadb_data:/var/lib/mysql
     env_file:
@@ -23,7 +23,7 @@ services:
     container_name: wordpress
     networks:
       - inception-network
-    restart: always
+    restart: unless-stopped
     volumes:
       - wordpress_data:/var/www/html
     env_file:
@@ -42,7 +42,7 @@ services:
     container_name: nginx
     networks:
       - inception-network
-    restart: always
+    restart: unless-stopped
     volumes:
       - wordpress_data:/var/www/html
     env_file:
