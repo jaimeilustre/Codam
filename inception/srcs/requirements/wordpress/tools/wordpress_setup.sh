@@ -4,6 +4,10 @@ set -e
 
 echo "Setting up WordPress..."
 
+MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
+
 # Wait until MariaDB is ready
 echo "Waiting for MariaDB..."
 
@@ -52,6 +56,11 @@ if [ ! -f "wp-config.php" ]; then
         --allow-root
 
     chown -R www-data:www-data /var/www/html
+
+else
+
+    echo "Wordpress is already installed."
+    echo "Skipping Wordpress initialization."
 
 fi
 
