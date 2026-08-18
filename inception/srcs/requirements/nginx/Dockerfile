@@ -8,6 +8,9 @@ RUN apt-get update && \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && rm -f /etc/nginx/sites-available/default
+
 # Create SSL directory
 RUN mkdir -p /etc/nginx/ssl
 
