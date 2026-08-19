@@ -84,18 +84,20 @@ The WordPress administration panel is available at:
 https://jilustre.42.fr/wp-admin
 ```
 
-Log in using the WordPress administrator credentials configured for the project.
+Log in using the WordPress administrator credentials configured for the project (more details about this in the next section).
 
 ## 6. Credentials
 
 Sensitive credentials are not stored directly in the Docker Compose file.
 
-Database passwords are stored as Docker secrets in:
+Passwords are stored as Docker secrets in:
 
 ```text
 secrets/
 ├── db_password.txt
 └── db_root_password.txt
+├── wp_user_password.txt
+└── wp_admin_password.txt
 ```
 
 Other non-secret configuration values, such as the database name, database user, domain name, and WordPress configuration, are stored in:
@@ -139,6 +141,45 @@ What to expect to see:
 * MariaDB successfully starting and accepting connections.
 * WordPress successfully connecting to MariaDB and starting PHP-FPM.
 * NGINX successfully starting and listening for HTTPS connections.
+
+### Checking the network
+
+To view the list of networks:
+
+```bash
+docker network ls
+```
+
+We should expect to see the network created from the compose file:
+
+- "inception-network" or in this case: "srcs_inception-network" since it automatically adds the "srcs" when setting everything up. 
+
+To inspect the network itself:
+
+```bash
+docker network inspect <network_name>
+```
+
+We should see that all 3 services should be listed inside the network
+
+### Checking the volumes
+
+To view the list of volumes:
+
+```bash
+docker volume ls
+```
+
+We should expect to see the volumes created from the compose file:
+
+- "mariadb_data" or in this case: "srcs_mariadb_data" since it automatically adds the "srcs" when setting everything up.
+- "wordpress_data" or in this case: "srcs_wordpress_data" since it automatically adds the "srcs" when setting everything up. 
+
+To inspect the volumes themselves:
+
+```bash
+
+```
 
 ## 8. Persistent Data
 
