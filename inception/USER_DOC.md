@@ -106,7 +106,7 @@ Other non-secret configuration values, such as the database name, database user,
 srcs/.env
 ```
 
-The secret files should not be committed to Git.
+The secret files should NOT be committed to Git.
 
 The WordPress administrator credentials are configured through the project's environment configuration and should be treated as sensitive information.
 
@@ -131,9 +131,9 @@ nginx
 To view the logs of each services:
 
 ```bash
-docker compose -f srcs/docker-compose.yml logs mariadb
-docker compose -f srcs/docker-compose.yml logs wordpress
-docker compose -f srcs/docker-compose.yml logs nginx
+docker logs mariadb
+docker logs wordpress
+docker logs nginx
 ```
 
 What to expect to see:
@@ -162,6 +162,36 @@ docker network inspect <network_name>
 
 We should see that all 3 services should be listed inside the network
 
+### Checking TLS
+
+As mentioned before, when testing wordpress we have to go on the browser and type the domain name specified. Alternatively, we can check through the terminal using curl:
+
+```bash
+curl -k https://jilustre.42.fr # -k skips the certification validation since we're using a self signed one
+```
+
+With this in mind, we can check if using just http we can access the website; THIS SHOULD NOT WORK:
+
+```bash
+curl http://jilustre.42.fr
+```
+
+We also should make sure that we are running only TLSv1.2 or TLSv1.3:
+
+```bash
+openssl s_client -connect jilustre.42.fr:443 -tls1_1	# should fail
+openssl s_client -connect jilustre.42.fr:443 -tls1_2	# should work
+```
+
+### Checking the database itself
+
+To enter the database container:
+
+```bash
+docker exec -it mariadb bash
+```
+
+
 ### Checking the volumes
 
 To view the list of volumes:
@@ -178,8 +208,19 @@ We should expect to see the volumes created from the compose file:
 To inspect the volumes themselves:
 
 ```bash
-
+docker volume inspect <volume_name>
 ```
+
+We should expect to see that "Mountpoint/device" shows home/$USER/data/mariadb and home/$USER/data/wordpress.
+
+We can also check the directories themselves:
+
+```bash
+ls -la /home/$USER/data/mariadb
+ls -la /home/$USER/data/wordpress
+```
+
+We should see the actual DB files and Wordpress files are there
 
 ## 8. Persistent Data
 

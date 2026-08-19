@@ -2,14 +2,14 @@
 
 set -e
 
-echo "Setting up WordPress..."
+echo "[wordpress] Setting up WordPress..."
 
 MYSQL_PASSWORD=$(cat /run/secrets/db_password)
 WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
 WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 
 # Wait until MariaDB is ready
-echo "Waiting for MariaDB..."
+echo "[wordpress] Waiting for MariaDB..."
 
 until mysql \
     -h"${MYSQL_HOST}" \
@@ -20,14 +20,14 @@ do
     sleep 2
 done
 
-echo "MariaDB is ready"
+echo "[wordpress] MariaDB is ready"
 
 cd /var/www/html
 
 # Only perform setup if WordPress has not been installed yet
 if [ ! -f "wp-config.php" ]; then
 
-    echo "Creating wp-config.php..."
+    echo "[wordpress] Creating wp-config.php..."
 
     wp config create \
         --allow-root \
@@ -36,7 +36,7 @@ if [ ! -f "wp-config.php" ]; then
         --dbpass="${MYSQL_PASSWORD}" \
         --dbhost="${MYSQL_HOST}"
 
-    echo "Installing WordPress..."
+    echo "[wordpress] Installing WordPress..."
 
     wp core install \
         --allow-root \
@@ -46,7 +46,7 @@ if [ ! -f "wp-config.php" ]; then
         --admin_password="${WP_ADMIN_PASSWORD}" \
         --admin_email="${WP_ADMIN_EMAIL}"
 
-    echo "Creating additional user..."
+    echo "[wordpress] Creating additional user..."
 
     wp user create \
         "${WP_USER}" \
@@ -59,8 +59,8 @@ if [ ! -f "wp-config.php" ]; then
 
 else
 
-    echo "Wordpress is already installed."
-    echo "Skipping Wordpress initialization."
+    echo "[wordpress] Wordpress is already installed."
+    echo "[wordpress] Skipping Wordpress initialization."
 
 fi
 

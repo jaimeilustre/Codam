@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Setting up NGINX..."
+echo "[nginx] Setting up NGINX..."
 
 # Generate a self signed SSL certificate
 openssl req \
@@ -20,8 +20,8 @@ chmod 600 /etc/nginx/ssl/inception.key
 # Make the certificate readable
 chmod 644 /etc/nginx/ssl/inception.crt
 
-echo "SSL certificate generated"
-echo "Setup complete. Starting NGINX..."
+echo "[nginx] SSL certificate generated"
+echo "[nginx] Setup complete. Starting NGINX..."
 
 # Keep NGINX running in the background
 exec nginx -g "daemon off;"

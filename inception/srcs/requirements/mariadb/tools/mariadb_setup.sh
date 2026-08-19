@@ -3,7 +3,7 @@
 # Exit script if any of the command fails
 set -euo pipefail
 
-echo "MariaDB initialization is starting..."
+echo "[mariadb] MariaDB initialization is starting..."
 
 MYSQL_ROOT_PASSWORD="$(cat /run/secrets/db_root_password)"
 MYSQL_PASSWORD="$(cat /run/secrets/db_password)"
@@ -18,9 +18,9 @@ INIT_MARKER="${DATADIR}/.setup_complete"
 # Initialize MySQL data directory if it doesn't exist
 if [ ! -f "$INIT_MARKER" ]; then
 
-    echo "No init marker found - running first-time setup."
+    echo "[mariadb] No init marker found - running first-time setup."
 
-    echo "Initializing database directory..."
+    echo "[mariadb] Initializing database directory..."
 
     mysql_install_db \
         --user=mysql \
@@ -28,7 +28,7 @@ if [ ! -f "$INIT_MARKER" ]; then
         > /dev/null
 
     # Starting the server
-    echo "Starting temporary MariaDB server for setup..."
+    echo "[mariadb] Starting temporary MariaDB server for setup..."
 
     mysqld \
         --skip-networking \
@@ -39,7 +39,7 @@ if [ ! -f "$INIT_MARKER" ]; then
     TEMP_PID="$!"
 
     # Wait for MariaDB to be ready
-    echo "Waiting for temporary server to accept connections..."
+    echo "[mariadb] Waiting for temporary server to accept connections..."
 
     for i in $(seq 1 30); do
         if mysqladmin \
@@ -59,10 +59,10 @@ if [ ! -f "$INIT_MARKER" ]; then
             exit 1
     fi
 
-    echo "Temporary server is ready!"
+    echo "[mariadb] Temporary server is ready!"
 
     # Setup database and users for SQL
-    echo "Setting up SQL..."
+    echo "[mariadb] Setting up SQL..."
 
     mysql \
         --protocol=socket \
@@ -76,7 +76,7 @@ if [ ! -f "$INIT_MARKER" ]; then
 SQL
 
     # Shutting down temporary server
-    echo "Shutting down temporary MariaDB..."
+    echo "[mariadb] Shutting down temporary MariaDB..."
 
     mysqladmin \
         --protocol=socket \
@@ -88,16 +88,16 @@ SQL
     wait "$TEMP_PID" 2>dev/null || true
 
     touch "$INIT_MARKER"
-    echo "First time setup complete!"
+    echo "[mariadb] First time setup complete!"
 
 else
 
-    echo "Init marker found - skipping first-time setup."
+    echo "[mariadb] Init marker found - skipping first-time setup."
 
 fi
 
 # Start MariaDB
-echo "Setup complete. Starting MariaDB..."
+echo "[mariadb] Setup complete. Starting MariaDB..."
 
 exec mysqld \
     --user=mysql \
