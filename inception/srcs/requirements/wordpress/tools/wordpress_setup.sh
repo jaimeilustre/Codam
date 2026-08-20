@@ -13,6 +13,7 @@ echo "[wordpress] Waiting for MariaDB..."
 
 until mysql \
     -h"${MYSQL_HOST}" \
+    -P 3306 \
     -u"${MYSQL_USER}" \
     -p"${MYSQL_PASSWORD}" \
     -e "SELECT 1;" >/dev/null 2>&1
