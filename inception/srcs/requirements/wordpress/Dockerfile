@@ -41,8 +41,5 @@ RUN chmod +x /usr/local/bin/wordpress_setup.sh
 # Which port the container's application INTENDS to use
 EXPOSE 9000
 
-# Set permissions for initialization script
-RUN chmod +x /usr/local/bin/wordpress_setup.sh
-
 # Defines the command that runs when you start a container
 ENTRYPOINT ["wordpress_setup.sh"]

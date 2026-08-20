@@ -20,8 +20,7 @@ chmod 600 /etc/nginx/ssl/inception.key
 # Make the certificate readable
 chmod 644 /etc/nginx/ssl/inception.crt
 
-echo "[nginx] SSL certificate generated"
-echo "[nginx] Setup complete. Starting NGINX..."
+echo "[nginx] SSL certificate generated, starting NGINX..."
 
 # Keep NGINX running in the background
 exec nginx -g "daemon off;"
