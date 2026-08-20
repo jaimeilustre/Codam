@@ -21,12 +21,12 @@ Make sure Docker and Docker Compose are installed and that the project has been 
 From the project root, run:
 
 ```bash
-make all
+make
 ```
 
 This builds and starts the Docker containers using the project's Docker Compose configuration.
 
-To start the containers without rebuilding the images:
+To only start the containers:
 
 ```bash
 make up
@@ -34,13 +34,13 @@ make up
 
 ## 3. Stopping the Project
 
-To stop the running containers:
+To stop and remove the containers:
 
 ```bash
 make down
 ```
 
-To stop and remove the containers:
+To stop containers and prune unused Docker images/system data:
 
 ```bash
 make clean
@@ -48,13 +48,13 @@ make clean
 
 Stopping or removing the containers does not remove the persistent project data stored in the Docker volumes.
 
-To stop and remove the containers, but also remove the unused volumes:
+To stop and remove the containers, but also remove the named volumes and delete the host data directories:
 
 ```bash
 make fclean
 ```
 
-To stopping and removing everything and rebuilding everything:
+For a full teardown followed by a full rebuild:
 
 ```bash
 make re
@@ -115,7 +115,7 @@ The WordPress administrator credentials are configured through the project's env
 To check whether the containers are running:
 
 ```bash
-docker ps
+docker compose -f srcs/docker-compose.yml ps
 ```
 
 All three services should be running:
@@ -183,14 +183,44 @@ openssl s_client -connect jilustre.42.fr:443 -tls1_1	# should fail
 openssl s_client -connect jilustre.42.fr:443 -tls1_2	# should work
 ```
 
-### Checking the database itself
+### Checking the MariaDB container
 
-To enter the database container:
+To enter the container:
 
 ```bash
 docker exec -it mariadb bash
 ```
 
+Then:
+
+```bash
+mysql -h mariadb -u "$MYSQL_USER" -p
+```
+
+### Checking the Wordpress container
+
+```bash
+docker compose -f srcs/docker-compose.yml exec wordpress bash
+```
+
+Then:
+
+```bash
+cd /var/www/html
+wp core is-installed --allow-root
+```
+
+A successful installation should report:
+
+```text
+Success: WordPress is installed.
+```
+
+We can also inspect the Wordpress users:
+
+```bash
+docker exec -it wordpress wp user list --allow-root --path=/var/www/html
+```
 
 ### Checking the volumes
 
@@ -220,7 +250,7 @@ ls -la /home/$USER/data/mariadb
 ls -la /home/$USER/data/wordpress
 ```
 
-We should see the actual DB files and Wordpress files are there
+We should see the database files and Wordpress files.
 
 ## 8. Persistent Data
 
@@ -233,9 +263,7 @@ The persistent data is stored on the host in:
 /home/<user>/data/wordpress
 ```
 
-The MariaDB directory contains the database files.
-
-The WordPress directory contains the WordPress website files.
+The MariaDB directory contains the database files while the WordPress directory contains the WordPress files.
 
 Do not manually delete these directories unless you intend to permanently remove the stored data.
 
@@ -244,7 +272,7 @@ Do not manually delete these directories unless you intend to permanently remove
 If the website cannot be accessed, first check the container status:
 
 ```bash
-docker ps
+docker compose -f srcs/docker-compose.yml ps
 ```
 
 Then check the logs:
