@@ -21,7 +21,7 @@ do
     sleep 2
 done
 
-echo "[wordpress] MariaDB is ready"
+echo "[wordpress] MariaDB is ready!"
 
 cd /var/www/html
 
@@ -37,7 +37,7 @@ if [ ! -f "wp-config.php" ]; then
         --dbpass="${MYSQL_PASSWORD}" \
         --dbhost="${MYSQL_HOST}"
 
-    echo "[wordpress] Installing WordPress..."
+    echo "[wordpress] Installing WordPress core..."
 
     wp core install \
         --allow-root \
@@ -47,7 +47,7 @@ if [ ! -f "wp-config.php" ]; then
         --admin_password="${WP_ADMIN_PASSWORD}" \
         --admin_email="${WP_ADMIN_EMAIL}"
 
-    echo "[wordpress] Creating additional user..."
+    echo "[wordpress] Creating additional user (${WP_USER})..."
 
     wp user create \
         "${WP_USER}" \
@@ -58,13 +58,13 @@ if [ ! -f "wp-config.php" ]; then
 
     chown -R www-data:www-data /var/www/html
 
+    echo "[wordpress] Wordpress installation complete!"
 else
 
-    echo "[wordpress] Wordpress is already installed."
-    echo "[wordpress] Skipping Wordpress initialization."
+    echo "[wordpress] wp-config.php already exists - skipping Wordpress initialization."
 
 fi
 
 # Starting PHP-FPM
-echo "Starting PHP-FPM..."
+echo "Starting PHP-FPM in the foreground..."
 exec php-fpm8.2 -F
