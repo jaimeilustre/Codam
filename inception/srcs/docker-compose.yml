@@ -56,8 +56,9 @@ services:
       - wordpress_data:/var/www/html
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
+      - NGINX_PORT=${NGINX_PORT}
     ports:
-      - "443:443"
+      - "${NGINX_PORT}:${NGINX_PORT}"
     depends_on:
       - wordpress
 
