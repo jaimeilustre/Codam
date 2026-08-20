@@ -13,7 +13,7 @@ echo "[wordpress] Waiting for MariaDB..."
 
 until mysql \
     -h"${MYSQL_HOST}" \
-    -P 3306 \
+    -P"${MYSQL_PORT}" \
     -u"${MYSQL_USER}" \
     -p"${MYSQL_PASSWORD}" \
     -e "SELECT 1;" >/dev/null 2>&1
@@ -35,7 +35,7 @@ if [ ! -f "wp-config.php" ]; then
         --dbname="${MYSQL_DATABASE}" \
         --dbuser="${MYSQL_USER}" \
         --dbpass="${MYSQL_PASSWORD}" \
-        --dbhost="${MYSQL_HOST}"
+        --dbhost="${MYSQL_HOST}:${MYSQL_PORT}"
 
     echo "[wordpress] Installing WordPress core..."
 
