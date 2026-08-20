@@ -188,29 +188,6 @@ Their actual data lives at:
 
 Because this data is stored on the host, it survives `docker compose down` and container/image rebuilds — it is only removed by `make fclean` (or a manual `sudo rm -rf /home/<login>/data`).
 
-## 6. Full clean-slate rebuild (for testing/debugging)
-
-To simulate exactly what an evaluator will run, and rule out any leftover state from previous work:
-
-```bash
-docker stop $(docker ps -qa) 2>/dev/null
-docker rm $(docker ps -qa) 2>/dev/null
-docker rmi -f $(docker images -qa) 2>/dev/null
-docker volume rm $(docker volume ls -q) 2>/dev/null
-docker network rm $(docker network ls -q) 2>/dev/null
-
-sudo rm -rf /home/<login>/data
-
-make re
-```
-
-Then confirm all three containers are up and the site loads correctly:
-
-```bash
-docker compose -f srcs/docker-compose.yml ps
-curl -k https://<login>.42.fr
-```
-
-## 7. Notes on initialization logic
+## 6. Notes on initialization logic
 
 Both the MariaDB and WordPress setup scripts are idempotent: they check for a marker of prior initialization (a sentinel file for MariaDB, the presence of `wp-config.php` for WordPress) before running their first-time setup steps. This means restarting the containers without wiping the volumes will **not** re-run installation — data and configuration persist as expected. This is deliberate and important to understand when debugging: if a container appears to "skip" setup unexpectedly, check whether the corresponding host data directory already contains data from a previous run.
