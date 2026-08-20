@@ -3,7 +3,7 @@
 # Exit script if any of the command fails
 set -euo pipefail
 
-echo "[mariadb] MariaDB initialization is starting..."
+echo "[mariadb] Starting MariaDB container entrypoint..."
 
 MYSQL_ROOT_PASSWORD="$(cat /run/secrets/db_root_password)"
 MYSQL_PASSWORD="$(cat /run/secrets/db_password)"
@@ -18,9 +18,8 @@ INIT_MARKER="${DATADIR}/.setup_complete"
 # Initialize MySQL data directory if it doesn't exist
 if [ ! -f "$INIT_MARKER" ]; then
 
-    echo "[mariadb] No init marker found - running first-time setup."
-
-    echo "[mariadb] Initializing database directory..."
+    echo "[mariadb] First run detected (no init marker found)."
+    echo "[mariadb] Initializing data directory at ${DATADIR}..."
 
     mysql_install_db \
         --user=mysql \
@@ -28,7 +27,7 @@ if [ ! -f "$INIT_MARKER" ]; then
         > /dev/null
 
     # Starting the server
-    echo "[mariadb] Starting temporary MariaDB server for setup..."
+    echo "[mariadb] Starting temporary MariaDB instance (socket-only, no network) for setup..."
 
     mysqld \
         --skip-networking \
@@ -39,7 +38,7 @@ if [ ! -f "$INIT_MARKER" ]; then
     TEMP_PID="$!"
 
     # Wait for MariaDB to be ready
-    echo "[mariadb] Waiting for temporary server to accept connections..."
+    echo "[mariadb] Waiting for temporary instance to accept connections..."
 
     for i in $(seq 1 30); do
         if mysqladmin \
@@ -55,14 +54,12 @@ if [ ! -f "$INIT_MARKER" ]; then
             --protocol=socket \
             --socket=${SOCKET} \
             ping >/dev/null 2>&1; then
-            echo "ERROR: temporary server never became ready." >&2
+            echo "ERROR: temporary instance did not become ready within 30 seconds." >&2
             exit 1
     fi
 
-    echo "[mariadb] Temporary server is ready!"
-
     # Setup database and users for SQL
-    echo "[mariadb] Setting up SQL..."
+    echo "[mariadb] Temporary instance is up. Creating database, user and setting root password..."
 
     mysql \
         --protocol=socket \
@@ -76,7 +73,7 @@ if [ ! -f "$INIT_MARKER" ]; then
 SQL
 
     # Shutting down temporary server
-    echo "[mariadb] Shutting down temporary MariaDB..."
+    echo "[mariadb] Database and user created. Shutting down temporary instance..."
 
     mysqladmin \
         --protocol=socket \
@@ -85,19 +82,17 @@ SQL
         -p"${MYSQL_ROOT_PASSWORD}" \
         shutdown
 
-    wait "$TEMP_PID" 2>dev/null || true
+    wait "$TEMP_PID" 2>/dev/null || true
 
     touch "$INIT_MARKER"
-    echo "[mariadb] First time setup complete!"
+    echo "[mariadb] First time setup complete! Marker written to ${INIT_MARKER}."
 
 else
-
-    echo "[mariadb] Init marker found - skipping first-time setup."
-
+    echo "[mariadb] Init marker found at ${INIT_MARKER}, skipping setup."
 fi
 
 # Start MariaDB
-echo "[mariadb] Setup complete. Starting MariaDB..."
+echo "[mariadb] Setup complete. Launching MariaDB in the foreground..."
 
 exec mysqld \
     --user=mysql \
