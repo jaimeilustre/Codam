@@ -194,8 +194,17 @@ docker exec -it mariadb bash
 Then:
 
 ```bash
-mysql -h mariadb -u "$MYSQL_USER" -p
+mysql --protocol=socket --socket=/run/mysqld/mysqld.sock -u root -p
 ```
+
+Type the root password and run the following commands:
+
+```text
+SHOW DATABASES;
+SELECT User, Host FROM mysql.user;
+```
+
+You will see the wordpress_db listed among the databases and the wp_user present.
 
 ### Checking the Wordpress container
 
@@ -208,12 +217,6 @@ Then:
 ```bash
 cd /var/www/html
 wp core is-installed --allow-root
-```
-
-A successful installation should report:
-
-```text
-Success: WordPress is installed.
 ```
 
 We can also inspect the Wordpress users:
