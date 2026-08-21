@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
 echo "[wordpress] Setting up WordPress..."
 
@@ -11,15 +11,32 @@ WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 # Wait until MariaDB is ready
 echo "[wordpress] Waiting for MariaDB..."
 
-until mysql \
+MAX_RETRIES=30
+RETRY_INTERVAL=2
+
+for i in $(seq 1 "$MAX_RETRIES"); do
+    if mysql \
+        -h"${MYSQL_HOST}" \
+        -P"${MYSQL_PORT}" \
+        -u"${MYSQL_USER}" \
+        -p"${MYSQL_PASSWORD}" \
+        -e "SELECT 1;" >/dev/null 2>&1
+    then
+        break
+    fi
+    sleep "$RETRY_INTERVAL"
+done
+
+if ! mysql \
     -h"${MYSQL_HOST}" \
     -P"${MYSQL_PORT}" \
     -u"${MYSQL_USER}" \
     -p"${MYSQL_PASSWORD}" \
     -e "SELECT 1;" >/dev/null 2>&1
-do
-    sleep 2
-done
+then
+    echo "[wordpress] ERROR: MariaDB did not become ready within $((MAX_RETRIES * RETRY_INTERVAL)) seconds." >&2
+    exit 1
+fi
 
 echo "[wordpress] MariaDB is ready!"
 
