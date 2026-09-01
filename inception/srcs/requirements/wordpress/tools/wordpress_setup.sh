@@ -1,38 +1,60 @@
 #!/bin/bash
 
-set -e
+set -euo pipefail
 
-echo "Setting up WordPress..."
+echo "[wordpress] Setting up WordPress..."
+
+MYSQL_PASSWORD=$(cat /run/secrets/db_password)
+WP_USER_PASSWORD=$(cat /run/secrets/wp_user_password)
+WP_ADMIN_PASSWORD=$(cat /run/secrets/wp_admin_password)
 
 # Wait until MariaDB is ready
-echo "Waiting for MariaDB..."
+echo "[wordpress] Waiting for MariaDB..."
 
-until mysql \
+MAX_RETRIES=30
+RETRY_INTERVAL=2
+
+for i in $(seq 1 "$MAX_RETRIES"); do
+    if mysql \
+        -h"${MYSQL_HOST}" \
+        -P"${MYSQL_PORT}" \
+        -u"${MYSQL_USER}" \
+        -p"${MYSQL_PASSWORD}" \
+        -e "SELECT 1;" >/dev/null 2>&1
+    then
+        break
+    fi
+    sleep "$RETRY_INTERVAL"
+done
+
+if ! mysql \
     -h"${MYSQL_HOST}" \
+    -P"${MYSQL_PORT}" \
     -u"${MYSQL_USER}" \
     -p"${MYSQL_PASSWORD}" \
     -e "SELECT 1;" >/dev/null 2>&1
-do
-    sleep 2
-done
+then
+    echo "[wordpress] ERROR: MariaDB did not become ready within $((MAX_RETRIES * RETRY_INTERVAL)) seconds." >&2
+    exit 1
+fi
 
-echo "MariaDB is ready"
+echo "[wordpress] MariaDB is ready!"
 
 cd /var/www/html
 
 # Only perform setup if WordPress has not been installed yet
 if [ ! -f "wp-config.php" ]; then
 
-    echo "Creating wp-config.php..."
+    echo "[wordpress] Creating wp-config.php..."
 
     wp config create \
         --allow-root \
         --dbname="${MYSQL_DATABASE}" \
         --dbuser="${MYSQL_USER}" \
         --dbpass="${MYSQL_PASSWORD}" \
-        --dbhost="${MYSQL_HOST}"
+        --dbhost="${MYSQL_HOST}:${MYSQL_PORT}"
 
-    echo "Installing WordPress..."
+    echo "[wordpress] Installing WordPress core..."
 
     wp core install \
         --allow-root \
@@ -42,7 +64,7 @@ if [ ! -f "wp-config.php" ]; then
         --admin_password="${WP_ADMIN_PASSWORD}" \
         --admin_email="${WP_ADMIN_EMAIL}"
 
-    echo "Creating additional user..."
+    echo "[wordpress] Creating additional user (${WP_USER})..."
 
     wp user create \
         "${WP_USER}" \
@@ -53,8 +75,13 @@ if [ ! -f "wp-config.php" ]; then
 
     chown -R www-data:www-data /var/www/html
 
+    echo "[wordpress] Wordpress installation complete!"
+else
+
+    echo "[wordpress] wp-config.php already exists - skipping Wordpress initialization."
+
 fi
 
 # Starting PHP-FPM
-echo "Starting PHP-FPM..."
+echo "Starting PHP-FPM in the foreground..."
 exec php-fpm8.2 -F
