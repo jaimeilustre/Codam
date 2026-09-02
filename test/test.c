@@ -117,7 +117,7 @@ void	removeClient(int fd)
 	t_client	*to_delete = NULL;
 
 	bzero(&buf, sizeof(buf));
-	sprintf(buf, "server: client %d just left\n", g_id);
+	sprintf(buf, "server: client %d just left\n", getId(fd));
 	sendToAll(fd);
 	if (clients && clients->fd == fd)
 	{
@@ -144,7 +144,7 @@ void extract_message(int fd)
 {
 	char	tmp[200000];
 	int		i = -1;
-	int		j= -1;
+	int		j = -1;
 
 	bzero(&tmp, sizeof(tmp));
 	while (msg[++i] != 0)
