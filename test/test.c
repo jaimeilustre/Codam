@@ -17,12 +17,11 @@ typedef struct s_client
 
 t_client	*clients = NULL;
 int			sockfd, g_id;
-char		msg[200000];
-char		buf[200000];
+char		msg[200000], buf[200000];
 fd_set		current, read_set, write_set;
 
 // Prints message to standard error
-void	printMessage(char *message)
+void	printMessage(char *msg)
 {
 	write(2, msg, strlen(msg));
 }
@@ -51,7 +50,7 @@ int maxfd()
 }
 
 // Returns the client's id
-int	getid(int fd)
+int	getId(int fd)
 {
 	t_client *tmp = clients;
 
@@ -93,7 +92,7 @@ void	addClient()
 		printError();
 
 	bzero(&buf, sizeof(buf));
-	sprintf("server: client %d just arrived\n", g_id);
+	sprintf(buf, "server: client %d just arrived\n", g_id);
 	sendToAll(client);
 	FD_SET(client, &current);
 	new = malloc(sizeof(t_client));
@@ -114,34 +113,53 @@ void	addClient()
 
 void	removeClient(int fd)
 {
+	t_client	*tmp = clients;
+	t_client	*to_delete = NULL;
 
+	bzero(&buf, sizeof(buf));
+	sprintf(buf, "server: client %d just left\n", g_id);
+	sendToAll(fd);
+	if (clients && clients->fd == fd)
+	{
+		to_delete = clients;
+		clients = clients->next;
+	}
+	else
+	{
+		while (tmp && tmp->next && tmp->next->fd != fd)
+			tmp = tmp->next;
+		if (tmp && tmp->next && tmp->next->fd == fd)
+		{
+			to_delete = tmp->next;
+			tmp->next = tmp->next->next;
+		}
+	}
+	if (to_delete)
+		free(to_delete);
+	FD_CLR(fd, &current);
+	close (fd);
 }
 
-int extract_message(char **buf, char **msg)
+void extract_message(int fd)
 {
-	char	*newbuf;
-	int	i;
+	char	tmp[200000];
+	int		i = -1;
+	int		j= -1;
 
-	*msg = 0;
-	if (*buf == 0)
-		return (0);
-	i = 0;
-	while ((*buf)[i])
+	bzero(&tmp, sizeof(tmp));
+	while (msg[++i] != 0)
 	{
-		if ((*buf)[i] == '\n')
+		tmp[++j] = msg[i];
+		if (msg[i] == '\n')
 		{
-			newbuf = calloc(1, sizeof(*newbuf) * (strlen(*buf + i + 1) + 1));
-			if (newbuf == 0)
-				return (-1);
-			strcpy(newbuf, *buf + i + 1);
-			*msg = *buf;
-			(*msg)[i + 1] = 0;
-			*buf = newbuf;
-			return (1);
+			bzero(&buf, sizeof(buf));
+			sprintf(buf, "client %d: %s", getId(fd), tmp);
+			sendToAll(fd);
+			bzero(&tmp, sizeof(tmp));
+			j = -1;
 		}
-		i++;
 	}
-	return (0);
+	bzero(&msg, sizeof(msg));
 }
 
 int main(int argc, char **argv)	{
@@ -152,36 +170,62 @@ int main(int argc, char **argv)	{
 		exit(1);
 	}
 
-	int sockfd, connfd, len;
-	struct sockaddr_in servaddr, cli; 
+	struct sockaddr_in servaddr; 
+	bzero(&servaddr, sizeof(servaddr));
+
+	// assign IP, PORT 
+	servaddr.sin_family = AF_INET; 
+	servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
+	servaddr.sin_port = htons(atoi(argv[1])); 
 
 	// socket create and verification 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
 	if (sockfd == -1) { 
 		printError();
-	} 
+	}
 
-	bzero(&servaddr, sizeof(servaddr)); 
-
-	// assign IP, PORT 
-	servaddr.sin_family = AF_INET; 
-	servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
-	servaddr.sin_port = htons(8081); 
-  
 	// Binding newly created socket to given IP and verification 
 	if ((bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr))) != 0) { 
 		printError();
 	}
-
 	if (listen(sockfd, 100) != 0) {
 		printError();
 	}
-	len = sizeof(cli);
-	connfd = accept(sockfd, (struct sockaddr *)&cli, &len);
-	if (connfd < 0) { 
-        printf("server acccept failed...\n"); 
-        exit(0); 
-    } 
-    else
-        printf("server acccept the client...\n");
+
+	FD_ZERO(&current);
+	FD_SET(sockfd, &current);
+	bzero(&msg, sizeof(msg));
+
+	while (1)
+	{
+		read_set = write_set = current;
+		if (select(maxfd() + 1, &read_set, &write_set, NULL, NULL) == -1)
+			continue;
+		for (int fd = 0; fd <= maxfd(); ++fd)
+		{
+			if (FD_ISSET(fd, &read_set))
+			{
+				if (fd == sockfd)
+				{
+					addClient();
+					break;
+				}
+				int ret = 1;
+				while (ret == 1 && msg[strlen(msg) - 1] != '\n')
+				{
+					ret = recv(fd, msg + strlen(msg), 1, 0);
+					if (ret <= 0)
+						break;
+				}
+
+				if (ret <= 0)
+				{
+					removeClient(fd);
+					break;
+				}
+				extract_message(fd);
+			}
+		}
+	}
+	return (0);
 }
