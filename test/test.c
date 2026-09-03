@@ -193,8 +193,10 @@ int main(int argc, char **argv)	{
 
 	// assign IP, PORT 
 	servaddr.sin_family = AF_INET; 
-	servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
-	servaddr.sin_port = htons(atoi(argv[1])); 
+	// servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
+	servaddr.sin_addr.s_addr = (1 << 24) | 127; //127.0.0.1
+	// servaddr.sin_port = htons(atoi(argv[1]));
+	servaddr.sin_port = ((atoi(argv[1]) & 0xFF) << 8) | ((atoi(argv[1]) >> 8) & 0xFF); 
 
 	// socket create and verification 
 	sockfd = socket(AF_INET, SOCK_STREAM, 0); 
