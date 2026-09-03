@@ -51,7 +51,7 @@ int maxfd()
 	return (max);
 }
 
-// Returns the client's id
+// Returns the corresponding client
 t_client	*getClient(int fd)
 {
 	t_client *tmp = clients;
@@ -65,7 +65,7 @@ t_client	*getClient(int fd)
 	return (NULL);
 }
 
-// Sends the global buf string
+// Sends the global buf string to everyone
 void	sendToAll(int fd)
 {
 	t_client	*tmp = clients;
@@ -179,23 +179,23 @@ void extract_message(t_client *client)
 
 int main(int argc, char **argv)	{
 
+	struct sockaddr_in	servaddr;
+	int					ret;
+	int					fd;
+	t_client			*client;
+	int					len;
+
 	if (argc != 2)
 	{
 		printMessage("Wrong number of arguments\n");
 		exit(1);
 	}
 
-	struct sockaddr_in servaddr; 
 	bzero(&servaddr, sizeof(servaddr));
-	t_client	*client;
-	int			ret;
-	int			fd;
 
 	// assign IP, PORT 
 	servaddr.sin_family = AF_INET; 
-	// servaddr.sin_addr.s_addr = htonl(2130706433); //127.0.0.1
 	servaddr.sin_addr.s_addr = (1 << 24) | 127; //127.0.0.1
-	// servaddr.sin_port = htons(atoi(argv[1]));
 	servaddr.sin_port = ((atoi(argv[1]) & 0xFF) << 8) | ((atoi(argv[1]) >> 8) & 0xFF); 
 
 	// socket create and verification 
@@ -232,8 +232,9 @@ int main(int argc, char **argv)	{
 			}
 			
 			client = getClient(fd);
-			
-			ret = recv(fd, client->msg + strlen(client->msg), sizeof(client->msg) - strlen(client->msg) - 1, 0);
+			len = strlen(client->msg);
+
+			ret = recv(fd, client->msg + len, sizeof(client->msg) - len - 1, 0);
 		
 			if (ret <= 0)
 			{
@@ -241,7 +242,7 @@ int main(int argc, char **argv)	{
 				break;
 			}
 			
-			client->msg[strlen(client->msg) + ret] = '\0';
+			client->msg[len + ret] = '\0';
 			extract_message(client);
 		}
 	}
